@@ -32,7 +32,8 @@ const CheckBoxWrapper = styled.div`
     }
 `;
 
-const CheckBoxError = styled.div`
+const CheckBoxError = styled.span`
+    font-size: 22px;
     color: red;
 `;
 
@@ -72,13 +73,13 @@ export const CheckBox: React.FC<CheckboxProps> = ({
 }) => {
     return (
         <CheckBoxWrapper>
-            <CheckBoxError>{error}</CheckBoxError>
             <CheckBoxControls onClick={() => onToggle?.()}>
                 <CheckBoxSquare checked={defaultChecked}>
                     {defaultChecked && <CheckIcon />}
                 </CheckBoxSquare>
                 <CheckBoxLabel>{label}</CheckBoxLabel>
             </CheckBoxControls>
+            <CheckBoxError>{error}</CheckBoxError>
         </CheckBoxWrapper>
     );
 };

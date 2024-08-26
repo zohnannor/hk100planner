@@ -5,8 +5,9 @@ export const useParallaxBackground = (
 ) => {
     const handleScroll = useCallback((e: Event) => {
         const target = e.target as EventTarget;
-        if (!(target instanceof Document)) return;
-        if (!ref.current) return;
+        if (!(target instanceof Document) || !ref.current) {
+            return;
+        }
 
         const ratio = window.scrollY / target.documentElement.scrollHeight;
         ref.current.style.top = `-${ratio * 200}px`;
@@ -14,8 +15,6 @@ export const useParallaxBackground = (
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 };

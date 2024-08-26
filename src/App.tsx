@@ -13,7 +13,7 @@ import {
 } from './styles';
 
 const App = () => {
-    const st = useChecklistStore();
+    const state = useChecklistStore();
     const {
         percent,
         geo,
@@ -24,7 +24,7 @@ const App = () => {
         paleOreReq,
         reset,
         checkAll,
-    } = st;
+    } = state;
     useUndoRedoKeybinds();
 
     const backgroundRef = useRef<HTMLDivElement | null>(null);

@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import HR from '../../assets/hr.png';
 import useChecklistStore, {
-    ChecklistState,
-    ChecksKeys,
+    Checks,
+    ChecksSection,
 } from '../../checklist_store';
 import CheckBox from '../Checkbox';
 
@@ -41,26 +41,35 @@ const SectionContent = styled.div`
 
 type SectionProps = {
     title: string;
-    sectionName: keyof ChecksKeys;
+    sectionName: keyof Checks;
 };
 
 export const Section: FC<SectionProps> = ({ title, sectionName }) => {
     const section = useChecklistStore(state => state.checks[sectionName]);
     const toggle = useChecklistStore(state => state.toggle);
+    const validateChecks = useChecklistStore(
+        state => () => state.validateChecks(state)
+    );
+
+    const errors = validateChecks();
 
     return (
         <SectionWrapper>
             <SectionTitle>{title}</SectionTitle>
             <SectionUnderline />
             <SectionContent>
-                {Object.entries(section).map(([name, check]) => (
-                    <CheckBox
-                        label={name}
-                        defaultChecked={check.checked}
-                        key={name}
-                        onToggle={() => toggle(sectionName, name)}
-                    />
-                ))}
+                {Object.entries(section).map(([name, check]) => {
+                    const typedName = name as keyof ChecksSection<keyof Checks>;
+                    return (
+                        <CheckBox
+                            label={name}
+                            defaultChecked={check.checked}
+                            key={name}
+                            onToggle={() => toggle(sectionName, typedName)}
+                            error={JSON.stringify(errors[typedName])}
+                        />
+                    );
+                })}
             </SectionContent>
         </SectionWrapper>
     );

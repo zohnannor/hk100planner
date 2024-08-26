@@ -4,9 +4,9 @@ import { temporal } from 'zundo';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import partialDeepEqual from './util/partialDeepEqual';
+import partialDeepEqual, { Comparable } from './util/partialDeepEqual';
 
-export type CompletionCheck = {
+export type Check = {
     checked?: boolean;
     description?: string;
     reward: () => Partial<Omit<ChecklistState, 'checks'>>;
@@ -152,12 +152,12 @@ export type ChecksKeys = {
         | '[Pantheon of the Knight]';
 };
 
-type ChecksSection<Section extends keyof ChecksKeys> = Record<
+export type ChecksSection<Section extends keyof ChecksKeys> = Record<
     ChecksKeys[Section],
-    CompletionCheck
+    Check
 >;
 
-type Checks = {
+export type Checks = {
     [Section in keyof ChecksKeys]: ChecksSection<Section>;
 };
 
@@ -181,167 +181,13 @@ export type ChecklistState = {
 };
 
 export type Action = {
-    toggle: <S extends keyof Checks>(section: S, name: keyof Checks[S]) => void;
+    toggle: <S extends keyof Checks>(
+        section: S,
+        name: keyof ChecksSection<S>
+    ) => void;
     checkAll: () => void;
     reset: () => void;
-};
-
-abstract class Wrapper<T> {
-    constructor(public value: T) {}
-    abstract add(other: Wrapper<T>): void;
-    abstract sub(other: Wrapper<T>): void;
-}
-
-class BooleanWrapper extends Wrapper<boolean> {
-    constructor(value: boolean) {
-        super(value);
-    }
-    add(other: Wrapper<boolean>): void {
-        this.value ||= other.value;
-    }
-    sub(other: Wrapper<boolean>): void {
-        this.value = (this.value ? 1 : 0) - (other.value ? 1 : 0) === 1;
-    }
-}
-
-class NumberWrapper extends Wrapper<number> {
-    constructor(value: number) {
-        super(value);
-    }
-    add(other: Wrapper<number>): void {
-        this.value += other.value;
-    }
-    sub(other: Wrapper<number>): void {
-        this.value -= other.value;
-    }
-}
-
-type Wrap<T> = T extends boolean
-    ? BooleanWrapper
-    : T extends number
-    ? NumberWrapper
-    : T extends object
-    ? ObjectWrapper<{ [K in keyof T]: Wrap<T[K]> }>
-    : T extends Function
-    ? T
-    : T extends string
-    ? T
-    : never;
-
-class ObjectWrapper<T extends { [key: string]: any }> extends Wrapper<T> {
-    constructor(value: T) {
-        super(value);
-    }
-
-    add(other: ObjectWrapper<T>): void {
-        this._operate(other, 'add');
-    }
-
-    sub(other: ObjectWrapper<T>): void {
-        this._operate(other, 'sub');
-    }
-
-    private _operate(other: ObjectWrapper<T>, operation: 'add' | 'sub'): void {
-        Object.keys(this.value).forEach(key => {
-            const otherWrapper = other.value[key];
-            const thisWrapper = this.value[key];
-            if (
-                thisWrapper instanceof BooleanWrapper &&
-                otherWrapper instanceof BooleanWrapper
-            ) {
-                thisWrapper[operation](otherWrapper);
-            } else if (
-                thisWrapper instanceof NumberWrapper &&
-                otherWrapper instanceof NumberWrapper
-            ) {
-                thisWrapper[operation](otherWrapper);
-            } else if (
-                thisWrapper instanceof ObjectWrapper &&
-                otherWrapper instanceof ObjectWrapper
-            ) {
-                thisWrapper[operation](otherWrapper);
-            }
-        });
-    }
-}
-
-const wrapObject = <T>(obj: T): Wrap<T> => {
-    const wrap = () => {
-        if (typeof obj === 'number') {
-            return new NumberWrapper(obj) as Wrap<T>;
-        } else if (typeof obj === 'boolean') {
-            return new BooleanWrapper(obj) as Wrap<T>;
-        } else if (typeof obj === 'object' && obj !== null) {
-            const wrappedObj: { [k: string]: any } = {};
-            Object.entries(obj).forEach(([key, value]) => {
-                wrappedObj[key] = wrapObject(value);
-            });
-            return new ObjectWrapper(wrappedObj) as Wrap<T>;
-        } else if (typeof obj === 'function' || typeof obj === 'string') {
-            return obj as Wrap<T>;
-        }
-        throw new Error(`Unsupported type '${typeof obj}'`);
-    };
-    return proxy(wrap());
-};
-
-const proxy = <T>(wrap: Wrap<T>): Wrap<T> => {
-    if (
-        !(
-            wrap instanceof ObjectWrapper ||
-            wrap instanceof BooleanWrapper ||
-            wrap instanceof NumberWrapper
-        )
-    ) {
-        return wrap;
-    }
-    return new Proxy(wrap, {
-        get(target, prop) {
-            console.log('get: ', { target, prop, v: target.value[prop] });
-
-            if (
-                prop === 'add' ||
-                prop === 'sub' ||
-                prop === '_operate' ||
-                prop == 'value'
-            ) {
-                return target[prop];
-            }
-
-            // Hack to allow using wrappers in jsx: <p>{myWrapperObject}</p>
-            if (prop === Symbol.iterator) {
-                function* stringify() {
-                    yield target.value.toString();
-                }
-                return stringify;
-            }
-
-            // If it's a function, bind it to `target.value` before returning.
-            const v = target.value[prop];
-            if (typeof v === 'function') {
-                return v.bind(target.value);
-            }
-
-            return v;
-        },
-        set(target, prop, value) {
-            target.value[prop] = value;
-            return true;
-        },
-        ownKeys(target) {
-            if (target instanceof ObjectWrapper) {
-                return Reflect.ownKeys(target.value);
-            }
-            // To prevent "Reflect.ownKeys called on non-object"
-            return [];
-        },
-        getOwnPropertyDescriptor(target, prop) {
-            return Reflect.getOwnPropertyDescriptor(target.value, prop);
-        },
-        has(target, prop) {
-            return prop in target.value;
-        },
-    });
+    validateChecks: (state: ChecklistState) => RequirementCheckErrors;
 };
 
 export const INITIAL_CHECKLIST_STATE: ChecklistState = {
@@ -390,7 +236,8 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
 
         nail: {
             '[Sharpened Nail](Nail#Upgrades)': {
-                reward: () => ({ percent: 1 }),
+                reward: () => ({ percent: 1, geoReq: 250 }),
+                requires: () => ({ geo: 250 }),
             },
             '[Channelled Nail](Nail#Upgrades)': {
                 reward: () => ({ percent: 1 }),
@@ -630,55 +477,122 @@ const ALL_CHECKED_CHECKLIST_STATE: PartialDeep<ChecklistState> = {
     ),
 };
 
+type Update = { [key: string]: any };
+
+const updateState = (
+    state: Update,
+    updates: PartialDeep<Update>,
+    operation: 'add' | 'sub'
+) => {
+    Object.keys(updates).forEach(key => {
+        const value = updates[key];
+        if (typeof value === 'number') {
+            if (operation === 'add') {
+                state[key] += value;
+            } else {
+                state[key] -= value;
+            }
+        } else if (typeof value === 'boolean') {
+            if (operation === 'add') {
+                state[key] ||= value;
+            } else {
+                state[key] = (state[key] ? 1 : 0) - (value ? 1 : 0) === 1;
+            }
+        } else if (typeof value === 'object' && value !== null) {
+            updateState(state[key], value, operation);
+        }
+    });
+};
+
+export type RequirementCheckErrors = {
+    [CheckName in keyof ChecksSection<
+        keyof Checks
+    >]?: PartialDeep<ChecklistState>;
+};
+
+const validateChecks = (state: ChecklistState) => {
+    const errors: RequirementCheckErrors = {};
+
+    const comparator = (
+        left: Comparable[string],
+        right: Comparable[string]
+    ): boolean => {
+        if (typeof left === 'boolean') {
+            return left === right;
+        } else if (typeof left === 'number' && typeof right === 'number') {
+            return left >= right;
+        }
+        throw new Error(`Unsupported type ${typeof left}`);
+    };
+
+    Object.values(state).forEach(stateValue => {
+        typeof stateValue === 'object' &&
+            stateValue !== null &&
+            Object.values(stateValue).forEach(section => {
+                Object.entries(section).forEach(([checkName, check]) => {
+                    const typedCheckName = checkName as keyof ChecksSection<
+                        keyof Checks
+                    >;
+                    const requires = check.checked && check.requires?.();
+
+                    if (
+                        requires &&
+                        !partialDeepEqual(state, requires, comparator)
+                    ) {
+                        errors[typedCheckName] = requires;
+                    }
+                });
+            });
+    });
+
+    return errors;
+};
+
 const useChecklistStore = create<ChecklistState & Action>()(
     persist(
         temporal(
-            /*  immer( */ (set, get) => {
-                const st = {
-                    ...INITIAL_CHECKLIST_STATE,
+            immer((set, get) => ({
+                ...INITIAL_CHECKLIST_STATE,
 
-                    reset: () => set(INITIAL_CHECKLIST_STATE),
+                reset: () => set(INITIAL_CHECKLIST_STATE),
 
-                    checkAll: () =>
-                        set(deepMerge(get(), ALL_CHECKED_CHECKLIST_STATE)),
+                checkAll: () =>
+                    set(deepMerge(get(), ALL_CHECKED_CHECKLIST_STATE)),
 
-                    toggle: <S extends keyof Checks>(
-                        section: S,
-                        name: keyof Checks[S]
-                    ) => {
-                        set(state => {
-                            const check = state.checks[section][
-                                name
-                            ] as CompletionCheck; // ???????????
-                            if (check) {
-                                const willCheck = !check.checked;
-                                check.checked = willCheck;
+                toggle: <S extends keyof Checks>(
+                    section: S,
+                    name: keyof ChecksSection<S>
+                ) => {
+                    set(state => {
+                        // Update state after a check/uncheck
 
-                                const reward = check.reward?.();
-                                if (reward) {
-                                    if (willCheck) {
-                                        return state.add(reward);
-                                    } else {
-                                        return state.sub(reward);
-                                    }
+                        const check = (
+                            state.checks[section] as ChecksSection<S>
+                        )[name] as Check; // ???????????
+                        if (check) {
+                            const willCheck = !check.checked;
+                            check.checked = willCheck;
+
+                            const reward = check.reward?.();
+
+                            if (reward) {
+                                if (willCheck) {
+                                    updateState(state, reward, 'add');
+                                } else {
+                                    updateState(state, reward, 'sub');
                                 }
                             }
-                            return state;
-                        });
-                    },
-                };
-                return wrapObject(st) as unknown as ChecklistState & Action;
-            } /* ) */
+                        }
+                    });
+                },
+
+                validateChecks,
+            }))
         ),
         {
             name: 'checklist-storage',
-            merge: (persisted, current) => {
-                console.log({ persisted, current });
-
-                return wrapObject(
-                    deepMerge(current, persisted as ChecklistState & Action)
-                ) as unknown as ChecklistState & Action;
-            },
+            merge: (persisted, current) =>
+                deepMerge(current, persisted as ChecklistState & Action),
         }
     )
 );
