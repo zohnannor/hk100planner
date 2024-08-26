@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "immer": "^10.1.1",
+    "object-deep-merge": "^1.0.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "styled-components": "^6.1.12",
+    "zundo": "^2.1.0",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
@@ -24,6 +27,7 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
+    "type-fest": "^4.25.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.0",
     "vite": "^5.4.0"

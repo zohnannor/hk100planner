@@ -1145,6 +1145,11 @@ ignore@^5.2.0, ignore@^5.3.1:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.3.2.tgz#3cd40e729f3643fd87cb04e50bf0eb722bc596f5"
   integrity sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==
 
+immer@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-10.1.1.tgz#206f344ea372d8ea176891545ee53ccc062db7bc"
+  integrity sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==
+
 import-fresh@^3.2.1:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-3.3.0.tgz#37162c25fcb9ebaa2e6e53d5b4d88ce17d9e0c2b"
@@ -1309,6 +1314,13 @@ node-releases@^2.0.18:
   version "2.0.18"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.18.tgz#f010e8d35e2fe8d6b2944f03f70213ecedc4ca3f"
   integrity sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==
+
+object-deep-merge@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/object-deep-merge/-/object-deep-merge-1.0.4.tgz#1963855ef6f7add751e3a0c5f3088e9bf57b77ff"
+  integrity sha512-5LDJe4vuj1jfm+gBo2ze4ERPsDGfRARz7OcPFY+Qr6b90J+D+DvBPRMTAGmd8IB+V9mpU1TARJwBODFeNP9Xpw==
+  dependencies:
+    type-fest "4.2.0"
 
 optionator@^0.9.3:
   version "0.9.4"
@@ -1592,6 +1604,16 @@ type-check@^0.4.0, type-check@~0.4.0:
   dependencies:
     prelude-ls "^1.2.1"
 
+type-fest@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.2.0.tgz#e259430307710e77721ecf6f545840acad72195f"
+  integrity sha512-5zknd7Dss75pMSED270A1RQS3KloqRJA9XbXLe0eCxyw7xXFb3rd+9B0UQ/0E+LQT6lnrLviEolYORlRWamn4w==
+
+type-fest@^4.25.0:
+  version "4.25.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.25.0.tgz#b190374f969631866889bbdb01ece17ca424ee60"
+  integrity sha512-bRkIGlXsnGBRBQRAY56UXBm//9qH4bmJfFvq83gSz41N282df+fjy8ofcEgc1sM8geNt5cl6mC2g9Fht1cs8Aw==
+
 typescript-eslint@^8.0.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/typescript-eslint/-/typescript-eslint-8.1.0.tgz#c43a3543ab34c37b7f88deb4ff18b9764aed0b60"
@@ -1658,6 +1680,11 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zundo@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/zundo/-/zundo-2.1.0.tgz#a0718dcbd0642a950153aef74473f43efe4c468d"
+  integrity sha512-IMhYXDZWbyGu/p3rQb1d3orhCfAyi9hGkx6N579ZtO7mWrzvBdNyGEcxciv1jtIYPKBqLSAgzKqjLguau09f9g==
 
 zustand@^4.5.4:
   version "4.5.4"

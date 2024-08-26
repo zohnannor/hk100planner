@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { CheckIcon } from '../../assets/check';
+
+import { CheckIcon } from '../../assets/checkmark';
 
 interface CheckboxSquareProps {
     checked?: boolean;
@@ -10,16 +10,18 @@ interface CheckboxProps {
     defaultChecked?: boolean;
     label: string;
     error?: string;
-    onChange?: (checked: boolean) => void;
+    onToggle?: () => void;
 }
 
 const CheckBoxLabel = styled.span`
+    max-width: 250px;
     transition: 0.2s;
     font-size: 22px;
     line-height: 24px;
 `;
 
 const CheckBoxWrapper = styled.div`
+    min-width: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,6 +37,7 @@ const CheckBoxError = styled.div`
 `;
 
 const CheckBoxControls = styled.div`
+    min-width: 300px;
     cursor: pointer;
     user-select: none;
     display: flex;
@@ -61,24 +64,21 @@ const CheckBoxSquare = styled.div<CheckboxSquareProps>`
         `}
 `;
 
-const CheckBox: React.FC<CheckboxProps> = ({
+export const CheckBox: React.FC<CheckboxProps> = ({
     defaultChecked = false,
     error,
     label,
+    onToggle,
 }) => {
-    const [checked, setChecked] = useState(defaultChecked);
-
     return (
         <CheckBoxWrapper>
             <CheckBoxError>{error}</CheckBoxError>
-            <CheckBoxControls onClick={() => setChecked(p => !p)}>
-                <CheckBoxSquare checked={checked}>
-                    {checked && <CheckIcon />}
+            <CheckBoxControls onClick={() => onToggle?.()}>
+                <CheckBoxSquare checked={defaultChecked}>
+                    {defaultChecked && <CheckIcon />}
                 </CheckBoxSquare>
                 <CheckBoxLabel>{label}</CheckBoxLabel>
             </CheckBoxControls>
         </CheckBoxWrapper>
     );
 };
-
-export default CheckBox;

@@ -10,22 +10,46 @@ html,
 body,
 #root {
     width: 100vw;
-    height: 100vh;
+    /* height: 300vh; */
     margin: 0;
     padding: 0;
     color: white;
 
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    overflow-x: hidden;
 }
 
+/* html::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgb(22, 22, 22);
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: white;
+} */
+
 body {
-    background: url('./assets/voidheart.png');
     background-size: cover;
     background-position: center;
 }
 
-#root {
-    background: rgba(0, 0, 0, 0.4);
+.background {
+    top: 0;
+    position: fixed;
+    z-index: -1;
+    width: 120vw;
+    height: calc(100vh + 200px);
+
+    background: url('./assets/voidheart.png');
+    background-size: cover;
+    background-position: 0 0;
+}
+
+.background::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
 }
