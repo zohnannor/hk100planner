@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+
 import useChecklistStore from './checklist_store.ts';
 import { Button } from './components/Button/Button.tsx';
 import Section from './components/Section';
@@ -13,7 +14,6 @@ import {
 } from './styles';
 
 const App = () => {
-    const state = useChecklistStore();
     const {
         percent,
         geo,
@@ -24,7 +24,7 @@ const App = () => {
         paleOreReq,
         reset,
         checkAll,
-    } = state;
+    } = useChecklistStore();
     useUndoRedoKeybinds();
 
     const backgroundRef = useRef<HTMLDivElement | null>(null);

@@ -4,6 +4,7 @@ import { temporal } from 'zundo';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+
 import partialDeepEqual, { Comparable } from './util/partialDeepEqual';
 
 export type Check = {
@@ -568,19 +569,18 @@ const useChecklistStore = create<ChecklistState & Action>()(
 
                         const check = (
                             state.checks[section] as ChecksSection<S>
-                        )[name] as Check; // ???????????
-                        if (check) {
-                            const willCheck = !check.checked;
-                            check.checked = willCheck;
+                        )[name] as Check;
 
-                            const reward = check.reward?.();
+                        const willCheck = !check.checked;
+                        check.checked = willCheck;
 
-                            if (reward) {
-                                if (willCheck) {
-                                    updateState(state, reward, 'add');
-                                } else {
-                                    updateState(state, reward, 'sub');
-                                }
+                        const reward = check.reward?.();
+
+                        if (reward) {
+                            if (willCheck) {
+                                updateState(state, reward, 'add');
+                            } else {
+                                updateState(state, reward, 'sub');
                             }
                         }
                     });
