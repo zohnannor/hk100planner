@@ -5,193 +5,18 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
+import {
+    Action,
+    AnyObject,
+    Check,
+    ChecklistState,
+    Checks,
+    ChecksSection,
+    RequirementCheckErrors,
+} from './types/checklist';
 import partialDeepEqual, { Comparable } from './util/partialDeepEqual';
 
-export type Check = {
-    checked?: boolean;
-    description?: string;
-    reward: () => Partial<Omit<ChecklistState, 'checks'>>;
-    requires?: () => PartialDeep<ChecklistState>;
-};
-
-export type ChecksKeys = {
-    bosses:
-        | '[Broken Vessel]'
-        | '[Brooding Mawlek]'
-        | '[The Collector]'
-        | '[Dung Defender]'
-        | '[False Knight]'
-        | '[Grimm]'
-        | '[Gruz Mother]'
-        | '[Hive Knight]'
-        | '[Hornet Protector]'
-        | '[Hornet Sentinel]'
-        | '[Mantis Lords]'
-        | '[Nosk]'
-        | '[Soul Master]'
-        | '[Traitor Lord]'
-        | '[Uumuu]'
-        | '[Watcher Knight]';
-    dreamNail: '[Dream Nail]' | '[Awoken Dream Nail]' | '[Ascension](Seer)';
-    nail:
-        | '[Sharpened Nail](Nail#Upgrades)'
-        | '[Channelled Nail](Nail#Upgrades)'
-        | '[Coiled Nail](Nail#Upgrades)'
-        | '[Pure Nail](Nail#Upgrades)';
-    nailArts: '[Cyclone Slash]' | '[Dash Slash]' | '[Great Slash]';
-    charms:
-        | '[Wayward Compass]'
-        | '[Gathering Swarm]'
-        | '[Stalwart Shell]'
-        | '[Soul Catcher]'
-        | '[Shaman Stone]'
-        | '[Soul Eater]'
-        | '[Dashmaster]'
-        | '[Sprintmaster]'
-        | '[Grubsong]'
-        | "[Grubberfly's Elegy]"
-        | '[Fragile Heart] / [Unbreakable Heart]'
-        | '[Fragile Greed] / [Unbreakable Greed]'
-        | '[Fragile Strength] / [Unbreakable Strength]'
-        | '[Spell Twister]'
-        | '[Steady Body]'
-        | '[Heavy Blow]'
-        | '[Quick Slash]'
-        | '[Longnail]'
-        | '[Mark of Pride]'
-        | '[Fury of the Fallen]'
-        | '[Thorns of Agony]'
-        | '[Baldur Shell]'
-        | '[Flukenest]'
-        | "[Defender's Crest]"
-        | '[Glowing Womb]'
-        | '[Quick Focus]'
-        | '[Deep Focus]'
-        | '[Lifeblood Heart]'
-        | '[Lifeblood Core]'
-        | "[Joni's Blessing]"
-        | '[Hiveblood]'
-        | '[Spore Shroom]'
-        | '[Sharp Shadow]'
-        | '[Shape of Unn]'
-        | "[Nailmaster's Glory]"
-        | '[Weaversong]'
-        | '[Dream Wielder]'
-        | '[Dreamshield]'
-        | '[Grimmchild] / [Carefree Melody]'
-        | '[Kingsoul] / [Void Heart]';
-    equipment:
-        | '[Crystal Heart]'
-        | "[Isma's Tear]"
-        | '[Mantis Claw]'
-        | '[Monarch Wings]'
-        | '[Mothwing Cloak]'
-        | '[Shade Cloak]'
-        | "[King's Brand]";
-    spells:
-        | '[Desolate Dive]'
-        | '[Descending Dark]'
-        | '[Howling Wraiths]'
-        | '[Abyss Shriek]'
-        | '[Vengeful Spirit]'
-        | '[Shade Soul]';
-    maskShards:
-        | 'Sly #1'
-        | 'Sly #2'
-        | 'Sly #3'
-        | 'Sly #4'
-        | '[Forgotten Crossroads]'
-        | '[Grubfather]'
-        | '[Goams]'
-        | "[Queen's Station]"
-        | '[Bretta]'
-        | '[Stone Sanctuary]'
-        | '[Royal Waterways]'
-        | '[Deepnest] from [Fungal Core]'
-        | '[Enraged Guardian]'
-        | '[Hive]'
-        | '[Seer]'
-        | '[Grey Mourner]';
-    vesselFragment:
-        | 'Sly #1'
-        | 'Sly #2'
-        | '[Greenpath]'
-        | 'Left of the lift in [Forgotten Crossroads]'
-        | "Above [King's Station] near a lift"
-        | '[Deepnest]'
-        | '[Stag Nest]'
-        | '[Seer]'
-        | 'Ancient Basin fountain';
-    colosseum:
-        | '[Trial of the Warrior]'
-        | '[Trial of the Conqueror]'
-        | '[Trial of the Fool]';
-    dreamers:
-        | '[Herra the Beast]'
-        | '[Lurien the Watcher]'
-        | '[Monomon the Teacher]';
-    dreamWarriors:
-        | '[Elder Hu]'
-        | '[Galien]'
-        | '[Gorb]'
-        | '[Markoth]'
-        | '[Marmu]'
-        | '[No Eyes]'
-        | '[Xero]'
-        | '[Nightmare King Grimm]';
-    dreamBosses:
-        | '[Failed Champion]'
-        | '[Grey Prince Zote]'
-        | '[Lost Kin]'
-        | '[White Defender]'
-        | '[Soul Tyrant]';
-    godhome:
-        | '[Godtuner]'
-        | '[Pantheon of the Master]'
-        | '[Pantheon of the Artist]'
-        | '[Pantheon of the Sage]'
-        | '[Pantheon of the Knight]';
-};
-
-export type ChecksSection<Section extends keyof ChecksKeys> = Record<
-    ChecksKeys[Section],
-    Check
->;
-
-export type Checks = {
-    [Section in keyof ChecksKeys]: ChecksSection<Section>;
-};
-
-export type ChecklistState = {
-    percent: number;
-
-    geo: number;
-    essence: number;
-    paleOre: number;
-    simpleKeys: 0 | 1 | 2 | 3 | 4;
-
-    geoReq: number;
-    essenceReq: number;
-    paleOreReq: number;
-    simpleKeysReq: 0 | 1 | 2 | 3 | 4;
-    elegantKeyReq: boolean;
-    loveKeyReq: boolean;
-    shopkeepersKeyReq: boolean;
-
-    checks: Checks;
-};
-
-export type Action = {
-    toggle: <S extends keyof Checks>(
-        section: S,
-        name: keyof ChecksSection<S>
-    ) => void;
-    checkAll: () => void;
-    reset: () => void;
-    validateChecks: (state: ChecklistState) => RequirementCheckErrors;
-};
-
-export const INITIAL_CHECKLIST_STATE: ChecklistState = {
+const INITIAL_CHECKLIST_STATE: ChecklistState = {
     percent: 0,
 
     geo: 0,
@@ -209,9 +34,7 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
 
     checks: {
         bosses: {
-            '[Broken Vessel]': {
-                reward: () => ({ percent: 1 }),
-            },
+            '[Broken Vessel]': { reward: () => ({ percent: 1 }) },
             '[Brooding Mawlek]': { reward: () => ({ percent: 1 }) },
             '[The Collector]': { reward: () => ({ percent: 1 }) },
             '[Dung Defender]': { reward: () => ({ percent: 1 }) },
@@ -243,12 +66,8 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Channelled Nail](Nail#Upgrades)': {
                 reward: () => ({ percent: 1 }),
             },
-            '[Coiled Nail](Nail#Upgrades)': {
-                reward: () => ({ percent: 1 }),
-            },
-            '[Pure Nail](Nail#Upgrades)': {
-                reward: () => ({ percent: 1 }),
-            },
+            '[Coiled Nail](Nail#Upgrades)': { reward: () => ({ percent: 1 }) },
+            '[Pure Nail](Nail#Upgrades)': { reward: () => ({ percent: 1 }) },
         },
 
         nailArts: {
@@ -478,11 +297,34 @@ const ALL_CHECKED_CHECKLIST_STATE: PartialDeep<ChecklistState> = {
     ),
 };
 
-type Update = { [key: string]: any };
-
+/**
+ * Recursively updates the state object based on the provided updates and operation.
+ *
+ * This function allows for updating numeric and boolean values within a state object.
+ * It can either add or subtract values from the state based on the specified operation.
+ * For nested objects, it recursively updates the state.
+ *
+ * @param {AnyObject} state - The state object to be updated. This object is
+ * modified in place.
+ * @param {PartialDeep<AnyObject>} updates - An object containing the updates to
+ * apply to the state.
+ * @param {'add' | 'sub'} operation - The operation to perform on the numeric
+ * and boolean values. Use 'add' to increment values and 'sub' to decrement
+ * them.
+ *
+ * @example
+ * const state = { count: 10, active: false, nested: { value: 5 } };
+ * const updates = { active: true, nested: { value: 3 } };
+ *
+ * updateState(state, updates, 'add');
+ * console.log(state); // { count: 10, active: true, nested: { value: 8 } }
+ *
+ * updateState(state, updates, 'sub');
+ * console.log(state); // { count: 10, active: false, nested: { value: 5 } }
+ */
 const updateState = (
-    state: Update,
-    updates: PartialDeep<Update>,
+    state: AnyObject,
+    updates: PartialDeep<AnyObject>,
     operation: 'add' | 'sub'
 ) => {
     Object.keys(updates).forEach(key => {
@@ -505,13 +347,18 @@ const updateState = (
     });
 };
 
-export type RequirementCheckErrors = {
-    [CheckName in keyof ChecksSection<
-        keyof Checks
-    >]?: PartialDeep<ChecklistState>;
-};
-
-const validateChecks = (state: ChecklistState) => {
+/**
+ * Validates the checks in the given checklist state.
+ *
+ * This function iterates through the state of a checklist, checking each
+ * requirement against its corresponding conditions. If a requirement is not
+ * met, it records an error for that check.
+ *
+ * @param state - The current state of the checklist, containing various
+ * sections and checks.
+ * @returns An object containing errors for any checks that failed validation.
+ */
+const validateChecks = (state: ChecklistState): RequirementCheckErrors => {
     const errors: RequirementCheckErrors = {};
 
     const comparator = (

@@ -24,11 +24,9 @@ export const MainTitle = styled.h1`
 
 export const MainContent = styled.div`
     margin-top: 100px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
     gap: 50px;
 `;
 
@@ -42,4 +40,12 @@ export const PercentLabel = styled.span`
     transition: 0.2s;
     font-size: 100px;
     line-height: 114px;
+`;
+
+export const SectionsColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
 `;

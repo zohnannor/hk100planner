@@ -7,13 +7,11 @@ interface ButtonProps {
     onClick: () => void;
 }
 
-const ButtonThingy = styled.div`
+const ButtonElement = styled.div`
     transition: 0.2s;
     display: flex;
-
-    &:hover {
-        filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 1));
-    }
+    align-items: center;
+    height: 60px;
 
     & button {
         font-size: 32px;
@@ -28,23 +26,27 @@ const ButtonThingy = styled.div`
         transition: 0.4s;
         opacity: 0;
         height: 32px;
+
+        &:nth-of-type(2) {
+            transform: rotate(180deg);
+        }
     }
 
-    &:hover img {
-        opacity: 100%;
-    }
+    &:hover {
+        filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 1));
 
-    & img:nth-of-type(2) {
-        transform: rotate(180deg);
+        img {
+            opacity: 100%;
+        }
     }
 `;
 
 export const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
     return (
-        <ButtonThingy>
+        <ButtonElement>
             <img src={POINTER} alt='reset-button-left' />
             <button onClick={onClick}>{label}</button>
             <img src={POINTER} alt='reset-button-right' />
-        </ButtonThingy>
+        </ButtonElement>
     );
 };
