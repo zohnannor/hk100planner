@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
 
-import { CheckIcon } from '../../assets/checkmark';
+import { CheckIcon } from '../../assets';
 
 interface CheckboxSquareProps {
-    checked?: boolean;
+    $checked?: boolean;
 }
 
 interface CheckboxProps {
@@ -58,8 +58,8 @@ const CheckBoxSquare = styled.div<CheckboxSquareProps>`
     gap: 8px;
     padding: 4px;
 
-    ${({ checked }) =>
-        checked &&
+    ${({ $checked }) =>
+        $checked &&
         css`
             filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 1));
         `}
@@ -74,7 +74,7 @@ export const CheckBox: React.FC<CheckboxProps> = ({
     return (
         <CheckBoxWrapper>
             <CheckBoxControls onClick={() => onToggle?.()}>
-                <CheckBoxSquare checked={defaultChecked}>
+                <CheckBoxSquare $checked={defaultChecked}>
                     {defaultChecked && <CheckIcon />}
                 </CheckBoxSquare>
                 <CheckBoxLabel>{label}</CheckBoxLabel>

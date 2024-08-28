@@ -1,13 +1,18 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import POINTER from '../../assets/button-pointer.png';
+import { POINTER } from '../../assets';
+
+type ButtonSize = 'big' | 'small';
 
 interface ButtonProps {
+    size?: ButtonSize;
     label: string;
     onClick: () => void;
 }
 
-const ButtonElement = styled.div`
+const ButtonElement = styled.div<{
+    size: ButtonSize;
+}>`
     transition: 0.2s;
     display: flex;
     align-items: center;
@@ -39,11 +44,26 @@ const ButtonElement = styled.div`
             opacity: 100%;
         }
     }
+
+    ${({ size }) =>
+        size === 'small' &&
+        css`
+            height: 20px;
+
+            & button {
+                font-size: 16px;
+                line-height: 16px;
+            }
+
+            & img {
+                height: 16px;
+            }
+        `}
 `;
 
-export const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
+export const Button: React.FC<ButtonProps> = ({ label, onClick, size }) => {
     return (
-        <ButtonElement>
+        <ButtonElement size={size || 'big'}>
             <img src={POINTER} alt='reset-button-left' />
             <button onClick={onClick}>{label}</button>
             <img src={POINTER} alt='reset-button-right' />

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import type { Property } from 'csstype';
+
 export const MainWrapper = styled.div`
     margin: 100px;
     width: 100%;
@@ -48,4 +50,21 @@ export const SectionsColumn = styled.div`
     align-items: center;
     justify-content: center;
     gap: 48px;
+`;
+
+export const FlexBox = styled.div<{
+    align?: Property.AlignItems;
+    justify?: Property.JustifyContent;
+    direction?: Property.FlexDirection;
+    gap?: Property.Gap;
+    wrap?: Property.FlexWrap;
+    fullWidth?: boolean;
+}>`
+    display: flex;
+    width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
+    align-items: ${({ align }) => align};
+    justify-content: ${({ justify }) => justify};
+    flex-direction: ${({ direction }) => direction};
+    gap: ${({ gap }) => gap};
+    flex-wrap: ${({ wrap }) => wrap};
 `;

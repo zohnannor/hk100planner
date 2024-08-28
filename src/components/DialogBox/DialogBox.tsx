@@ -1,13 +1,12 @@
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
-import BOTTOM from '../../assets/dialog-fleur-bottom.png';
-import TOP from '../../assets/dialog-fleur-top.png';
+import { BOTTOM, TOP } from '../../assets';
 
 const TopFleur = styled.div`
     background: transparent center/contain scroll no-repeat;
     background-image: url(${TOP});
-    width: 45rem;
+    width: 30rem;
     height: 3.375rem;
 `;
 

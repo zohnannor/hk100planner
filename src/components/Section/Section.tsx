@@ -1,8 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { useToggle } from 'usehooks-ts';
 
-import HR from '../../assets/hr.png';
+import { HR } from '../../assets';
 import useChecklistStore from '../../checklist_store';
+import { FlexBox } from '../../styles';
 import { Checks, ChecksSection } from '../../types/checklist';
+import Button from '../Button';
 import CheckBox from '../Checkbox';
 
 const SectionWrapper = styled.div`
@@ -10,7 +13,6 @@ const SectionWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
 `;
 
 const SectionTitle = styled.h1`
@@ -19,7 +21,6 @@ const SectionTitle = styled.h1`
     margin: 0;
     font-weight: bold;
     font-family: 'Cinzel', sans-serif;
-    color: white;
 `;
 
 const SectionUnderline = styled.div`
@@ -29,11 +30,30 @@ const SectionUnderline = styled.div`
     height: 3.375rem;
 `;
 
-const SectionContent = styled.div`
+type SectionContentProps = {
+    $folded?: boolean;
+    checksCount: number;
+};
+
+const SectionContent = styled.div<SectionContentProps>`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+
+    margin-top: 20px;
+    transition: 0.2s;
+    max-height: ${({ checksCount }) => `${125 * checksCount}px`};
+    opacity: 1;
+
+    ${({ $folded }) =>
+        $folded &&
+        css`
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            pointer-events: none;
+        `}
 `;
 
 type SectionProps = {
@@ -42,6 +62,7 @@ type SectionProps = {
 };
 
 export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
+    const [folded, toggleFolded] = useToggle(false);
     const section = useChecklistStore(state => state.checks[sectionName]);
     const toggle = useChecklistStore(state => state.toggle);
     const validateChecks = useChecklistStore(
@@ -52,9 +73,19 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
 
     return (
         <SectionWrapper>
-            <SectionTitle>{title}</SectionTitle>
+            <FlexBox direction='column' align='center'>
+                <SectionTitle>{title}</SectionTitle>
+                <Button
+                    size='small'
+                    label={folded ? 'show' : 'hide'}
+                    onClick={toggleFolded}
+                />
+            </FlexBox>
             <SectionUnderline />
-            <SectionContent>
+            <SectionContent
+                checksCount={Object.keys(section).length}
+                $folded={folded}
+            >
                 {Object.entries(section).map(([name, check]) => {
                     const typedName = name as keyof ChecksSection<keyof Checks>;
                     return (
