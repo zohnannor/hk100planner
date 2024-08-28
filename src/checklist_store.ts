@@ -10,7 +10,8 @@ import {
     AnyObject,
     Check,
     ChecklistState,
-    Checks,
+    CheckRewards,
+    CheckSection,
     ChecksSection,
     RequirementCheckErrors,
 } from './types/checklist';
@@ -274,29 +275,6 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
     },
 };
 
-const ALL_CHECKED_CHECKLIST_STATE: PartialDeep<ChecklistState> = {
-    percent: 112,
-
-    // geo: 0,
-    // essence: 0,
-    // paleOre: 0,
-
-    // geoReq: 0,
-    // essenceReq: 0,
-    // paleOreReq: 0,
-
-    checks: Object.fromEntries(
-        Object.keys(INITIAL_CHECKLIST_STATE.checks).map(section => [
-            section,
-            Object.fromEntries(
-                Object.keys(
-                    INITIAL_CHECKLIST_STATE.checks[section as keyof Checks]
-                ).map(name => [name, { checked: true }])
-            ),
-        ])
-    ),
-};
-
 /**
  * Recursively updates the state object based on the provided updates and operation.
  *
@@ -378,9 +356,8 @@ const validateChecks = (state: ChecklistState): RequirementCheckErrors => {
             stateValue !== null &&
             Object.values(stateValue).forEach(section => {
                 Object.entries(section).forEach(([checkName, check]) => {
-                    const typedCheckName = checkName as keyof ChecksSection<
-                        keyof Checks
-                    >;
+                    const typedCheckName =
+                        checkName as keyof ChecksSection<CheckSection>;
                     const requires = check.checked && check.requires?.();
 
                     if (
@@ -396,18 +373,79 @@ const validateChecks = (state: ChecklistState): RequirementCheckErrors => {
     return errors;
 };
 
+const applyReward = (
+    state: ChecklistState,
+    reward: CheckRewards,
+    willCheck: boolean
+) => {
+    if (willCheck) {
+        updateState(state, reward, 'add');
+    } else {
+        updateState(state, reward, 'sub');
+    }
+};
+
 const useChecklistStore = create<ChecklistState & Action>()(
     persist(
         temporal(
-            immer((set, get) => ({
+            immer(set => ({
                 ...INITIAL_CHECKLIST_STATE,
 
-                reset: () => set(INITIAL_CHECKLIST_STATE),
+                reset: (sectionName?: CheckSection) => {
+                    const handleCheck = (
+                        state: ChecklistState,
+                        check: Check
+                    ) => {
+                        if (check.checked) {
+                            applyReward(state, check.reward(), false);
+                        }
+                        check.checked = false;
+                    };
 
-                checkAll: () =>
-                    set(deepMerge(get(), ALL_CHECKED_CHECKLIST_STATE)),
+                    if (sectionName) {
+                        set(state => {
+                            Object.values(state.checks[sectionName]).forEach(
+                                check => handleCheck(state, check)
+                            );
+                        });
+                    } else {
+                        // This doesn't need to give (or rather, take) rewards,
+                        // because the state mutation doesn't depend on the
+                        // checks being checked (we just set state to the
+                        // initial, all-zero state).
+                        set(INITIAL_CHECKLIST_STATE);
+                    }
+                },
 
-                toggle: <S extends keyof Checks>(
+                checkAll: (sectionName?: CheckSection) => {
+                    const handleCheck = (
+                        state: ChecklistState,
+                        check: Check
+                    ) => {
+                        if (!check.checked) {
+                            applyReward(state, check.reward(), true);
+                        }
+                        check.checked = true;
+                    };
+                    //
+                    if (sectionName) {
+                        set(state => {
+                            Object.values(state.checks[sectionName]).forEach(
+                                check => handleCheck(state, check)
+                            );
+                        });
+                    } else {
+                        set(state => {
+                            Object.values(state.checks).forEach(section => {
+                                Object.values(section).forEach(check =>
+                                    handleCheck(state, check)
+                                );
+                            });
+                        });
+                    }
+                },
+
+                toggle: <S extends CheckSection>(
                     section: S,
                     name: keyof ChecksSection<S>
                 ) => {
@@ -421,15 +459,8 @@ const useChecklistStore = create<ChecklistState & Action>()(
                         const willCheck = !check.checked;
                         check.checked = willCheck;
 
-                        const reward = check.reward?.();
-
-                        if (reward) {
-                            if (willCheck) {
-                                updateState(state, reward, 'add');
-                            } else {
-                                updateState(state, reward, 'sub');
-                            }
-                        }
+                        const reward = check.reward();
+                        applyReward(state, reward, willCheck);
                     });
                 },
 

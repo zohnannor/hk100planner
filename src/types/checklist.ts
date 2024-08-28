@@ -1,6 +1,11 @@
 import { PartialDeep } from 'type-fest';
 
 /**
+ * Represents a reward (updates to the state) a check can provide.
+ */
+export type CheckRewards = Partial<Omit<ChecklistState, 'checks'>>;
+
+/**
  * Represents a single check in the checklist.
  */
 export type Check = {
@@ -15,7 +20,7 @@ export type Check = {
     /**
      * A function that returns the reward for completing this check.
      */
-    reward: () => Partial<Omit<ChecklistState, 'checks'>>;
+    reward: () => CheckRewards;
     /**
      * A function that returns the requirements for this check.
      */
@@ -167,14 +172,14 @@ export type ChecksKeys = {
 /**
  * Represents the keys of the checks defined in ChecksKeys.
  */
-export type Sections = keyof ChecksKeys;
+export type CheckSection = keyof ChecksKeys;
 
 /**
  * Represents a section of checks for a specific category.
  *
  * @param Section - The section of checks to define.
  */
-export type ChecksSection<Section extends Sections> = Record<
+export type ChecksSection<Section extends CheckSection> = Record<
     ChecksKeys[Section],
     Check
 >;
@@ -183,7 +188,7 @@ export type ChecksSection<Section extends Sections> = Record<
  * Represents the entire checklist containing all sections of checks.
  */
 export type Checks = {
-    [Section in Sections]: ChecksSection<Section>;
+    [Section in CheckSection]: ChecksSection<Section>;
 };
 
 /**
@@ -254,18 +259,18 @@ export type Action = {
      * @param section - The section of the checklist.
      * @param name - The name of the check to toggle.
      */
-    toggle: <S extends keyof Checks>(
+    toggle: <S extends CheckSection>(
         section: S,
         name: keyof ChecksSection<S>
     ) => void;
     /**
-     * Checks all items in the checklist.
+     * Checks all items in the checklist or the specific section.
      */
-    checkAll: () => void;
+    checkAll: (sectionName?: CheckSection) => void;
     /**
-     * Resets the checklist to its initial state.
+     * Resets the checklist or the specific section to its initial state.
      */
-    reset: () => void;
+    reset: (sectionName?: CheckSection) => void;
     /**
      * Validates the current state of the checklist against its requirements.
      *

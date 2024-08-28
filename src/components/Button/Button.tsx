@@ -10,7 +10,7 @@ interface ButtonProps {
     onClick: () => void;
 }
 
-const ButtonElement = styled.div<{
+const ButtonWrapper = styled.div<{
     size: ButtonSize;
 }>`
     transition: 0.2s;
@@ -27,14 +27,26 @@ const ButtonElement = styled.div<{
         border: none;
     }
 
-    & img {
+    & div {
+        position: relative;
+        width: 30px;
+        height: 32px;
+    }
+
+    & div img {
         transition: 0.4s;
         opacity: 0;
         height: 32px;
+        position: absolute;
+    }
 
-        &:nth-of-type(2) {
-            transform: rotate(180deg);
-        }
+    & div:nth-of-type(1) img {
+        right: 0;
+    }
+
+    & div:nth-of-type(2) img {
+        left: 0;
+        transform: rotate(180deg);
     }
 
     &:hover {
@@ -55,7 +67,12 @@ const ButtonElement = styled.div<{
                 line-height: 16px;
             }
 
-            & img {
+            & div {
+                height: 16px;
+                width: 10px;
+            }
+
+            & div img {
                 height: 16px;
             }
         `}
@@ -63,10 +80,14 @@ const ButtonElement = styled.div<{
 
 export const Button: React.FC<ButtonProps> = ({ label, onClick, size }) => {
     return (
-        <ButtonElement size={size || 'big'}>
-            <img src={POINTER} alt='reset-button-left' />
-            <button onClick={onClick}>{label}</button>
-            <img src={POINTER} alt='reset-button-right' />
-        </ButtonElement>
+        <ButtonWrapper size={size || 'big'}>
+            <div>
+                <img src={POINTER} alt='reset-button-left' />
+            </div>
+            <button onClick={() => onClick()}>{label}</button>
+            <div>
+                <img src={POINTER} alt='reset-button-right' />
+            </div>
+        </ButtonWrapper>
     );
 };

@@ -3,25 +3,13 @@ import styled from 'styled-components';
 import type { Property } from 'csstype';
 
 export const MainWrapper = styled.div`
-    margin: 100px;
+    margin-bottom: 100px;
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-`;
-
-export const MainTitle = styled.h1`
-    font-size: 40px;
-    line-height: 56px;
-    margin: 0;
-    margin-top: 100px;
-    font-weight: bold;
-    color: white;
-    font-family: 'Cinzel', sans-serif;
-    text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
-    text-align: center;
 `;
 
 export const MainContent = styled.div`
@@ -52,15 +40,19 @@ export const SectionsColumn = styled.div`
     gap: 48px;
 `;
 
-export const FlexBox = styled.div<{
+type FlexBoxProps = {
     align?: Property.AlignItems;
     justify?: Property.JustifyContent;
     direction?: Property.FlexDirection;
     gap?: Property.Gap;
     wrap?: Property.FlexWrap;
     fullWidth?: boolean;
-}>`
+    position?: Property.Position;
+};
+
+export const FlexBox = styled.div<FlexBoxProps>`
     display: flex;
+    position: ${({ position }) => position};
     width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
     align-items: ${({ align }) => align};
     justify-content: ${({ justify }) => justify};

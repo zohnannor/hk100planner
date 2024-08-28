@@ -4,9 +4,10 @@ import { useToggle } from 'usehooks-ts';
 import { HR } from '../../assets';
 import useChecklistStore from '../../checklist_store';
 import { FlexBox } from '../../styles';
-import { Checks, ChecksSection } from '../../types/checklist';
+import { CheckSection, ChecksSection } from '../../types/checklist';
+import formatCheckListError from '../../util/formatCheckListError';
 import Button from '../Button';
-import CheckBox from '../Checkbox';
+import { SectionCheckBox } from '../Checkbox/SectionCheckBox';
 
 const SectionWrapper = styled.div`
     display: flex;
@@ -32,7 +33,7 @@ const SectionUnderline = styled.div`
 
 type SectionContentProps = {
     $folded?: boolean;
-    checksCount: number;
+    $checksCount: number;
 };
 
 const SectionContent = styled.div<SectionContentProps>`
@@ -43,7 +44,7 @@ const SectionContent = styled.div<SectionContentProps>`
 
     margin-top: 20px;
     transition: 0.2s;
-    max-height: ${({ checksCount }) => `${125 * checksCount}px`};
+    max-height: ${({ $checksCount }) => `${125 * $checksCount}px`};
     opacity: 1;
 
     ${({ $folded }) =>
@@ -56,15 +57,26 @@ const SectionContent = styled.div<SectionContentProps>`
         `}
 `;
 
+const SectionButtons = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    & > div {
+        justify-self: center;
+    }
+`;
+
 type SectionProps = {
     title: string;
-    sectionName: keyof Checks;
+    sectionName: CheckSection;
 };
 
 export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
     const [folded, toggleFolded] = useToggle(false);
     const section = useChecklistStore(state => state.checks[sectionName]);
     const toggle = useChecklistStore(state => state.toggle);
+    const reset = useChecklistStore(state => state.reset);
+    const checkAll = useChecklistStore(state => state.checkAll);
     const validateChecks = useChecklistStore(
         state => () => state.validateChecks(state)
     );
@@ -73,28 +85,44 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
 
     return (
         <SectionWrapper>
-            <FlexBox direction='column' align='center'>
+            <FlexBox direction='column' align='center' gap='8px'>
                 <SectionTitle>{title}</SectionTitle>
-                <Button
-                    size='small'
-                    label={folded ? 'show' : 'hide'}
-                    onClick={toggleFolded}
-                />
+                <SectionButtons>
+                    <Button
+                        size='small'
+                        label='uncheck all'
+                        onClick={() => reset(sectionName)}
+                    />
+                    <Button
+                        size='small'
+                        label={folded ? 'show' : 'hide'}
+                        onClick={toggleFolded}
+                    />
+                    <Button
+                        size='small'
+                        label='check all'
+                        onClick={() => checkAll(sectionName)}
+                    />
+                </SectionButtons>
             </FlexBox>
             <SectionUnderline />
             <SectionContent
-                checksCount={Object.keys(section).length}
+                $checksCount={Object.keys(section).length}
                 $folded={folded}
             >
                 {Object.entries(section).map(([name, check]) => {
-                    const typedName = name as keyof ChecksSection<keyof Checks>;
+                    const typedName = name as keyof ChecksSection<CheckSection>;
                     return (
-                        <CheckBox
+                        <SectionCheckBox
                             label={name}
                             defaultChecked={check.checked}
+                            description={check.description}
                             key={name}
                             onToggle={() => toggle(sectionName, typedName)}
-                            error={JSON.stringify(errors[typedName])}
+                            error={formatCheckListError(
+                                typedName,
+                                errors[typedName]
+                            )}
                         />
                     );
                 })}
