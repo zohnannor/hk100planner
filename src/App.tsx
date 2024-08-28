@@ -2,8 +2,9 @@ import { useRef } from 'react';
 
 import useChecklistStore from './checklist_store.ts';
 import { Button } from './components/Button/Button.tsx';
-import DialogBox from './components/DialogBox/DialogBox.tsx';
+import DialogBox from './components/DialogBox';
 import Section from './components/Section';
+import { SideBar } from './components/SideBar/SideBar.tsx';
 import { useParallaxBackground } from './hooks/useParallaxBackground.ts';
 import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds.ts';
 import {
@@ -70,20 +71,22 @@ const App = () => {
             <div ref={backgroundRef} className='background' />
             <MainTitle>Hollow Knight Speed Completion planner</MainTitle>
 
-            <DialogBox>
-                <Button label='Reset' onClick={reset} />
-                <Button label='Check All' onClick={checkAll} />
-            </DialogBox>
+            <SideBar>
+                <DialogBox>
+                    <Button label='Reset' onClick={reset} />
+                    <Button label='Check All' onClick={checkAll} />
+                </DialogBox>
 
-            <PercentLabel>{percent.toFixed(2)}%</PercentLabel>
+                <PercentLabel>{percent.toFixed(2)}%</PercentLabel>
 
-            <MainLabel>{geo} geo</MainLabel>
-            <MainLabel>{essence} essence</MainLabel>
-            <MainLabel>{paleOre} pale ore</MainLabel>
+                <MainLabel>{geo} geo</MainLabel>
+                <MainLabel>{essence} essence</MainLabel>
+                <MainLabel>{paleOre} pale ore</MainLabel>
 
-            <MainLabel>{geoReq} geo requirement</MainLabel>
-            <MainLabel>{essenceReq} essence requirement</MainLabel>
-            <MainLabel>{paleOreReq} pale ore requirement</MainLabel>
+                <MainLabel>{geoReq} geo requirement</MainLabel>
+                <MainLabel>{essenceReq} essence requirement</MainLabel>
+                <MainLabel>{paleOreReq} pale ore requirement</MainLabel>
+            </SideBar>
 
             <MainContent>
                 {DISTRIBUTED_SECTIONS.map(sectionColumn => (

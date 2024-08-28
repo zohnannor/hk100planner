@@ -28,7 +28,7 @@ const Box = styled.div<BoxProps>`
     flex-direction: ${({ direction }) => direction};
 `;
 
-const DialogBox: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+export const DialogBox: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <Box direction='column'>
             <TopFleur />
@@ -37,5 +37,3 @@ const DialogBox: React.FC<PropsWithChildren<{}>> = ({ children }) => {
         </Box>
     );
 };
-
-export default DialogBox;
