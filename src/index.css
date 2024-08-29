@@ -9,7 +9,7 @@ html,
 body,
 #root {
     width: 100vw;
-    height: 100vh;
+    min-height: 300vh;
     margin: 0;
     padding: 0;
     color: white;
@@ -19,14 +19,14 @@ body,
     overflow-x: hidden;
 }
 
-/* html::-webkit-scrollbar {
+html::-webkit-scrollbar {
     width: 10px;
     background-color: rgb(22, 22, 22);
 }
 
 html::-webkit-scrollbar-thumb {
-    background-color: white;
-} */
+    background-color: rgb(121, 121, 121);
+}
 
 body {
     background-size: cover;

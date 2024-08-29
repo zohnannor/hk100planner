@@ -24,12 +24,14 @@ export const MainLabel = styled.span`
     transition: 0.2s;
     font-size: 32px;
     line-height: 34px;
+    margin-bottom: 20px;
 `;
 
 export const PercentLabel = styled.span`
     transition: 0.2s;
     font-size: 100px;
     line-height: 114px;
+    margin-bottom: 20px;
 `;
 
 export const SectionsColumn = styled.div`
@@ -41,22 +43,22 @@ export const SectionsColumn = styled.div`
 `;
 
 type FlexBoxProps = {
-    align?: Property.AlignItems;
-    justify?: Property.JustifyContent;
-    direction?: Property.FlexDirection;
-    gap?: Property.Gap;
-    wrap?: Property.FlexWrap;
-    fullWidth?: boolean;
-    position?: Property.Position;
+    $align?: Property.AlignItems;
+    $justify?: Property.JustifyContent;
+    $direction?: Property.FlexDirection;
+    $gap?: Property.Gap;
+    $wrap?: Property.FlexWrap;
+    $fullWidth?: boolean;
+    $position?: Property.Position;
 };
 
 export const FlexBox = styled.div<FlexBoxProps>`
     display: flex;
-    position: ${({ position }) => position};
-    width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
-    align-items: ${({ align }) => align};
-    justify-content: ${({ justify }) => justify};
-    flex-direction: ${({ direction }) => direction};
-    gap: ${({ gap }) => gap};
-    flex-wrap: ${({ wrap }) => wrap};
+    position: ${({ $position }) => $position};
+    width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
+    align-items: ${({ $align }) => $align};
+    justify-content: ${({ $justify }) => $justify};
+    flex-direction: ${({ $direction }) => $direction};
+    gap: ${({ $gap }) => $gap};
+    flex-wrap: ${({ $wrap }) => $wrap};
 `;

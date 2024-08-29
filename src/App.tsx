@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { useIntersectionObserver } from 'usehooks-ts';
 
 import { LOGO } from './assets/index.ts';
-import useChecklistStore from './checklist_store.ts';
 import { Button } from './components/Button/Button.tsx';
 import { FText } from './components/FText/FText.tsx';
 import Section from './components/Section';
@@ -10,6 +9,8 @@ import { SideBar } from './components/SideBar/SideBar.tsx';
 import { Tooltip } from './components/Tooltip/Tooltip.tsx';
 import { useParallaxBackground } from './hooks/useParallaxBackground.ts';
 import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds.ts';
+import useChecklistStore from './stores/checklistStore.ts';
+import useUiStore from './stores/uiStore.ts';
 import {
     FlexBox,
     MainContent,
@@ -21,23 +22,23 @@ import {
 import { CheckSection } from './types/checklist.ts';
 
 const SECTION_TITLES: Record<CheckSection, string> = {
-    bosses: 'Bosses',
-    equipment: 'Equipment',
-    spells: 'Spells',
-    nail: 'Nail',
-    dreamNail: 'Dream Nail',
-    nailArts: 'Nail Arts',
-    charms: 'Charms',
-    maskShards: 'Mask Shards',
-    vesselFragment: 'Vessel Fragment',
-    colosseum: 'Colosseum',
-    dreamers: 'Dreamers',
-    dreamWarriors: 'Warrior Dreams',
-    dreamBosses: 'Dream Bosses (no percents)',
-    godhome: 'Godhome',
-    grubs: 'Grubs (no percents)',
-    relicsAndItems: 'Relics and Items (no percents)',
-    whisperingRoots: 'Whispering Roots (no percents)',
+    bosses: '[Bosses](Bosses (Hollow Knight))',
+    equipment: '[Equipment](Abilities)',
+    spells: '[Spells]',
+    nail: '[Nail]',
+    dreamNail: '[Dream Nail]',
+    nailArts: '[Nail Arts]',
+    charms: '[Charms]',
+    maskShards: '[Mask Shards]',
+    vesselFragments: '[Vessel Fragments]',
+    colosseum: '[Colosseum of Fools]',
+    dreamers: '[Dreamers]',
+    dreamWarriors: '[Warrior Dreams]',
+    dreamBosses: '[Dream Bosses](Bosses (Hollow Knight)#Boss_Variants)',
+    godhome: '[Godhome]',
+    grubs: '[Grubs] (no percents)',
+    relicsAndItems: '[Relics and Items](Items) (no percents)',
+    whisperingRoots: '[Whispering Roots](Whispering Root) (no percents)',
 };
 
 const DISTRIBUTED_SECTIONS: CheckSection[][] = [
@@ -47,7 +48,7 @@ const DISTRIBUTED_SECTIONS: CheckSection[][] = [
         'dreamNail',
         'nailArts',
         'maskShards',
-        'vesselFragment',
+        'vesselFragments',
         'dreamers',
         'dreamWarriors',
         'dreamBosses',
@@ -56,6 +57,14 @@ const DISTRIBUTED_SECTIONS: CheckSection[][] = [
         'whisperingRoots',
     ],
 ];
+
+const ABOUT_TEXT =
+    'This is a tool to help you plan your Hollow Knight ["Speed Completion"](Achievements (Hollow Knight)#Challenges) achievement checklist. ' +
+    'For it, you need to achieve 100% completion in under 20 hours. ' +
+    "As the game with all DLCs has a maximum of 112% completion, you can skip some of the checks from the base game you don't want to do, and do them in the DLC instead. " +
+    'Additionally, [not everything counts as a check](Completion (Hollow Knight)). ' +
+    'So what you should do? ' +
+    'Check the boxes and the tool will tell you what things depend on other things.';
 
 const App = () => {
     const {
@@ -74,6 +83,11 @@ const App = () => {
         reset,
         checkAll,
     } = useChecklistStore();
+
+    const tooltipText = useUiStore(state => state.tooltipText);
+    const setTooltipText = useUiStore(state => state.setTooltipText);
+    const openTooltip = useUiStore(state => state.openTooltip);
+
     useUndoRedoKeybinds();
 
     const { isIntersecting, ref } = useIntersectionObserver();
@@ -81,53 +95,57 @@ const App = () => {
     const backgroundRef = useRef<HTMLDivElement | null>(null);
     useParallaxBackground(backgroundRef);
 
+    const info = (
+        <FlexBox $direction='column'>
+            <FText>
+                [GEO] {geo} / {geoReq}
+            </FText>
+            <FText>
+                [ESSENCE] {essence} / {Math.max(...essenceReq)}
+            </FText>
+            <FText>
+                [PALE_ORE] {paleOre} / {paleOreReq}
+            </FText>
+
+            {(simpleKeyRoyalWaterwaysReq || simpleKeyGodseekerCocoonReq) && (
+                <FText>
+                    [SIMPLE_KEY]
+                    {+simpleKeyRoyalWaterwaysReq + +simpleKeyGodseekerCocoonReq}
+                </FText>
+            )}
+            {elegantKeyReq && <FText>[ELEGANT_KEY] required</FText>}
+            {loveKeyReq && <FText>[LOVE_KEY] required</FText>}
+            {shopkeepersKeyReq && <FText>[SHOPKEEPER'S_KEY] required</FText>}
+        </FlexBox>
+    );
+
     return (
         <MainWrapper>
             <div ref={backgroundRef} className='background' />
             <img src={LOGO} alt='logo' />
 
-            <Tooltip>
-                [Bro](Pure Vessel) was tarnished by an idea instilled 😭😭😭😭💀
-            </Tooltip>
+            <Button
+                label='What?'
+                size='small'
+                onClick={() => {
+                    setTooltipText(ABOUT_TEXT);
+                    openTooltip();
+                }}
+            />
 
-            <FlexBox
-                direction='column'
-                align='center'
-                justify='space-between'
-                position='relative'
-            >
+            <Tooltip>{tooltipText}</Tooltip>
+
+            <PercentLabel>
+                {percent.toFixed(2).replace('-0', '0')}%
+            </PercentLabel>
+
+            <FlexBox>
                 <Button label='Uncheck All' onClick={reset} />
                 <Button label='Check All' onClick={checkAll} />
             </FlexBox>
 
-            <PercentLabel ref={ref}>
-                {percent.toFixed(2).replace('-0', '0')}%
-            </PercentLabel>
-
-            <MainLabel>
-                <FlexBox direction='column'>
-                    <FText>
-                        [GEO] {geo} / {geoReq}
-                    </FText>
-                    <FText>
-                        [ESSENCE] {essence} / {Math.max(...essenceReq)}
-                    </FText>
-                    <FText>
-                        [PALE_ORE] {paleOre} / {paleOreReq}
-                    </FText>
-
-                    <FText>
-                        [SIMPLE_KEY]
-                        {+simpleKeyRoyalWaterwaysReq +
-                            +simpleKeyGodseekerCocoonReq}
-                    </FText>
-                    <FText>[ELEGANT_KEY] {elegantKeyReq}</FText>
-                    <FText>[LOVE_KEY] {loveKeyReq}</FText>
-                    <FText>[SHOPKEEPER'S_KEY] {shopkeepersKeyReq}</FText>
-                </FlexBox>
-            </MainLabel>
-
-            <SideBar visible={!isIntersecting} />
+            <MainLabel ref={ref}>{info}</MainLabel>
+            <SideBar visible={!isIntersecting}>{info}</SideBar>
 
             <MainContent>
                 {DISTRIBUTED_SECTIONS.map(sectionColumn => (

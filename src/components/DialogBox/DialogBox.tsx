@@ -27,13 +27,13 @@ const BottomFleur = styled.div`
 export const DialogBox: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <FlexBox
-            direction='column'
-            align='center'
-            justify='space-between'
-            position='relative'
+            $direction='column'
+            $align='center'
+            $justify='space-between'
+            $position='relative'
         >
             <TopFleur />
-            <FlexBox direction='row'>{children}</FlexBox>
+            <FlexBox $direction='row'>{children}</FlexBox>
             <BottomFleur />
         </FlexBox>
     );

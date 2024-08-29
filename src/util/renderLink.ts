@@ -45,7 +45,7 @@ const renderLink = (text: string) => {
     const result: ParsedItem[] = [];
 
     for (const match of text.matchAll(
-        /(?<before>[^[]+)?(?:\[(?<val>[^\]]+)\])?(?:\((?<link>[^)]+)\))?/g
+        /(?<before>[^[]+)?(?:\[(?<val>[^\]]+)\])?(?:\((?<link>(?:[^)(]|\([^)(]*\))*)\))?/g
     )) {
         const { before, val, link } = match.groups || {};
         if (before) {

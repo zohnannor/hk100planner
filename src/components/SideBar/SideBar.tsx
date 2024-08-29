@@ -1,9 +1,10 @@
+import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import useChecklistStore from '../../stores/checklistStore';
 import { FlexBox } from '../../styles';
-import { FText } from '../FText/FText';
 import Button from '../Button';
+import { FText } from '../FText/FText';
 
 interface ContainerProps {
     $visible: boolean;
@@ -35,28 +36,17 @@ interface SideBarProps {
     visible: boolean;
 }
 
-export const SideBar: React.FC<SideBarProps> = ({ visible }) => {
-    const {
-        percent,
-        geo,
-        essence,
-        paleOre,
-        geoReq,
-        essenceReq,
-        paleOreReq,
-        simpleKeyRoyalWaterwaysReq,
-        simpleKeyGodseekerCocoonReq,
-        elegantKeyReq,
-        loveKeyReq,
-        shopkeepersKeyReq,
-        reset,
-        checkAll,
-    } = useChecklistStore();
-    useChecklistStore();
+export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
+    visible,
+    children,
+}) => {
+    const percent = useChecklistStore(state => state.percent);
+    const reset = useChecklistStore(state => state.reset);
+    const checkAll = useChecklistStore(state => state.checkAll);
 
     return (
         <Container $visible={visible}>
-            <FlexBox direction='column' align='flex-end'>
+            <FlexBox $direction='column' $align='flex-end'>
                 <SidePercentLabel>
                     <FText>{percent.toFixed(2).replace('-0', '0')}%</FText>
                 </SidePercentLabel>
@@ -64,28 +54,7 @@ export const SideBar: React.FC<SideBarProps> = ({ visible }) => {
                 <Button size='small' label='uncheck all' onClick={reset} />
                 <Button size='small' label='check all' onClick={checkAll} />
 
-                <SideLabel>
-                    <FlexBox direction='column'>
-                        <FText>
-                            [GEO] {geo} / {geoReq}
-                        </FText>
-                        <FText>
-                            [ESSENCE] {essence} / {Math.max(...essenceReq)}
-                        </FText>
-                        <FText>
-                            [PALE_ORE] {paleOre} / {paleOreReq}
-                        </FText>
-
-                        <FText>
-                            [SIMPLE_KEY]
-                            {+simpleKeyRoyalWaterwaysReq +
-                                +simpleKeyGodseekerCocoonReq}
-                        </FText>
-                        <FText>[ELEGANT_KEY] {elegantKeyReq}</FText>
-                        <FText>[LOVE_KEY] {loveKeyReq}</FText>
-                        <FText>[SHOPKEEPER'S_KEY] {shopkeepersKeyReq}</FText>
-                    </FlexBox>
-                </SideLabel>
+                <SideLabel>{children}</SideLabel>
             </FlexBox>
         </Container>
     );

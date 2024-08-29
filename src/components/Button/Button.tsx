@@ -11,7 +11,7 @@ interface ButtonProps {
 }
 
 const ButtonWrapper = styled.div<{
-    size: ButtonSize;
+    $size: ButtonSize;
 }>`
     transition: 0.2s;
     display: flex;
@@ -25,6 +25,7 @@ const ButtonWrapper = styled.div<{
         background: transparent;
         color: white;
         border: none;
+        cursor: pointer;
     }
 
     & div {
@@ -57,8 +58,8 @@ const ButtonWrapper = styled.div<{
         }
     }
 
-    ${({ size }) =>
-        size === 'small' &&
+    ${({ $size }) =>
+        $size === 'small' &&
         css`
             height: 20px;
 
@@ -80,7 +81,7 @@ const ButtonWrapper = styled.div<{
 
 export const Button: React.FC<ButtonProps> = ({ label, onClick, size }) => {
     return (
-        <ButtonWrapper size={size || 'big'}>
+        <ButtonWrapper $size={size || 'big'}>
             <div>
                 <img src={POINTER} alt='reset-button-left' />
             </div>

@@ -1,14 +1,14 @@
 import styled, { css } from 'styled-components';
-import { useToggle } from 'usehooks-ts';
 
 import { HR } from '../../assets';
 import useChecklistStore from '../../stores/checklistStore';
-import useChecklistStore from '../../checklist_store';
+import useUiStore from '../../stores/uiStore';
 import { FlexBox } from '../../styles';
 import { CheckSection, ChecksSection } from '../../types/checklist';
 import formatCheckListError from '../../util/formatCheckListError';
 import Button from '../Button';
 import { SectionCheckBox } from '../Checkbox/SectionCheckBox';
+import { FText } from '../FText/FText';
 
 const SectionWrapper = styled.div`
     display: flex;
@@ -73,7 +73,8 @@ type SectionProps = {
 };
 
 export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
-    const [folded, toggleFolded] = useToggle(false);
+    const hiddenSections = useUiStore(state => state.hiddenSections);
+    const toggleFolded = useUiStore(state => state.toggleSection);
     const section = useChecklistStore(state => state.checks[sectionName]);
     const toggle = useChecklistStore(state => state.toggle);
     const reset = useChecklistStore(state => state.reset);
@@ -82,12 +83,19 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
         state => () => state.validateChecks(state)
     );
 
-    const errors = validateChecks();
+    const shouldValidateChecks = useUiStore(
+        state => state.shouldValidateChecks
+    );
+
+    const folded = hiddenSections.includes(sectionName);
+    const errors = shouldValidateChecks ? validateChecks() : {};
 
     return (
         <SectionWrapper>
-            <FlexBox direction='column' align='center' gap='8px'>
-                <SectionTitle>{title}</SectionTitle>
+            <FlexBox $direction='column' $align='center' $gap='8px'>
+                <SectionTitle>
+                    <FText>{title}</FText>
+                </SectionTitle>
                 <SectionButtons>
                     <Button
                         size='small'
@@ -97,7 +105,7 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
                     <Button
                         size='small'
                         label={folded ? 'show' : 'hide'}
-                        onClick={toggleFolded}
+                        onClick={() => toggleFolded(sectionName)}
                     />
                     <Button
                         size='small'

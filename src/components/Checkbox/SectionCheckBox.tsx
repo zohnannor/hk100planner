@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ExclamationMark, QuestionMark } from '../../assets';
+import useUiStore from '../../stores/uiStore';
 import { CheckBox, CheckboxProps } from './CheckBox';
 
 const OuterShadow = styled.div`
@@ -58,6 +59,9 @@ export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
     ...rest
 }) => {
     const { onToggle } = rest;
+    const setTooltipText = useUiStore(state => state.setTooltipText);
+    const openTooltip = useUiStore(state => state.openTooltip);
+
     return (
         <CheckBoxWrapper>
             <OuterShadow onClick={() => onToggle?.()} />
@@ -65,8 +69,8 @@ export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
             {description && (
                 <InfoWrapper
                     onClick={() => {
-                        /* show description tooltip */
-                        console.log({ description });
+                        setTooltipText(description);
+                        openTooltip();
                     }}
                 >
                     <QuestionMark />
@@ -75,8 +79,8 @@ export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
             {error && (
                 <InfoWrapper
                     onClick={() => {
-                        /* show error tooltip */
-                        console.log({ error });
+                        setTooltipText(error);
+                        openTooltip();
                     }}
                 >
                     <ExclamationMark />
