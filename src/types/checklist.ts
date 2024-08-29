@@ -48,13 +48,29 @@ export type ChecksKeys = {
         | '[Traitor Lord]'
         | '[Uumuu]'
         | '[Watcher Knight]';
-    dreamNail: '[Dream Nail]' | '[Awoken Dream Nail]' | '[Ascension](Seer)';
+    equipment:
+        | '[Crystal Heart]'
+        | "[Isma's Tear]"
+        | '[Mantis Claw]'
+        | '[Monarch Wings]'
+        | '[Mothwing Cloak]'
+        | '[Shade Cloak]'
+        | "[King's Brand]"
+        | '[Lumafly Lantern] (no percent)';
     nail:
         | '[Sharpened Nail](Nail#Upgrades)'
         | '[Channelled Nail](Nail#Upgrades)'
         | '[Coiled Nail](Nail#Upgrades)'
         | '[Pure Nail](Nail#Upgrades)';
+    dreamNail: '[Dream Nail]' | '[Awoken Dream Nail]' | '[Ascension](Seer)';
     nailArts: '[Cyclone Slash]' | '[Dash Slash]' | '[Great Slash]';
+    spells:
+        | '[Desolate Dive]'
+        | '[Descending Dark]'
+        | '[Howling Wraiths]'
+        | '[Abyss Shriek]'
+        | '[Vengeful Spirit]'
+        | '[Shade Soul]';
     charms:
         | '[Wayward Compass]'
         | '[Gathering Swarm]'
@@ -96,31 +112,16 @@ export type ChecksKeys = {
         | '[Dreamshield]'
         | '[Grimmchild] / [Carefree Melody]'
         | '[Kingsoul] / [Void Heart]';
-    equipment:
-        | '[Crystal Heart]'
-        | "[Isma's Tear]"
-        | '[Mantis Claw]'
-        | '[Monarch Wings]'
-        | '[Mothwing Cloak]'
-        | '[Shade Cloak]'
-        | "[King's Brand]";
-    spells:
-        | '[Desolate Dive]'
-        | '[Descending Dark]'
-        | '[Howling Wraiths]'
-        | '[Abyss Shriek]'
-        | '[Vengeful Spirit]'
-        | '[Shade Soul]';
     maskShards:
-        | 'Sly #1'
-        | 'Sly #2'
-        | 'Sly #3'
-        | 'Sly #4'
-        | '[Forgotten Crossroads]'
+        | '[Sly] #1'
+        | '[Sly] #2'
+        | '[Sly] #3'
+        | '[Sly] #4'
+        | '[Forgotten Crossroads] [Brooding Mawlek]'
         | '[Grubfather]'
-        | '[Goams]'
+        | '[Forgotten Crossroads] [Goams]'
         | "[Queen's Station]"
-        | '[Bretta]'
+        | "[Bretta]'s house"
         | '[Stone Sanctuary]'
         | '[Royal Waterways]'
         | '[Deepnest] from [Fungal Core]'
@@ -129,19 +130,15 @@ export type ChecksKeys = {
         | '[Seer]'
         | '[Grey Mourner]';
     vesselFragment:
-        | 'Sly #1'
-        | 'Sly #2'
+        | '[Sly] #1'
+        | '[Sly] #2'
         | '[Greenpath]'
         | 'Left of the lift in [Forgotten Crossroads]'
         | "Above [King's Station] near a lift"
         | '[Deepnest]'
         | '[Stag Nest]'
         | '[Seer]'
-        | 'Ancient Basin fountain';
-    colosseum:
-        | '[Trial of the Warrior]'
-        | '[Trial of the Conqueror]'
-        | '[Trial of the Fool]';
+        | '[Ancient Basin] fountain';
     dreamers:
         | '[Herra the Beast]'
         | '[Lurien the Watcher]'
@@ -154,19 +151,26 @@ export type ChecksKeys = {
         | '[Marmu]'
         | '[No Eyes]'
         | '[Xero]'
-        | '[Nightmare King Grimm]';
+        | '[Nightmare King Grimm] / [Banishment]';
     dreamBosses:
         | '[Failed Champion]'
         | '[Grey Prince Zote]'
         | '[Lost Kin]'
         | '[White Defender]'
         | '[Soul Tyrant]';
+    colosseum:
+        | '[Trial of the Warrior]'
+        | '[Trial of the Conqueror]'
+        | '[Trial of the Fool]';
     godhome:
         | '[Godtuner]'
         | '[Pantheon of the Master]'
         | '[Pantheon of the Artist]'
         | '[Pantheon of the Sage]'
         | '[Pantheon of the Knight]';
+    grubs: never;
+    relicsAndItems: never;
+    whisperingRoots: never;
 };
 
 /**
@@ -212,25 +216,25 @@ export type ChecklistState = {
      */
     paleOre: number;
     /**
-     * The number of simple keys collected.
-     */
-    simpleKeys: 0 | 1 | 2 | 3 | 4;
-    /**
      * The required amount of geo.
      */
     geoReq: number;
     /**
-     * The required amount of essence.
+     * The required amount of essence (array to track history and compute max).
      */
-    essenceReq: number;
+    essenceReq: [number];
     /**
      * The required amount of pale ore.
      */
     paleOreReq: number;
     /**
-     * The required number of simple keys.
+     * Indicates if a simple key is required to open the Royal Waterways.
      */
-    simpleKeysReq: 0 | 1 | 2 | 3 | 4;
+    simpleKeyRoyalWaterwaysReq: boolean;
+    /**
+     * Indicates if a simple key is required to open the Godseeker Cocoon.
+     */
+    simpleKeyGodseekerCocoonReq: boolean;
     /**
      * Indicates if an elegant key is required.
      */

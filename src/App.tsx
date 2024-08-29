@@ -35,10 +35,13 @@ const SECTION_TITLES: Record<CheckSection, string> = {
     dreamWarriors: 'Warrior Dreams',
     dreamBosses: 'Dream Bosses (no percents)',
     godhome: 'Godhome',
+    grubs: 'Grubs (no percents)',
+    relicsAndItems: 'Relics and Items (no percents)',
+    whisperingRoots: 'Whispering Roots (no percents)',
 };
 
 const DISTRIBUTED_SECTIONS: CheckSection[][] = [
-    ['bosses', 'equipment', 'spells', 'charms', 'colosseum'],
+    ['bosses', 'equipment', 'spells', 'charms', 'colosseum', 'grubs'],
     [
         'nail',
         'dreamNail',
@@ -49,6 +52,8 @@ const DISTRIBUTED_SECTIONS: CheckSection[][] = [
         'dreamWarriors',
         'dreamBosses',
         'godhome',
+        'relicsAndItems',
+        'whisperingRoots',
     ],
 ];
 
@@ -64,8 +69,8 @@ const App = () => {
         elegantKeyReq,
         loveKeyReq,
         shopkeepersKeyReq,
-        simpleKeys,
-        simpleKeysReq,
+        simpleKeyRoyalWaterwaysReq,
+        simpleKeyGodseekerCocoonReq,
         reset,
         checkAll,
     } = useChecklistStore();
@@ -105,17 +110,16 @@ const App = () => {
                         [GEO] {geo} / {geoReq}
                     </FText>
                     <FText>
-                        [ESSENCE] {essence} / {essenceReq}
-                    </FText>
-                    <FText>
-                        [PALE_ORE] {paleOre} / {paleOreReq}
+                        [ESSENCE] {essence} / {Math.max(...essenceReq)}
                     </FText>
                     <FText>
                         [PALE_ORE] {paleOre} / {paleOreReq}
                     </FText>
 
                     <FText>
-                        [SIMPLE_KEY] {simpleKeys} / {simpleKeysReq}
+                        [SIMPLE_KEY]
+                        {+simpleKeyRoyalWaterwaysReq +
+                            +simpleKeyGodseekerCocoonReq}
                     </FText>
                     <FText>[ELEGANT_KEY] {elegantKeyReq}</FText>
                     <FText>[LOVE_KEY] {loveKeyReq}</FText>

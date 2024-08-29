@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import useChecklistStore from '../../checklist_store';
 import { FlexBox } from '../../styles';
 import { FText } from '../FText/FText';
+import Button from '../Button';
 
 interface ContainerProps {
     $visible: boolean;
@@ -43,11 +44,13 @@ export const SideBar: React.FC<SideBarProps> = ({ visible }) => {
         geoReq,
         essenceReq,
         paleOreReq,
-        simpleKeys,
-        simpleKeysReq,
+        simpleKeyRoyalWaterwaysReq,
+        simpleKeyGodseekerCocoonReq,
         elegantKeyReq,
         loveKeyReq,
         shopkeepersKeyReq,
+        reset,
+        checkAll,
     } = useChecklistStore();
     useChecklistStore();
 
@@ -57,23 +60,26 @@ export const SideBar: React.FC<SideBarProps> = ({ visible }) => {
                 <SidePercentLabel>
                     <FText>{percent.toFixed(2).replace('-0', '0')}%</FText>
                 </SidePercentLabel>
+
+                <Button size='small' label='uncheck all' onClick={reset} />
+                <Button size='small' label='check all' onClick={checkAll} />
+
                 <SideLabel>
                     <FlexBox direction='column'>
                         <FText>
                             [GEO] {geo} / {geoReq}
                         </FText>
                         <FText>
-                            [ESSENCE] {essence} / {essenceReq}
-                        </FText>
-                        <FText>
-                            [PALE_ORE] {paleOre} / {paleOreReq}
+                            [ESSENCE] {essence} / {Math.max(...essenceReq)}
                         </FText>
                         <FText>
                             [PALE_ORE] {paleOre} / {paleOreReq}
                         </FText>
 
                         <FText>
-                            [SIMPLE_KEY] {simpleKeys} / {simpleKeysReq}
+                            [SIMPLE_KEY]
+                            {+simpleKeyRoyalWaterwaysReq +
+                                +simpleKeyGodseekerCocoonReq}
                         </FText>
                         <FText>[ELEGANT_KEY] {elegantKeyReq}</FText>
                         <FText>[LOVE_KEY] {loveKeyReq}</FText>

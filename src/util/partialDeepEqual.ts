@@ -11,7 +11,7 @@ export type Comparable = {
         | boolean
         | string
         | ((...a: any) => any)
-        | Comparable[]
+        | number[]
         | Comparable;
 };
 
@@ -53,8 +53,11 @@ const partialDeepEqual = (
 
         // Check if both values are arrays
         if (Array.isArray(rightValue) && Array.isArray(leftValue)) {
-            // Check if all elements in rightValue are in leftValue
-            return rightValue.every(v => leftValue.includes(v));
+            // Compute the maximum of both arrays
+            const leftMax = Math.max(...leftValue);
+            const rightMax = Math.max(...rightValue);
+            // Use the comparator for the maximum values
+            return comparator(leftMax, rightMax);
         }
         // Check if both values are objects
         else if (typeof rightValue === 'object' && rightValue !== null) {
