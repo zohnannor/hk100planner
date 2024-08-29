@@ -30,8 +30,6 @@ export const FText: React.FC<PropsWithChildren> = ({ children }) => {
         ).toString()
     );
 
-    console.log(children);
-
     return (
         <FTextWrapper>
             {textParts.map((part, n) =>

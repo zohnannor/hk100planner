@@ -17,11 +17,11 @@ const formatCheckListError = (
 
                 switch (typedRequirement) {
                     case 'geo':
-                        return `${error} [GEO]`;
+                        return `[GEO] ${error}`;
                     case 'essence':
-                        return `${error} [ESSENCE]`;
+                        return `[ESSENCE] ${error}`;
                     case 'paleOre':
-                        return `PALE ORE: ${error} [PALE_ORE]`;
+                        return `[PALE_ORE] ${error}`;
                     case 'checks': {
                         return Object.entries(error as Checks)
                             .map(([section, sectionErrors]) => {
@@ -36,37 +36,42 @@ const formatCheckListError = (
                                     case 'dreamers':
                                     case 'dreamWarriors':
                                     case 'dreamBosses': {
-                                        joined += ' defeated';
+                                        joined += 'defeated';
                                         break;
                                     }
                                     case 'equipment':
                                     case 'charms': {
-                                        joined += ' collected';
+                                        joined += 'collected';
                                         break;
                                     }
                                     case 'spells': {
-                                        joined += ' learned';
+                                        joined += 'learned';
                                         break;
                                     }
                                     case 'colosseum': {
-                                        joined += ' completed';
+                                        joined += 'completed';
+                                        break;
+                                    }
+                                    case 'nail':
+                                    case 'dreamNail': {
+                                        joined += 'obtained';
                                         break;
                                     }
                                     default: {
                                         throw new Error(
-                                            `Unimplemented requirement type error for '${typedSection}' section`
+                                            `Unimplemented requirement for '${typedSection}' section`
                                         );
                                     }
                                 }
 
                                 return joined;
                             })
-                            .join('; ');
+                            .join(' and ');
                     }
 
                     default:
                         throw new Error(
-                            `Unimplemented requirement type error for '${typedRequirement}' type`
+                            `Unimplemented requirement for '${typedRequirement}' type`
                         );
                 }
             })
