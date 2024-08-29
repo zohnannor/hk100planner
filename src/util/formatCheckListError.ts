@@ -21,7 +21,7 @@ const formatCheckListError = (
                     case 'essence':
                         return `${error} [ESSENCE]`;
                     case 'paleOre':
-                        return `PALE ORE: ${error} [PALEORE]`;
+                        return `PALE ORE: ${error} [PALE_ORE]`;
                     case 'checks': {
                         return Object.entries(error as Checks)
                             .map(([section, sectionErrors]) => {

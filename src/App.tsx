@@ -4,6 +4,7 @@ import { useIntersectionObserver } from 'usehooks-ts';
 import { LOGO } from './assets/index.ts';
 import useChecklistStore from './checklist_store.ts';
 import { Button } from './components/Button/Button.tsx';
+import { FText } from './components/FText/FText.tsx';
 import Section from './components/Section';
 import { SideBar } from './components/SideBar/SideBar.tsx';
 import { Tooltip } from './components/Tooltip/Tooltip.tsx';
@@ -60,6 +61,11 @@ const App = () => {
         geoReq,
         essenceReq,
         paleOreReq,
+        elegantKeyReq,
+        loveKeyReq,
+        shopkeepersKeyReq,
+        simpleKeys,
+        simpleKeysReq,
         reset,
         checkAll,
     } = useChecklistStore();
@@ -76,8 +82,7 @@ const App = () => {
             <img src={LOGO} alt='logo' />
 
             <Tooltip>
-                [Bro](Pure Vessel ) was tarnished by an idea instilled
-                😭😭😭😭💀
+                [Bro](Pure Vessel) was tarnished by an idea instilled 😭😭😭😭💀
             </Tooltip>
 
             <FlexBox
@@ -94,13 +99,30 @@ const App = () => {
                 {percent.toFixed(2).replace('-0', '0')}%
             </PercentLabel>
 
-            <MainLabel>{geo} geo</MainLabel>
-            <MainLabel>{essence} essence</MainLabel>
-            <MainLabel>{paleOre} pale ore</MainLabel>
+            <MainLabel>
+                <FlexBox direction='column'>
+                    <FText>
+                        [GEO] {geo} / {geoReq}
+                    </FText>
+                    <FText>
+                        [ESSENCE] {essence} / {essenceReq}
+                    </FText>
+                    <FText>
+                        [PALE_ORE] {paleOre} / {paleOreReq}
+                    </FText>
+                    <FText>
+                        [PALE_ORE] {paleOre} / {paleOreReq}
+                    </FText>
 
-            <MainLabel>{geoReq} geo requirement</MainLabel>
-            <MainLabel>{essenceReq} essence requirement</MainLabel>
-            <MainLabel>{paleOreReq} pale ore requirement</MainLabel>
+                    <FText>
+                        [SIMPLE_KEY] {simpleKeys} / {simpleKeysReq}
+                    </FText>
+                    <FText>[ELEGANT_KEY] {elegantKeyReq}</FText>
+                    <FText>[LOVE_KEY] {loveKeyReq}</FText>
+                    <FText>[SHOPKEEPER'S_KEY] {shopkeepersKeyReq}</FText>
+                </FlexBox>
+            </MainLabel>
+
             <SideBar visible={!isIntersecting} />
 
             <MainContent>

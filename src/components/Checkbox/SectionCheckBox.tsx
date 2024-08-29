@@ -46,15 +46,42 @@ type SectionCheckBoxProps = CheckboxProps & {
     description?: string;
 };
 
-export const SectionCheckBox: React.FC<SectionCheckBoxProps> = props => {
-    const { error, description, ...rest } = props;
+const InfoWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+`;
+
+export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
+    error,
+    description,
+    ...rest
+}) => {
     const { onToggle } = rest;
     return (
         <CheckBoxWrapper>
             <OuterShadow onClick={() => onToggle?.()} />
             <CheckBox {...rest} />
-            {description && <QuestionMark />}
-            {error && <ExclamationMark />}
+            {description && (
+                <InfoWrapper
+                    onClick={() => {
+                        /* show description tooltip */
+                        console.log({ description });
+                    }}
+                >
+                    <QuestionMark />
+                </InfoWrapper>
+            )}
+            {error && (
+                <InfoWrapper
+                    onClick={() => {
+                        /* show error tooltip */
+                        console.log({ error });
+                    }}
+                >
+                    <ExclamationMark />
+                </InfoWrapper>
+            )}
         </CheckBoxWrapper>
     );
 };

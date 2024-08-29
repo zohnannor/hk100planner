@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import useChecklistStore from '../../checklist_store';
 import { FlexBox } from '../../styles';
+import { FText } from '../FText/FText';
 
 interface ContainerProps {
     $visible: boolean;
@@ -34,21 +35,51 @@ interface SideBarProps {
 }
 
 export const SideBar: React.FC<SideBarProps> = ({ visible }) => {
-    const { percent, geo, essence, paleOre, geoReq, essenceReq, paleOreReq } =
-        useChecklistStore();
+    const {
+        percent,
+        geo,
+        essence,
+        paleOre,
+        geoReq,
+        essenceReq,
+        paleOreReq,
+        simpleKeys,
+        simpleKeysReq,
+        elegantKeyReq,
+        loveKeyReq,
+        shopkeepersKeyReq,
+    } = useChecklistStore();
+    useChecklistStore();
 
     return (
         <Container $visible={visible}>
             <FlexBox direction='column' align='flex-end'>
                 <SidePercentLabel>
-                    {percent.toFixed(2).replace('-0', '0')}%
+                    <FText>{percent.toFixed(2).replace('-0', '0')}%</FText>
                 </SidePercentLabel>
-                <SideLabel>geo: {geo}</SideLabel>
-                <SideLabel>essence: {essence}</SideLabel>
-                <SideLabel>pale ore: {paleOre}</SideLabel>
-                <SideLabel>geo requirement: {geoReq}</SideLabel>
-                <SideLabel>essence requirement: {essenceReq}</SideLabel>
-                <SideLabel>pale ore requirement: {paleOreReq}</SideLabel>
+                <SideLabel>
+                    <FlexBox direction='column'>
+                        <FText>
+                            [GEO] {geo} / {geoReq}
+                        </FText>
+                        <FText>
+                            [ESSENCE] {essence} / {essenceReq}
+                        </FText>
+                        <FText>
+                            [PALE_ORE] {paleOre} / {paleOreReq}
+                        </FText>
+                        <FText>
+                            [PALE_ORE] {paleOre} / {paleOreReq}
+                        </FText>
+
+                        <FText>
+                            [SIMPLE_KEY] {simpleKeys} / {simpleKeysReq}
+                        </FText>
+                        <FText>[ELEGANT_KEY] {elegantKeyReq}</FText>
+                        <FText>[LOVE_KEY] {loveKeyReq}</FText>
+                        <FText>[SHOPKEEPER'S_KEY] {shopkeepersKeyReq}</FText>
+                    </FlexBox>
+                </SideLabel>
             </FlexBox>
         </Container>
     );

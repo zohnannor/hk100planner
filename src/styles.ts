@@ -22,8 +22,8 @@ export const MainContent = styled.div`
 
 export const MainLabel = styled.span`
     transition: 0.2s;
-    font-size: 22px;
-    line-height: 24px;
+    font-size: 32px;
+    line-height: 34px;
 `;
 
 export const PercentLabel = styled.span`
