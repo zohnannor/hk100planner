@@ -14,12 +14,8 @@ import {
     CheckSection,
     ChecksSection,
     RequirementCheckErrors,
-} from './types/checklist';
-import partialDeepEqual, { Comparable } from './util/partialDeepEqual';
-
-// TODO: Add checks for:
-//   - Grubs
-//   - Relics
+} from '../types/checklist';
+import partialDeepEqual, { Comparable } from '../util/partialDeepEqual';
 
 const INITIAL_CHECKLIST_STATE: ChecklistState = {
     percent: 0,
@@ -716,7 +712,8 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             '[Seer]': {
                 description: 'For collecting [ESSENCE] 1500.',
-                reward: () => ({ percent: 1 / 4 }),
+                reward: () => ({ percent: 1 / 4, essenceReq: [1500] }),
+                requires: () => ({ essence: 1500 }),
             },
             '[Grey Mourner]': {
                 description: 'Requires completing the [Delicate Flower quest].',
@@ -724,7 +721,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
         },
 
-        vesselFragment: {
+        vesselFragments: {
             '[Sly] #1': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 550.',
                 reward: () => ({ percent: 1 / 3, geoReq: 550 }),
@@ -921,7 +918,12 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: () => ({ geo: 100 }),
             },
             '[Trial of the Conqueror]': {
-                reward: () => ({ percent: 1, geoReq: 450, geo: 2000 }),
+                reward: () => ({
+                    percent: 1,
+                    geoReq: 450,
+                    geo: 2000,
+                    paleOre: 1,
+                }),
                 requires: () => ({
                     geo: 450,
                     checks: {

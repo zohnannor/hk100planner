@@ -129,7 +129,7 @@ export type ChecksKeys = {
         | '[Hive]'
         | '[Seer]'
         | '[Grey Mourner]';
-    vesselFragment:
+    vesselFragments:
         | '[Sly] #1'
         | '[Sly] #2'
         | '[Greenpath]'
@@ -174,7 +174,7 @@ export type ChecksKeys = {
 };
 
 /**
- * Represents the keys of the checks defined in ChecksKeys.
+ * Names of the sections of the checks defined in ChecksKeys.
  */
 export type CheckSection = keyof ChecksKeys;
 

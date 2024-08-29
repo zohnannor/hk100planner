@@ -53,6 +53,7 @@ const formatCheckListError = (
                                         break;
                                     }
                                     case 'nail':
+                                    case 'nailArts':
                                     case 'dreamNail': {
                                         joined += 'obtained';
                                         break;
@@ -75,7 +76,7 @@ const formatCheckListError = (
                         );
                 }
             })
-            .join(', ')}`;
+            .join(', ')}.`;
     }
 
     return undefined;

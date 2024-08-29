@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import useChecklistStore from '../../checklist_store';
+import useChecklistStore from '../../stores/checklistStore';
 import { FlexBox } from '../../styles';
 import { FText } from '../FText/FText';
 import Button from '../Button';

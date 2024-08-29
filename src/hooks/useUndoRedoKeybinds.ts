@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import useChecklistStore from '../checklist_store';
+import useChecklistStore from '../stores/checklistStore';
 
 const useUndoRedoKeybinds = () => {
     const { undo, redo } = useChecklistStore.temporal.getState();

@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { useToggle } from 'usehooks-ts';
 
 import { HR } from '../../assets';
+import useChecklistStore from '../../stores/checklistStore';
 import useChecklistStore from '../../checklist_store';
 import { FlexBox } from '../../styles';
 import { CheckSection, ChecksSection } from '../../types/checklist';
