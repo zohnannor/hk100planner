@@ -16,10 +16,11 @@ export interface CheckboxProps {
 }
 
 const CheckBoxLabel = styled.span`
-    max-width: 250px;
+    width: 250px;
     transition: 0.2s;
     font-size: 22px;
     line-height: 24px;
+    text-wrap: pretty;
 `;
 
 const CheckBoxControls = styled.div`

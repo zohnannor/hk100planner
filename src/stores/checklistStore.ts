@@ -24,6 +24,8 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
     essence: 0,
     paleOre: 0,
 
+    grubs: 0,
+
     geoReq: 0,
     essenceReq: [0],
     paleOreReq: 0,
@@ -38,7 +40,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Broken Vessel]': { reward: () => ({ percent: 1 }) },
             '[Brooding Mawlek]': { reward: () => ({ percent: 1 }) },
             '[The Collector]': {
-                reward: () => ({ percent: 1, loveKeyReq: true /* 3 grubs */ }),
+                reward: () => ({ percent: 1, loveKeyReq: true }),
             },
             '[Dung Defender]': {
                 reward: () => ({
@@ -157,7 +159,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: () => ({ geo: 250 }),
             },
             '[Channelled Nail](Nail#Upgrades)': {
-                reward: () => ({ percent: 1, paleOreReq: 1 }),
+                reward: () => ({ percent: 1, geoReq: 800, paleOreReq: 1 }),
                 requires: () => ({
                     geo: 800,
                     paleOre: 1,
@@ -171,7 +173,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 }),
             },
             '[Coiled Nail](Nail#Upgrades)': {
-                reward: () => ({ percent: 1, paleOreReq: 2 }),
+                reward: () => ({ percent: 1, geoReq: 2000, paleOreReq: 2 }),
                 requires: () => ({
                     geo: 2000,
                     paleOre: 2,
@@ -185,7 +187,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 }),
             },
             '[Pure Nail](Nail#Upgrades)': {
-                reward: () => ({ percent: 1, paleOreReq: 3 }),
+                reward: () => ({ percent: 1, geoReq: 4000, paleOreReq: 3 }),
                 requires: () => ({
                     geo: 4000,
                     paleOre: 3,
@@ -347,11 +349,13 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     'Gifted by [Grubfather] after 10 [Grubs] have been freed.',
                 reward: () => ({ percent: 1 }),
+                requires: () => ({ grubs: 10 }),
             },
             "[Grubberfly's Elegy]": {
                 description:
                     'Gifted by [Grubfather] after freeing all 46 [Grubs].',
                 reward: () => ({ percent: 1 }),
+                requires: () => ({ grubs: 46 }),
             },
             '[Fragile Heart] / [Unbreakable Heart]': {
                 description:
@@ -640,7 +644,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Grubfather]': {
                 description: 'Requires rescuing 5 [Grubs].',
                 reward: () => ({ percent: 1 / 4 }),
-                /* 5 grubs */
+                requires: () => ({ grubs: 5 }),
             },
             '[Forgotten Crossroads] [Goams]': {
                 description:
@@ -1036,13 +1040,409 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
         },
 
-        grubs: {},
+        grubs: {
+            '[Forgotten Crossroads] behind [Husk Guard]': {
+                reward: () => ({ grubs: 1 }),
+            },
+            '[Forgotten Crossroads] [Fog Canyon] entrance': {
+                reward: () => ({ grubs: 1 }),
+            },
+            '[Forgotten Crossroads] breakable wall': {
+                reward: () => ({ grubs: 1 }),
+            },
+            '[Forgotten Crossroads] [Pogo](Nail#Nail-bouncing)': {
+                reward: () => ({ grubs: 1 }),
+            },
+            '[Forgotten Crossroads] on a ledge': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Greenpath] with a moss block shortcut': {
+                reward: () => ({ grubs: 1 }),
+            },
+            '[Greenpath] near acid': { reward: () => ({ grubs: 1 }) },
+            '[Greenpath] behind [Moss Knight]': {
+                reward: () => ({ grubs: 1 }),
+            },
+            '[Greenpath] in the middle of a [Durandoo] room': {
+                reward: () => ({ grubs: 1 }),
+            },
+            '[Fungal Wastes] behind a line of [Fungling]s': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                    },
+                }),
+            },
+            '[Fungal Wastes] near [Spore Shroom]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: { '[Mantis Claw]': { checked: true } },
+                    },
+                }),
+            },
+            '[City of Tears] on a ledge': { reward: () => ({ grubs: 1 }) },
+            '[City of Tears] behind [Great Husk Sentry': {
+                reward: () => ({ grubs: 1 }),
+            },
+            '[City of Tears] in the [Desolate Dive] dive': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        spells: { '[Desolate Dive]': { checked: true } },
+                    },
+                }),
+            },
+            '[City of Tears] under the entrance to the [Tower of Love]': {
+                reward: () => ({ grubs: 1 }),
+            },
+            '[City of Tears] room leading to [Watcher Knight]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Crystal Peak] from [Dirtmouth]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                            '[Crystal Heart]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Crystal Peak] behind presses': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Crystal Peak] near [Crystal Heart]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                            '[Crystal Heart]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            "[Crystal Peak] on the way to [Hallownest's Crown]": {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Crystal Peak] vertical conveyor belts lever': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Crystal Peak] from the top room with presses': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Crystal Peak] in the [Crystallized Mound]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                        spells: { '[Desolate Dive]': { checked: true } },
+                    },
+                }),
+            },
+            '[Resting Grounds] [Crypts](Resting Grounds#Crypts)': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        spells: {
+                            '[Desolate Dive]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Royal Waterways] behind a wall near water': {
+                reward: () => ({ grubs: 1 }),
+            },
+            "[Royal Waterways] from the [Kingdom's Edge]": {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Crystal Heart]': { checked: true },
+                            '[Monarch Wings]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            "[Royal Waterways] above [Isma's Tear]": {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            "[Isma's Tear]": { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Howling Cliffs]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            "[Kingdom's Edge] under [Oro]'s hut": {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        spells: { '[Desolate Dive]': { checked: true } },
+                    },
+                }),
+            },
+            "[Kingdom's Edge] behind a [Primal Aspid]": {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Fog Canyon]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Crystal Heart]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            "[Queen's Gardens] under the [Stag] station": {
+                reward: () => ({ grubs: 1 }),
+            },
+            "[Queen's Gardens] above the spiky roof": {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                            '[Mothwing Cloak]': { checked: true },
+                            '[Crystal Heart]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            "[Queen's Gardens] near [White Lady]": {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Deepnest] among [Grub Mimic]s': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Deepnest] above the spiky pit': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Deepnest] on the way to [Nosk]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Crystal Heart]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            "[Deepnest] near the [Weavers' Den]": {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            "[Deepnest] in the [Beast's Den]": {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Ancient Basin] above [Broken Vessel]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                            '[Monarch Wings]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Ancient Basin] under [Cloth]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        spells: { '[Desolate Dive]': { checked: true } },
+                    },
+                }),
+            },
+            "[The Hive] from [Kingdom's Edge]": {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            "[Isma's Tear]": { checked: true },
+                        },
+                        spells: { '[Desolate Dive]': { checked: true } },
+                    },
+                }),
+            },
+            '[The Hive]': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        equipment: {
+                            '[Crystal Heart]': { checked: true },
+                            '[Monarch Wings]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Tower of Love] #1': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        bosses: {
+                            '[The Collector]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Tower of Love] #2': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        bosses: {
+                            '[The Collector]': { checked: true },
+                        },
+                    },
+                }),
+            },
+            '[Tower of Love] #3': {
+                reward: () => ({ grubs: 1 }),
+                requires: () => ({
+                    checks: {
+                        bosses: {
+                            '[The Collector]': { checked: true },
+                        },
+                    },
+                }),
+            },
+        },
 
         relicsAndItems: {},
 
-        whisperingRoots: {},
+        whisperingRoots: {
+            '[Ancestral Mound]': { reward: () => ({ essence: 42 }) },
+            '[City of Tears]': { reward: () => ({ essence: 28 }) },
+            '[Crystal Peak]': { reward: () => ({ essence: 21 }) },
+            '[Deepnest]': { reward: () => ({ essence: 45 }) },
+            '[Forgotten Crossroads]': { reward: () => ({ essence: 29 }) },
+            '[Fungal Wastes] (near [Fog Canyon])': {
+                reward: () => ({ essence: 20 }),
+            },
+            '[Fungal Wastes] (above [Mantis Village])': {
+                reward: () => ({ essence: 18 }),
+            },
+            '[Greenpath]': { reward: () => ({ essence: 44 }) },
+            '[The Hive]': { reward: () => ({ essence: 20 }) },
+            '[Howling Cliffs]': { reward: () => ({ essence: 46 }) },
+            "[Kingdom's Edge]": { reward: () => ({ essence: 51 }) },
+            "[Queen's Gardens]": { reward: () => ({ essence: 29 }) },
+            '[Resting Grounds]': { reward: () => ({ essence: 20 }) },
+            '[Royal Waterways]': { reward: () => ({ essence: 35 }) },
+            "[Spirits' Glade]": { reward: () => ({ essence: 34 }) },
+        },
     },
 };
+
+const GRUB_REWARDS = [
+    10, 20, 30, 40, 0, 50, 60, 70, 80, 0, 90, 100, 110, 120, 120, 0, 140, 150,
+    160, 165, 170, 180, 0, 200, 200, 205, 210, 215, 220, 220, 0, 230, 235, 240,
+    245, 250, 255, 0, 260, 265, 270, 280, 290, 295, 300, 0,
+];
 
 /**
  * Recursively updates the state object based on the provided updates and operation.
@@ -1162,6 +1562,32 @@ const applyReward = (
     }
 };
 
+const grubRewards = (state: ChecklistState, willCheck: boolean) => {
+    const grubs = state.grubs;
+
+    const grubReward = willCheck
+        ? GRUB_REWARDS[grubs - 1]
+        : GRUB_REWARDS[grubs];
+
+    applyReward(state, { geo: grubReward }, willCheck);
+};
+
+const handleCheck = (
+    state: ChecklistState,
+    sectionName: CheckSection,
+    check: Check,
+    willCheck: boolean
+) => {
+    if (check.checked === willCheck) {
+        return;
+    }
+    applyReward(state, check.reward(), willCheck);
+    check.checked = willCheck;
+    if (sectionName === 'grubs') {
+        grubRewards(state, willCheck);
+    }
+};
+
 const useChecklistStore = create<ChecklistState & Action>()(
     persist(
         temporal(
@@ -1169,20 +1595,16 @@ const useChecklistStore = create<ChecklistState & Action>()(
                 ...INITIAL_CHECKLIST_STATE,
 
                 reset: (sectionName?: CheckSection) => {
-                    const handleCheck = (
-                        state: ChecklistState,
-                        check: Check
-                    ) => {
-                        if (check.checked) {
-                            applyReward(state, check.reward(), false);
-                        }
-                        check.checked = false;
-                    };
-
                     if (sectionName) {
                         set(state => {
                             Object.values(state.checks[sectionName]).forEach(
-                                check => handleCheck(state, check)
+                                check =>
+                                    handleCheck(
+                                        state,
+                                        sectionName,
+                                        check,
+                                        false
+                                    )
                             );
                         });
                     } else {
@@ -1195,29 +1617,27 @@ const useChecklistStore = create<ChecklistState & Action>()(
                 },
 
                 checkAll: (sectionName?: CheckSection) => {
-                    const handleCheck = (
-                        state: ChecklistState,
-                        check: Check
-                    ) => {
-                        if (!check.checked) {
-                            applyReward(state, check.reward(), true);
-                        }
-                        check.checked = true;
-                    };
-
                     if (sectionName) {
                         set(state => {
                             Object.values(state.checks[sectionName]).forEach(
-                                check => handleCheck(state, check)
+                                check =>
+                                    handleCheck(state, sectionName, check, true)
                             );
                         });
                     } else {
                         set(state => {
-                            Object.values(state.checks).forEach(section => {
-                                Object.values(section).forEach(check =>
-                                    handleCheck(state, check)
-                                );
-                            });
+                            Object.entries(state.checks).forEach(
+                                ([sectionName, section]) => {
+                                    Object.values(section).forEach(check =>
+                                        handleCheck(
+                                            state,
+                                            sectionName as CheckSection,
+                                            check,
+                                            true
+                                        )
+                                    );
+                                }
+                            );
                         });
                     }
                 },
@@ -1238,6 +1658,11 @@ const useChecklistStore = create<ChecklistState & Action>()(
 
                         const reward = check.reward();
                         applyReward(state, reward, willCheck);
+
+                        // Special case for grubs
+                        if (section === 'grubs') {
+                            grubRewards(state, willCheck);
+                        }
                     });
                 },
 

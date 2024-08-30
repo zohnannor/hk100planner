@@ -1,35 +1,21 @@
 import { PartialDeep } from 'type-fest';
 
-/**
- * Represents a reward (updates to the state) a check can provide.
- */
+/** Represents a reward (updates to the state) a check can provide. */
 export type CheckRewards = Partial<Omit<ChecklistState, 'checks'>>;
 
-/**
- * Represents a single check in the checklist.
- */
+/** Represents a single check in the checklist. */
 export type Check = {
-    /**
-     * Indicates whether the check is marked as completed.
-     */
+    /** Indicates whether the check is marked as completed. */
     checked?: boolean;
-    /**
-     * An optional description of the check.
-     */
+    /** An optional description of the check. */
     description?: string;
-    /**
-     * A function that returns the reward for completing this check.
-     */
+    /** A function that returns the reward for completing this check. */
     reward: () => CheckRewards;
-    /**
-     * A function that returns the requirements for this check.
-     */
+    /** A function that returns the requirements for this check. */
     requires?: () => PartialDeep<ChecklistState>;
 };
 
-/**
- * Defines the keys for various checks in the checklist.
- */
+/** Defines the keys for various checks in the checklist. */
 export type ChecksKeys = {
     bosses:
         | '[Broken Vessel]'
@@ -168,14 +154,73 @@ export type ChecksKeys = {
         | '[Pantheon of the Artist]'
         | '[Pantheon of the Sage]'
         | '[Pantheon of the Knight]';
-    grubs: never;
+    grubs:
+        | '[Forgotten Crossroads] behind [Husk Guard]'
+        | '[Forgotten Crossroads] [Fog Canyon] entrance'
+        | '[Forgotten Crossroads] breakable wall'
+        | '[Forgotten Crossroads] [Pogo](Nail#Nail-bouncing)'
+        | '[Forgotten Crossroads] on a ledge'
+        | '[Greenpath] with a moss block shortcut'
+        | '[Greenpath] near acid'
+        | '[Greenpath] behind [Moss Knight]'
+        | '[Greenpath] in the middle of a [Durandoo] room'
+        | '[Fungal Wastes] behind a line of [Fungling]s'
+        | '[Fungal Wastes] near [Spore Shroom]'
+        | '[City of Tears] on a ledge'
+        | '[City of Tears] behind [Great Husk Sentry'
+        | '[City of Tears] in the [Desolate Dive] dive'
+        | '[City of Tears] under the entrance to the [Tower of Love]'
+        | '[City of Tears] room leading to [Watcher Knight]'
+        | '[Crystal Peak] from [Dirtmouth]'
+        | '[Crystal Peak] behind presses'
+        | '[Crystal Peak] near [Crystal Heart]'
+        | "[Crystal Peak] on the way to [Hallownest's Crown]"
+        | '[Crystal Peak] vertical conveyor belts lever'
+        | '[Crystal Peak] from the top room with presses'
+        | '[Crystal Peak] in the [Crystallized Mound]'
+        | '[Resting Grounds] [Crypts](Resting Grounds#Crypts)'
+        | '[Royal Waterways] behind a wall near water'
+        | "[Royal Waterways] from the [Kingdom's Edge]"
+        | "[Royal Waterways] above [Isma's Tear]"
+        | '[Howling Cliffs]'
+        | "[Kingdom's Edge] under [Oro]'s hut"
+        | "[Kingdom's Edge] behind a [Primal Aspid]"
+        | '[Fog Canyon]'
+        | "[Queen's Gardens] under the [Stag] station"
+        | "[Queen's Gardens] above the spiky roof"
+        | "[Queen's Gardens] near [White Lady]"
+        | '[Deepnest] among [Grub Mimic]s'
+        | '[Deepnest] above the spiky pit'
+        | '[Deepnest] on the way to [Nosk]'
+        | "[Deepnest] near the [Weavers' Den]"
+        | "[Deepnest] in the [Beast's Den]"
+        | '[Ancient Basin] above [Broken Vessel]'
+        | '[Ancient Basin] under [Cloth]'
+        | "[The Hive] from [Kingdom's Edge]"
+        | '[The Hive]'
+        | '[Tower of Love] #1'
+        | '[Tower of Love] #2'
+        | '[Tower of Love] #3';
     relicsAndItems: never;
-    whisperingRoots: never;
+    whisperingRoots:
+        | '[Ancestral Mound]'
+        | '[City of Tears]'
+        | '[Crystal Peak]'
+        | '[Deepnest]'
+        | '[Forgotten Crossroads]'
+        | '[Fungal Wastes] (near [Fog Canyon])'
+        | '[Fungal Wastes] (above [Mantis Village])'
+        | '[Greenpath]'
+        | '[The Hive]'
+        | '[Howling Cliffs]'
+        | "[Kingdom's Edge]"
+        | "[Queen's Gardens]"
+        | '[Resting Grounds]'
+        | '[Royal Waterways]'
+        | "[Spirits' Glade]";
 };
 
-/**
- * Names of the sections of the checks defined in ChecksKeys.
- */
+/** Names of the sections of the checks defined in ChecksKeys. */
 export type CheckSection = keyof ChecksKeys;
 
 /**
@@ -188,74 +233,44 @@ export type ChecksSection<Section extends CheckSection> = Record<
     Check
 >;
 
-/**
- * Represents the entire checklist containing all sections of checks.
- */
+/** Represents the entire checklist containing all sections of checks. */
 export type Checks = {
     [Section in CheckSection]: ChecksSection<Section>;
 };
 
-/**
- * Represents the state of the checklist, including progress and requirements.
- */
+/** Represents the state of the checklist, including progress and requirements. */
 export type ChecklistState = {
-    /**
-     * The percentage of completion for the checklist.
-     */
+    /** The percentage of completion for the checklist. */
     percent: number;
-    /**
-     * The amount of geo collected.
-     */
+    /** The amount of geo collected. */
     geo: number;
-    /**
-     * The amount of essence collected.
-     */
+    /** The amount of essence collected. */
     essence: number;
-    /**
-     * The amount of pale ore collected.
-     */
+    /** The amount of pale ore collected. */
     paleOre: number;
-    /**
-     * The required amount of geo.
-     */
+    /** The amount of grubs collected. */
+    grubs: number;
+    /** The required amount of geo. */
     geoReq: number;
-    /**
-     * The required amount of essence (array to track history and compute max).
-     */
+    /** The required amount of essence (array to track history and compute max). */
     essenceReq: [number];
-    /**
-     * The required amount of pale ore.
-     */
+    /** The required amount of pale ore. */
     paleOreReq: number;
-    /**
-     * Indicates if a simple key is required to open the Royal Waterways.
-     */
+    /** Indicates if a simple key is required to open the Royal Waterways. */
     simpleKeyRoyalWaterwaysReq: boolean;
-    /**
-     * Indicates if a simple key is required to open the Godseeker Cocoon.
-     */
+    /** Indicates if a simple key is required to open the Godseeker Cocoon. */
     simpleKeyGodseekerCocoonReq: boolean;
-    /**
-     * Indicates if an elegant key is required.
-     */
+    /** Indicates if an elegant key is required. */
     elegantKeyReq: boolean;
-    /**
-     * Indicates if a love key is required.
-     */
+    /** Indicates if a love key is required. */
     loveKeyReq: boolean;
-    /**
-     * Indicates if a shopkeeper's key is required.
-     */
+    /** Indicates if a shopkeeper's key is required. */
     shopkeepersKeyReq: boolean;
-    /**
-     * The checks that make up the checklist.
-     */
+    /** The checks that make up the checklist. */
     checks: Checks;
 };
 
-/**
- * Represents actions that can be performed on the checklist.
- */
+/** Represents actions that can be performed on the checklist. */
 export type Action = {
     /**
      * Toggles the checked state of a specific check.
@@ -267,13 +282,9 @@ export type Action = {
         section: S,
         name: keyof ChecksSection<S>
     ) => void;
-    /**
-     * Checks all items in the checklist or the specific section.
-     */
+    /** Checks all items in the checklist or the specific section. */
     checkAll: (sectionName?: CheckSection) => void;
-    /**
-     * Resets the checklist or the specific section to its initial state.
-     */
+    /** Resets the checklist or the specific section to its initial state. */
     reset: (sectionName?: CheckSection) => void;
     /**
      * Validates the current state of the checklist against its requirements.
@@ -284,16 +295,12 @@ export type Action = {
     validateChecks: (state: ChecklistState) => RequirementCheckErrors;
 };
 
-/**
- * Represents any errors found during the validation of checklist requirements.
- */
+/** Represents any errors found during the validation of checklist requirements. */
 export type RequirementCheckErrors = {
     [CheckName in keyof ChecksSection<
         keyof Checks
     >]?: PartialDeep<ChecklistState>;
 };
 
-/**
- * Represents a generic object with string keys and any type of values.
- */
+/** Represents a generic object with string keys and any type of values. */
 export type AnyObject = { [key: string]: any };

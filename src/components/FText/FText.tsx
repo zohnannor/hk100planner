@@ -5,6 +5,7 @@ import renderLink from '../../util/renderLink';
 
 export const FTextWrapper = styled.span`
     white-space: pre-line;
+    text-wrap: pretty;
 
     & a {
         color: white;

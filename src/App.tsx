@@ -36,7 +36,7 @@ const SECTION_TITLES: Record<CheckSection, string> = {
     dreamWarriors: '[Warrior Dreams]',
     dreamBosses: '[Dream Bosses](Bosses (Hollow Knight)#Boss_Variants)',
     godhome: '[Godhome]',
-    grubs: '[Grubs] (no percents)',
+    grubs: '[Grubs](Grub#Rewards_and_locations) (no percents)',
     relicsAndItems: '[Relics and Items](Items) (no percents)',
     whisperingRoots: '[Whispering Roots](Whispering Root) (no percents)',
 };

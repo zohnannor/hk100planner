@@ -22,6 +22,8 @@ const formatCheckListError = (
                         return `[ESSENCE] ${error}`;
                     case 'paleOre':
                         return `[PALE_ORE] ${error}`;
+                    case 'grubs':
+                        return `${error} grubs rescued`;
                     case 'checks': {
                         return Object.entries(error as Checks)
                             .map(([section, sectionErrors]) => {
@@ -40,7 +42,8 @@ const formatCheckListError = (
                                         break;
                                     }
                                     case 'equipment':
-                                    case 'charms': {
+                                    case 'charms':
+                                    case 'relicsAndItems': {
                                         joined += 'collected';
                                         break;
                                     }
@@ -56,6 +59,10 @@ const formatCheckListError = (
                                     case 'nailArts':
                                     case 'dreamNail': {
                                         joined += 'obtained';
+                                        break;
+                                    }
+                                    case 'grubs': {
+                                        joined += 'rescued';
                                         break;
                                     }
                                     default: {
