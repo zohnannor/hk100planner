@@ -10,9 +10,9 @@ export type Check = {
     /** An optional description of the check. */
     description?: string;
     /** A function that returns the reward for completing this check. */
-    reward: () => CheckRewards;
+    reward: CheckRewards;
     /** A function that returns the requirements for this check. */
-    requires?: () => PartialDeep<ChecklistState>;
+    requires?: PartialDeep<ChecklistState>;
 };
 
 /** Defines the keys for various checks in the checklist. */
@@ -41,8 +41,7 @@ export type ChecksKeys = {
         | '[Monarch Wings]'
         | '[Mothwing Cloak]'
         | '[Shade Cloak]'
-        | "[King's Brand]"
-        | '[Lumafly Lantern] (no percent)';
+        | "[King's Brand]";
     nail:
         | '[Sharpened Nail](Nail#Upgrades)'
         | '[Channelled Nail](Nail#Upgrades)'
@@ -196,12 +195,71 @@ export type ChecksKeys = {
         | "[Deepnest] in the [Beast's Den]"
         | '[Ancient Basin] above [Broken Vessel]'
         | '[Ancient Basin] under [Cloth]'
-        | "[The Hive] from [Kingdom's Edge]"
+        | '[The Hive] isolated room'
         | '[The Hive]'
         | '[Tower of Love] #1'
         | '[Tower of Love] #2'
         | '[Tower of Love] #3';
-    relicsAndItems: never;
+    relicsAndItems:
+        | '[SIMPLE_KEY] [Simple Key] from [Sly]'
+        | '[SIMPLE_KEY] [Simple Key] near [City Storerooms]'
+        | '[SIMPLE_KEY] [Simple Key] in the [Ancient Basin]'
+        | '[SIMPLE_KEY] [Simple Key] behind [Pale Lurker]'
+        | '[ELEGANT_KEY] [Elegant Key]'
+        | '[LOVE_KEY] [Love Key]'
+        | "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]"
+        | '[Tram Pass]'
+        | '[Lumafly Lantern]'
+        | '[Delicate Flower]'
+        | '[PALE_ORE] [Pale Ore] in [Ancient Basin] below [Cloth]'
+        | '[PALE_ORE] [Pale Ore] awarded by the [Seer]'
+        | "[PALE_ORE] [Pale Ore] on the [Hallownest's Crown]"
+        | '[PALE_ORE] [Pale Ore] behind [Nosk]s lair'
+        | '[PALE_ORE] [Pale Ore] awarded by [Grubfather]'
+        | '[PALE_ORE] [Pale Ore] reward in [Trial of the Conqueror]'
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Greenpath] near a [Stag Station]"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Greenpath] near [Fog Canyon] entrance"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Fungal Wastes] near [Shrumal Ogre]s"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] north of the [Mantis Village]"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [City Storerooms]"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] north of [King's Station]"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Pleasure House]"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Howling Cliffs]"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Crystal Peak]"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Crypts](Resting Grounds#Crypts)"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Royal Waterways]"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] near [City of Tears] entrance"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] next to the [Cast-Off Shell] [Bench]"
+        | "[WANDERER'S_JOURNAL] [Wanderer's Journal] near [Markoth]"
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by [Grubfather]'
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] in the well to [Forgotten Crossroads]'
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] near [Thorns of Agony]'
+        | "[HALLOWNEST_SEAL] [Hallownest Seal] near [Queen's Station]"
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] in [Mantis Village]'
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] at the [Willoh]'
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] near [Overgrown Mound]'
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] in [Forgotten Crossroads] in [Fog Canyon] entrance'
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] in [Crypts](Resting Grounds#Crypts)'
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by [Seer]'
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] near [Relic Seeker Lemm]'
+        | "[HALLOWNEST_SEAL] [Hallownest Seal] above [King's Station] [Stag Station]"
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] near [Soul Master]'
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] behind [Watcher Knight]'
+        | "[HALLOWNEST_SEAL] [Hallownest Seal] in [Beast's Den]"
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] in [Deepnest] near [Mantis Lords]'
+        | "[HALLOWNEST_SEAL] [Hallownest Seal] in [Queen's Gardens]"
+        | "[KING'S_IDOL] [King's Idol] awarded by [Grubfather]"
+        | "[KING'S_IDOL] [King's Idol] in [Crystal Peak]"
+        | "[KING'S_IDOL] [King's Idol] in [Spirits' Glade]"
+        | "[KING'S_IDOL] [King's Idol] in [Dung Defender]'s secret room"
+        | "[KING'S_IDOL] [King's Idol] in [Howling Cliffs]"
+        | "[KING'S_IDOL] [King's Idol] under [Colosseum of Fools]"
+        | "[KING'S_IDOL] [King's Idol] near [Pale Lurker]"
+        | "[KING'S_IDOL] [King's Idol] in [Deepnest] near [Zote]"
+        | '[ARCANE_EGG] [Arcane Egg] below [Lifeblood Core]'
+        | '[ARCANE_EGG] [Arcane Egg] near [Shade Cloak]'
+        | '[ARCANE_EGG] [Arcane Egg] in [Birthplace]'
+        | '[ARCANE_EGG] [Arcane Egg] awarded by [Seer]';
     whisperingRoots:
         | '[Ancestral Mound]'
         | '[City of Tears]'
@@ -250,22 +308,16 @@ export type ChecklistState = {
     paleOre: number;
     /** The amount of grubs collected. */
     grubs: number;
+    /** The amount of simple keys collected. */
+    simpleKeys: number;
     /** The required amount of geo. */
     geoReq: number;
     /** The required amount of essence (array to track history and compute max). */
     essenceReq: [number];
     /** The required amount of pale ore. */
     paleOreReq: number;
-    /** Indicates if a simple key is required to open the Royal Waterways. */
-    simpleKeyRoyalWaterwaysReq: boolean;
-    /** Indicates if a simple key is required to open the Godseeker Cocoon. */
-    simpleKeyGodseekerCocoonReq: boolean;
-    /** Indicates if an elegant key is required. */
-    elegantKeyReq: boolean;
-    /** Indicates if a love key is required. */
-    loveKeyReq: boolean;
-    /** Indicates if a shopkeeper's key is required. */
-    shopkeepersKeyReq: boolean;
+    /** The required amount of simple keys. */
+    simpleKeysReq: number;
     /** The checks that make up the checklist. */
     checks: Checks;
 };

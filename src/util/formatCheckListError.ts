@@ -24,6 +24,8 @@ const formatCheckListError = (
                         return `[PALE_ORE] ${error}`;
                     case 'grubs':
                         return `${error} grubs rescued`;
+                    case 'simpleKeys':
+                        return `${error} simple key(s) collected`;
                     case 'checks': {
                         return Object.entries(error as Checks)
                             .map(([section, sectionErrors]) => {
@@ -63,6 +65,10 @@ const formatCheckListError = (
                                     }
                                     case 'grubs': {
                                         joined += 'rescued';
+                                        break;
+                                    }
+                                    case 'godhome': {
+                                        joined += 'completed';
                                         break;
                                     }
                                     default: {

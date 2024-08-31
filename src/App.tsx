@@ -42,7 +42,7 @@ const SECTION_TITLES: Record<CheckSection, string> = {
 };
 
 const DISTRIBUTED_SECTIONS: CheckSection[][] = [
-    ['bosses', 'equipment', 'spells', 'charms', 'colosseum', 'grubs'],
+    ['bosses', 'equipment', 'spells', 'charms', 'colosseum', 'relicsAndItems'],
     [
         'nail',
         'dreamNail',
@@ -53,7 +53,7 @@ const DISTRIBUTED_SECTIONS: CheckSection[][] = [
         'dreamWarriors',
         'dreamBosses',
         'godhome',
-        'relicsAndItems',
+        'grubs',
         'whisperingRoots',
     ],
 ];
@@ -71,15 +71,12 @@ const App = () => {
         percent,
         geo,
         essence,
+        simpleKeys,
         paleOre,
         geoReq,
         essenceReq,
         paleOreReq,
-        elegantKeyReq,
-        loveKeyReq,
-        shopkeepersKeyReq,
-        simpleKeyRoyalWaterwaysReq,
-        simpleKeyGodseekerCocoonReq,
+        simpleKeysReq,
         reset,
         checkAll,
     } = useChecklistStore();
@@ -96,7 +93,7 @@ const App = () => {
     useParallaxBackground(backgroundRef);
 
     const info = (
-        <FlexBox $direction='column'>
+        <FlexBox $direction='column' $align='center'>
             <FText>
                 [GEO] {geo} / {geoReq}
             </FText>
@@ -106,16 +103,9 @@ const App = () => {
             <FText>
                 [PALE_ORE] {paleOre} / {paleOreReq}
             </FText>
-
-            {(simpleKeyRoyalWaterwaysReq || simpleKeyGodseekerCocoonReq) && (
-                <FText>
-                    [SIMPLE_KEY]
-                    {+simpleKeyRoyalWaterwaysReq + +simpleKeyGodseekerCocoonReq}
-                </FText>
-            )}
-            {elegantKeyReq && <FText>[ELEGANT_KEY] required</FText>}
-            {loveKeyReq && <FText>[LOVE_KEY] required</FText>}
-            {shopkeepersKeyReq && <FText>[SHOPKEEPER'S_KEY] required</FText>}
+            <FText>
+                [SIMPLE_KEY] {simpleKeys} / {simpleKeysReq}
+            </FText>
         </FlexBox>
     );
 
