@@ -59,7 +59,7 @@ const renderLink = (text: string) => {
                 result.push({
                     type: 'link',
                     val,
-                    link: WIKI_URL_BASE + link,
+                    link: link.startsWith('http') ? link : WIKI_URL_BASE + link,
                 });
             } else {
                 const icon = ICONS[val];

@@ -59,13 +59,18 @@ const DISTRIBUTED_SECTIONS: CheckSection[][] = [
     ],
 ];
 
-const ABOUT_TEXT =
+const DESCRIPTION_TEXT =
     'This is a tool to help you plan your Hollow Knight ["Speed Completion"](Achievements (Hollow Knight)#Challenges) achievement checklist. ' +
     'For it, you need to achieve 100% completion in under 20 hours. ' +
     "As the game with all DLCs has a maximum of 112% completion, you can skip some of the checks from the base game you don't want to do, and do them in the DLC instead. " +
     'Additionally, [not everything counts as a check](Completion (Hollow Knight)). ' +
-    'So what you should do? ' +
-    'Check the boxes and the tool will tell you what things depend on other things.';
+    'So what should you do? ' +
+    'Check the boxes and the tool will tell you what things depend on other things. ' +
+    'Also helpful for ["Steel Heart"](Achievements (Hollow Knight)#Challenges) achievement!';
+
+const ABOUT_TEXT =
+    'Made by [me](https://github.com/zohnannor) (mostly logic) and [my friend](https://github.com/swbuwk) (mostly design). ' +
+    'Check out [the repo](https://github.com/zohnannor/hk100planner) and leave a star if you like it! :)';
 
 const App = () => {
     const {
@@ -119,14 +124,38 @@ const App = () => {
             <div ref={backgroundRef} className='background' />
             <img src={LOGO} alt='logo' />
 
-            <Button
-                label='What?'
-                size='small'
-                onClick={() => {
-                    setTooltipText(ABOUT_TEXT);
-                    openTooltip();
-                }}
-            />
+            <FlexBox $margin={'16px 0'}>
+                <Button
+                    label='What?'
+                    size='small'
+                    onClick={() => {
+                        setTooltipText(DESCRIPTION_TEXT);
+                        openTooltip();
+                    }}
+                />
+                <Button
+                    label='Settings'
+                    size='small'
+                    onClick={() => alert('TODO: UI Settings')}
+                />
+                <Button
+                    label='About'
+                    size='small'
+                    onClick={() => {
+                        setTooltipText(ABOUT_TEXT);
+                        openTooltip();
+                    }}
+                />
+                <Button
+                    label='Report a bug'
+                    size='small'
+                    onClick={() => {
+                        window.open(
+                            'https://github.com/zohnannor/hk100planner/issues/new'
+                        );
+                    }}
+                />
+            </FlexBox>
 
             <Tooltip>{tooltipText}</Tooltip>
 

@@ -60,6 +60,7 @@ type FlexBoxProps = {
     $wrap?: Property.FlexWrap;
     $fullWidth?: boolean;
     $position?: Property.Position;
+    $margin?: Property.Margin;
 };
 
 export const FlexBox = styled.div<FlexBoxProps>`
@@ -71,4 +72,5 @@ export const FlexBox = styled.div<FlexBoxProps>`
     flex-direction: ${({ $direction }) => $direction};
     gap: ${({ $gap }) => $gap};
     flex-wrap: ${({ $wrap }) => $wrap};
+    margin: ${({ $margin }) => $margin};
 `;
