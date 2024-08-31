@@ -5,6 +5,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
+import { GRUB_REWARDS } from '../constants';
 import {
     Action,
     AnyObject,
@@ -1281,7 +1282,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             },
-            '[Deepnest] above the spiky pit': {
+            '[Deepnest] above the spike pit': {
                 reward: { grubs: 1 },
                 requires: {
                     checks: {
@@ -1805,12 +1806,6 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
         },
     },
 };
-
-const GRUB_REWARDS = [
-    10, 20, 30, 40, 0, 50, 60, 70, 80, 0, 90, 100, 110, 120, 120, 0, 140, 150,
-    160, 165, 170, 180, 0, 200, 200, 205, 210, 215, 220, 220, 0, 230, 235, 240,
-    245, 250, 255, 0, 260, 265, 270, 280, 290, 295, 300, 0,
-];
 
 /**
  * Recursively updates the state object based on the provided updates and operation.

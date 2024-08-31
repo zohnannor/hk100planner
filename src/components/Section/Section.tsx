@@ -9,6 +9,7 @@ import formatCheckListError from '../../util/formatCheckListError';
 import Button from '../Button';
 import { SectionCheckBox } from '../Checkbox/SectionCheckBox';
 import { FText } from '../FText/FText';
+import { OFFICIAL_TM_GRUB_NAMES } from '../../constants';
 
 const SectionWrapper = styled.div`
     display: flex;
@@ -89,6 +90,9 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
     const setChecklistHasErrors = useUiStore(
         state => state.setChecklistHasErrors
     );
+    const useOfficialTMGrubNames = useUiStore(
+        state => state.useOfficialTMGrubNames
+    );
 
     const folded = hiddenSections.includes(sectionName);
     const errors = shouldValidateChecks ? validateChecks() : {};
@@ -125,12 +129,20 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
             >
                 {Object.entries(section).map(([name, check]) => {
                     const typedName = name as keyof ChecksSection<CheckSection>;
+
+                    const label =
+                        useOfficialTMGrubNames && sectionName === 'grubs'
+                            ? OFFICIAL_TM_GRUB_NAMES[
+                                  typedName as keyof ChecksSection<'grubs'>
+                              ]
+                            : name;
+
                     return (
                         <SectionCheckBox
-                            label={name}
+                            label={label}
                             defaultChecked={check.checked}
                             description={check.description}
-                            key={name}
+                            key={label}
                             onToggle={() => toggle(sectionName, typedName)}
                             error={formatCheckListError(
                                 typedName,

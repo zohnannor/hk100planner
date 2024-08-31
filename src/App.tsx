@@ -7,7 +7,13 @@ import { FText } from './components/FText/FText.tsx';
 import Section from './components/Section';
 import { SideBar } from './components/SideBar/SideBar.tsx';
 import { Tooltip } from './components/Tooltip/Tooltip.tsx';
-import { COLORS } from './constants.ts';
+import {
+    ABOUT_TEXT,
+    COLORS,
+    DESCRIPTION_TEXT,
+    DISTRIBUTED_SECTIONS,
+    SECTION_TITLES,
+} from './constants.ts';
 import { useParallaxBackground } from './hooks/useParallaxBackground.ts';
 import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds.ts';
 import useChecklistStore from './stores/checklistStore.ts';
@@ -20,57 +26,6 @@ import {
     PercentLabel,
     SectionsColumn,
 } from './styles';
-import { CheckSection } from './types/checklist.ts';
-
-const SECTION_TITLES: Record<CheckSection, string> = {
-    bosses: '[Bosses](Bosses (Hollow Knight))',
-    equipment: '[Equipment](Abilities)',
-    spells: '[Spells]',
-    nail: '[Nail]',
-    dreamNail: '[Dream Nail]',
-    nailArts: '[Nail Arts]',
-    charms: '[Charms]',
-    maskShards: '[Mask Shards]',
-    vesselFragments: '[Vessel Fragments]',
-    colosseum: '[Colosseum of Fools]',
-    dreamers: '[Dreamers]',
-    dreamWarriors: '[Warrior Dreams]',
-    dreamBosses: '[Dream Bosses](Bosses (Hollow Knight)#Boss_Variants)',
-    godhome: '[Godhome]',
-    grubs: '[Grubs](Grub#Rewards_and_locations) (no percents)',
-    relicsAndItems: '[Relics and Items](Items) (no percents)',
-    whisperingRoots: '[Whispering Roots](Whispering Root) (no percents)',
-};
-
-const DISTRIBUTED_SECTIONS: CheckSection[][] = [
-    ['bosses', 'equipment', 'spells', 'charms', 'colosseum', 'relicsAndItems'],
-    [
-        'nail',
-        'dreamNail',
-        'nailArts',
-        'maskShards',
-        'vesselFragments',
-        'dreamers',
-        'dreamWarriors',
-        'dreamBosses',
-        'godhome',
-        'grubs',
-        'whisperingRoots',
-    ],
-];
-
-const DESCRIPTION_TEXT =
-    'This is a tool to help you plan your Hollow Knight ["Speed Completion"](Achievements (Hollow Knight)#Challenges) achievement checklist. ' +
-    'For it, you need to achieve 100% completion in under 20 hours. ' +
-    "As the game with all DLCs has a maximum of 112% completion, you can skip some of the checks from the base game you don't want to do, and do them in the DLC instead. " +
-    'Additionally, [not everything counts as a check](Completion (Hollow Knight)). ' +
-    'So what should you do? ' +
-    'Check the boxes and the tool will tell you what things depend on other things. ' +
-    'Also helpful for ["Steel Heart"](Achievements (Hollow Knight)#Challenges) achievement!';
-
-const ABOUT_TEXT =
-    'Made by [me](https://github.com/zohnannor) (mostly logic) and [my friend](https://github.com/swbuwk) (mostly design). ' +
-    'Check out [the repo](https://github.com/zohnannor/hk100planner) and leave a star if you like it! :)';
 
 const App = () => {
     const {

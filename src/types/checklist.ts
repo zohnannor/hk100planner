@@ -189,7 +189,7 @@ export type ChecksKeys = {
         | "[Queen's Gardens] above the spiky roof"
         | "[Queen's Gardens] near [White Lady]"
         | '[Deepnest] among [Grub Mimic]s'
-        | '[Deepnest] above the spiky pit'
+        | '[Deepnest] above the spike pit'
         | '[Deepnest] on the way to [Nosk]'
         | "[Deepnest] near the [Weavers' Den]"
         | "[Deepnest] in the [Beast's Den]"

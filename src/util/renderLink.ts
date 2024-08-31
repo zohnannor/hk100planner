@@ -12,7 +12,7 @@ import {
     SLY_KEY,
 } from '../assets';
 
-export const WIKI_URL_BASE = 'https://hollowknight.wiki/w/';
+const WIKI_URL_BASE = 'https://hollowknight.wiki/w/';
 
 const ICONS: Record<string, string> = {
     GEO: GEO,

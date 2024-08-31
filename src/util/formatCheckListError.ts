@@ -1,3 +1,5 @@
+import { OFFICIAL_TM_GRUB_NAMES } from '../constants';
+import useUiStore from '../stores/uiStore';
 import {
     ChecklistState,
     Checks,
@@ -11,7 +13,17 @@ const formatCheckListError = (
     errors: RequirementCheckErrors[keyof ChecksSection<CheckSection>]
 ): string | undefined => {
     if (errors) {
-        return `${checkName} requires ${Object.entries(errors)
+        const useOfficialTMGrubNames =
+            useUiStore.getState().useOfficialTMGrubNames;
+        const name =
+            useOfficialTMGrubNames &&
+            Object.keys(OFFICIAL_TM_GRUB_NAMES).includes(checkName)
+                ? OFFICIAL_TM_GRUB_NAMES[
+                      checkName as keyof ChecksSection<'grubs'>
+                  ]
+                : checkName;
+
+        return `${name} requires ${Object.entries(errors)
             .map(([requirement, error]) => {
                 const typedRequirement = requirement as keyof ChecklistState;
 
