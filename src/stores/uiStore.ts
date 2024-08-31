@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
+import { SECTION_TITLES } from '../constants';
 import { CheckSection } from '../types/checklist';
 
 type UiState = {
@@ -10,15 +11,16 @@ type UiState = {
     /** The text of the tooltip. */
     tooltipText: string;
 
-    /** The sections that are hidden. */
-    hiddenSections: CheckSection[];
+    /** The sections that are collapsed. */
+    collapsedSections: CheckSection[];
 
     /** Whether the checks should be validated. */
-    shouldValidateChecks: boolean;
+    checksValidation: boolean;
 
     /** Whether the checklist has errors. */
     checklistHasErrors: boolean;
 
+    /** Whether to use official:tm: grub names. */
     useOfficialTMGrubNames: boolean;
 };
 
@@ -31,15 +33,15 @@ type UiActions = {
     openTooltip: () => void;
 
     /** Toggles the visibility of a section. */
-    toggleSection: (section: CheckSection) => void;
+    toggleSection: (section?: CheckSection) => void;
 
     /** Toggles whether the checks should be validated. */
-    toggleShouldValidateChecks: () => void;
+    toggleChecksValidation: () => void;
 
     /** Sets the checklist has errors. */
     setChecklistHasErrors: (hasErrors: boolean) => void;
 
-    /** Toggles whether to use official Grub names. */
+    /** Toggles whether to use official:tm: grub names. */
     toggleUseOfficialTMGrubNames: () => void;
 };
 
@@ -47,8 +49,8 @@ const INITIAL: UiState = {
     isTooltipOpen: false,
     tooltipText:
         '[Bro](Pure Vessel) was tarnished by an idea instilled 😭😭😭😭💀',
-    hiddenSections: [],
-    shouldValidateChecks: true,
+    collapsedSections: [],
+    checksValidation: true,
     checklistHasErrors: false,
     useOfficialTMGrubNames: false,
 };
@@ -68,25 +70,35 @@ const useUiStore = create<UiState & UiActions>()(
 
             openTooltip: () => set({ isTooltipOpen: true }),
 
-            toggleSection: (section: CheckSection) =>
+            toggleSection: (section?: CheckSection) =>
                 set(state => {
-                    const index = state.hiddenSections.indexOf(section);
-                    if (index === -1) {
-                        state.hiddenSections.push(section);
+                    if (section) {
+                        const index = state.collapsedSections.indexOf(section);
+                        if (index === -1) {
+                            state.collapsedSections.push(section);
+                        } else {
+                            state.collapsedSections.splice(index, 1);
+                        }
                     } else {
-                        state.hiddenSections.splice(index, 1);
+                        if (state.collapsedSections.length > 0) {
+                            state.collapsedSections = [];
+                        } else {
+                            state.collapsedSections.push(
+                                ...(Object.keys(
+                                    SECTION_TITLES
+                                ) as CheckSection[])
+                            );
+                        }
                     }
                 }),
 
-            toggleShouldValidateChecks: () =>
+            toggleChecksValidation: () =>
                 set(state => {
-                    state.shouldValidateChecks = !state.shouldValidateChecks;
+                    state.checksValidation = !state.checksValidation;
                 }),
 
             setChecklistHasErrors: (hasErrors: boolean) =>
-                set(state => {
-                    state.checklistHasErrors = hasErrors;
-                }),
+                set({ checklistHasErrors: hasErrors }),
 
             toggleUseOfficialTMGrubNames: () =>
                 set(state => {
@@ -97,8 +109,8 @@ const useUiStore = create<UiState & UiActions>()(
         {
             name: 'ui-storage',
             partialize: (state: UiState) => ({
-                hiddenSections: state.hiddenSections,
-                shouldValidateChecks: state.shouldValidateChecks,
+                collapsedSections: state.collapsedSections,
+                checksValidation: state.checksValidation,
                 checklistHasErrors: state.checklistHasErrors,
                 useOfficialTMGrubNames: state.useOfficialTMGrubNames,
             }),

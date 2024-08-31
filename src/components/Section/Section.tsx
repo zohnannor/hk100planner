@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { HR } from '../../assets';
+import { OFFICIAL_TM_GRUB_NAMES } from '../../constants';
 import useChecklistStore from '../../stores/checklistStore';
 import useUiStore from '../../stores/uiStore';
 import { FlexBox } from '../../styles';
@@ -9,7 +10,6 @@ import formatCheckListError from '../../util/formatCheckListError';
 import Button from '../Button';
 import { SectionCheckBox } from '../Checkbox/SectionCheckBox';
 import { FText } from '../FText/FText';
-import { OFFICIAL_TM_GRUB_NAMES } from '../../constants';
 
 const SectionWrapper = styled.div`
     display: flex;
@@ -34,7 +34,7 @@ const SectionUnderline = styled.div`
 `;
 
 type SectionContentProps = {
-    $folded?: boolean;
+    $collapsed?: boolean;
     $checksCount: number;
 };
 
@@ -49,8 +49,8 @@ const SectionContent = styled.div<SectionContentProps>`
     max-height: ${({ $checksCount }) => `${125 * $checksCount}px`};
     opacity: 1;
 
-    ${({ $folded }) =>
-        $folded &&
+    ${({ $collapsed }) =>
+        $collapsed &&
         css`
             max-height: 0;
             opacity: 0;
@@ -82,11 +82,9 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
         state => () => state.validateChecks(state)
     );
 
-    const shouldValidateChecks = useUiStore(
-        state => state.shouldValidateChecks
-    );
-    const hiddenSections = useUiStore(state => state.hiddenSections);
-    const toggleFolded = useUiStore(state => state.toggleSection);
+    const checksValidation = useUiStore(state => state.checksValidation);
+    const collapsedSections = useUiStore(state => state.collapsedSections);
+    const toggleCollapsed = useUiStore(state => state.toggleSection);
     const setChecklistHasErrors = useUiStore(
         state => state.setChecklistHasErrors
     );
@@ -94,8 +92,8 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
         state => state.useOfficialTMGrubNames
     );
 
-    const folded = hiddenSections.includes(sectionName);
-    const errors = shouldValidateChecks ? validateChecks() : {};
+    const collapsed = collapsedSections.includes(sectionName);
+    const errors = checksValidation ? validateChecks() : {};
     setChecklistHasErrors(Object.keys(errors).length > 0);
 
     return (
@@ -112,8 +110,8 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
                     />
                     <Button
                         size='small'
-                        label={folded ? 'show' : 'hide'}
-                        onClick={() => toggleFolded(sectionName)}
+                        label={collapsed ? 'show' : 'hide'}
+                        onClick={() => toggleCollapsed(sectionName)}
                     />
                     <Button
                         size='small'
@@ -125,7 +123,7 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
             <SectionUnderline />
             <SectionContent
                 $checksCount={Object.keys(section).length}
-                $folded={folded}
+                $collapsed={collapsed}
             >
                 {Object.entries(section).map(([name, check]) => {
                     const typedName = name as keyof ChecksSection<CheckSection>;

@@ -5,7 +5,6 @@ import { COLORS } from '../../constants';
 import useChecklistStore from '../../stores/checklistStore';
 import { FlexBox, HasErrors } from '../../styles';
 import Button from '../Button';
-import { FText } from '../FText/FText';
 
 interface ContainerProps {
     $visible: boolean;
@@ -57,7 +56,7 @@ export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
         <Container $visible={visible}>
             <FlexBox $direction='column' $align='flex-end'>
                 <SidePercentLabel $hasErrors={hasErrors}>
-                    <FText>{percent.toFixed(2).replace('-0', '0')}%</FText>
+                    {percent}%
                 </SidePercentLabel>
 
                 <Button size='small' label='uncheck all' onClick={reset} />

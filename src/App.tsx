@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useIntersectionObserver } from 'usehooks-ts';
+import { useIntersectionObserver, useToggle } from 'usehooks-ts';
 
 import { LOGO } from './assets/index.ts';
 import { Button } from './components/Button/Button.tsx';
@@ -16,6 +16,7 @@ import {
 } from './constants.ts';
 import { useParallaxBackground } from './hooks/useParallaxBackground.ts';
 import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds.ts';
+import Settings from './Settings.tsx';
 import useChecklistStore from './stores/checklistStore.ts';
 import useUiStore from './stores/uiStore.ts';
 import {
@@ -46,6 +47,7 @@ const App = () => {
     const setTooltipText = useUiStore(state => state.setTooltipText);
     const openTooltip = useUiStore(state => state.openTooltip);
     const checklistHasErrors = useUiStore(state => state.checklistHasErrors);
+    const checksValidation = useUiStore(state => state.checksValidation);
 
     useUndoRedoKeybinds();
 
@@ -54,21 +56,23 @@ const App = () => {
     const backgroundRef = useRef<HTMLDivElement | null>(null);
     useParallaxBackground(backgroundRef);
 
-    const compare = (a: number, b: number) =>
-        a >= b ? COLORS.white : COLORS.red;
+    const [settingsCollapsed, toggleSettingsCollapsed] = useToggle(false);
+
+    const decide = (a: number, b: number) =>
+        checksValidation ? (a >= b ? COLORS.white : COLORS.red) : COLORS.white;
 
     const info = (
         <FlexBox $direction='column' $align='center'>
-            <FText color={compare(geo, geoReq)}>
+            <FText color={decide(geo, geoReq)}>
                 [GEO] {geo} / {geoReq}
             </FText>
-            <FText color={compare(essence, Math.max(...essenceReq))}>
+            <FText color={decide(essence, Math.max(...essenceReq))}>
                 [ESSENCE] {essence} / {Math.max(...essenceReq)}
             </FText>
-            <FText color={compare(paleOre, paleOreReq)}>
+            <FText color={decide(paleOre, paleOreReq)}>
                 [PALE_ORE] {paleOre} / {paleOreReq}
             </FText>
-            <FText color={compare(simpleKeys, simpleKeysReq)}>
+            <FText color={decide(simpleKeys, simpleKeysReq)}>
                 [SIMPLE_KEY] {simpleKeys} / {simpleKeysReq}
             </FText>
         </FlexBox>
@@ -79,7 +83,7 @@ const App = () => {
             <div ref={backgroundRef} className='background' />
             <img src={LOGO} alt='logo' />
 
-            <FlexBox $margin={'16px 0'}>
+            <FlexBox $margin='16px 0'>
                 <Button
                     label='What?'
                     size='small'
@@ -91,7 +95,7 @@ const App = () => {
                 <Button
                     label='Settings'
                     size='small'
-                    onClick={() => alert('TODO: UI Settings')}
+                    onClick={toggleSettingsCollapsed}
                 />
                 <Button
                     label='About'
@@ -112,10 +116,12 @@ const App = () => {
                 />
             </FlexBox>
 
+            <Settings collapsed={settingsCollapsed} />
+
             <Tooltip>{tooltipText}</Tooltip>
 
             <PercentLabel $hasErrors={checklistHasErrors}>
-                {percent.toFixed(2).replace('-0', '0')}%
+                {percent}%
             </PercentLabel>
 
             <FlexBox>
