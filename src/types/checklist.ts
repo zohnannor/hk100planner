@@ -308,6 +308,10 @@ export type ChecklistState = {
     paleOre: number;
     /** The amount of grubs collected. */
     grubs: number;
+    /** The amount of mask shards collected. */
+    maskShards: number;
+    /** The amount of vessel fragments collected. */
+    vesselFragments: number;
     /** The amount of simple keys collected. */
     simpleKeys: number;
     /** The required amount of geo. */

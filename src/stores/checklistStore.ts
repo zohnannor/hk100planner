@@ -28,6 +28,8 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
     simpleKeys: 0,
 
     grubs: 0,
+    maskShards: 0,
+    vesselFragments: 0,
 
     geoReq: 0,
     essenceReq: [0],
@@ -629,27 +631,27 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
         maskShards: {
             '[Sly] #1': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 150.',
-                reward: { percent: 1 / 4, geoReq: 150 },
+                reward: { maskShards: 1, geoReq: 150 },
                 requires: { geo: 150 },
             },
             '[Sly] #2': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 500.',
-                reward: { percent: 1 / 4, geoReq: 500 },
+                reward: { maskShards: 1, geoReq: 500 },
                 requires: { geo: 500 },
             },
             '[Sly] #3': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 800.',
-                reward: { percent: 1 / 4, geoReq: 800 },
+                reward: { maskShards: 1, geoReq: 800 },
                 requires: { geo: 800 },
             },
             '[Sly] #4': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 1500.',
-                reward: { percent: 1 / 4, geoReq: 1500 },
+                reward: { maskShards: 1, geoReq: 1500 },
                 requires: { geo: 1500 },
             },
             '[Forgotten Crossroads] [Brooding Mawlek]': {
                 description: 'Reward for defeating [Brooding Mawlek].',
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
                 requires: {
                     checks: {
                         bosses: { '[Brooding Mawlek]': { checked: true } },
@@ -658,13 +660,13 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             '[Grubfather]': {
                 description: 'Requires rescuing 5 [Grubs].',
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
                 requires: { grubs: 5 },
             },
             '[Forgotten Crossroads] [Goams]': {
                 description:
                     'Behind a gauntlet of [Goams] in [Forgotten Crossroads].',
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
                 requires: {
                     checks: {
                         equipment: {
@@ -676,7 +678,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             "[Queen's Station]": {
                 description: "Near east side of the [Queen's Station].",
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
                 requires: {
                     checks: {
                         equipment: { '[Mantis Claw]': { checked: true } },
@@ -685,10 +687,10 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             "[Bretta]'s house": {
                 description: 'Requires rescuing [Bretta] from [Fungal Wastes].',
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
             },
             '[Stone Sanctuary]': {
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
                 requires: {
                     checks: {
                         relicsAndItems: {
@@ -700,10 +702,10 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Royal Waterways]': {
                 description:
                     'Northwest section of the Royal Waterways, swim west under main path.',
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
             },
             '[Deepnest] from [Fungal Core]': {
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
                 requires: {
                     checks: {
                         equipment: { '[Monarch Wings]': { checked: true } },
@@ -711,7 +713,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 },
             },
             '[Enraged Guardian]': {
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
                 requires: {
                     checks: {
                         equipment: { '[Monarch Wings]': { checked: true } },
@@ -721,7 +723,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Hive]': {
                 description:
                     'Requires baiting a [Hive Guardian] into breaking a wall.',
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
                 requires: {
                     checks: {
                         relicsAndItems: { '[Tram Pass]': { checked: true } },
@@ -730,12 +732,12 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             '[Seer]': {
                 description: 'For collecting [ESSENCE] 1500.',
-                reward: { percent: 1 / 4, essenceReq: [1500] },
+                reward: { maskShards: 1, essenceReq: [1500] },
                 requires: { essence: 1500 },
             },
             '[Grey Mourner]': {
                 description: 'Requires completing the [Delicate Flower quest].',
-                reward: { percent: 1 / 4 },
+                reward: { maskShards: 1 },
                 requires: {
                     checks: {
                         relicsAndItems: {
@@ -750,42 +752,42 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
         vesselFragments: {
             '[Sly] #1': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 550.',
-                reward: { percent: 1 / 3, geoReq: 550 },
+                reward: { vesselFragments: 1, geoReq: 550 },
                 requires: { geo: 550 },
             },
             '[Sly] #2': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 900.',
-                reward: { percent: 1 / 3, geoReq: 900 },
+                reward: { vesselFragments: 1, geoReq: 900 },
                 requires: { geo: 900 },
             },
             '[Greenpath]': {
                 description:
                     "Near the inaccessible [Queen's Gardens] entrance.",
-                reward: { percent: 1 / 3 },
+                reward: { vesselFragments: 1 },
             },
             'Left of the lift in [Forgotten Crossroads]': {
                 description:
                     'Accessible after unlocking the lift in the [City of Tears].',
-                reward: { percent: 1 / 3 },
+                reward: { vesselFragments: 1 },
             },
             "Above [King's Station] near a lift": {
                 description: 'Accessible after completing the arena.',
-                reward: { percent: 1 / 3 },
+                reward: { vesselFragments: 1 },
             },
             '[Deepnest]': {
                 description:
                     'At the end of the [Garpede] parkour section above the working [Tram].',
-                reward: { percent: 1 / 3 },
+                reward: { vesselFragments: 1 },
             },
-            '[Stag Nest]': { reward: { percent: 1 / 3 } },
+            '[Stag Nest]': { reward: { vesselFragments: 1 } },
             '[Seer]': {
                 description: 'For collecting [ESSENCE] 700.',
-                reward: { percent: 1 / 3, essenceReq: [700] },
+                reward: { vesselFragments: 1, essenceReq: [700] },
                 requires: { essence: 700 },
             },
             '[Ancient Basin] fountain': {
                 description: 'For dropping [GEO] 3000 into the fountain.',
-                reward: { percent: 1 / 3, geoReq: 3000 },
+                reward: { vesselFragments: 1, geoReq: 3000 },
                 requires: { geo: 3000 },
             },
         },
@@ -1935,6 +1937,26 @@ const grubRewards = (state: ChecklistState, willCheck: boolean) => {
     applyReward(state, { geo: grubReward }, willCheck);
 };
 
+const maskShardRewards = (state: ChecklistState, willCheck: boolean) => {
+    const maskShards = state.maskShards;
+
+    const percent = willCheck
+        ? [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1][maskShards - 1]
+        : [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1][maskShards];
+
+    applyReward(state, { percent }, willCheck);
+};
+
+const vesselFragmentRewards = (state: ChecklistState, willCheck: boolean) => {
+    const vesselFragments = state.vesselFragments;
+
+    const percent = willCheck
+        ? [0, 0, 1, 0, 0, 1, 0, 0, 1][vesselFragments - 1]
+        : [0, 0, 1, 0, 0, 1, 0, 0, 1][vesselFragments];
+
+    applyReward(state, { percent }, willCheck);
+};
+
 const handleCheck = (
     state: ChecklistState,
     sectionName: CheckSection,
@@ -1948,6 +1970,12 @@ const handleCheck = (
     check.checked = willCheck;
     if (sectionName === 'grubs') {
         grubRewards(state, willCheck);
+    }
+    if (sectionName === 'maskShards') {
+        maskShardRewards(state, willCheck);
+    }
+    if (sectionName === 'vesselFragments') {
+        vesselFragmentRewards(state, willCheck);
     }
 };
 
@@ -2017,14 +2045,7 @@ const useChecklistStore = create<ChecklistState & Action>()(
                         )[name] as Check;
 
                         const willCheck = !check.checked;
-                        check.checked = willCheck;
-
-                        applyReward(state, check.reward, willCheck);
-
-                        // Special case for grubs
-                        if (section === 'grubs') {
-                            grubRewards(state, willCheck);
-                        }
+                        handleCheck(state, section, check, willCheck);
                     });
                 },
 
