@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { CheckIcon } from '../../assets';
+import { COLORS } from '../../constants';
 import { FlexBox } from '../../styles';
 import { FText } from '../FText/FText';
 
@@ -39,7 +40,7 @@ const CheckBoxSquare = styled.div<CheckboxSquareProps>`
     width: 24px;
     height: 24px;
     background-color: transparent;
-    border: 2px solid white;
+    border: 2px solid ${COLORS.white};
     border-radius: 4px;
     gap: 8px;
     padding: 4px;

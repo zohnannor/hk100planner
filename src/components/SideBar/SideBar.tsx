@@ -1,8 +1,9 @@
 import { PropsWithChildren } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
+import { COLORS } from '../../constants';
 import useChecklistStore from '../../stores/checklistStore';
-import { FlexBox } from '../../styles';
+import { FlexBox, HasErrors } from '../../styles';
 import Button from '../Button';
 import { FText } from '../FText/FText';
 
@@ -21,10 +22,16 @@ const Container = styled.div<ContainerProps>`
     opacity: ${({ $visible }) => ($visible ? 1 : 0)};
 `;
 
-export const SidePercentLabel = styled.div`
+export const SidePercentLabel = styled.div<HasErrors>`
     font-size: 52px;
     line-height: 52px;
     margin-bottom: 12px;
+
+    ${({ $hasErrors }) =>
+        $hasErrors &&
+        css`
+            color: ${COLORS.red};
+        `}
 `;
 
 export const SideLabel = styled.div`
@@ -34,11 +41,13 @@ export const SideLabel = styled.div`
 
 interface SideBarProps {
     visible: boolean;
+    hasErrors: boolean;
 }
 
 export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
     visible,
     children,
+    hasErrors,
 }) => {
     const percent = useChecklistStore(state => state.percent);
     const reset = useChecklistStore(state => state.reset);
@@ -47,7 +56,7 @@ export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
     return (
         <Container $visible={visible}>
             <FlexBox $direction='column' $align='flex-end'>
-                <SidePercentLabel>
+                <SidePercentLabel $hasErrors={hasErrors}>
                     <FText>{percent.toFixed(2).replace('-0', '0')}%</FText>
                 </SidePercentLabel>
 

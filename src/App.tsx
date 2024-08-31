@@ -7,6 +7,7 @@ import { FText } from './components/FText/FText.tsx';
 import Section from './components/Section';
 import { SideBar } from './components/SideBar/SideBar.tsx';
 import { Tooltip } from './components/Tooltip/Tooltip.tsx';
+import { COLORS } from './constants.ts';
 import { useParallaxBackground } from './hooks/useParallaxBackground.ts';
 import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds.ts';
 import useChecklistStore from './stores/checklistStore.ts';
@@ -84,6 +85,7 @@ const App = () => {
     const tooltipText = useUiStore(state => state.tooltipText);
     const setTooltipText = useUiStore(state => state.setTooltipText);
     const openTooltip = useUiStore(state => state.openTooltip);
+    const checklistHasErrors = useUiStore(state => state.checklistHasErrors);
 
     useUndoRedoKeybinds();
 
@@ -92,18 +94,21 @@ const App = () => {
     const backgroundRef = useRef<HTMLDivElement | null>(null);
     useParallaxBackground(backgroundRef);
 
+    const compare = (a: number, b: number) =>
+        a >= b ? COLORS.white : COLORS.red;
+
     const info = (
         <FlexBox $direction='column' $align='center'>
-            <FText>
+            <FText color={compare(geo, geoReq)}>
                 [GEO] {geo} / {geoReq}
             </FText>
-            <FText>
+            <FText color={compare(essence, Math.max(...essenceReq))}>
                 [ESSENCE] {essence} / {Math.max(...essenceReq)}
             </FText>
-            <FText>
+            <FText color={compare(paleOre, paleOreReq)}>
                 [PALE_ORE] {paleOre} / {paleOreReq}
             </FText>
-            <FText>
+            <FText color={compare(simpleKeys, simpleKeysReq)}>
                 [SIMPLE_KEY] {simpleKeys} / {simpleKeysReq}
             </FText>
         </FlexBox>
@@ -125,7 +130,7 @@ const App = () => {
 
             <Tooltip>{tooltipText}</Tooltip>
 
-            <PercentLabel>
+            <PercentLabel $hasErrors={checklistHasErrors}>
                 {percent.toFixed(2).replace('-0', '0')}%
             </PercentLabel>
 
@@ -135,7 +140,9 @@ const App = () => {
             </FlexBox>
 
             <MainLabel ref={ref}>{info}</MainLabel>
-            <SideBar visible={!isIntersecting}>{info}</SideBar>
+            <SideBar visible={!isIntersecting} hasErrors={checklistHasErrors}>
+                {info}
+            </SideBar>
 
             <MainContent>
                 {DISTRIBUTED_SECTIONS.map(sectionColumn => (

@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+import { COLORS } from './constants';
 
 import type { Property } from 'csstype';
-
 export const MainWrapper = styled.div`
     margin-bottom: 100px;
     width: 100%;
@@ -26,11 +27,21 @@ export const MainLabel = styled.span`
     line-height: 34px;
 `;
 
-export const PercentLabel = styled.span`
+export type HasErrors = {
+    $hasErrors: boolean;
+};
+
+export const PercentLabel = styled.span<HasErrors>`
     transition: 0.2s;
     font-size: 100px;
     line-height: 114px;
     margin-bottom: 20px;
+
+    ${({ $hasErrors }) =>
+        $hasErrors &&
+        css`
+            color: ${COLORS.red};
+        `}
 `;
 
 export const SectionsColumn = styled.div`

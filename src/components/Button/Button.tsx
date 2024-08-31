@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { POINTER } from '../../assets';
+import { COLORS } from '../../constants';
 
 type ButtonSize = 'big' | 'small';
 
@@ -23,7 +24,7 @@ const ButtonWrapper = styled.div<{
         line-height: 32px;
         font-family: 'Cinzel', sans-serif;
         background: transparent;
-        color: white;
+        color: ${COLORS.white};
         border: none;
         cursor: pointer;
     }

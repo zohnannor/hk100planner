@@ -73,8 +73,6 @@ type SectionProps = {
 };
 
 export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
-    const hiddenSections = useUiStore(state => state.hiddenSections);
-    const toggleFolded = useUiStore(state => state.toggleSection);
     const section = useChecklistStore(state => state.checks[sectionName]);
     const toggle = useChecklistStore(state => state.toggle);
     const reset = useChecklistStore(state => state.reset);
@@ -86,9 +84,15 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
     const shouldValidateChecks = useUiStore(
         state => state.shouldValidateChecks
     );
+    const hiddenSections = useUiStore(state => state.hiddenSections);
+    const toggleFolded = useUiStore(state => state.toggleSection);
+    const setChecklistHasErrors = useUiStore(
+        state => state.setChecklistHasErrors
+    );
 
     const folded = hiddenSections.includes(sectionName);
     const errors = shouldValidateChecks ? validateChecks() : {};
+    setChecklistHasErrors(Object.keys(errors).length > 0);
 
     return (
         <SectionWrapper>

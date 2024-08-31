@@ -1388,6 +1388,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
 
         relicsAndItems: {
             '[SIMPLE_KEY] [Simple Key] from [Sly]': {
+                description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 950.',
                 reward: { simpleKeys: 1, geoReq: 950 },
                 requires: { geo: 950 },
             },
@@ -1400,12 +1401,15 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 },
             },
             '[SIMPLE_KEY] [Simple Key] in the [Ancient Basin]': {
+                description:
+                    'In the [Mawlurk] area leading to [Broken Vessel].',
                 reward: { simpleKeys: 1 },
             },
             '[SIMPLE_KEY] [Simple Key] behind [Pale Lurker]': {
                 reward: { simpleKeys: 1 },
             },
             '[ELEGANT_KEY] [Elegant Key]': {
+                description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 800.',
                 reward: { geoReq: 800 },
                 requires: { geo: 800 },
             },
@@ -1427,6 +1431,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             '[Tram Pass]': { reward: {} },
             '[Lumafly Lantern]': {
+                description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 1800.',
                 reward: { geoReq: 1800 },
                 requires: { geo: 1800 },
             },

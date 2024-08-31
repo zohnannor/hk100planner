@@ -9,6 +9,7 @@ type UiState = {
     tooltipText: string;
     hiddenSections: CheckSection[];
     shouldValidateChecks: boolean;
+    checklistHasErrors: boolean;
 };
 
 type UiActions = {
@@ -16,6 +17,8 @@ type UiActions = {
     closeTooltip: () => void;
     openTooltip: () => void;
     toggleSection: (section: CheckSection) => void;
+    toggleShouldValidateChecks: () => void;
+    setChecklistHasErrors: (hasErrors: boolean) => void;
 };
 
 const INITIAL: UiState = {
@@ -24,6 +27,7 @@ const INITIAL: UiState = {
         '[Bro](Pure Vessel) was tarnished by an idea instilled 😭😭😭😭💀',
     hiddenSections: [],
     shouldValidateChecks: true,
+    checklistHasErrors: false,
 };
 
 const useUiStore = create<UiState & UiActions>()(
@@ -55,12 +59,18 @@ const useUiStore = create<UiState & UiActions>()(
                 set(state => {
                     state.shouldValidateChecks = !state.shouldValidateChecks;
                 }),
+
+            setChecklistHasErrors: (hasErrors: boolean) =>
+                set(state => {
+                    state.checklistHasErrors = hasErrors;
+                }),
         })),
         {
             name: 'ui-storage',
             partialize: (state: UiState) => ({
                 hiddenSections: state.hiddenSections,
                 shouldValidateChecks: state.shouldValidateChecks,
+                checklistHasErrors: state.checklistHasErrors,
             }),
         }
     )

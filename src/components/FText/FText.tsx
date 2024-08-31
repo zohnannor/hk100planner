@@ -1,14 +1,22 @@
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
+import { COLORS } from '../../constants';
 import renderLink from '../../util/renderLink';
 
-export const FTextWrapper = styled.span`
+import type { Property } from 'csstype';
+
+type FTextWrapperProps = {
+    $color?: Property.Color;
+};
+
+export const FTextWrapper = styled.span<FTextWrapperProps>`
     white-space: pre-line;
     text-wrap: pretty;
+    color: ${({ $color }) => $color || COLORS.white};
 
     & a {
-        color: white;
+        color: ${({ $color }) => $color || COLORS.white};
         text-decoration: underline;
         text-decoration-style: dotted;
         text-decoration-thickness: 1px;
@@ -23,7 +31,14 @@ const IconWrapper = styled.img`
     object-fit: contain;
 `;
 
-export const FText: React.FC<PropsWithChildren> = ({ children }) => {
+interface FTextProps {
+    color?: string;
+}
+
+export const FText: React.FC<PropsWithChildren<FTextProps>> = ({
+    children,
+    color,
+}) => {
     const textParts = renderLink(
         (Array.isArray(children)
             ? children.join(' ')
@@ -32,7 +47,7 @@ export const FText: React.FC<PropsWithChildren> = ({ children }) => {
     );
 
     return (
-        <FTextWrapper>
+        <FTextWrapper $color={color}>
             {textParts.map((part, n) =>
                 part.type === 'link' ? (
                     <a
