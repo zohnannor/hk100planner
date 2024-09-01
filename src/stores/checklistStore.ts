@@ -214,7 +214,10 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     essence: 1800,
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
+                        dreamNail: {
+                            '[Dream Nail]': { checked: true },
+                        },
+                        maskShards: { '[Seer]': { checked: true } },
                     },
                 },
             },
@@ -595,7 +598,16 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Dream Wielder]': {
                 description: 'Given by [Seer] after gathering [ESSENCE] 500.',
                 reward: { percent: 1, essenceReq: [500] },
-                requires: { essence: 500 },
+                requires: {
+                    essence: 500,
+                    checks: {
+                        relicsAndItems: {
+                            '[PALE_ORE] [Pale Ore] awarded by the [Seer]': {
+                                checked: true,
+                            },
+                        },
+                    },
+                },
             },
             '[Dreamshield]': {
                 description:
@@ -637,17 +649,40 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Sly] #2': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 500.',
                 reward: { maskShards: 1, geoReq: 500 },
-                requires: { geo: 500 },
+                requires: {
+                    geo: 500,
+                    checks: { maskShards: { '[Sly] #1': { checked: true } } },
+                },
             },
             '[Sly] #3': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 800.',
                 reward: { maskShards: 1, geoReq: 800 },
-                requires: { geo: 800 },
+                requires: {
+                    geo: 800,
+                    checks: {
+                        maskShards: { '[Sly] #2': { checked: true } },
+                        relicsAndItems: {
+                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
+                                checked: true,
+                            },
+                        },
+                    },
+                },
             },
             '[Sly] #4': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 1500.',
                 reward: { maskShards: 1, geoReq: 1500 },
-                requires: { geo: 1500 },
+                requires: {
+                    geo: 1500,
+                    checks: {
+                        maskShards: { '[Sly] #3': { checked: true } },
+                        relicsAndItems: {
+                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
+                                checked: true,
+                            },
+                        },
+                    },
+                },
             },
             '[Forgotten Crossroads] [Brooding Mawlek]': {
                 description: 'Reward for defeating [Brooding Mawlek].',
@@ -733,7 +768,16 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Seer]': {
                 description: 'For collecting [ESSENCE] 1500.',
                 reward: { maskShards: 1, essenceReq: [1500] },
-                requires: { essence: 1500 },
+                requires: {
+                    essence: 1500,
+                    checks: {
+                        relicsAndItems: {
+                            '[ARCANE_EGG] [Arcane Egg] awarded by [Seer]': {
+                                checked: true,
+                            },
+                        },
+                    },
+                },
             },
             '[Grey Mourner]': {
                 description: 'Requires completing the [Delicate Flower quest].',
@@ -758,7 +802,17 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Sly] #2': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 900.',
                 reward: { vesselFragments: 1, geoReq: 900 },
-                requires: { geo: 900 },
+                requires: {
+                    geo: 900,
+                    checks: {
+                        vesselFragments: { '[Sly] #1': { checked: true } },
+                        relicsAndItems: {
+                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
+                                checked: true,
+                            },
+                        },
+                    },
+                },
             },
             '[Greenpath]': {
                 description:
@@ -783,7 +837,16 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Seer]': {
                 description: 'For collecting [ESSENCE] 700.',
                 reward: { vesselFragments: 1, essenceReq: [700] },
-                requires: { essence: 700 },
+                requires: {
+                    essence: 700,
+                    checks: {
+                        charms: {
+                            '[Dream Wielder]': {
+                                checked: true,
+                            },
+                        },
+                    },
+                },
             },
             '[Ancient Basin] fountain': {
                 description: 'For dropping [GEO] 3000 into the fountain.',
@@ -1414,7 +1477,16 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[ELEGANT_KEY] [Elegant Key]': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 800.',
                 reward: { geoReq: 800 },
-                requires: { geo: 800 },
+                requires: {
+                    geo: 800,
+                    checks: {
+                        relicsAndItems: {
+                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
+                                checked: true,
+                            },
+                        },
+                    },
+                },
             },
             '[LOVE_KEY] [Love Key]': {
                 reward: {},
@@ -1456,7 +1528,15 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             '[PALE_ORE] [Pale Ore] awarded by the [Seer]': {
                 reward: { paleOre: 1, essenceReq: [300] },
-                requires: { essence: 300 },
+                requires: {
+                    essence: 300,
+                    checks: {
+                        relicsAndItems: {
+                            '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by [Seer]':
+                                { checked: true },
+                        },
+                    },
+                },
             },
             "[PALE_ORE] [Pale Ore] on the [Hallownest's Crown]": {
                 reward: { paleOre: 1 },
@@ -1630,7 +1710,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by [Seer]': {
-                reward: { geo: 450 },
+                reward: { geo: 450, essenceReq: [100] },
                 requires: { essence: 100 },
             },
             '[HALLOWNEST_SEAL] [Hallownest Seal] near [Relic Seeker Lemm]': {
@@ -1699,8 +1779,9 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 },
             },
             "[KING'S_IDOL] [King's Idol] in [Spirits' Glade]": {
-                reward: { geo: 800 },
+                reward: { geo: 800, essenceReq: [200] },
                 requires: {
+                    essence: 200,
                     checks: {
                         equipment: { '[Mothwing Cloak]': { checked: true } },
                     },
@@ -1775,8 +1856,13 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 },
             },
             '[ARCANE_EGG] [Arcane Egg] awarded by [Seer]': {
-                reward: { geo: 1200 },
-                requires: { essence: 1200 },
+                reward: { geo: 1200, essenceReq: [1200] },
+                requires: {
+                    essence: 1200,
+                    checks: {
+                        vesselFragments: { '[Seer]': { checked: true } },
+                    },
+                },
             },
         },
 
