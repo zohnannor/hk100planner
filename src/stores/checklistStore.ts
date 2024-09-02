@@ -637,7 +637,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 },
             },
             '[Dream Wielder]': {
-                description: 'Given by [Seer] after gathering [ESSENCE] 500.',
+                description: 'Given by the [Seer] after gathering [ESSENCE] 500.',
                 reward: { percent: 1, essenceReq: [500] },
                 requires: {
                     essence: 500,
@@ -747,7 +747,6 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     checks: {
                         equipment: {
                             '[Monarch Wings]': { checked: true },
-                            '[Mantis Claw]': { checked: true },
                         },
                     },
                 },
@@ -813,7 +812,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     essence: 1500,
                     checks: {
                         relics: {
-                            '[ARCANE_EGG] [Arcane Egg] awarded by [Seer]': {
+                            '[ARCANE_EGG] [Arcane Egg] awarded by the [Seer]': {
                                 checked: true,
                             },
                         },
@@ -1174,7 +1173,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { grubs: 1 },
                 requires: {
                     checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
+                        equipment: { '[Mothwing Cloak]': { checked: true } },
                     },
                 },
             },
@@ -1186,11 +1185,6 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             '[Fungal Wastes] behind a line of [Fungling]s': {
                 reward: { grubs: 1 },
-                requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
-                },
             },
             '[Fungal Wastes] near [Spore Shroom]': {
                 reward: { grubs: 1 },
@@ -1576,7 +1570,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     essence: 300,
                     checks: {
                         relics: {
-                            '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by [Seer]':
+                            '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by the [Seer]':
                                 { checked: true },
                         },
                     },
@@ -1756,7 +1750,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                         },
                     },
                 },
-            '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by [Seer]': {
+            '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by the [Seer]': {
                 reward: { geo: 450, essenceReq: [100] },
                 requires: { essence: 100 },
             },
@@ -1902,7 +1896,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             },
-            '[ARCANE_EGG] [Arcane Egg] awarded by [Seer]': {
+            '[ARCANE_EGG] [Arcane Egg] awarded by the [Seer]': {
                 reward: { geo: 1200, essenceReq: [1200] },
                 requires: {
                     essence: 1200,

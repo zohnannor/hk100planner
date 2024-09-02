@@ -241,7 +241,7 @@ export type ChecksKeys = {
         | '[HALLOWNEST_SEAL] [Hallownest Seal] near [Overgrown Mound]'
         | '[HALLOWNEST_SEAL] [Hallownest Seal] in [Forgotten Crossroads] in [Fog Canyon] entrance'
         | '[HALLOWNEST_SEAL] [Hallownest Seal] in [Crypts](Resting Grounds#Crypts)'
-        | '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by [Seer]'
+        | '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by the [Seer]'
         | '[HALLOWNEST_SEAL] [Hallownest Seal] near [Relic Seeker Lemm]'
         | "[HALLOWNEST_SEAL] [Hallownest Seal] above [King's Station] [Stag Station]"
         | '[HALLOWNEST_SEAL] [Hallownest Seal] near [Soul Master]'
@@ -260,7 +260,7 @@ export type ChecksKeys = {
         | '[ARCANE_EGG] [Arcane Egg] below [Lifeblood Core]'
         | '[ARCANE_EGG] [Arcane Egg] near [Shade Cloak]'
         | '[ARCANE_EGG] [Arcane Egg] in [Birthplace]'
-        | '[ARCANE_EGG] [Arcane Egg] awarded by [Seer]';
+        | '[ARCANE_EGG] [Arcane Egg] awarded by the [Seer]';
     whisperingRoots:
         | '[Ancestral Mound]'
         | '[City of Tears]'
