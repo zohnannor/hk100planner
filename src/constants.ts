@@ -24,15 +24,17 @@ export const SECTION_TITLES: Record<CheckSection, string> = {
     colosseum: '[Colosseum of Fools]',
     dreamers: '[Dreamers]',
     dreamWarriors: '[Warrior Dreams]',
-    dreamBosses: '[Dream Bosses](Bosses (Hollow Knight)#Boss_Variants)',
+    dreamBosses:
+        '[Dream Bosses](Bosses (Hollow Knight)#Boss_Variants) (no percents)',
     godhome: '[Godhome]',
     grubs: '[Grubs](Grub#Rewards_and_locations) (no percents)',
-    relicsAndItems: '[Relics and Items](Items) (no percents)',
+    items: '[Items](Items (Hollow_Knight)) (no percents)',
+    relics: '[Relics](Items (Hollow_Knight)#Tradables) (no percents)',
     whisperingRoots: '[Whispering Roots](Whispering Root) (no percents)',
 };
 
 export const DISTRIBUTED_SECTIONS: CheckSection[][] = [
-    ['bosses', 'equipment', 'spells', 'charms', 'colosseum', 'relicsAndItems'],
+    ['bosses', 'equipment', 'spells', 'charms', 'items', 'relics'],
     [
         'nail',
         'dreamNail',
@@ -42,6 +44,7 @@ export const DISTRIBUTED_SECTIONS: CheckSection[][] = [
         'dreamers',
         'dreamWarriors',
         'dreamBosses',
+        'colosseum',
         'godhome',
         'grubs',
         'whisperingRoots',
@@ -51,8 +54,8 @@ export const DISTRIBUTED_SECTIONS: CheckSection[][] = [
 export const DESCRIPTION_TEXT =
     'This is a tool to help you plan your Hollow Knight ["Speed Completion"](Achievements (Hollow Knight)#Challenges) achievement checklist. ' +
     'For it, you need to achieve 100% completion in under 20 hours. ' +
-    "As the game with all DLCs has a maximum of 112% completion, you can skip some of the checks from the base game you don't want to do, and do them in the DLC instead. " +
-    'Additionally, [not everything counts as a check](Completion (Hollow Knight)). ' +
+    "As the game with all DLCs has a maximum of 112% completion, you can skip some of the checks from the base game you don't want to do, and do some from the DLC instead. " +
+    'Additionally, [not everything counts as a percent](Completion (Hollow Knight)). ' +
     'So what should you do? ' +
     'Check the boxes and the tool will tell you what things depend on other things. ' +
     'Also helpful for ["Steel Heart"](Achievements (Hollow Knight)#Challenges) achievement!';

@@ -38,13 +38,23 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
 
     checks: {
         bosses: {
-            '[Broken Vessel]': { reward: { percent: 1 } },
+            '[Broken Vessel]': {
+                reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        equipment: { '[Crystal Heart]': { checked: true } },
+                    },
+                },
+            },
             '[Brooding Mawlek]': { reward: { percent: 1 } },
             '[The Collector]': {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        relicsAndItems: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                        items: {
                             '[LOVE_KEY] [Love Key]': { checked: true },
                         },
                     },
@@ -72,7 +82,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        relicsAndItems: { '[Tram Pass]': { checked: true } },
+                        items: { '[Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -90,8 +100,24 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             '[Nosk]': { reward: { percent: 1 } },
             '[Soul Master]': { reward: { percent: 1, geo: 380 } },
-            '[Traitor Lord]': { reward: { percent: 1 } },
-            '[Uumuu]': { reward: { percent: 1 } },
+            '[Traitor Lord]': {
+                reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        equipment: { '[Shade Cloak]': { checked: true } },
+                    },
+                },
+            },
+            '[Uumuu]': {
+                reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        equipment: {
+                            "[Isma's Tear]": { checked: true },
+                        },
+                    },
+                },
+            },
             '[Watcher Knight]': {
                 reward: { percent: 1, geo: 655 },
                 requires: {
@@ -266,7 +292,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        relicsAndItems: {
+                        items: {
                             '[Lumafly Lantern]': { checked: true },
                         },
                     },
@@ -288,12 +314,21 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             },
-            '[Vengeful Spirit]': { reward: { percent: 1 } },
+            '[Vengeful Spirit]': {
+                reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        bosses: {
+                            '[False Knight]': { checked: true },
+                        },
+                    },
+                },
+            },
             '[Shade Soul]': {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        relicsAndItems: {
+                        items: {
                             '[ELEGANT_KEY] [Elegant Key]': { checked: true },
                         },
                     },
@@ -355,7 +390,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        relicsAndItems: {
+                        items: {
                             "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
                                 checked: true,
                             },
@@ -407,7 +442,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     geo: 350,
                     checks: {
-                        relicsAndItems: {
+                        items: {
                             "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
                                 checked: true,
                             },
@@ -513,8 +548,14 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         equipment: { "[King's Brand]": { checked: true } },
-                        charms: { "[Joni's Blessing]": { checked: true } },
+                        charms: {
+                            "[Joni's Blessing]": { checked: true },
+                            '[Fragile Heart] / [Unbreakable Heart]': {
+                                checked: true,
+                            },
+                        },
                     },
+                    maskShards: 8,
                 },
             },
             "[Joni's Blessing]": {
@@ -524,7 +565,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         equipment: { '[Mantis Claw]': { checked: true } },
-                        relicsAndItems: {
+                        items: {
                             '[Lumafly Lantern]': { checked: true },
                         },
                     },
@@ -537,7 +578,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         bosses: { '[Hive Knight]': { checked: true } },
-                        relicsAndItems: { '[Tram Pass]': { checked: true } },
+                        items: { '[Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -601,7 +642,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     essence: 500,
                     checks: {
-                        relicsAndItems: {
+                        items: {
                             '[PALE_ORE] [Pale Ore] awarded by the [Seer]': {
                                 checked: true,
                             },
@@ -661,7 +702,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     geo: 800,
                     checks: {
                         maskShards: { '[Sly] #2': { checked: true } },
-                        relicsAndItems: {
+                        items: {
                             "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
                                 checked: true,
                             },
@@ -676,7 +717,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     geo: 1500,
                     checks: {
                         maskShards: { '[Sly] #3': { checked: true } },
-                        relicsAndItems: {
+                        items: {
                             "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
                                 checked: true,
                             },
@@ -728,7 +769,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { maskShards: 1 },
                 requires: {
                     checks: {
-                        relicsAndItems: {
+                        items: {
                             '[Lumafly Lantern]': { checked: true },
                         },
                     },
@@ -755,13 +796,13 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             },
-            '[Hive]': {
+            '[The Hive]': {
                 description:
                     'Requires baiting a [Hive Guardian] into breaking a wall.',
                 reward: { maskShards: 1 },
                 requires: {
                     checks: {
-                        relicsAndItems: { '[Tram Pass]': { checked: true } },
+                        items: { '[Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -771,7 +812,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     essence: 1500,
                     checks: {
-                        relicsAndItems: {
+                        relics: {
                             '[ARCANE_EGG] [Arcane Egg] awarded by [Seer]': {
                                 checked: true,
                             },
@@ -784,7 +825,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { maskShards: 1 },
                 requires: {
                     checks: {
-                        relicsAndItems: {
+                        items: {
                             '[Delicate Flower]': { checked: true },
                         },
                         equipment: { '[Mothwing Cloak]': { checked: true } },
@@ -806,7 +847,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     geo: 900,
                     checks: {
                         vesselFragments: { '[Sly] #1': { checked: true } },
-                        relicsAndItems: {
+                        items: {
                             "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
                                 checked: true,
                             },
@@ -862,7 +903,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     checks: {
                         dreamNail: { '[Dream Nail]': { checked: true } },
                         equipment: { '[Mantis Claw]': { checked: true } },
-                        relicsAndItems: {
+                        items: {
                             '[Lumafly Lantern]': { checked: true },
                         },
                     },
@@ -945,7 +986,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             },
-            '[Nightmare King Grimm] / [Banishment]': {
+            '[Nightmare King Grimm] / [Banishment](Grimm Troupe (Quest))': {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
@@ -1273,6 +1314,9 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                             '[Crystal Heart]': { checked: true },
                             '[Monarch Wings]': { checked: true },
                         },
+                        items: {
+                            '[Tram Pass]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1410,7 +1454,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     checks: {
                         equipment: { "[Isma's Tear]": { checked: true } },
                         spells: { '[Desolate Dive]': { checked: true } },
-                        relicsAndItems: { '[Tram Pass]': { checked: true } },
+                        items: { '[Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -1422,7 +1466,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                             '[Crystal Heart]': { checked: true },
                             '[Monarch Wings]': { checked: true },
                         },
-                        relicsAndItems: { '[Tram Pass]': { checked: true } },
+                        items: { '[Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -1452,7 +1496,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
         },
 
-        relicsAndItems: {
+        items: {
             '[SIMPLE_KEY] [Simple Key] from [Sly]': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 950.',
                 reward: { simpleKeys: 1, geoReq: 950 },
@@ -1480,7 +1524,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     geo: 800,
                     checks: {
-                        relicsAndItems: {
+                        items: {
                             "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
                                 checked: true,
                             },
@@ -1531,7 +1575,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     essence: 300,
                     checks: {
-                        relicsAndItems: {
+                        relics: {
                             '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by [Seer]':
                                 { checked: true },
                         },
@@ -1566,6 +1610,9 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             },
+        },
+
+        relics: {
             "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Greenpath] near a [Stag Station]":
                 { reward: { geo: 200 } },
             "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Greenpath] near [Fog Canyon] entrance":
@@ -1881,7 +1928,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { essence: 20 },
                 requires: {
                     checks: {
-                        relicsAndItems: { '[Tram Pass]': { checked: true } },
+                        items: { '[Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -1982,20 +2029,24 @@ const validateChecks = (state: ChecklistState): RequirementCheckErrors => {
     Object.values(state).forEach(stateValue => {
         typeof stateValue === 'object' &&
             stateValue !== null &&
-            Object.values(stateValue as Checks).forEach(section => {
-                Object.entries(section).forEach(([checkName, check]) => {
-                    const typedCheckName =
-                        checkName as keyof ChecksSection<CheckSection>;
-                    const requires = check.checked && check.requires;
+            Object.entries(stateValue as Checks).forEach(
+                ([sectionName, section]) => {
+                    const typedSectionName = sectionName as CheckSection;
+                    Object.entries(section).forEach(([checkName, check]) => {
+                        const typedCheckName =
+                            checkName as keyof ChecksSection<CheckSection>;
+                        const requires = check.checked && check.requires;
 
-                    if (
-                        requires &&
-                        !partialDeepEqual(state, requires, comparator)
-                    ) {
-                        errors[typedCheckName] = requires;
-                    }
-                });
-            });
+                        if (
+                            requires &&
+                            !partialDeepEqual(state, requires, comparator)
+                        ) {
+                            errors[`${typedSectionName} ${typedCheckName}`] =
+                                requires;
+                        }
+                    });
+                }
+            );
     });
 
     return errors;

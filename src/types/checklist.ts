@@ -111,7 +111,7 @@ export type ChecksKeys = {
         | '[Royal Waterways]'
         | '[Deepnest] from [Fungal Core]'
         | '[Enraged Guardian]'
-        | '[Hive]'
+        | '[The Hive]'
         | '[Seer]'
         | '[Grey Mourner]';
     vesselFragments:
@@ -136,7 +136,7 @@ export type ChecksKeys = {
         | '[Marmu]'
         | '[No Eyes]'
         | '[Xero]'
-        | '[Nightmare King Grimm] / [Banishment]';
+        | '[Nightmare King Grimm] / [Banishment](Grimm Troupe (Quest))';
     dreamBosses:
         | '[Failed Champion]'
         | '[Grey Prince Zote]'
@@ -200,7 +200,7 @@ export type ChecksKeys = {
         | '[Tower of Love] #1'
         | '[Tower of Love] #2'
         | '[Tower of Love] #3';
-    relicsAndItems:
+    items:
         | '[SIMPLE_KEY] [Simple Key] from [Sly]'
         | '[SIMPLE_KEY] [Simple Key] near [City Storerooms]'
         | '[SIMPLE_KEY] [Simple Key] in the [Ancient Basin]'
@@ -216,7 +216,8 @@ export type ChecksKeys = {
         | "[PALE_ORE] [Pale Ore] on the [Hallownest's Crown]"
         | '[PALE_ORE] [Pale Ore] behind [Nosk]s lair'
         | '[PALE_ORE] [Pale Ore] awarded by [Grubfather]'
-        | '[PALE_ORE] [Pale Ore] reward in [Trial of the Conqueror]'
+        | '[PALE_ORE] [Pale Ore] reward in [Trial of the Conqueror]';
+    relics:
         | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Greenpath] near a [Stag Station]"
         | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Greenpath] near [Fog Canyon] entrance"
         | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Fungal Wastes] near [Shrumal Ogre]s"
@@ -355,7 +356,7 @@ export type Action = {
 export type RequirementCheckErrors = {
     [CheckName in keyof ChecksSection<
         keyof Checks
-    >]?: PartialDeep<ChecklistState>;
+    > as `${keyof Checks} ${CheckName}`]?: PartialDeep<ChecklistState>;
 };
 
 /** Represents a generic object with string keys and any type of values. */

@@ -144,7 +144,7 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
                             onToggle={() => toggle(sectionName, typedName)}
                             error={formatCheckListError(
                                 typedName,
-                                errors[typedName]
+                                errors[`${sectionName} ${typedName}`]
                             )}
                         />
                     );

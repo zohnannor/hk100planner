@@ -10,7 +10,7 @@ import {
 
 const formatCheckListError = (
     checkName: keyof ChecksSection<CheckSection>,
-    errors: RequirementCheckErrors[keyof ChecksSection<CheckSection>]
+    errors: RequirementCheckErrors[`${CheckSection} ${keyof ChecksSection<CheckSection>}`]
 ): string | undefined => {
     if (errors) {
         const useOfficialTMGrubNames =
@@ -38,6 +38,8 @@ const formatCheckListError = (
                         return `${error} grubs rescued`;
                     case 'simpleKeys':
                         return `${error} simple key(s) collected`;
+                    case 'maskShards':
+                        return `${error} mask shard(s) collected`;
                     case 'checks': {
                         return Object.entries(error as Checks)
                             .map(([section, sectionErrors]) => {
@@ -57,16 +59,17 @@ const formatCheckListError = (
                                     }
                                     case 'equipment':
                                     case 'charms':
-                                    case 'relicsAndItems': {
+                                    case 'items':
+                                    case 'vesselFragments':
+                                    case 'maskShards': {
+                                        joined += 'acquired';
+                                        break;
+                                    }
+                                    case 'relics':
                                         joined += 'collected';
                                         break;
-                                    }
                                     case 'spells': {
                                         joined += 'learned';
-                                        break;
-                                    }
-                                    case 'colosseum': {
-                                        joined += 'completed';
                                         break;
                                     }
                                     case 'nail':
@@ -79,6 +82,7 @@ const formatCheckListError = (
                                         joined += 'rescued';
                                         break;
                                     }
+                                    case 'colosseum':
                                     case 'godhome': {
                                         joined += 'completed';
                                         break;
@@ -92,7 +96,7 @@ const formatCheckListError = (
 
                                 return joined;
                             })
-                            .join(' and ');
+                            .join('; ');
                     }
 
                     default:
