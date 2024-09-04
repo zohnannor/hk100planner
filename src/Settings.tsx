@@ -72,7 +72,7 @@ const Settings: React.FC<SettingsProps> = ({ collapsed }) => {
             </FlexBox>
             <FlexBox $align='center' $justify='space-between'>
                 <SettingTitle>
-                    <FText>Use official™️ grub names</FText>
+                    <FText>Use official™ grub names</FText>
                     <FlexBox
                         onClick={() => {
                             setTooltipText(DESCRIPTION);

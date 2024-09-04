@@ -42,7 +42,7 @@ body {
 
     background: url('./assets/voidheart.png');
     background-size: cover;
-    background-position: 0 0;
+    background-position: center 0;
 }
 
 .background::after {

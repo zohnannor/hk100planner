@@ -339,10 +339,19 @@ export type Action = {
         section: S,
         name: keyof ChecksSection<S>
     ) => void;
+
     /** Checks all items in the checklist or the specific section. */
     checkAll: (sectionName?: CheckSection) => void;
+
     /** Resets the checklist or the specific section to its initial state. */
     reset: (sectionName?: CheckSection) => void;
+
+    /** Validates a specific check in the checklist. */
+    validateCheck: (
+        state: ChecklistState,
+        check: Check
+    ) => PartialDeep<ChecklistState> | undefined;
+
     /**
      * Validates the current state of the checklist against its requirements.
      *

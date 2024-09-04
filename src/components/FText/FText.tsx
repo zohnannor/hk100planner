@@ -1,7 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
-import { COLORS } from '../../constants';
 import renderLink from '../../util/renderLink';
 
 import type { Property } from 'csstype';
@@ -13,10 +12,11 @@ type FTextWrapperProps = {
 export const FTextWrapper = styled.span<FTextWrapperProps>`
     white-space: pre-line;
     text-wrap: pretty;
-    color: ${({ $color }) => $color || COLORS.white};
+    text-wrap: stable;
+    color: ${({ $color }) => $color || 'inherit'};
 
     & a {
-        color: ${({ $color }) => $color || COLORS.white};
+        color: ${({ $color }) => $color || 'inherit'};
         text-decoration: underline;
         text-decoration-style: dotted;
         text-decoration-thickness: 1px;
@@ -27,7 +27,7 @@ export const FTextWrapper = styled.span<FTextWrapperProps>`
 
 const IconWrapper = styled.img`
     width: 22px;
-    height: 22px;
+    aspect-ratio: 1;
     object-fit: contain;
 `;
 

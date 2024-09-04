@@ -637,7 +637,8 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 },
             },
             '[Dream Wielder]': {
-                description: 'Given by the [Seer] after gathering [ESSENCE] 500.',
+                description:
+                    'Given by the [Seer] after gathering [ESSENCE] 500.',
                 reward: { percent: 1, essenceReq: [500] },
                 requires: {
                     essence: 500,
@@ -1994,6 +1995,27 @@ const updateState = (
     });
 };
 
+const comparator = (
+    left: Comparable[string],
+    right: Comparable[string]
+): boolean => {
+    if (typeof left === 'boolean') {
+        return left === right;
+    } else if (typeof left === 'number' && typeof right === 'number') {
+        return left >= right;
+    }
+    throw new Error(`Unsupported type ${typeof left}`);
+};
+
+const validateCheck = (state: ChecklistState, check: Check) => {
+    const requires = check.requires;
+
+    if (requires && !partialDeepEqual(state, requires, comparator)) {
+        return requires;
+    }
+    return undefined;
+};
+
 /**
  * Validates the checks in the given checklist state.
  *
@@ -2008,18 +2030,6 @@ const updateState = (
 const validateChecks = (state: ChecklistState): RequirementCheckErrors => {
     const errors: RequirementCheckErrors = {};
 
-    const comparator = (
-        left: Comparable[string],
-        right: Comparable[string]
-    ): boolean => {
-        if (typeof left === 'boolean') {
-            return left === right;
-        } else if (typeof left === 'number' && typeof right === 'number') {
-            return left >= right;
-        }
-        throw new Error(`Unsupported type ${typeof left}`);
-    };
-
     Object.values(state).forEach(stateValue => {
         typeof stateValue === 'object' &&
             stateValue !== null &&
@@ -2029,14 +2039,13 @@ const validateChecks = (state: ChecklistState): RequirementCheckErrors => {
                     Object.entries(section).forEach(([checkName, check]) => {
                         const typedCheckName =
                             checkName as keyof ChecksSection<CheckSection>;
-                        const requires = check.checked && check.requires;
 
-                        if (
-                            requires &&
-                            !partialDeepEqual(state, requires, comparator)
-                        ) {
+                        const error =
+                            check.checked && validateCheck(state, check);
+
+                        if (error) {
                             errors[`${typedSectionName} ${typedCheckName}`] =
-                                requires;
+                                error;
                         }
                     });
                 }
@@ -2179,6 +2188,8 @@ const useChecklistStore = create<ChecklistState & Action>()(
                         handleCheck(state, section, check, willCheck);
                     });
                 },
+
+                validateCheck,
 
                 validateChecks,
             }))

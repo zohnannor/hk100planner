@@ -5,23 +5,28 @@ import { COLORS } from '../../constants';
 import { FlexBox } from '../../styles';
 import { FText } from '../FText/FText';
 
+import type { Property } from 'csstype';
+
 interface CheckboxSquareProps {
     $checked?: boolean;
+    $color?: Property.Color;
 }
 
 export interface CheckboxProps {
     defaultChecked?: boolean;
     label: string;
-    error?: string;
+    color?: Property.Color;
     onToggle?: () => void;
 }
 
-const CheckBoxLabel = styled.span`
-    width: 250px;
+const CheckBoxLabel = styled.span<{ $color?: Property.Color }>`
+    width: 300px;
     transition: 0.2s;
     font-size: 22px;
     line-height: 24px;
+    color: ${({ $color }) => $color || COLORS.white};
     text-wrap: pretty;
+    text-wrap: stable;
 `;
 
 const CheckBoxControls = styled.div`
@@ -40,7 +45,7 @@ const CheckBoxSquare = styled.div<CheckboxSquareProps>`
     width: 24px;
     height: 24px;
     background-color: transparent;
-    border: 2px solid ${COLORS.white};
+    border: 2px solid ${({ $color }) => $color || COLORS.white};
     border-radius: 4px;
     gap: 8px;
     padding: 4px;
@@ -55,16 +60,17 @@ const CheckBoxSquare = styled.div<CheckboxSquareProps>`
 export const CheckBox: React.FC<CheckboxProps> = ({
     defaultChecked = false,
     label,
+    color,
     onToggle,
 }) => {
     return (
         <FlexBox>
             <CheckBoxControls onClick={() => onToggle?.()}>
-                <CheckBoxSquare $checked={defaultChecked}>
-                    {defaultChecked && <CheckIcon />}
+                <CheckBoxSquare $checked={defaultChecked} $color={color}>
+                    {defaultChecked && <CheckIcon color={color} />}
                 </CheckBoxSquare>
             </CheckBoxControls>
-            <CheckBoxLabel>
+            <CheckBoxLabel $color={color}>
                 <FText>{label}</FText>
             </CheckBoxLabel>
         </FlexBox>

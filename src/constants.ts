@@ -1,8 +1,10 @@
 import { CheckSection, ChecksKeys } from './types/checklist';
 
 export const COLORS = {
-    red: '#ff4747',
+    red: 'crimson',
     white: 'white',
+    green: 'aquamarine',
+    gray: 'silver',
 };
 
 export const GRUB_REWARDS = [

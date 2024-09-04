@@ -2,8 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ExclamationMark, QuestionMark } from '../../assets';
+import { COLORS, OFFICIAL_TM_GRUB_NAMES } from '../../constants';
+import useChecklistStore from '../../stores/checklistStore';
 import useUiStore from '../../stores/uiStore';
-import { CheckBox, CheckboxProps } from './CheckBox';
+import {
+    Check,
+    CheckSection,
+    ChecksKeys,
+    ChecksSection,
+} from '../../types/checklist';
+import formatCheckListError from '../../util/formatCheckListError';
+import { CheckBox } from './CheckBox';
 
 const OuterShadow = styled.div`
     cursor: pointer;
@@ -18,7 +27,6 @@ const OuterShadow = styled.div`
     opacity: 0;
     z-index: 1;
     transition: 0.2s;
-    justify-self: center;
     &:hover {
         opacity: 1;
     }
@@ -42,9 +50,10 @@ const CheckBoxWrapper = styled.div`
     }
 `;
 
-type SectionCheckBoxProps = CheckboxProps & {
-    error?: string;
-    description?: string;
+type SectionCheckBoxProps = {
+    sectionName: keyof ChecksKeys;
+    name: string;
+    check: Check;
 };
 
 const InfoWrapper = styled.div`
@@ -54,18 +63,80 @@ const InfoWrapper = styled.div`
 `;
 
 export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
-    error,
-    description,
-    ...rest
+    sectionName,
+    name,
+    check,
 }) => {
-    const { onToggle } = rest;
+    const toggle = useChecklistStore(state => state.toggle);
+    const validateChecks = useChecklistStore(
+        state => () => state.validateChecks(state)
+    );
+    const validateCheck = useChecklistStore(
+        state => (check: Check) => state.validateCheck(state, check)
+    );
+
     const setTooltipText = useUiStore(state => state.setTooltipText);
     const openTooltip = useUiStore(state => state.openTooltip);
+    const useOfficialTMGrubNames = useUiStore(
+        state => state.useOfficialTMGrubNames
+    );
+    const checksValidation = useUiStore(state => state.checksValidation);
+    const setChecklistHasErrors = useUiStore(
+        state => state.setChecklistHasErrors
+    );
+
+    const errors = checksValidation ? validateChecks() : {};
+    setChecklistHasErrors(Object.keys(errors).length > 0);
+
+    const typedName = name as keyof ChecksSection<CheckSection>;
+    const { description } = check;
+    const error = formatCheckListError(
+        typedName,
+        errors[`${sectionName} ${typedName}`]
+    );
+
+    let label =
+        useOfficialTMGrubNames && sectionName === 'grubs'
+            ? OFFICIAL_TM_GRUB_NAMES[typedName as keyof ChecksSection<'grubs'>]
+            : name;
+
+    {
+        const req = check.requires;
+        const parts = [
+            req?.geo ? `[GEO] ${req.geo}` : null,
+            req?.essence ? `[ESSENCE] ${req.essence}` : null,
+            req?.paleOre ? `[PALE_ORE] ${req.paleOre}` : null,
+        ]
+            .filter(Boolean)
+            .join(', ');
+        if (parts.length > 0) {
+            label += ` (${parts})`;
+        }
+    }
+
+    const handleClick = () => toggle(sectionName, typedName);
+
+    const canBeChecked = !validateCheck(check);
 
     return (
         <CheckBoxWrapper>
-            <OuterShadow onClick={() => onToggle?.()} />
-            <CheckBox {...rest} />
+            <OuterShadow onClick={handleClick} />
+            <CheckBox
+                label={label}
+                onToggle={handleClick}
+                defaultChecked={check.checked}
+                color={
+                    checksValidation
+                        ? error
+                            ? COLORS.red
+                            : check.checked
+                            ? COLORS.white
+                            : canBeChecked
+                            ? COLORS.green
+                            : COLORS.gray
+                        : COLORS.white
+                }
+            />
             {description && (
                 <InfoWrapper
                     onClick={() => {
