@@ -110,7 +110,7 @@ const App = () => {
                     size='small'
                     onClick={() => {
                         window.open(
-                            'https://github.com/zohnannor/hk100planner/issues/new'
+                            'https://github.com/zohnannor/hk100planner/issues/new/choose'
                         );
                     }}
                 />
