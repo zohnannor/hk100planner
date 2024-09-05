@@ -1,0 +1,81 @@
+name: Bug report
+description: Create a report to help us improve
+title: '[Bug]: '
+labels: ['bug']
+assignees:
+    - zohnannor
+body:
+    - type: checkboxes
+      id: confirm
+      attributes:
+          label: I have checked that this issue has not already been reported.
+          description: Please search to see if an issue already exists for the bug you encountered.
+          options:
+              - label: I have searched the existing issues
+                required: true
+
+    - type: input
+      id: description
+      attributes:
+          label: Describe the bug
+          description: A clear and concise description of what the bug is.
+      validations:
+          required: true
+
+    - type: textarea
+      id: reproduce
+      attributes:
+          label: To Reproduce
+          description: Steps to reproduce the behavior.
+          value: |
+              1. Go to '...'
+              2. Click on '....'
+              3. Scroll down to '....'
+              4. See error
+      validations:
+          required: true
+
+    - type: textarea
+      id: expected
+      attributes:
+          label: Expected behavior
+          description: A clear and concise description of what you expected to happen.
+          placeholder: Tell us what you expected to happen!
+      validations:
+          required: true
+
+    - type: textarea
+      id: screenshots
+      attributes:
+          label: Screenshots
+          description: If applicable, add screenshots to help explain your problem.
+
+    - type: checkboxes
+      id: platform
+      attributes:
+          label: Platform
+          description: What platform are you using?
+          options:
+              - label: Windows
+              - label: Mac
+              - label: Linux
+              - label: Android
+              - label: iOS
+              - label: Other
+
+    - type: checkboxes
+      id: browser
+      attributes:
+          label: Browser
+          description: What browser are you using?
+          options:
+              - label: Chrome
+              - label: Firefox
+              - label: Safari
+              - label: Other
+
+    - type: textarea
+      id: additional
+      attributes:
+          label: Additional context
+          description: Add any other context about the problem here.
