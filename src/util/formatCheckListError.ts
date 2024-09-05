@@ -41,7 +41,7 @@ const formatCheckListError = (
                     case 'maskShards':
                         return `${error} mask shard(s) collected`;
                     case 'charms':
-                        return `${error} mask shard(s) collected`;
+                        return `${error} charms collected`;
                     case 'checks': {
                         return Object.entries(error as Checks)
                             .map(([section, sectionErrors]) => {
