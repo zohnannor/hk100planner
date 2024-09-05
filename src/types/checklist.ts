@@ -216,7 +216,15 @@ export type ChecksKeys = {
         | "[PALE_ORE] [Pale Ore] on the [Hallownest's Crown]"
         | '[PALE_ORE] [Pale Ore] behind [Nosk]s lair'
         | '[PALE_ORE] [Pale Ore] awarded by [Grubfather]'
-        | '[PALE_ORE] [Pale Ore] reward in [Trial of the Conqueror]';
+        | '[PALE_ORE] [Pale Ore] reward in [Trial of the Conqueror]'
+        | '[CHARM_NOTCH] [Charm Notch] from [Salubra] #1'
+        | '[CHARM_NOTCH] [Charm Notch] from [Salubra] #2'
+        | '[CHARM_NOTCH] [Charm Notch] from [Salubra] #3'
+        | '[CHARM_NOTCH] [Charm Notch] from [Salubra] #4'
+        | '[CHARM_NOTCH] [Charm Notch] in [Fog Canyon]'
+        | '[CHARM_NOTCH] [Charm Notch] in [Fungal Wastes]'
+        | '[CHARM_NOTCH] [Charm Notch] from [Colosseum of Fools]'
+        | '[CHARM_NOTCH] [Charm Notch] from [Grimm]';
     relics:
         | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Greenpath] near a [Stag Station]"
         | "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Greenpath] near [Fog Canyon] entrance"
@@ -307,6 +315,8 @@ export type ChecklistState = {
     essence: number;
     /** The amount of pale ore collected. */
     paleOre: number;
+    /** The amount of charms collected. */
+    charms: number;
     /** The amount of grubs collected. */
     grubs: number;
     /** The amount of mask shards collected. */

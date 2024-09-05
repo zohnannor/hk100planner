@@ -1,5 +1,6 @@
 import ARCANE_EGG from './arcaneegg.png';
 import POINTER from './button-pointer.png';
+import CHARM_NOTCH from './charmnotch.png';
 import { CheckIcon } from './checkmark';
 import BOTTOM from './dialog-fleur-bottom.png';
 import TOP from './dialog-fleur-top.png';
@@ -21,6 +22,7 @@ import JOURNAL from './wanderersjournal.png';
 export {
     ARCANE_EGG,
     BOTTOM,
+    CHARM_NOTCH,
     CheckIcon,
     ELEGANT_KEY,
     ESSENCE,

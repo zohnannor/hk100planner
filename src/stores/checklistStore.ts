@@ -27,6 +27,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
     paleOre: 0,
     simpleKeys: 0,
 
+    charms: 0,
     grubs: 0,
     maskShards: 0,
     vesselFragments: 0,
@@ -86,7 +87,16 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             },
-            '[Hornet Protector]': { reward: { percent: 1 } },
+            '[Hornet Protector]': {
+                reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        spells: {
+                            '[Vengeful Spirit]': { checked: true },
+                        },
+                    },
+                },
+            },
             '[Hornet Sentinel]': {
                 reward: { percent: 1 },
                 requires: {
@@ -97,9 +107,34 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             '[Mantis Lords]': {
                 reward: { percent: 1, geo: 620 },
+                requires: {
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                },
             },
-            '[Nosk]': { reward: { percent: 1 } },
-            '[Soul Master]': { reward: { percent: 1, geo: 380 } },
+            '[Nosk]': {
+                reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        equipment: {
+                            '[Crystal Heart]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[Soul Master]': {
+                reward: { percent: 1, geo: 380 },
+                requires: {
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                },
+            },
             '[Traitor Lord]': {
                 reward: { percent: 1 },
                 requires: {
@@ -149,7 +184,16 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             },
-            '[Mantis Claw]': { reward: { percent: 2 } },
+            '[Mantis Claw]': {
+                reward: { percent: 2 },
+                requires: {
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                },
+            },
             '[Monarch Wings]': {
                 reward: { percent: 2 },
                 requires: {
@@ -234,15 +278,20 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
         },
 
         dreamNail: {
-            '[Dream Nail]': { reward: { percent: 1 } },
+            '[Dream Nail]': {
+                reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        items: { '[Lumafly Lantern]': { checked: true } },
+                    },
+                },
+            },
             '[Awoken Dream Nail]': {
                 reward: { percent: 1, essenceReq: [1800] },
                 requires: {
                     essence: 1800,
                     checks: {
-                        dreamNail: {
-                            '[Dream Nail]': { checked: true },
-                        },
+                        dreamNail: { '[Dream Nail]': { checked: true } },
                         maskShards: { '[Seer]': { checked: true } },
                     },
                 },
@@ -367,7 +416,14 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     'Bought from [Salubra] for [GEO] 220 in the [Forgotten Crossroads].',
                 reward: { percent: 1, geoReq: 220 },
-                requires: { geo: 220 },
+                requires: {
+                    geo: 220,
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                },
             },
             '[Soul Eater]': {
                 description:
@@ -383,12 +439,18 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     'Found beneath a statue below the [Mantis Village] in the [Fungal Wastes], near the entrance to the [Royal Waterways].',
                 reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                    },
+                },
             },
             '[Sprintmaster]': {
                 description:
                     "Bought from [Sly] in [Dirtmouth] after acquiring the [SHOPKEEPER'S_KEY] [Shopkeeper's Key] for [GEO] 400.",
-                reward: { percent: 1 },
+                reward: { percent: 1, geoReq: 400 },
                 requires: {
+                    geo: 400,
                     checks: {
                         items: {
                             "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
@@ -414,26 +476,44 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     'Bought from [Leg Eater] in [Fungal Wastes] for [GEO] 350.',
                 reward: { percent: 1, geoReq: 350 },
+                requires: { geo: 350 },
             },
             '[Fragile Greed] / [Unbreakable Greed]': {
                 description:
                     'Bought from [Leg Eater] in [Fungal Wastes] for [GEO] 250.',
                 reward: { percent: 1, geoReq: 250 },
+                requires: { geo: 250 },
             },
             '[Fragile Strength] / [Unbreakable Strength]': {
                 description:
                     'Bought from [Leg Eater] in [Fungal Wastes] for [GEO] 600.',
                 reward: { percent: 1, geoReq: 600 },
+                requires: { geo: 600 },
             },
             '[Spell Twister]': {
                 description:
                     'A secret room on the top of the [Soul Sanctum], just before fighting [Soul Master].',
                 reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                },
             },
             '[Steady Body]': {
                 description:
                     'Bought from [Salubra] for [GEO] 120 in the [Forgotten Crossroads].',
                 reward: { percent: 1, geoReq: 120 },
+                requires: {
+                    geo: 120,
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                },
             },
             '[Heavy Blow]': {
                 description:
@@ -464,7 +544,14 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     'Bought from [Salubra] in the [Forgotten Crossroads] for [GEO] 300.',
                 reward: { percent: 1, geoReq: 300 },
-                requires: { geo: 300 },
+                requires: {
+                    geo: 300,
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                },
             },
             '[Mark of Pride]': {
                 description:
@@ -493,11 +580,25 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     'Found in the southwest portion of the [Howling Cliffs], where there is a chest that drops only [GEO] 1.',
                 reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                },
             },
             '[Flukenest]': {
                 description:
                     'Dropped by [Flukemarm] in the [Royal Waterways] when defeated.',
                 reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        spells: {
+                            '[Desolate Dive]': { checked: true },
+                        },
+                    },
+                },
             },
             "[Defender's Crest]": {
                 description:
@@ -523,7 +624,14 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     'Bought from [Salubra] in the [Forgotten Crossroads] for [GEO] 800.',
                 reward: { percent: 1, geoReq: 800 },
-                requires: { geo: 800 },
+                requires: {
+                    geo: 800,
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                },
             },
             '[Deep Focus]': {
                 description:
@@ -539,7 +647,14 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     'Bought from [Salubra] in the [Forgotten Crossroads] for [GEO] 250.',
                 reward: { percent: 1, geoReq: 250 },
-                requires: { geo: 250 },
+                requires: {
+                    geo: 250,
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                },
             },
             '[Lifeblood Core]': {
                 description:
@@ -655,6 +770,11 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     "Found in a room in the [Resting Grounds], below [Seer]'s room.",
                 reward: { percent: 1 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
             },
             '[Grimmchild] / [Carefree Melody]': {
                 description:
@@ -764,6 +884,14 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             "[Bretta]'s house": {
                 description: 'Requires rescuing [Bretta] from [Fungal Wastes].',
                 reward: { maskShards: 1 },
+                requires: {
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                },
             },
             '[Stone Sanctuary]': {
                 reward: { maskShards: 1 },
@@ -778,7 +906,8 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Royal Waterways]': {
                 description:
                     'Northwest section of the Royal Waterways, swim west under main path.',
-                reward: { maskShards: 1 },
+                reward: { maskShards: 1, simpleKeysReq: 1 },
+                requires: { simpleKeys: 1 },
             },
             '[Deepnest] from [Fungal Core]': {
                 reward: { maskShards: 1 },
@@ -859,6 +988,11 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     "Near the inaccessible [Queen's Gardens] entrance.",
                 reward: { vesselFragments: 1 },
+                requires: {
+                    checks: {
+                        equipment: { '[Mantis Claw]': { checked: true } },
+                    },
+                },
             },
             'Left of the lift in [Forgotten Crossroads]': {
                 description:
@@ -868,6 +1002,13 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             "Above [King's Station] near a lift": {
                 description: 'Accessible after completing the arena.',
                 reward: { vesselFragments: 1 },
+                requires: {
+                    checks: {
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
+                    },
+                },
             },
             '[Deepnest]': {
                 description:
@@ -1509,9 +1650,19 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 description:
                     'In the [Mawlurk] area leading to [Broken Vessel].',
                 reward: { simpleKeys: 1 },
+                requires: {
+                    checks: {
+                        equipment: { '[Crystal Heart]': { checked: true } },
+                    },
+                },
             },
             '[SIMPLE_KEY] [Simple Key] behind [Pale Lurker]': {
                 reward: { simpleKeys: 1 },
+                requires: {
+                    checks: {
+                        equipment: { '[Mantis Claw]': { checked: true } },
+                    },
+                },
             },
             '[ELEGANT_KEY] [Elegant Key]': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 800.',
@@ -1543,7 +1694,14 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             },
-            '[Tram Pass]': { reward: {} },
+            '[Tram Pass]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        equipment: { '[Mantis Claw]': { checked: true } },
+                    },
+                },
+            },
             '[Lumafly Lantern]': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 1800.',
                 reward: { geoReq: 1800 },
@@ -1601,6 +1759,60 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     checks: {
                         colosseum: {
                             '[Trial of the Conqueror]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[CHARM_NOTCH] [Charm Notch] from [Salubra] #1': {
+                reward: {},
+                requires: { charms: 5 },
+            },
+            '[CHARM_NOTCH] [Charm Notch] from [Salubra] #2': {
+                reward: {},
+                requires: { charms: 10 },
+            },
+            '[CHARM_NOTCH] [Charm Notch] from [Salubra] #3': {
+                reward: {},
+                requires: { charms: 18 },
+            },
+            '[CHARM_NOTCH] [Charm Notch] from [Salubra] #4': {
+                reward: {},
+                requires: { charms: 25 },
+            },
+            '[CHARM_NOTCH] [Charm Notch] in [Fog Canyon]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        equipment: { "[Isma's Tear]": { checked: true } },
+                    },
+                },
+            },
+            '[CHARM_NOTCH] [Charm Notch] in [Fungal Wastes]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[CHARM_NOTCH] [Charm Notch] from [Colosseum of Fools]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        colosseum: {
+                            '[Trial of the Warrior]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[CHARM_NOTCH] [Charm Notch] from [Grimm]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        bosses: {
+                            '[Grimm]': { checked: true },
                         },
                     },
                 },
@@ -1909,30 +2121,130 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
         },
 
         whisperingRoots: {
-            '[Ancestral Mound]': { reward: { essence: 42 } },
-            '[City of Tears]': { reward: { essence: 28 } },
-            '[Crystal Peak]': { reward: { essence: 21 } },
-            '[Deepnest]': { reward: { essence: 45 } },
-            '[Forgotten Crossroads]': { reward: { essence: 29 } },
-            '[Fungal Wastes] (near [Fog Canyon])': { reward: { essence: 20 } },
+            '[Ancestral Mound]': {
+                reward: { essence: 42 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                        spells: {
+                            '[Vengeful Spirit]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[City of Tears]': {
+                reward: { essence: 28 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
+            '[Crystal Peak]': {
+                reward: { essence: 21 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
+            '[Deepnest]': {
+                reward: { essence: 45 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
+            '[Forgotten Crossroads]': {
+                reward: { essence: 29 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
+            '[Fungal Wastes] (near [Fog Canyon])': {
+                reward: { essence: 20 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
             '[Fungal Wastes] (above [Mantis Village])': {
                 reward: { essence: 18 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
             },
-            '[Greenpath]': { reward: { essence: 44 } },
+            '[Greenpath]': {
+                reward: { essence: 44 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
             '[The Hive]': {
                 reward: { essence: 20 },
                 requires: {
                     checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
                         items: { '[Tram Pass]': { checked: true } },
                     },
                 },
             },
-            '[Howling Cliffs]': { reward: { essence: 46 } },
-            "[Kingdom's Edge]": { reward: { essence: 51 } },
-            "[Queen's Gardens]": { reward: { essence: 29 } },
-            '[Resting Grounds]': { reward: { essence: 20 } },
-            '[Royal Waterways]': { reward: { essence: 35 } },
-            "[Spirits' Glade]": { reward: { essence: 34 } },
+            '[Howling Cliffs]': {
+                reward: { essence: 46 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
+            "[Kingdom's Edge]": {
+                reward: { essence: 51 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
+            "[Queen's Gardens]": {
+                reward: { essence: 29 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
+            '[Resting Grounds]': {
+                reward: { essence: 20 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
+            '[Royal Waterways]': {
+                reward: { essence: 35 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
+            "[Spirits' Glade]": {
+                reward: { essence: 34 },
+                requires: {
+                    checks: {
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
         },
     },
 };

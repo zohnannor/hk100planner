@@ -1,5 +1,6 @@
 import {
     ARCANE_EGG,
+    CHARM_NOTCH,
     ELEGANT_KEY,
     ESSENCE,
     GEO,
@@ -18,6 +19,7 @@ const ICONS: Record<string, string> = {
     GEO: GEO,
     ESSENCE: ESSENCE,
     PALE_ORE: PALE_ORE,
+    CHARM_NOTCH: CHARM_NOTCH,
     "WANDERER'S_JOURNAL": JOURNAL,
     HALLOWNEST_SEAL: SEAL,
     "KING'S_IDOL": KINGS_IDOL,

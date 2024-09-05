@@ -40,6 +40,8 @@ const formatCheckListError = (
                         return `${error} simple key(s) collected`;
                     case 'maskShards':
                         return `${error} mask shard(s) collected`;
+                    case 'charms':
+                        return `${error} mask shard(s) collected`;
                     case 'checks': {
                         return Object.entries(error as Checks)
                             .map(([section, sectionErrors]) => {
@@ -87,11 +89,10 @@ const formatCheckListError = (
                                         joined += 'completed';
                                         break;
                                     }
-                                    default: {
+                                    default:
                                         throw new Error(
                                             `Unimplemented requirement for '${typedSection}' section`
                                         );
-                                    }
                                 }
 
                                 return joined;
