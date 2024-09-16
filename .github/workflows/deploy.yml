@@ -26,14 +26,13 @@ jobs:
             - name: Enable Corepack
               run: corepack enable
 
+            - name: Setup Yarn
+              uses: threeal/setup-yarn-action@v2.0.0
             - name: Set Up Node.js
               uses: actions/setup-node@v4
               with:
                   node-version: 22
                   cache: 'yarn'
-
-            - name: Install Yarn
-              run: set version berry
 
             - name: Install Dependencies
               run: yarn install --immutable
