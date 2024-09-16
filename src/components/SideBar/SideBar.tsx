@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components';
 import { COLORS } from '../../constants';
 import useChecklistStore from '../../stores/checklistStore';
 import { FlexBox, HasErrors } from '../../styles';
-import Button from '../Button';
 
 interface ContainerProps {
     $visible: boolean;
@@ -54,8 +53,6 @@ export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
     hasErrors,
 }) => {
     const percent = useChecklistStore(state => state.percent);
-    const reset = useChecklistStore(state => state.reset);
-    const checkAll = useChecklistStore(state => state.checkAll);
 
     return (
         <Container $visible={visible}>
@@ -63,10 +60,6 @@ export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
                 <SidePercentLabel $hasErrors={hasErrors}>
                     {percent}%
                 </SidePercentLabel>
-
-                <Button size='small' label='uncheck all' onClick={reset} />
-                <Button size='small' label='check all' onClick={checkAll} />
-
                 <SideLabel>{children}</SideLabel>
             </FlexBox>
         </Container>

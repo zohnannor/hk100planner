@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect } from 'react';
+import { ElementRef, PropsWithChildren, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
@@ -12,6 +12,8 @@ const TooltipRoot = styled.div`
     top: 40%;
     transform: translate(-50%, -50%);
     z-index: 100;
+    transition: opacity 0.2s;
+    opacity: 0;
 `;
 
 const TooltipOverlay = styled.div`
@@ -22,6 +24,8 @@ const TooltipOverlay = styled.div`
     height: 100%;
     z-index: 100;
     background: rgba(0, 0, 0, 0.6);
+    transition: opacity 0.2s;
+    opacity: 0;
 `;
 
 const Shadow = styled.div`
@@ -40,14 +44,38 @@ const Shadow = styled.div`
     }
 `;
 
+const toggleOpacity = (body: HTMLDivElement | null, overlay: HTMLDivElement | null, opacity: number) => {
+    if (body && overlay) {
+        body.style.opacity = String(opacity);
+        overlay.style.opacity = String(opacity);
+    }
+};
+
 export const Tooltip: React.FC<PropsWithChildren> = ({ children }) => {
     const closeTooltip = useUiStore(state => state.closeTooltip);
     const isTooltipOpen = useUiStore(state => state.isTooltipOpen);
+    const tooltipOverlay = useRef<ElementRef<"div">>(null);
+    const tooltipBody = useRef<ElementRef<"div">>(null);
+
+    useEffect(() => {
+        if (isTooltipOpen) {
+            setTimeout(() => {
+                toggleOpacity(tooltipBody.current, tooltipOverlay.current, 1);
+            })
+        }
+    }, [isTooltipOpen, tooltipBody, tooltipOverlay])
+
+    const handleClose = () => {
+        toggleOpacity(tooltipBody.current, tooltipOverlay.current, 0);
+        setTimeout(() => {
+            closeTooltip()
+        }, 200);
+    };
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
-                closeTooltip();
+                handleClose();
             }
         };
 
@@ -59,8 +87,8 @@ export const Tooltip: React.FC<PropsWithChildren> = ({ children }) => {
 
     return ReactDOM.createPortal(
         <>
-            <TooltipOverlay onClick={closeTooltip} />
-            <TooltipRoot>
+            <TooltipOverlay ref={tooltipOverlay} onClick={handleClose} />
+            <TooltipRoot ref={tooltipBody}>
                 <Shadow>
                     <DialogBox>
                         <FText>{children}</FText>

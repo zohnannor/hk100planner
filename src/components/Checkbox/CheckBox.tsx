@@ -20,6 +20,7 @@ export interface CheckboxProps {
 }
 
 const CheckBoxLabel = styled.span<{ $color?: Property.Color }>`
+    cursor: pointer;
     width: 300px;
     transition: 0.2s;
     font-size: 22px;
@@ -70,7 +71,7 @@ export const CheckBox: React.FC<CheckboxProps> = ({
                     {defaultChecked && <CheckIcon color={color} />}
                 </CheckBoxSquare>
             </CheckBoxControls>
-            <CheckBoxLabel $color={color}>
+            <CheckBoxLabel onClick={() => onToggle?.()} $color={color}>
                 <FText>{label}</FText>
             </CheckBoxLabel>
         </FlexBox>

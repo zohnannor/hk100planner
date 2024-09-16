@@ -10,6 +10,9 @@ type FTextWrapperProps = {
 };
 
 export const FTextWrapper = styled.span<FTextWrapperProps>`
+    display: inline-flex;
+    flex-wrap: wrap;
+    column-gap: 4px;
     white-space: pre-line;
     text-wrap: pretty;
     text-wrap: stable;
@@ -55,6 +58,7 @@ export const FText: React.FC<PropsWithChildren<FTextProps>> = ({
                         title={part.link}
                         target='_blank'
                         key={n}
+                        onClick={e => e.stopPropagation()}
                     >
                         {part.val}
                     </a>
@@ -64,6 +68,7 @@ export const FText: React.FC<PropsWithChildren<FTextProps>> = ({
                         title={part.link}
                         target='_blank'
                         key={n}
+                        onClick={e => e.stopPropagation()}
                     >
                         <IconWrapper src={part.val} alt={part.link} />
                     </a>
