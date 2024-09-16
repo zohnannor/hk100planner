@@ -1,4 +1,4 @@
-name: Deploy static content to Pages
+name: Deploy Static Content to GitHub Pages
 
 on:
     push:
@@ -23,28 +23,42 @@ jobs:
             url: ${{ steps.deployment.outputs.page_url }}
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout
+            - name: Checkout Code
               uses: actions/checkout@v4
-            - name: Set up Node
+
+            - name: Set Up Node.js
               uses: actions/setup-node@v4
               with:
                   node-version: 20
                   cache: 'yarn'
+
             - name: Enable Corepack
               run: corepack enable
+
             - name: Install Yarn 2
               run: yarn set version berry
-            - name: Install dependencies
+
+            - name: Install Dependencies
               run: yarn install --immutable
-            - name: Build
+
+            - name: Build Project
               run: yarn build
-            - name: Setup Pages
+
+            - name: Setup GitHub Pages
+              if: github.event_name == 'push'
               uses: actions/configure-pages@v4
-            - name: Upload artifact
+
+            - name: Upload Build Artifacts
+              if: github.event_name == 'push'
               uses: actions/upload-pages-artifact@v3
               with:
                   path: './dist'
+
             - name: Deploy to GitHub Pages
               id: deployment
-              if: github.event_name == 'push' # Only deploy on push events
+              if: github.event_name == 'push'
               uses: actions/deploy-pages@v4
+
+            - name: Notify Deployment Status
+              if: github.event_name == 'push'
+              run: echo "Deployment to GitHub Pages completed successfully!"
