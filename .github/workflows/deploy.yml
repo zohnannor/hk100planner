@@ -1,9 +1,9 @@
 name: Deploy Static Content to GitHub Pages
 
 on:
-    push:
-        branches: ['main']
     pull_request:
+        branches: ['main']
+    push:
         branches: ['main']
     workflow_dispatch:
 
@@ -17,10 +17,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    deploy:
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
+    build:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Code
@@ -44,21 +41,23 @@ jobs:
             - name: Build Project
               run: yarn build
 
-            - name: Setup GitHub Pages
-              if: github.event_name == 'push'
-              uses: actions/configure-pages@v4
-
             - name: Upload Build Artifacts
-              if: github.event_name == 'push'
+              if: github.event_name == 'pull_request'
               uses: actions/upload-pages-artifact@v3
               with:
                   path: './dist'
 
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        if: github.event_name == 'push'
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Setup GitHub Pages
+              uses: actions/configure-pages@v4
+
             - name: Deploy to GitHub Pages
               id: deployment
-              if: github.event_name == 'push'
               uses: actions/deploy-pages@v4
-
-            - name: Notify Deployment Status
-              if: github.event_name == 'push'
-              run: echo "Deployment to GitHub Pages completed successfully!"
