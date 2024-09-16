@@ -35,8 +35,12 @@ jobs:
               with:
                   node-version: 20
                   cache: 'yarn'
+            - name: Enable Corepack
+              run: corepack enable
+            - name: Install Yarn 2
+              run: yarn set version berry
             - name: Install dependencies
-              run: yarn install --frozen-lockfile
+              run: yarn install --immutable
             - name: Build
               run: yarn build
             - name: Setup Pages
