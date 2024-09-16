@@ -68,6 +68,7 @@ const formatCheckListError = (
                                         break;
                                     }
                                     case 'relics':
+                                    case 'whisperingRoots':
                                         joined += 'collected';
                                         break;
                                     case 'spells': {
@@ -91,7 +92,9 @@ const formatCheckListError = (
                                     }
                                     default:
                                         throw new Error(
-                                            `Unimplemented requirement for '${typedSection}' section`
+                                            `Unimplemented requirement for '${
+                                                typedSection satisfies never
+                                            }' section`
                                         );
                                 }
 
@@ -100,9 +103,22 @@ const formatCheckListError = (
                             .join('; ');
                     }
 
+                    case 'percent':
+                    case 'geoReq':
+                    case 'essenceReq':
+                    case 'paleOreReq':
+                    case 'simpleKeysReq':
+                    case 'vesselFragments': {
+                        throw new Error(
+                            `Nothing should require ${typedRequirement}`
+                        );
+                    }
+
                     default:
                         throw new Error(
-                            `Unimplemented requirement for '${typedRequirement}' type`
+                            `Unimplemented requirement for '${
+                                typedRequirement satisfies never
+                            }' type`
                         );
                 }
             })

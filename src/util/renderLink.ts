@@ -11,6 +11,7 @@ import {
     SEAL,
     SIMPLE_KEY,
     SLY_KEY,
+    TRAM_PASS,
 } from '../assets';
 
 const WIKI_URL_BASE = 'https://hollowknight.wiki/w/';
@@ -20,6 +21,7 @@ const ICONS: Record<string, string> = {
     ESSENCE: ESSENCE,
     PALE_ORE: PALE_ORE,
     CHARM_NOTCH: CHARM_NOTCH,
+    TRAM_PASS: TRAM_PASS,
     "WANDERER'S_JOURNAL": JOURNAL,
     HALLOWNEST_SEAL: SEAL,
     "KING'S_IDOL": KINGS_IDOL,

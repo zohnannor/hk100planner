@@ -208,7 +208,7 @@ export type ChecksKeys = {
         | '[ELEGANT_KEY] [Elegant Key]'
         | '[LOVE_KEY] [Love Key]'
         | "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]"
-        | '[Tram Pass]'
+        | '[TRAM_PASS] [Tram Pass]'
         | '[Lumafly Lantern]'
         | '[Delicate Flower]'
         | '[PALE_ORE] [Pale Ore] in [Ancient Basin] below [Cloth]'
@@ -379,4 +379,4 @@ export type RequirementCheckErrors = {
 };
 
 /** Represents a generic object with string keys and any type of values. */
-export type AnyObject = { [key: string]: any };
+export type AnyObject = Record<string, unknown>;

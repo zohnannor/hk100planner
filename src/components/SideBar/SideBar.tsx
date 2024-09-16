@@ -19,6 +19,11 @@ const Container = styled.div<ContainerProps>`
     right: 64px;
     top: 24px;
     opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+    ${({ $visible }) =>
+        !$visible &&
+        css`
+            pointer-events: none;
+        `}
 `;
 
 export const SidePercentLabel = styled.div<HasErrors>`

@@ -1,18 +1,12 @@
 /**
  * A type representing a value that can be compared.
  *
- * The Comparable type can be a number, boolean, string, a function, an array of Comparable,
- * or another Comparable object. This allows for flexible data structures that can be used
- * in comparisons.
+ * The Comparable type can be a number, boolean, string, a function, an array of
+ * Comparable, or another Comparable object. This allows for flexible data
+ * structures that can be used in comparisons.
  */
 export type Comparable = {
-    [key: string]:
-        | number
-        | boolean
-        | string
-        | ((...a: any) => any)
-        | number[]
-        | Comparable;
+    [key: string]: number | boolean | string | Function | number[] | Comparable;
 };
 
 /**
@@ -41,20 +35,20 @@ type Comparator<T> = (left: T, right: T) => boolean;
 const partialDeepEqual = (
     left: Comparable,
     right: Comparable,
-    comparator: Comparator<Comparable[string]>
+    comparator: Comparator<Comparable[keyof Comparable]>
 ): boolean =>
-    Object.keys(right).every(key => {
+    Object.keys(right).every((key: keyof Comparable) => {
         if (!left.hasOwnProperty(key)) {
             return false; // Key does not exist in left
         }
 
-        const leftValue = left[key];
-        const rightValue = right[key];
+        const leftValue = left[key]!;
+        const rightValue = right[key]!;
 
         // Check if both values are arrays
-        if (Array.isArray(rightValue) && Array.isArray(leftValue)) {
+        if (Array.isArray(rightValue)) {
             // Compute the maximum of both arrays
-            const leftMax = Math.max(...leftValue);
+            const leftMax = Math.max(...(leftValue as typeof rightValue));
             const rightMax = Math.max(...rightValue);
             // Use the comparator for the maximum values
             return comparator(leftMax, rightMax);
@@ -63,16 +57,13 @@ const partialDeepEqual = (
         else if (typeof rightValue === 'object' && rightValue !== null) {
             // Recursively check nested objects
             return partialDeepEqual(
-                leftValue as Comparable,
-                rightValue as Comparable,
+                leftValue as typeof rightValue,
+                rightValue,
                 comparator
             );
         } else {
             // Use the comparator for primitive values
-            return comparator(
-                leftValue as Comparable[string],
-                rightValue as Comparable[string]
-            );
+            return comparator(leftValue, rightValue);
         }
     }) || Object.keys(right).length === 0; // Allow for right to be empty
 

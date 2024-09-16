@@ -17,6 +17,7 @@ import PALE_ORE from './paleore.png';
 import { QuestionMark } from './questionmark';
 import SLY_KEY from './shopkeeperskey.png';
 import SIMPLE_KEY from './simplekey.png';
+import TRAM_PASS from './trampass.png';
 import JOURNAL from './wanderersjournal.png';
 
 export {
@@ -40,4 +41,5 @@ export {
     SIMPLE_KEY,
     SLY_KEY,
     TOP,
+    TRAM_PASS,
 };

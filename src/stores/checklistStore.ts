@@ -59,7 +59,12 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
             '[Dung Defender]': {
                 reward: { percent: 1, simpleKeysReq: 1 },
-                requires: { simpleKeys: 1 },
+                requires: {
+                    simpleKeys: 1,
+                    checks: {
+                        equipment: { '[Mantis Claw]': { checked: true } },
+                    },
+                },
             },
             '[False Knight]': { reward: { percent: 1, geo: 200 } },
             '[Grimm]': {
@@ -78,7 +83,9 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Hive Knight]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: { items: { '[Tram Pass]': { checked: true } } },
+                    checks: {
+                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                    },
                 },
             },
             '[Hornet Protector]': {
@@ -181,7 +188,10 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         bosses: { '[Broken Vessel]': { checked: true } },
-                        equipment: { '[Crystal Heart]': { checked: true } },
+                        equipment: {
+                            '[Crystal Heart]': { checked: true },
+                            '[Mantis Claw]': { checked: true },
+                        },
                     },
                 },
             },
@@ -651,7 +661,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         bosses: { '[Hive Knight]': { checked: true } },
-                        items: { '[Tram Pass]': { checked: true } },
+                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -882,7 +892,9 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     'Requires baiting a [Hive Guardian] into breaking a wall.',
                 reward: { maskShards: 1 },
                 requires: {
-                    checks: { items: { '[Tram Pass]': { checked: true } } },
+                    checks: {
+                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                    },
                 },
             },
             '[Seer]': {
@@ -1390,7 +1402,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                             '[Crystal Heart]': { checked: true },
                             '[Monarch Wings]': { checked: true },
                         },
-                        items: { '[Tram Pass]': { checked: true } },
+                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -1528,7 +1540,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     checks: {
                         equipment: { "[Isma's Tear]": { checked: true } },
                         spells: { '[Desolate Dive]': { checked: true } },
-                        items: { '[Tram Pass]': { checked: true } },
+                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -1540,7 +1552,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                             '[Crystal Heart]': { checked: true },
                             '[Monarch Wings]': { checked: true },
                         },
-                        items: { '[Tram Pass]': { checked: true } },
+                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -1632,7 +1644,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     },
                 },
             },
-            '[Tram Pass]': {
+            '[TRAM_PASS] [Tram Pass]': {
                 reward: {},
                 requires: {
                     checks: {
@@ -2117,7 +2129,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         dreamNail: { '[Dream Nail]': { checked: true } },
-                        items: { '[Tram Pass]': { checked: true } },
+                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
                     },
                 },
             },
@@ -2205,19 +2217,21 @@ const updateState = (
 ) => {
     Object.entries(updates).forEach(([key, value]) => {
         if (Array.isArray(value)) {
+            const stateValue = state[key] as typeof value;
             if (operation === 'add') {
-                state[key].push(...value);
+                stateValue.push(...value);
             } else if (operation === 'sub') {
-                const index = state[key].indexOf(...value);
+                const [n] = value;
+                const index = stateValue.indexOf(n);
                 if (index !== -1) {
-                    state[key].splice(index, 1);
+                    stateValue.splice(index, 1);
                 }
             }
         } else if (typeof value === 'number') {
             if (operation === 'add') {
-                state[key] += value;
+                (state[key] as typeof value) += value;
             } else {
-                state[key] -= value;
+                (state[key] as typeof value) -= value;
             }
         } else if (typeof value === 'boolean') {
             if (operation === 'add') {
@@ -2226,7 +2240,8 @@ const updateState = (
                 state[key] = (state[key] ? 1 : 0) - (value ? 1 : 0) === 1;
             }
         } else if (typeof value === 'object' && value !== null) {
-            updateState(state[key], value, operation);
+            const stateValue = state[key] as typeof value as AnyObject;
+            updateState(stateValue, value, operation);
         }
     });
 };
