@@ -63,8 +63,6 @@ const App = () => {
 
     const info = (
         <FlexBox $direction='column' $align='center'>
-            <Button size='small' label='uncheck all' onClick={reset} />
-            <Button size='small' label='check all' onClick={checkAll} />
             <FText color={decide(geo, geoReq)}>
                 [GEO] {geo} / {geoReq}
             </FText>

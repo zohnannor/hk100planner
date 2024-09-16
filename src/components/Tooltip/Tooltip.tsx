@@ -1,22 +1,27 @@
-import { ElementRef, PropsWithChildren, useEffect, useRef } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
 import useUiStore from '../../stores/uiStore';
+import sleep from '../../util/sleep';
 import DialogBox from '../DialogBox';
 import { FText } from '../FText/FText';
 
-const TooltipRoot = styled.div`
+interface TooltipProps {
+    $opacity: number;
+}
+
+const TooltipRoot = styled.div<TooltipProps>`
     position: fixed;
     left: 50%;
     top: 40%;
     transform: translate(-50%, -50%);
     z-index: 100;
     transition: opacity 0.2s;
-    opacity: 0;
+    opacity: ${({ $opacity }) => $opacity};
 `;
 
-const TooltipOverlay = styled.div`
+const TooltipOverlay = styled.div<TooltipProps>`
     position: fixed;
     top: 0;
     left: 0;
@@ -25,7 +30,7 @@ const TooltipOverlay = styled.div`
     z-index: 100;
     background: rgba(0, 0, 0, 0.6);
     transition: opacity 0.2s;
-    opacity: 0;
+    opacity: ${({ $opacity }) => $opacity};
 `;
 
 const Shadow = styled.div`
@@ -44,32 +49,24 @@ const Shadow = styled.div`
     }
 `;
 
-const toggleOpacity = (body: HTMLDivElement | null, overlay: HTMLDivElement | null, opacity: number) => {
-    if (body && overlay) {
-        body.style.opacity = String(opacity);
-        overlay.style.opacity = String(opacity);
-    }
-};
-
 export const Tooltip: React.FC<PropsWithChildren> = ({ children }) => {
     const closeTooltip = useUiStore(state => state.closeTooltip);
     const isTooltipOpen = useUiStore(state => state.isTooltipOpen);
-    const tooltipOverlay = useRef<ElementRef<"div">>(null);
-    const tooltipBody = useRef<ElementRef<"div">>(null);
+    const [opacity, setOpacity] = useState(0);
 
+    // set opacity to 1 after tooltip has opened and rendered
     useEffect(() => {
         if (isTooltipOpen) {
-            setTimeout(() => {
-                toggleOpacity(tooltipBody.current, tooltipOverlay.current, 1);
-            })
+            setOpacity(1);
         }
-    }, [isTooltipOpen, tooltipBody, tooltipOverlay])
+    }, [isTooltipOpen]);
 
-    const handleClose = () => {
-        toggleOpacity(tooltipBody.current, tooltipOverlay.current, 0);
-        setTimeout(() => {
-            closeTooltip()
-        }, 200);
+    const handleClose = async () => {
+        // set opacity to 0 immediately
+        setOpacity(0);
+        // and close with a delay
+        await sleep(200);
+        closeTooltip();
     };
 
     useEffect(() => {
@@ -87,8 +84,8 @@ export const Tooltip: React.FC<PropsWithChildren> = ({ children }) => {
 
     return ReactDOM.createPortal(
         <>
-            <TooltipOverlay ref={tooltipOverlay} onClick={handleClose} />
-            <TooltipRoot ref={tooltipBody}>
+            <TooltipOverlay $opacity={opacity} onClick={handleClose} />
+            <TooltipRoot $opacity={opacity}>
                 <Shadow>
                     <DialogBox>
                         <FText>{children}</FText>
