@@ -35,10 +35,12 @@ jobs:
               with:
                   node-version: 22
                   cache: 'yarn'
+            - name: Enable Corepack
+              run: corepack enable
             - name: Install dependencies
-              run: yarn install --frozen-lockfile
+              run: corepack yarn install --frozen-lockfile
             - name: Build
-              run: yarn build
+              run: corepack yarn build
             - name: Setup Pages
               uses: actions/configure-pages@v4
             - name: Upload artifact
