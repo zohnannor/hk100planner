@@ -23,17 +23,17 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v4
 
-            - name: Set Up Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 20
-                  cache: 'yarn'
-
             - name: Enable Corepack
               run: corepack enable
 
-            - name: Install Yarn 2
-              run: yarn set version berry
+            - name: Install Yarn
+              run: set version berry
+
+            - name: Set Up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: 'yarn'
 
             - name: Install Dependencies
               run: yarn install --immutable
