@@ -1,20 +1,27 @@
-import { PropsWithChildren, useEffect } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
 import useUiStore from '../../stores/uiStore';
+import sleep from '../../util/sleep';
 import DialogBox from '../DialogBox';
 import { FText } from '../FText/FText';
 
-const TooltipRoot = styled.div`
+interface TooltipProps {
+    $opacity: number;
+}
+
+const TooltipRoot = styled.div<TooltipProps>`
     position: fixed;
     left: 50%;
     top: 40%;
     transform: translate(-50%, -50%);
     z-index: 100;
+    transition: opacity 0.2s;
+    opacity: ${({ $opacity }) => $opacity};
 `;
 
-const TooltipOverlay = styled.div`
+const TooltipOverlay = styled.div<TooltipProps>`
     position: fixed;
     top: 0;
     left: 0;
@@ -22,6 +29,8 @@ const TooltipOverlay = styled.div`
     height: 100%;
     z-index: 100;
     background: rgba(0, 0, 0, 0.6);
+    transition: opacity 0.2s;
+    opacity: ${({ $opacity }) => $opacity};
 `;
 
 const Shadow = styled.div`
@@ -43,11 +52,27 @@ const Shadow = styled.div`
 export const Tooltip: React.FC<PropsWithChildren> = ({ children }) => {
     const closeTooltip = useUiStore(state => state.closeTooltip);
     const isTooltipOpen = useUiStore(state => state.isTooltipOpen);
+    const [opacity, setOpacity] = useState(0);
+
+    // set opacity to 1 after tooltip has opened and rendered
+    useEffect(() => {
+        if (isTooltipOpen) {
+            setOpacity(1);
+        }
+    }, [isTooltipOpen]);
+
+    const handleClose = async () => {
+        // set opacity to 0 immediately
+        setOpacity(0);
+        // and close with a delay
+        await sleep(200);
+        closeTooltip();
+    };
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
-                closeTooltip();
+                handleClose();
             }
         };
 
@@ -59,8 +84,8 @@ export const Tooltip: React.FC<PropsWithChildren> = ({ children }) => {
 
     return ReactDOM.createPortal(
         <>
-            <TooltipOverlay onClick={closeTooltip} />
-            <TooltipRoot>
+            <TooltipOverlay $opacity={opacity} onClick={handleClose} />
+            <TooltipRoot $opacity={opacity}>
                 <Shadow>
                     <DialogBox>
                         <FText>{children}</FText>
