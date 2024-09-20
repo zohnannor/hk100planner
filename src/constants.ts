@@ -1,4 +1,5 @@
 import { CheckSection, ChecksKeys } from './types/checklist';
+import { UnionToArray } from './types/util';
 
 export const COLORS = {
     red: 'crimson',
@@ -15,6 +16,7 @@ export const GRUB_REWARDS = [
 
 export const SECTION_TITLES: Record<CheckSection, string> = {
     bosses: '[Bosses](Bosses (Hollow Knight))',
+    optionalBosses: '[Bosses](Bosses (Hollow Knight)) (no percents)',
     equipment: '[Equipment](Abilities)',
     spells: '[Spells]',
     nail: '[Nail]',
@@ -35,23 +37,31 @@ export const SECTION_TITLES: Record<CheckSection, string> = {
     whisperingRoots: '[Whispering Roots](Whispering Root) (no percents)',
 };
 
-export const DISTRIBUTED_SECTIONS: CheckSection[][] = [
-    ['bosses', 'equipment', 'spells', 'charms', 'items', 'relics'],
+export const DISTRIBUTED_SECTIONS = [
+    ['bosses', 'equipment', 'spells', 'dreamers', 'charms', 'items', 'relics'],
     [
         'nail',
         'dreamNail',
         'nailArts',
         'maskShards',
         'vesselFragments',
-        'dreamers',
         'dreamWarriors',
         'dreamBosses',
         'colosseum',
         'godhome',
         'grubs',
         'whisperingRoots',
+        'optionalBosses',
     ],
-];
+] as const satisfies CheckSection[][];
+
+type MissingSectionNames = UnionToArray<
+    Exclude<CheckSection, (typeof DISTRIBUTED_SECTIONS)[number][number]>
+>;
+
+// Compile-time check to make sure all sections are used in
+// `DISTRIBUTED_SECTIONS`.
+export const __missingSectionNames: MissingSectionNames = [];
 
 export const DESCRIPTION_TEXT =
     'This is a tool to help you plan your Hollow Knight ["Speed Completion"](Achievements (Hollow Knight)#Challenges) achievement checklist. ' +

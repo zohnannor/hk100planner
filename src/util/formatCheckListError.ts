@@ -53,6 +53,7 @@ const formatCheckListError = (
 
                                 switch (typedSection) {
                                     case 'bosses':
+                                    case 'optionalBosses':
                                     case 'dreamers':
                                     case 'dreamWarriors':
                                     case 'dreamBosses': {

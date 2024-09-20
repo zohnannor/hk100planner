@@ -34,6 +34,25 @@ export type ChecksKeys = {
         | '[Traitor Lord]'
         | '[Uumuu]'
         | '[Watcher Knight]';
+    optionalBosses:
+        | '[Absolute Radiance]'
+        | '[Brothers Oro & Mato]'
+        | '[Crystal Guardian]'
+        | '[Enraged Guardian]'
+        | '[Flukemarm]'
+        | '[God Tamer]'
+        | '[Great Nailsage Sly]'
+        | '[Hollow Knight]'
+        | '[Massive Moss Charger]'
+        | '[Oblobbles]'
+        | '[Paintmaster Sheo]'
+        | '[Pure Vessel]'
+        | '[Radiance]'
+        | '[Sisters of Battle]'
+        | '[Soul Warrior]'
+        | '[Vengefly King]'
+        | '[Winged Nosk]'
+        | '[Zote]';
     equipment:
         | '[Crystal Heart]'
         | "[Isma's Tear]"
@@ -152,7 +171,8 @@ export type ChecksKeys = {
         | '[Pantheon of the Master]'
         | '[Pantheon of the Artist]'
         | '[Pantheon of the Sage]'
-        | '[Pantheon of the Knight]';
+        | '[Pantheon of the Knight]'
+        | '[Pantheon of the Hallownest] (no percent)';
     grubs:
         | '[Forgotten Crossroads] behind [Husk Guard]'
         | '[Forgotten Crossroads] [Fog Canyon] entrance'

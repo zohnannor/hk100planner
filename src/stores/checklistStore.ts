@@ -154,6 +154,183 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             },
         },
 
+        optionalBosses: {
+            '[Absolute Radiance]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        godhome: {
+                            '[Pantheon of the Hallownest] (no percent)': {
+                                checked: true,
+                            },
+                        },
+                    },
+                },
+            },
+            '[Brothers Oro & Mato]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        godhome: {
+                            '[Pantheon of the Master]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[Crystal Guardian]': {
+                reward: { geo: 385 },
+                requires: {
+                    checks: {
+                        equipment: { '[Mantis Claw]': { checked: true } },
+                    },
+                },
+            },
+            '[Enraged Guardian]': {
+                reward: { geo: 550 },
+                requires: {
+                    checks: {
+                        optionalBosses: {
+                            '[Crystal Guardian]': { checked: true },
+                        },
+                        equipment: { '[Monarch Wings]': { checked: true } },
+                    },
+                },
+            },
+            '[Flukemarm]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        spells: { '[Desolate Dive]': { checked: true } },
+                    },
+                },
+            },
+            '[God Tamer]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        colosseum: { '[Trial of the Fool]': { checked: true } },
+                    },
+                },
+            },
+            '[Great Nailsage Sly]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        godhome: {
+                            '[Pantheon of the Sage]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[Hollow Knight]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        dreamers: {
+                            '[Herra the Beast]': { checked: true },
+                            '[Lurien the Watcher]': { checked: true },
+                            '[Monomon the Teacher]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[Massive Moss Charger]': {
+                reward: { geo: 300 },
+                requires: {
+                    checks: {
+                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                    },
+                },
+            },
+            '[Oblobbles]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        colosseum: {
+                            '[Trial of the Conqueror]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[Paintmaster Sheo]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        godhome: {
+                            '[Pantheon of the Artist]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[Pure Vessel]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        godhome: {
+                            '[Pantheon of the Knight]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[Radiance]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        optionalBosses: {
+                            '[Hollow Knight]': { checked: true },
+                        },
+                        dreamNail: { '[Dream Nail]': { checked: true } },
+                    },
+                },
+            },
+            '[Sisters of Battle]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        godhome: {
+                            '[Pantheon of the Hallownest] (no percent)': {
+                                checked: true,
+                            },
+                        },
+                    },
+                },
+            },
+            '[Soul Warrior]': { reward: { geo: 200 } },
+            '[Vengefly King]': {
+                reward: { geo: 65 },
+                requires: {
+                    checks: {
+                        spells: { '[Vengeful Spirit]': { checked: true } },
+                    },
+                },
+            },
+            '[Winged Nosk]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        godhome: {
+                            '[Pantheon of the Hallownest] (no percent)': {
+                                checked: true,
+                            },
+                        },
+                    },
+                },
+            },
+            '[Zote]': {
+                reward: {},
+                requires: {
+                    checks: {
+                        colosseum: {
+                            '[Trial of the Warrior]': { checked: true },
+                        },
+                        optionalBosses: {
+                            '[Vengefly King]': { checked: true },
+                        },
+                    },
+                },
+            },
+        },
+
         equipment: {
             '[Crystal Heart]': {
                 reward: { percent: 2 },
@@ -571,6 +748,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         spells: { '[Desolate Dive]': { checked: true } },
+                        optionalBosses: { '[Flukemarm]': { checked: true } },
                     },
                 },
             },
@@ -868,7 +1046,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Royal Waterways]': {
                 description:
                     'Northwest section of the Royal Waterways, swim west under main path.',
-                reward: { maskShards: 1, simpleKeysReq: 1 },
+                reward: { maskShards: 1 },
                 requires: { simpleKeys: 1 },
             },
             '[Deepnest] from [Fungal Core]': {
@@ -884,6 +1062,9 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         equipment: { '[Monarch Wings]': { checked: true } },
+                        optionalBosses: {
+                            '[Enraged Guardian]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1100,6 +1281,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         dreamNail: { '[Dream Nail]': { checked: true } },
+                        bosses: { '[False Knight]': { checked: true } },
                     },
                 },
             },
@@ -1108,6 +1290,8 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         dreamNail: { '[Dream Nail]': { checked: true } },
+                        optionalBosses: { '[Zote]': { checked: true } },
+                        equipment: { '[Monarch Wings]': { checked: true } },
                     },
                 },
             },
@@ -1116,6 +1300,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         dreamNail: { '[Dream Nail]': { checked: true } },
+                        bosses: { '[Broken Vessel]': { checked: true } },
                     },
                 },
             },
@@ -1124,6 +1309,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         dreamNail: { '[Dream Nail]': { checked: true } },
+                        bosses: { '[Dung Defender]': { checked: true } },
                     },
                 },
             },
@@ -1132,6 +1318,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         dreamNail: { '[Dream Nail]': { checked: true } },
+                        bosses: { '[Soul Master]': { checked: true } },
                     },
                 },
             },
@@ -1150,6 +1337,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                         colosseum: {
                             '[Trial of the Warrior]': { checked: true },
                         },
+                        optionalBosses: { '[Oblobbles]': { checked: true } },
                     },
                 },
             },
@@ -1161,6 +1349,7 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                         colosseum: {
                             '[Trial of the Conqueror]': { checked: true },
                         },
+                        optionalBosses: { '[God Tamer]': { checked: true } },
                     },
                 },
             },
@@ -1184,6 +1373,12 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                             '[Brooding Mawlek]': { checked: true },
                         },
                         dreamWarriors: { '[Gorb]': { checked: true } },
+                        optionalBosses: {
+                            '[Vengefly King]': { checked: true },
+                            '[Massive Moss Charger]': { checked: true },
+                            '[Soul Warrior]': { checked: true },
+                            '[Brothers Oro & Mato]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1204,6 +1399,12 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                         dreamWarriors: {
                             '[Xero]': { checked: true },
                             '[Marmu]': { checked: true },
+                        },
+                        optionalBosses: {
+                            '[Crystal Guardian]': { checked: true },
+                            '[Oblobbles]': { checked: true },
+                            '[Flukemarm]': { checked: true },
+                            '[Paintmaster Sheo]': { checked: true },
                         },
                     },
                 },
@@ -1227,6 +1428,9 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                         dreamBosses: {
                             '[Grey Prince Zote]': { checked: true },
                         },
+                        optionalBosses: {
+                            '[Great Nailsage Sly]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1246,6 +1450,64 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                         dreamWarriors: {
                             '[No Eyes]': { checked: true },
                             '[Markoth]': { checked: true },
+                        },
+                        optionalBosses: {
+                            '[Enraged Guardian]': { checked: true },
+                            '[Pure Vessel]': { checked: true },
+                        },
+                    },
+                },
+            },
+            '[Pantheon of the Hallownest] (no percent)': {
+                reward: {},
+                requires: {
+                    checks: {
+                        godhome: {
+                            '[Pantheon of the Knight]': { checked: true },
+                        },
+                        charms: {
+                            '[Kingsoul] / [Void Heart]': { checked: true },
+                        },
+                        optionalBosses: {
+                            '[Massive Moss Charger]': { checked: true },
+                            '[Soul Warrior]': { checked: true },
+                            '[Brothers Oro & Mato]': { checked: true },
+                            '[Crystal Guardian]': { checked: true },
+                            '[Oblobbles]': { checked: true },
+                            '[Sisters of Battle]': { checked: true },
+                            '[Flukemarm]': { checked: true },
+                            '[Paintmaster Sheo]': { checked: true },
+                            '[Winged Nosk]': { checked: true },
+                            '[Great Nailsage Sly]': { checked: true },
+                            '[Enraged Guardian]': { checked: true },
+                            '[Pure Vessel]': { checked: true },
+                        },
+                        bosses: {
+                            '[Gruz Mother]': { checked: true },
+                            '[Hornet Protector]': { checked: true },
+                            '[Dung Defender]': { checked: true },
+                            '[Brooding Mawlek]': { checked: true },
+                            '[Soul Master]': { checked: true },
+                            '[Broken Vessel]': { checked: true },
+                            '[Hive Knight]': { checked: true },
+                            '[The Collector]': { checked: true },
+                            '[Grimm]': { checked: true },
+                            '[Watcher Knight]': { checked: true },
+                            '[Uumuu]': { checked: true },
+                            '[Hornet Sentinel]': { checked: true },
+                            '[Traitor Lord]': { checked: true },
+                        },
+                        dreamWarriors: {
+                            '[Gorb]': { checked: true },
+                            '[Xero]': { checked: true },
+                            '[Marmu]': { checked: true },
+                            '[Galien]': { checked: true },
+                            '[Elder Hu]': { checked: true },
+                            '[No Eyes]': { checked: true },
+                            '[Markoth]': { checked: true },
+                        },
+                        dreamBosses: {
+                            '[Grey Prince Zote]': { checked: true },
                         },
                     },
                 },
