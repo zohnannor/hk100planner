@@ -35,10 +35,20 @@ export const SECTION_TITLES: Record<CheckSection, string> = {
     items: '[Items](Items (Hollow_Knight)) (no percents)',
     relics: '[Relics](Items (Hollow_Knight)#Tradables) (no percents)',
     whisperingRoots: '[Whispering Roots](Whispering Root) (no percents)',
+    // endings: '[Endings](Endings (Hollow Knight))',
 };
 
 export const DISTRIBUTED_SECTIONS = [
-    ['bosses', 'equipment', 'spells', 'dreamers', 'charms', 'items', 'relics'],
+    [
+        'bosses',
+        'equipment',
+        'spells',
+        'dreamers',
+        'charms',
+        'items',
+        'relics',
+        // 'endings',
+    ],
     [
         'nail',
         'dreamNail',

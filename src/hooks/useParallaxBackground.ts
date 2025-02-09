@@ -1,10 +1,10 @@
-import { MutableRefObject, useCallback, useEffect } from 'react';
+import { RefObject, useCallback, useEffect } from 'react';
 
 export const useParallaxBackground = (
-    ref: MutableRefObject<HTMLDivElement | null>
+    ref: RefObject<HTMLDivElement | null>
 ) => {
     const handleScroll = useCallback((e: Event) => {
-        const target = e.target as EventTarget;
+        const target = e.target;
         if (!(target instanceof Document) || !ref.current) {
             return;
         }

@@ -52,7 +52,7 @@ const CheckBoxWrapper = styled.div`
 
 type SectionCheckBoxProps = {
     sectionName: keyof ChecksKeys;
-    name: string;
+    name: keyof ChecksSection<CheckSection>;
     check: Check;
 };
 
@@ -88,33 +88,31 @@ export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
     const errors = checksValidation ? validateChecks() : {};
     setChecklistHasErrors(Object.keys(errors).length > 0);
 
-    const typedName = name as keyof ChecksSection<CheckSection>;
     const { description } = check;
-    const error = formatCheckListError(
-        typedName,
-        errors[`${sectionName} ${typedName}`]
-    );
+    const error = formatCheckListError(name, errors[`${sectionName} ${name}`]);
 
     let label =
         useOfficialTMGrubNames && sectionName === 'grubs'
-            ? OFFICIAL_TM_GRUB_NAMES[typedName as keyof ChecksSection<'grubs'>]
+            ? OFFICIAL_TM_GRUB_NAMES[name as keyof ChecksSection<'grubs'>]
             : name;
 
     {
         const req = check.requires;
-        const parts = [
-            req?.geo ? `[GEO] ${req.geo}` : null,
-            req?.essence ? `[ESSENCE] ${req.essence}` : null,
-            req?.paleOre ? `[PALE_ORE] ${req.paleOre}` : null,
-        ]
-            .filter(Boolean)
-            .join(', ');
-        if (parts.length > 0) {
-            label += ` (${parts})`;
+        if (typeof req === 'object') {
+            const parts = [
+                req?.geo ? `[GEO] ${req.geo}` : null,
+                req?.essence ? `[ESSENCE] ${req.essence}` : null,
+                req?.paleOre ? `[PALE_ORE] ${req.paleOre}` : null,
+            ]
+                .filter(Boolean)
+                .join(', ');
+            if (parts.length > 0) {
+                label += ` (${parts})`;
+            }
         }
     }
 
-    const handleClick = () => toggle(sectionName, typedName);
+    const handleClick = () => toggle(sectionName, name);
 
     const canBeChecked = !validateCheck(check);
 

@@ -12,12 +12,12 @@ const formatCheckListError = (
     checkName: keyof ChecksSection<CheckSection>,
     errors: RequirementCheckErrors[`${CheckSection} ${keyof ChecksSection<CheckSection>}`]
 ): string | undefined => {
-    if (errors) {
+    if (errors && typeof errors === 'object') {
         const useOfficialTMGrubNames =
             useUiStore.getState().useOfficialTMGrubNames;
         const name =
             useOfficialTMGrubNames &&
-            Object.keys(OFFICIAL_TM_GRUB_NAMES).includes(checkName)
+            OFFICIAL_TM_GRUB_NAMES.hasOwnProperty(checkName)
                 ? OFFICIAL_TM_GRUB_NAMES[
                       checkName as keyof ChecksSection<'grubs'>
                   ]
@@ -46,60 +46,21 @@ const formatCheckListError = (
                         return Object.entries(error as Checks)
                             .map(([section, sectionErrors]) => {
                                 const typedSection = section as CheckSection;
+                                const typedSectionErrors =
+                                    sectionErrors as ChecksSection<CheckSection>;
 
-                                let joined =
-                                    Object.keys(sectionErrors).join(', ') +
-                                    ' to be ';
+                                const positive = getEntriesText(
+                                    typedSection,
+                                    typedSectionErrors,
+                                    true
+                                );
+                                const negative = getEntriesText(
+                                    typedSection,
+                                    typedSectionErrors,
+                                    false
+                                );
 
-                                switch (typedSection) {
-                                    case 'bosses':
-                                    case 'optionalBosses':
-                                    case 'dreamers':
-                                    case 'dreamWarriors':
-                                    case 'dreamBosses': {
-                                        joined += 'defeated';
-                                        break;
-                                    }
-                                    case 'equipment':
-                                    case 'charms':
-                                    case 'items':
-                                    case 'vesselFragments':
-                                    case 'maskShards': {
-                                        joined += 'acquired';
-                                        break;
-                                    }
-                                    case 'relics':
-                                    case 'whisperingRoots':
-                                        joined += 'collected';
-                                        break;
-                                    case 'spells': {
-                                        joined += 'learned';
-                                        break;
-                                    }
-                                    case 'nail':
-                                    case 'nailArts':
-                                    case 'dreamNail': {
-                                        joined += 'obtained';
-                                        break;
-                                    }
-                                    case 'grubs': {
-                                        joined += 'rescued';
-                                        break;
-                                    }
-                                    case 'colosseum':
-                                    case 'godhome': {
-                                        joined += 'completed';
-                                        break;
-                                    }
-                                    default:
-                                        throw new Error(
-                                            `Unimplemented requirement for '${
-                                                typedSection satisfies never
-                                            }' section`
-                                        );
-                                }
-
-                                return joined;
+                                return positive + negative;
                             })
                             .join('; ');
                     }
@@ -111,7 +72,7 @@ const formatCheckListError = (
                     case 'simpleKeysReq':
                     case 'vesselFragments': {
                         throw new Error(
-                            `Nothing should require ${typedRequirement}`
+                            `Nothing should require ${requirement}`
                         );
                     }
 
@@ -124,9 +85,78 @@ const formatCheckListError = (
                 }
             })
             .join(', ')}.`;
+    } else if (typeof errors === 'string') {
+        return errors;
     }
-
     return undefined;
 };
+
+const getEntriesText = (
+    section: CheckSection,
+    sectionErrors: ChecksSection<CheckSection>,
+    checked: boolean
+) => {
+    const entries = Object.entries(sectionErrors)
+        .filter(([, check]) => check.checked === checked)
+        .map(([name]) => name);
+
+    return entries.length !== 0
+        ? requirementTextForSection(
+              section,
+              entries.join(', ') + (checked ? ' to be ' : ' to not be ')
+          )
+        : '';
+};
+
+function requirementTextForSection(section: CheckSection, joined: string) {
+    switch (section) {
+        case 'bosses':
+        case 'optionalBosses':
+        case 'dreamers':
+        case 'dreamWarriors':
+        case 'dreamBosses': {
+            joined += 'defeated';
+            break;
+        }
+        case 'equipment':
+        case 'charms':
+        case 'items':
+        case 'vesselFragments':
+        case 'maskShards': {
+            joined += 'acquired';
+            break;
+        }
+        case 'relics':
+        case 'whisperingRoots':
+            joined += 'collected';
+            break;
+        case 'spells': {
+            joined += 'learned';
+            break;
+        }
+        case 'nail':
+        case 'nailArts':
+        case 'dreamNail': {
+            joined += 'obtained';
+            break;
+        }
+        case 'grubs': {
+            joined += 'rescued';
+            break;
+        }
+        case 'colosseum':
+        case 'godhome': {
+            joined += 'completed';
+            break;
+        }
+        default:
+            throw new Error(
+                `Unimplemented requirement for '${
+                    section satisfies never
+                }' section`
+            );
+    }
+    return joined;
+}
 
 export default formatCheckListError;

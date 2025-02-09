@@ -276,6 +276,9 @@ const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: {},
                 requires: {
                     checks: {
+                        charms: {
+                            '[Kingsoul] / [Void Heart]': { checked: true },
+                        },
                         optionalBosses: {
                             '[Hollow Knight]': { checked: true },
                         },
@@ -2545,6 +2548,7 @@ const validateChecks = (state: ChecklistState): RequirementCheckErrors => {
 
     Object.values(state).forEach(stateValue => {
         typeof stateValue === 'object' &&
+            !Array.isArray(stateValue) &&
             stateValue !== null &&
             Object.entries(stateValue as Checks).forEach(
                 ([sectionName, section]) => {

@@ -4,7 +4,7 @@ import { HR } from '../../assets';
 import useChecklistStore from '../../stores/checklistStore';
 import useUiStore from '../../stores/uiStore';
 import { FlexBox } from '../../styles';
-import { CheckSection } from '../../types/checklist';
+import { CheckSection, ChecksSection } from '../../types/checklist';
 import Button from '../Button';
 import { SectionCheckBox } from '../Checkbox/SectionCheckBox';
 import { FText } from '../FText/FText';
@@ -112,11 +112,12 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
                 $collapsed={collapsed}
             >
                 {Object.entries(section).map(([name, check]) => {
+                    const typedName = name as keyof ChecksSection<CheckSection>;
                     return (
                         <SectionCheckBox
                             key={name}
                             sectionName={sectionName}
-                            name={name}
+                            name={typedName}
                             check={check}
                         />
                     );

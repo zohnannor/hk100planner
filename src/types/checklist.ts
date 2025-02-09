@@ -13,6 +13,9 @@ export type Check = {
     reward: CheckRewards;
     /** A function that returns the requirements for this check. */
     requires?: PartialDeep<ChecklistState>;
+    // requires?:
+    //     | PartialDeep<ChecklistState>
+    //     | ((state: ChecklistState) => string | undefined);
 };
 
 /** Defines the keys for various checks in the checklist. */
@@ -305,6 +308,12 @@ export type ChecksKeys = {
         | '[Resting Grounds]'
         | '[Royal Waterways]'
         | "[Spirits' Glade]";
+    // endings:
+    //     | '[The Hollow Knight](Endings (Hollow Knight)#Ending 1: The Hollow Knight)'
+    //     | '[Sealed Siblings](Endings (Hollow Knight)#Ending 2: Sealed Siblings)'
+    //     | '[Dream No More](Endings (Hollow Knight)#Ending 3: Dream No More)'
+    //     | '[Embrace the Void](Endings (Hollow Knight)#Ending 4: Embrace the Void)'
+    //     | 'Any ending';
 };
 
 /** Names of the sections of the checks defined in ChecksKeys. */
@@ -395,7 +404,7 @@ export type Action = {
 export type RequirementCheckErrors = {
     [CheckName in keyof ChecksSection<
         keyof Checks
-    > as `${keyof Checks} ${CheckName}`]?: PartialDeep<ChecklistState>;
+    > as `${keyof Checks} ${CheckName}`]?: PartialDeep<ChecklistState> | string;
 };
 
 /** Represents a generic object with string keys and any type of values. */
