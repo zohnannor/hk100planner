@@ -97,7 +97,7 @@ const getEntriesText = (
     checked: boolean
 ) => {
     const entries = Object.entries(sectionErrors)
-        .filter(([, check]) => check.checked === checked)
+        .filter(([, check]) => (check.checked ?? false) === checked)
         .map(([name]) => name);
 
     return entries.length !== 0

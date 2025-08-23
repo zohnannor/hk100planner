@@ -224,7 +224,7 @@ const handleCheck = (
     check: Check,
     willCheck: boolean
 ) => {
-    if (check.checked === willCheck) {
+    if ((check.checked ?? false) === willCheck) {
         return;
     }
     applyReward(state, check.reward, willCheck);
@@ -248,7 +248,7 @@ const useChecklistStore = create<ChecklistState & Action>()(
 
                 reset: (sectionName?: CheckSection) => {
                     if (sectionName) {
-                        set(state => {
+                        set(state =>
                             Object.values(state.checks[sectionName]).forEach(
                                 check =>
                                     handleCheck(
@@ -257,8 +257,8 @@ const useChecklistStore = create<ChecklistState & Action>()(
                                         check,
                                         false
                                     )
-                            );
-                        });
+                            )
+                        );
                     } else {
                         // This doesn't need to give (or rather, take) rewards,
                         // because the state mutation doesn't depend on the
