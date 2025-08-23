@@ -1,4 +1,4 @@
-import { ElementRef, useRef } from 'react';
+import { useRef } from 'react';
 import { useIntersectionObserver, useToggle } from 'usehooks-ts';
 
 import { LOGO } from './assets/index.ts';
@@ -53,7 +53,7 @@ const App = () => {
 
     const { isIntersecting, ref } = useIntersectionObserver();
 
-    const backgroundRef = useRef<ElementRef<'div'>>(null);
+    const backgroundRef = useRef<HTMLDivElement>(null);
     useParallaxBackground(backgroundRef);
 
     const [settingsCollapsed, toggleSettingsCollapsed] = useToggle(false);

@@ -10,12 +10,10 @@ type FTextWrapperProps = {
 };
 
 export const FTextWrapper = styled.span<FTextWrapperProps>`
-    display: inline-flex;
+    display: block;
     flex-wrap: wrap;
     column-gap: 4px;
     white-space: pre-line;
-    text-wrap: pretty;
-    text-wrap: stable;
     color: ${({ $color }) => $color || 'inherit'};
 
     & a {
@@ -32,6 +30,8 @@ const IconWrapper = styled.img`
     width: 22px;
     aspect-ratio: 1;
     object-fit: contain;
+    position: relative;
+    top: 4px;
 `;
 
 interface FTextProps {
