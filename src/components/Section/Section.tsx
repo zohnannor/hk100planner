@@ -4,7 +4,11 @@ import { HR } from '../../assets';
 import useChecklistStore from '../../stores/checklistStore';
 import useUiStore from '../../stores/uiStore';
 import { FlexBox } from '../../styles';
-import { CheckSection, ChecksSection } from '../../types/checklist';
+import {
+    CheckSection,
+    ChecksSection,
+    RequirementCheckErrors,
+} from '../../types/checklist';
 import Button from '../Button';
 import { SectionCheckBox } from '../Checkbox/SectionCheckBox';
 import { FText } from '../FText/FText';
@@ -70,9 +74,14 @@ const SectionButtons = styled.div`
 type SectionProps = {
     title: string;
     sectionName: CheckSection;
+    errors: RequirementCheckErrors;
 };
 
-export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
+export const Section: React.FC<SectionProps> = ({
+    title,
+    sectionName,
+    errors,
+}) => {
     const section = useChecklistStore(state => state.checks[sectionName]);
     const reset = useChecklistStore(state => state.reset);
     const checkAll = useChecklistStore(state => state.checkAll);
@@ -119,6 +128,7 @@ export const Section: React.FC<SectionProps> = ({ title, sectionName }) => {
                             sectionName={sectionName}
                             name={typedName}
                             check={check}
+                            errors={errors}
                         />
                     );
                 })}

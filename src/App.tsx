@@ -42,6 +42,12 @@ const App = () => {
         reset,
         checkAll,
     } = useChecklistStore();
+    const validateChecks = useChecklistStore(
+        state => () => state.validateChecks(state)
+    );
+    const setChecklistHasErrors = useUiStore(
+        state => state.setChecklistHasErrors
+    );
 
     const tooltipText = useUiStore(state => state.tooltipText);
     const setTooltipText = useUiStore(state => state.setTooltipText);
@@ -77,6 +83,9 @@ const App = () => {
             </FText>
         </FlexBox>
     );
+
+    const errors = checksValidation ? validateChecks() : {};
+    setChecklistHasErrors(Object.keys(errors).length > 0);
 
     return (
         <MainWrapper>
@@ -143,6 +152,7 @@ const App = () => {
                                     key={sectionName}
                                     title={SECTION_TITLES[sectionName]}
                                     sectionName={sectionName}
+                                    errors={errors}
                                 />
                             );
                         })}

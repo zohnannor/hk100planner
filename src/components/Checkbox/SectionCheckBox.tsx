@@ -10,6 +10,7 @@ import {
     CheckSection,
     ChecksKeys,
     ChecksSection,
+    RequirementCheckErrors,
 } from '../../types/checklist';
 import formatCheckListError from '../../util/formatCheckListError';
 import { CheckBox } from './CheckBox';
@@ -54,6 +55,7 @@ type SectionCheckBoxProps = {
     sectionName: keyof ChecksKeys;
     name: keyof ChecksSection<CheckSection>;
     check: Check;
+    errors: RequirementCheckErrors;
 };
 
 const InfoWrapper = styled.div`
@@ -66,11 +68,9 @@ export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
     sectionName,
     name,
     check,
+    errors,
 }) => {
     const toggle = useChecklistStore(state => state.toggle);
-    const validateChecks = useChecklistStore(
-        state => () => state.validateChecks(state)
-    );
     const validateCheck = useChecklistStore(
         state => (check: Check) => state.validateCheck(state, check)
     );
@@ -81,12 +81,6 @@ export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
         state => state.useOfficialTMGrubNames
     );
     const checksValidation = useUiStore(state => state.checksValidation);
-    const setChecklistHasErrors = useUiStore(
-        state => state.setChecklistHasErrors
-    );
-
-    const errors = checksValidation ? validateChecks() : {};
-    setChecklistHasErrors(Object.keys(errors).length > 0);
 
     const { description } = check;
     const error = formatCheckListError(name, errors[`${sectionName} ${name}`]);
@@ -125,13 +119,13 @@ export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
                 defaultChecked={check.checked}
                 color={
                     checksValidation
-                        ? error
-                            ? COLORS.red
-                            : check.checked
-                            ? COLORS.white
-                            : canBeChecked
-                            ? COLORS.green
-                            : COLORS.gray
+                        ? !error
+                            ? canBeChecked
+                                ? !check.checked
+                                    ? COLORS.green
+                                    : COLORS.white
+                                : COLORS.gray
+                            : COLORS.red
                         : COLORS.white
                 }
             />
