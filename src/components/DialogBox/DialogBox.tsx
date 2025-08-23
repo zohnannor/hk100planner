@@ -7,9 +7,9 @@ import { FlexBox } from '../../styles';
 const TopFleur = styled.div`
     background: transparent center/contain scroll no-repeat;
     background-image: url(${TOP});
-    width: 36rem;
-    height: 4.475rem;
-    top: -3.6rem;
+    width: min(36rem, 90vw);
+    height: min(4.475rem, 13vw);
+    top: max(-3.6rem, -12vw);
 
     position: absolute;
 `;
@@ -17,9 +17,9 @@ const TopFleur = styled.div`
 const BottomFleur = styled.div`
     background: transparent center/contain scroll no-repeat;
     background-image: url(${BOTTOM});
-    width: 18rem;
-    height: 3.375rem;
-    bottom: -2.8rem;
+    width: min(18rem, 45vw);
+    height: min(3.375rem, 10.125vw);
+    bottom: max(-2.8rem, -9vw);
 
     position: absolute;
 `;

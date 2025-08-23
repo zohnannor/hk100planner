@@ -21,6 +21,7 @@ import useChecklistStore from './stores/checklistStore.ts';
 import useUiStore from './stores/uiStore.ts';
 import {
     FlexBox,
+    InfoContainter,
     MainContent,
     MainLabel,
     MainWrapper,
@@ -67,8 +68,8 @@ const App = () => {
     const decide = (a: number, b: number) =>
         checksValidation ? (a >= b ? COLORS.white : COLORS.red) : COLORS.white;
 
-    const info = (
-        <FlexBox $direction='column' $align='center'>
+    const info = (sidebar?: boolean) => (
+        <InfoContainter $tabletAlign={sidebar ? 'flex-end' : 'center'}>
             {[
                 ['[GEO]', geo, geoReq],
                 ['[ESSENCE]', essence, Math.max(...essenceReq)],
@@ -77,6 +78,13 @@ const App = () => {
             ].map(x => {
                 const [it, val, req] = x as [string, number, number];
                 const available = val - req;
+
+                if (sidebar)
+                    return (
+                        <FText color={decide(val, req)} key={it}>
+                            {it} {val} / {req}
+                        </FText>
+                    );
 
                 const p =
                     available === 0 || it === '[ESSENCE]'
@@ -92,7 +100,7 @@ const App = () => {
                     </FText>
                 );
             })}
-        </FlexBox>
+        </InfoContainter>
     );
 
     const errors = checksValidation ? validateChecks() : {};
@@ -149,9 +157,9 @@ const App = () => {
                 <Button label='Check All' onClick={checkAll} />
             </FlexBox>
 
-            <MainLabel ref={ref}>{info}</MainLabel>
+            <MainLabel ref={ref}>{info()}</MainLabel>
             <SideBar visible={!isIntersecting} hasErrors={checklistHasErrors}>
-                {info}
+                {info(true)}
             </SideBar>
 
             <MainContent>

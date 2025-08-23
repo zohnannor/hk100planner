@@ -11,10 +11,10 @@ export const useParallaxBackground = (
 
         const ratio = window.scrollY / target.documentElement.scrollHeight;
         ref.current.style.top = `-${ratio * 200}px`;
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 };

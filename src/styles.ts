@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { COLORS } from './constants';
+import { BREAKPOINTS, COLORS } from './constants';
 
 import type { Property } from 'csstype';
 export const MainWrapper = styled.div`
@@ -11,6 +11,12 @@ export const MainWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+
+    @media (max-width: ${BREAKPOINTS.laptop}px) {
+        > img {
+            max-width: 90vw;
+        }
+    }
 `;
 
 export const MainContent = styled.div`
@@ -18,13 +24,17 @@ export const MainContent = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: start;
-    gap: 50px;
+    column-gap: 50px;
+
+    @media (max-width: ${BREAKPOINTS.columns}px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 export const MainLabel = styled.span`
     transition: 0.2s;
-    font-size: 32px;
-    line-height: 34px;
+    font-size: min(32px, 4.7vw);
+    line-height: min(34px, 4.7vw);
 `;
 
 export type HasErrors = {
@@ -33,8 +43,8 @@ export type HasErrors = {
 
 export const PercentLabel = styled.span<HasErrors>`
     transition: 0.2s;
-    font-size: 100px;
-    line-height: 114px;
+    font-size: min(100px, 20vw);
+    line-height: min(114px, 22vw);
     margin-bottom: 20px;
 
     ${({ $hasErrors }) =>
@@ -44,12 +54,24 @@ export const PercentLabel = styled.span<HasErrors>`
         `}
 `;
 
+export const InfoContainter = styled.div<{
+    $tabletAlign?: Property.AlignItems;
+}>`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (max-width: ${BREAKPOINTS.laptop}px) {
+        align-items: ${({ $tabletAlign }) => $tabletAlign};
+    }
+`;
+
 export const SectionsColumn = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 48px;
+    gap: min(48px, 8vw);
 `;
 
 type FlexBoxProps = {

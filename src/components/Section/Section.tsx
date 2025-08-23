@@ -21,8 +21,8 @@ const SectionWrapper = styled.div`
 `;
 
 const SectionTitle = styled.h1`
-    font-size: 32px;
-    line-height: 32px;
+    font-size: min(32px, 8vw);
+    line-height: min(32px, 8vw);
     margin: 0;
     font-weight: bold;
     font-family: 'Cinzel', sans-serif;
@@ -32,8 +32,8 @@ const SectionTitle = styled.h1`
 const SectionUnderline = styled.div`
     background: transparent center/contain scroll no-repeat;
     background-image: url(${HR});
-    width: 30rem;
-    height: 3.375rem;
+    width: min(30rem, 90vw);
+    height: min(3.375rem, 10.125vw);
 `;
 
 type SectionContentProps = {
@@ -93,7 +93,7 @@ export const Section: React.FC<SectionProps> = ({
 
     return (
         <SectionWrapper>
-            <FlexBox $direction='column' $align='center' $gap='8px'>
+            <FlexBox $direction='column' $align='center' $gap='16px'>
                 <SectionTitle>
                     <FText>{title}</FText>
                 </SectionTitle>

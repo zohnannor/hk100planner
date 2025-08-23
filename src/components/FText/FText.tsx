@@ -27,11 +27,11 @@ export const FTextWrapper = styled.span<FTextWrapperProps>`
 `;
 
 const IconWrapper = styled.img`
-    width: 22px;
+    width: min(22px, 5vw);
     aspect-ratio: 1;
     object-fit: contain;
     position: relative;
-    top: 4px;
+    top: min(4px, 1vw);
 `;
 
 interface FTextProps {
