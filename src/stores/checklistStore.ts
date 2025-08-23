@@ -122,7 +122,7 @@ const validateCheck = (
         ],
     };
 
-    for (const key in Object.keys(reqs)) {
+    for (const key of Object.keys(reqs)) {
         const typedKey = key as keyof typeof reqs;
         if (requires?.[typedKey]) {
             const [collected, requirements, checkReq] = reqs[typedKey];
