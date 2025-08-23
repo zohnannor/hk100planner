@@ -17,11 +17,11 @@ const ButtonWrapper = styled.div<{
     transition: 0.2s;
     display: flex;
     align-items: center;
-    height: 60px;
+    height: min(60px, 10vw);
 
     & button {
-        font-size: 32px;
-        line-height: 32px;
+        font-size: min(32px, 5vw);
+        line-height: min(32px, 5vw);
         font-family: 'Cinzel', sans-serif;
         background: transparent;
         color: ${COLORS.white};
@@ -31,15 +31,15 @@ const ButtonWrapper = styled.div<{
 
     & div {
         position: relative;
-        width: 30px;
-        height: 32px;
-    }
+        width: min(30px, 5vw);
+        height: min(32px, 5vw);
 
-    & div img {
-        transition: 0.4s;
-        opacity: 0;
-        height: 32px;
-        position: absolute;
+        img {
+            transition: 0.4s;
+            opacity: 0;
+            height: 100%;
+            position: absolute;
+        }
     }
 
     & div:nth-of-type(1) img {
@@ -62,20 +62,16 @@ const ButtonWrapper = styled.div<{
     ${({ $size }) =>
         $size === 'small' &&
         css`
-            height: 20px;
+            height: min(20px, 3.5vw);
 
             & button {
-                font-size: 16px;
-                line-height: 16px;
+                font-size: min(16px, 3.5vw);
+                line-height: min(16px, 3.5vw);
             }
 
             & div {
-                height: 16px;
-                width: 10px;
-            }
-
-            & div img {
-                height: 16px;
+                height: min(16px, 3.5vw);
+                width: min(10px, 3vw);
             }
         `}
 `;

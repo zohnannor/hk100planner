@@ -35,12 +35,13 @@ const TooltipOverlay = styled.div<TooltipProps>`
 
 const Shadow = styled.div`
     display: flex;
-    height: 300px;
-    width: 1000px;
+    min-height: fit-content;
+    height: clamp(300px, calc(100vh - 50vw), 500px);
+    width: min(1000px, 90vw);
     background: rgba(0, 0, 0, 0.7);
     box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.7);
-    font-size: 24px;
-    padding: 12px 60px;
+    font-size: min(24px, 5vw);
+    padding: 12px min(60px, 8vw);
     max-width: 1000px;
     justify-content: center;
 

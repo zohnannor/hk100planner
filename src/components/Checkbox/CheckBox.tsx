@@ -21,10 +21,10 @@ export interface CheckboxProps {
 
 const CheckBoxLabel = styled.span<{ $color?: Property.Color }>`
     cursor: pointer;
-    width: 300px;
+    width: min(300px, 60vw);
     transition: 0.2s;
-    font-size: 22px;
-    line-height: 24px;
+    font-size: min(22px, 5vw);
+    line-height: min(24px, 5vw);
     color: ${({ $color }) => $color || COLORS.white};
     text-wrap: pretty;
     text-wrap: stable;

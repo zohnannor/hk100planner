@@ -10,8 +10,8 @@ const DESCRIPTION = "Use [Skurry's grub names](https://youtu.be/9J_Fg8F94Qk).";
 
 const SettingTitle = styled.div`
     display: inline-flex;
-    font-size: 24px;
-    line-height: 24px;
+    font-size: min(24px, 5vw);
+    line-height: min(24px, 5vw);
     margin: 0;
     font-family: 'Cinzel', sans-serif;
     gap: 8px;
@@ -23,7 +23,7 @@ type SettingsWrapperProps = {
 };
 
 const SettingsWrapper = styled.div<SettingsWrapperProps>`
-    width: 400px;
+    width: min(400px, 90vw);
     transition: 0.2s;
     opacity: 1;
     max-height: ${() => `${125 * 3}px`};

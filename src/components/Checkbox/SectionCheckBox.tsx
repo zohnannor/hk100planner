@@ -35,7 +35,7 @@ const OuterShadow = styled.div`
 
 const CheckBoxWrapper = styled.div`
     position: relative;
-    width: 300px;
+    width: min(300px, 80vw);
     display: flex;
     align-items: center;
     gap: 8px;

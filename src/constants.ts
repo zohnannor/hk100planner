@@ -8,6 +8,12 @@ export const COLORS = {
     gray: 'silver',
 } as const;
 
+export const BREAKPOINTS = {
+    mobile: 768,
+    columns: 1024,
+    laptop: 1440,
+};
+
 export const GRUB_REWARDS = [
     10, 20, 30, 40, 0, 50, 60, 70, 80, 0, 90, 100, 110, 120, 120, 0, 140, 150,
     160, 165, 170, 180, 0, 200, 200, 205, 210, 215, 220, 220, 0, 230, 235, 240,
