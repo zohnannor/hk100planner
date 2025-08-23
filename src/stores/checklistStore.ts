@@ -2523,12 +2523,45 @@ const comparator = (
     throw new Error(`Unsupported type ${typeof left}`);
 };
 
-const validateCheck = (state: ChecklistState, check: Check) => {
+const validateCheck = (
+    state: ChecklistState,
+    check: Check
+): PartialDeep<ChecklistState> | undefined => {
     const requires = check.requires;
 
     if (requires && !partialDeepEqual(state, requires, comparator)) {
         return requires;
     }
+
+    /// special case for "consumable items", we don't want to just check if the
+    /// value is greater, we wanna know that we have enough of it
+    const reqs: Record<
+        'paleOre' | 'geo' | 'simpleKeys',
+        [number, number, number]
+    > = {
+        paleOre: [
+            state.paleOre,
+            state.paleOreReq,
+            check.checked ? 0 : requires?.paleOre ?? 0,
+        ],
+        geo: [state.geo, state.geoReq, check.checked ? 0 : requires?.geo ?? 0],
+        simpleKeys: [
+            state.simpleKeys,
+            state.simpleKeysReq,
+            check.checked ? 0 : requires?.simpleKeys ?? 0,
+        ],
+    };
+
+    for (const key in Object.keys(reqs)) {
+        const typedKey = key as keyof typeof reqs;
+        if (requires?.[typedKey]) {
+            const [collected, requirements, checkReq] = reqs[typedKey];
+            if (collected - requirements < checkReq) {
+                return requires;
+            }
+        }
+    }
+
     return undefined;
 };
 
@@ -2546,8 +2579,9 @@ const validateCheck = (state: ChecklistState, check: Check) => {
 const validateChecks = (state: ChecklistState): RequirementCheckErrors => {
     const errors: RequirementCheckErrors = {};
 
-    Object.values(state).forEach(stateValue => {
-        typeof stateValue === 'object' &&
+    Object.values(state).forEach(
+        stateValue =>
+            typeof stateValue === 'object' &&
             !Array.isArray(stateValue) &&
             stateValue !== null &&
             Object.entries(stateValue as Checks).forEach(
@@ -2566,8 +2600,8 @@ const validateChecks = (state: ChecklistState): RequirementCheckErrors => {
                         }
                     });
                 }
-            );
-    });
+            )
+    );
 
     return errors;
 };

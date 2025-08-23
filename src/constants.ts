@@ -6,13 +6,13 @@ export const COLORS = {
     white: 'white',
     green: 'aquamarine',
     gray: 'silver',
-};
+} as const;
 
 export const GRUB_REWARDS = [
     10, 20, 30, 40, 0, 50, 60, 70, 80, 0, 90, 100, 110, 120, 120, 0, 140, 150,
     160, 165, 170, 180, 0, 200, 200, 205, 210, 215, 220, 220, 0, 230, 235, 240,
     245, 250, 255, 0, 260, 265, 270, 280, 290, 295, 300, 0,
-];
+] as const;
 
 export const SECTION_TITLES: Record<CheckSection, string> = {
     bosses: '[Bosses](Bosses (Hollow Knight))',

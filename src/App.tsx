@@ -69,18 +69,29 @@ const App = () => {
 
     const info = (
         <FlexBox $direction='column' $align='center'>
-            <FText color={decide(geo, geoReq)}>
-                [GEO] {geo} / {geoReq}
-            </FText>
-            <FText color={decide(essence, Math.max(...essenceReq))}>
-                [ESSENCE] {essence} / {Math.max(...essenceReq)}
-            </FText>
-            <FText color={decide(paleOre, paleOreReq)}>
-                [PALE_ORE] {paleOre} / {paleOreReq}
-            </FText>
-            <FText color={decide(simpleKeys, simpleKeysReq)}>
-                [SIMPLE_KEY] {simpleKeys} / {simpleKeysReq}
-            </FText>
+            {[
+                ['[GEO]', geo, geoReq],
+                ['[ESSENCE]', essence, Math.max(...essenceReq)],
+                ['[PALE_ORE]', paleOre, paleOreReq],
+                ['[SIMPLE_KEY]', simpleKeys, simpleKeysReq],
+            ].map(x => {
+                const [it, val, req] = x as [string, number, number];
+                const available = val - req;
+
+                const p =
+                    available === 0 || it === '[ESSENCE]'
+                        ? ''
+                        : available > 0
+                        ? `(${available} unspent)`
+                        : `(${-available} short)`;
+
+                return (
+                    <FText color={decide(val, req)} key={it}>
+                        {it} {val} collected / {req} required
+                        {p}
+                    </FText>
+                );
+            })}
         </FlexBox>
     );
 
