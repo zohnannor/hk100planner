@@ -1931,9 +1931,9 @@ __metadata:
   linkType: soft
 
 "hollow-knight-save-parser@file:./pkg::locator=hk100planner%40workspace%3A.":
-  version: 0.1.0
-  resolution: "hollow-knight-save-parser@file:./pkg#./pkg::hash=776996&locator=hk100planner%40workspace%3A."
-  checksum: 10c0/57175de813c4d70f8f391fa7e8eae3f5dd33245dda0a28e831e5b7bd91ad4a398ebbf386fff85be6a66621f78754ad567e1ddc8db75fea8a6e957dbe84b3433d
+  version: 0.0.0
+  resolution: "hollow-knight-save-parser@file:./pkg#./pkg::hash=8318fb&locator=hk100planner%40workspace%3A."
+  checksum: 10c0/837d5e7930b8f745d2b4425445fd5d091aa84b03e8d1391b24da040f2adf1fc4fa253672145097d77cb79d50911f5b60974f219844639d0b96e07d820e8fbaaa
   languageName: node
   linkType: hard
 

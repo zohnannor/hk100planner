@@ -23,9 +23,6 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v4
 
-            - name: Install Rust
-              uses: dtolnay/rust-toolchain@stable
-
             - name: Enable Corepack
               run: corepack enable
 
@@ -35,11 +32,11 @@ jobs:
                   node-version: 22
                   cache: 'yarn'
 
+            - name: Install Dependencies
+              run: yarn remove hollow-knight-save-parser && yarn install --immutable
+
             - name: Build Wasm
               run: yarn wasm
-
-            - name: Install Dependencies
-              run: yarn install --immutable
 
             - name: Build Project
               run: yarn build
