@@ -23,6 +23,9 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v4
 
+            - name: Install Rust
+              uses: dtolnay/rust-toolchain@stable
+
             - name: Enable Corepack
               run: corepack enable
 
@@ -35,6 +38,9 @@ jobs:
             - name: Install Dependencies
               run: yarn install --immutable
 
+            - name: Build Wasm
+              run: yarn wasm
+
             - name: Build Project
               run: yarn build
 
@@ -45,6 +51,8 @@ jobs:
 
     deploy:
         needs: build
+        environment:
+            name: github-pages
         runs-on: ubuntu-latest
         if: github.event_name == 'push'
         steps:
