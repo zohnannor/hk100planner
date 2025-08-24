@@ -23,6 +23,7 @@ run it locally.
 1. Install [Node.js](https://nodejs.org/en/download/) and [Yarn](https://yarnpkg.com/getting-started/install).
 2. Clone the repository.
 3. Run `yarn install` to install dependencies.
+    - It will error the first time. run `yarn remove hollow-knight-save-parser` to fix it.
 
 ### Running
 
