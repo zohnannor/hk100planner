@@ -20,13 +20,14 @@ const SectionWrapper = styled.div`
     justify-content: center;
 `;
 
-const SectionTitle = styled.h1`
+const SectionTitle = styled.h1<{ $hasErrors: boolean }>`
     font-size: min(32px, 8vw);
     line-height: min(32px, 8vw);
     margin: 0;
     font-weight: bold;
     font-family: 'Cinzel', sans-serif;
-    color: white;
+    text-align: center;
+    color: ${({ $hasErrors }) => ($hasErrors ? 'crimson' : 'white')};
 `;
 
 const SectionUnderline = styled.div`
@@ -90,11 +91,14 @@ export const Section: React.FC<SectionProps> = ({
     const toggleCollapsed = useUiStore(state => state.toggleSection);
 
     const collapsed = collapsedSections.includes(sectionName);
+    const sectionHasErrors = Object.keys(errors).some(
+        err => err.split(' ')[0] === sectionName
+    );
 
     return (
         <SectionWrapper>
             <FlexBox $direction='column' $align='center' $gap='16px'>
-                <SectionTitle>
+                <SectionTitle $hasErrors={sectionHasErrors}>
                     <FText>{title}</FText>
                 </SectionTitle>
                 <SectionButtons>

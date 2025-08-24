@@ -20,7 +20,7 @@ export const MainWrapper = styled.div`
 `;
 
 export const MainContent = styled.div`
-    margin-top: 100px;
+    margin-top: min(100px, 10vw);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: start;
