@@ -1535,7 +1535,7 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 },
             },
             '[City of Tears] on a ledge': { reward: { grubs: 1 } },
-            '[City of Tears] behind [Great Husk Sentry': {
+            '[City of Tears] behind [Great Husk Sentry]': {
                 reward: { grubs: 1 },
             },
             '[City of Tears] in the [Desolate Dive] dive': {

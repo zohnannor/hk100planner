@@ -105,7 +105,7 @@ export const OFFICIAL_TM_GRUB_NAMES: Record<ChecksKeys['grubs'], string> = {
     '[Fungal Wastes] behind a line of [Fungling]s': 'Blimpy',
     '[Fungal Wastes] near [Spore Shroom]': 'Thornando',
     '[City of Tears] on a ledge': 'Betty',
-    '[City of Tears] behind [Great Husk Sentry': 'Danger',
+    '[City of Tears] behind [Great Husk Sentry]': 'Danger',
     '[City of Tears] in the [Desolate Dive] dive': 'Saul',
     '[City of Tears] under the entrance to the [Tower of Love]': 'Ricky',
     '[City of Tears] room leading to [Watcher Knight]': 'Zelda',

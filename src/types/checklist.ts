@@ -189,7 +189,7 @@ export type ChecksKeys = {
         | '[Fungal Wastes] behind a line of [Fungling]s'
         | '[Fungal Wastes] near [Spore Shroom]'
         | '[City of Tears] on a ledge'
-        | '[City of Tears] behind [Great Husk Sentry'
+        | '[City of Tears] behind [Great Husk Sentry]'
         | '[City of Tears] in the [Desolate Dive] dive'
         | '[City of Tears] under the entrance to the [Tower of Love]'
         | '[City of Tears] room leading to [Watcher Knight]'
