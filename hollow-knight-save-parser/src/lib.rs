@@ -245,7 +245,10 @@ impl Parser {
             ("[Dream Wielder]", pd.got_charm_30),
             ("[Dreamshield]", pd.got_charm_38),
             ("[Grimmchild] / [Carefree Melody]", pd.got_charm_40),
-            ("[Kingsoul] / [Void Heart]", pd.got_charm_36),
+            (
+                "[Kingsoul] / [Void Heart]",
+                pd.got_charm_36 && pd.got_king_fragment && pd.got_queen_fragment,
+            ),
         ]);
 
         let mask_shards = to_map(&[
@@ -998,6 +1001,8 @@ pub struct PlayedData {
     got_charm_39: bool,
     #[serde(rename = "gotCharm_40")]
     got_charm_40: bool,
+    got_king_fragment: bool,
+    got_queen_fragment: bool,
     killed_big_buzzer: bool,
     killed_big_fly: bool,
     killed_mawlek: bool,
