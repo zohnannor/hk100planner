@@ -16,6 +16,11 @@ const SettingTitle = styled.div`
     font-family: 'Cinzel', sans-serif;
     gap: 8px;
     align-items: center;
+
+    & svg {
+        width: min(20px, 4vw);
+        height: min(20px, 4vw);
+    }
 `;
 
 type SettingsWrapperProps = {
