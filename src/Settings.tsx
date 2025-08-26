@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { QuestionMark } from './assets';
 import Button from './components/Button';
 import { FText } from './components/FText/FText';
+import useChecklistStore from './stores/checklistStore';
 import useUiStore from './stores/uiStore';
 import { FlexBox } from './styles';
 
@@ -28,6 +29,9 @@ type SettingsWrapperProps = {
 };
 
 const SettingsWrapper = styled.div<SettingsWrapperProps>`
+    display: flex;
+    flex-direction: column;
+    gap: 1ch;
     width: min(400px, 90vw);
     transition: 0.2s;
     opacity: 1;
@@ -62,6 +66,10 @@ const Settings: React.FC<SettingsProps> = ({ collapsed }) => {
     const openTooltip = useUiStore(state => state.openTooltip);
     const collapsedSections = useUiStore(state => state.collapsedSections);
     const toggleSection = useUiStore(state => state.toggleSection);
+    const checklist = useChecklistStore();
+    const hideCompletedSections = useUiStore(
+        state => () => state.hideCompletedSections(checklist)
+    );
 
     return (
         <SettingsWrapper $collapsed={collapsed}>
@@ -97,11 +105,22 @@ const Settings: React.FC<SettingsProps> = ({ collapsed }) => {
                 <SettingTitle>
                     <FText>(Un)collapse all sections</FText>
                 </SettingTitle>
-                <Button
-                    size='small'
-                    label={collapsedSections.length === 0 ? 'hide' : 'show'}
-                    onClick={toggleSection}
-                />
+                <FlexBox $direction='column' $align='center'>
+                    <Button
+                        size='small'
+                        label={
+                            collapsedSections.length === 0
+                                ? 'hide all'
+                                : 'show all'
+                        }
+                        onClick={toggleSection}
+                    />
+                    <Button
+                        size='small'
+                        label='all completed'
+                        onClick={hideCompletedSections}
+                    />
+                </FlexBox>
             </FlexBox>
         </SettingsWrapper>
     );

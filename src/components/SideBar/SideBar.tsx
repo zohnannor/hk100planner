@@ -1,12 +1,12 @@
 import { PropsWithChildren } from 'react';
 import styled, { css } from 'styled-components';
 
+import { HR } from '../../assets';
 import { BREAKPOINTS, COLORS } from '../../constants';
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 import useChecklistStore from '../../stores/checklistStore';
 import { FlexBox, HasErrors } from '../../styles';
 import Button from '../Button';
-import { useBreakpoint } from '../../hooks/useBreakpoint';
-import { HR } from '../../assets';
 
 interface ContainerProps {
     $visible: boolean;
