@@ -10,6 +10,7 @@ import { ExclamationMark } from './exclamationmark';
 import GEO from './geo.png';
 import SEAL from './hallownestseal.png';
 import HR from './hr.png';
+import HR2 from './hr2.png';
 import KINGS_IDOL from './kingsidol.png';
 import LOGO from './logo.png';
 import LOVE_KEY from './lovekey.png';
@@ -30,6 +31,7 @@ export {
     ExclamationMark,
     GEO,
     HR,
+    HR2,
     JOURNAL,
     KINGS_IDOL,
     LOGO,

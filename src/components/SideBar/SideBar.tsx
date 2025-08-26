@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import styled, { css } from 'styled-components';
 
-import { HR } from '../../assets';
+import { HR2 } from '../../assets';
 import { BREAKPOINTS, COLORS } from '../../constants';
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import useChecklistStore from '../../stores/checklistStore';
@@ -31,12 +31,16 @@ const Container = styled.div<ContainerProps>`
 
     @media (max-width: ${BREAKPOINTS.laptop}px) {
         top: 0;
-        left: 0;
         right: 0;
+    }
+`;
+
+const MobileContainerBackdropBlur = styled.div`
+    padding: 24px 0;
+    @media (max-width: ${BREAKPOINTS.laptop}px) {
         width: 100vw;
         backdrop-filter: blur(10px);
-        padding: 24px 0;
-        justify-content: center;
+        mask: linear-gradient(black 85%, transparent);
     }
 `;
 
@@ -82,11 +86,10 @@ export const SideLabel = styled.div`
 
 const BottomFleur = styled.div`
     background: transparent center/contain scroll no-repeat;
-    background-image: url(${HR});
-    transform: rotateZ(180deg);
-    width: 80vw !important;
+    background-image: url(${HR2});
+    width: 80vw;
     height: 2.5rem;
-    bottom: -1.2rem;
+    bottom: -1rem;
 
     position: absolute;
 `;
@@ -118,26 +121,28 @@ export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
     if (isTablet) {
         return (
             <Container $visible={visible}>
-                <MobileContainer>
-                    <FlexBox $direction='column' $gap='16px'>
-                        <SidePercentLabel $hasErrors={hasErrors}>
-                            {percent}%
-                        </SidePercentLabel>
-                        <SidebarButtons>
-                            <Button
-                                size='small'
-                                label='uncheck all'
-                                onClick={reset}
-                            />
-                            <Button
-                                size='small'
-                                label='check all'
-                                onClick={checkAll}
-                            />
-                        </SidebarButtons>
-                    </FlexBox>
-                    <SideLabel>{children}</SideLabel>
-                </MobileContainer>
+                <MobileContainerBackdropBlur>
+                    <MobileContainer>
+                        <FlexBox $direction='column' $gap='16px'>
+                            <SidePercentLabel $hasErrors={hasErrors}>
+                                {percent}%
+                            </SidePercentLabel>
+                            <SidebarButtons>
+                                <Button
+                                    size='small'
+                                    label='uncheck all'
+                                    onClick={reset}
+                                />
+                                <Button
+                                    size='small'
+                                    label='check all'
+                                    onClick={checkAll}
+                                />
+                            </SidebarButtons>
+                        </FlexBox>
+                        <SideLabel>{children}</SideLabel>
+                    </MobileContainer>
+                </MobileContainerBackdropBlur>
                 <BottomFleur />
             </Container>
         );
