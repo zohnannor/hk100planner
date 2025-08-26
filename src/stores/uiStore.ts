@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import { SECTION_TITLES } from '../constants';
-import { CheckSection } from '../types/checklist';
+import { Action, ChecklistState, CheckSection } from '../types/checklist';
 
 type UiState = {
     /** Whether the tooltip is open. */
@@ -34,6 +34,9 @@ type UiActions = {
 
     /** Toggles the visibility of a section. */
     toggleSection: (section?: CheckSection) => void;
+
+    /** Hides all completed sections. */
+    hideCompletedSections: (checklist: ChecklistState & Action) => void;
 
     /** Toggles whether the checks should be validated. */
     toggleChecksValidation: () => void;
@@ -91,6 +94,19 @@ const useUiStore = create<UiState & UiActions>()(
                         }
                     }
                 }),
+
+            hideCompletedSections: checklist =>
+                set(state =>
+                    Object.entries(checklist.checks).forEach(
+                        ([section, checks]) => {
+                            if (Object.values(checks).every(x => x.checked)) {
+                                state.collapsedSections.push(
+                                    section as CheckSection
+                                );
+                            }
+                        }
+                    )
+                ),
 
             toggleChecksValidation: () =>
                 set(state => {
