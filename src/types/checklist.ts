@@ -398,6 +398,13 @@ export type Action = {
      * @returns An object containing any errors found during validation.
      */
     validateChecks: (state: ChecklistState) => RequirementCheckErrors;
+
+    /**
+     * Sets the checklist state from a save file.
+     *
+     * @param savefile - The save file to set the checklist state from.
+     */
+    setFromSaveFile: (savefile: SaveFile) => void;
 };
 
 /** Represents any errors found during the validation of checklist requirements. */
@@ -409,3 +416,9 @@ export type RequirementCheckErrors = {
 
 /** Represents a generic object with string keys and any type of values. */
 export type AnyObject = Record<string, unknown>;
+
+/** A save file serialized by webasm savefile parser. */
+export type SaveFile = Record<
+    CheckSection,
+    Map<ChecksKeys[CheckSection], boolean>
+>;

@@ -8,5 +8,8 @@ export default defineConfig({
         react(),
         checker({ typescript: { tsconfigPath: './tsconfig.app.json' } }),
     ],
+    optimizeDeps: {
+        exclude: ['hollow-knight-save-parser'],
+    },
     base: '/hk100planner/',
 });
