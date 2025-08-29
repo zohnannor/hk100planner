@@ -16,6 +16,7 @@ import LOGO from './logo.png';
 import LOVE_KEY from './lovekey.png';
 import PALE_ORE from './paleore.png';
 import { QuestionMark } from './questionmark';
+import ROSARIES from './rosaries.png';
 import SLY_KEY from './shopkeeperskey.png';
 import SIMPLE_KEY from './simplekey.png';
 import TRAM_PASS from './trampass.png';
@@ -39,6 +40,7 @@ export {
     PALE_ORE,
     POINTER,
     QuestionMark,
+    ROSARIES,
     SEAL,
     SIMPLE_KEY,
     SLY_KEY,

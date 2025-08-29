@@ -115,10 +115,10 @@ function SideBar<Game extends GameKey>({
     children,
     hasErrors,
 }: PropsWithChildren<SideBarProps<Game>>) {
-    const useStore = useChecklistStore(game);
-    const percent = useStore(state => state.percent);
-    const reset = useStore(state => state.reset);
-    const checkAll = useStore(state => state.checkAll);
+    const useChecklist = useChecklistStore(game);
+    const percent = useChecklist(state => state.percent);
+    const reset = useChecklist(state => state.reset);
+    const checkAll = useChecklist(state => state.checkAll);
 
     const isTablet = useBreakpoint(BREAKPOINTS.laptop);
 

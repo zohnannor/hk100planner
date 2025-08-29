@@ -3,7 +3,8 @@ import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import { HOLLOW_KNIGHT_SECTION_TITLES } from '../constants';
-import { ChecksSection, GameKey, SectionNames } from '../types/checklist';
+import { Checks, GameKey, SectionNames } from '../types/checklist';
+import { typedEntries, typedKeys, typedValues } from '../util/typedObject';
 import useChecklistStore from './checklistStore';
 
 {
@@ -109,7 +110,7 @@ const useUiStore = create<UiState & UiActions>()(
                             state.collapsedSections[state.currentTab] = [];
                         } else {
                             collapsed.push(
-                                ...(Object.keys(
+                                ...(typedKeys(
                                     HOLLOW_KNIGHT_SECTION_TITLES
                                 ) as SectionNames<Game>[])
                             );
@@ -119,19 +120,17 @@ const useUiStore = create<UiState & UiActions>()(
 
             hideCompletedSections: <Game extends GameKey>() =>
                 set(state => {
-                    const checklist = useChecklistStore(state.currentTab)();
-                    Object.entries(checklist.checks).forEach(
-                        ([section, checks]: [
-                            string,
-                            ChecksSection<GameKey, SectionNames<GameKey>>
-                        ]) => {
-                            const typedSection = section as SectionNames<Game>;
-                            if (Object.values(checks).every(x => x.checked)) {
+                    const checklistState = useChecklistStore(
+                        state.currentTab
+                    )();
+                    typedEntries(checklistState.checks as Checks<Game>).forEach(
+                        ([section, checks]) => {
+                            if (typedValues(checks).every(x => x.checked)) {
                                 (
                                     state.collapsedSections[
                                         state.currentTab
                                     ] as SectionNames<Game>[]
-                                ).push(typedSection);
+                                ).push(section);
                             }
                         }
                     );

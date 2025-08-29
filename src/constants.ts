@@ -1,4 +1,4 @@
-import { SectionNames, ChecksKeys } from './types/checklist';
+import { CheckNames, SectionNames } from './types/checklist';
 import { UnionToArray } from './types/util';
 
 export const COLORS = {
@@ -124,7 +124,7 @@ export const ABOUT_TEXT =
     'Check out [the repo](https://github.com/zohnannor/hk100planner) and leave a star if you like it! :)';
 
 export const OFFICIAL_TM_GRUB_NAMES: Record<
-    ChecksKeys<'hollow-knight'>['grubs'],
+    CheckNames<'hollow-knight', 'grubs'>,
     string
 > = {
     '[Forgotten Crossroads] behind [Husk Guard]': 'Stefan',

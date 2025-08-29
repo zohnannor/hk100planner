@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { SaveFile } from '../types/checklist';
 
-export function useSaveParser() {
+export const useSaveParser = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [result, setResult] = useState<SaveFile | null>(null);
@@ -61,4 +61,4 @@ export function useSaveParser() {
         isWasmReady,
         parseSaveFile,
     };
-}
+};

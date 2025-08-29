@@ -3,13 +3,12 @@ import { PartialDeep } from 'type-fest';
 
 import { ExclamationMark, QuestionMark } from '../../assets';
 import { COLORS, OFFICIAL_TM_GRUB_NAMES } from '../../constants';
-import useChecklistStore from '../../stores/checklistStore';
+import { useCurrentChecklistStore } from '../../hooks/useCurrentChecklistStore';
 import useUiStore from '../../stores/uiStore';
 import {
     Check,
     ChecklistState,
-    ChecksKeys,
-    ChecksSection,
+    CheckNames,
     GameKey,
     RequirementCheckErrors,
     SectionNames,
@@ -58,9 +57,9 @@ type SectionCheckBoxProps<
     Section extends SectionNames<Game>
 > = {
     sectionName: Section;
-    checkName: ChecksKeys<Game>[Section] & string;
+    checkName: CheckNames<Game, Section>;
     check: Check<Game>;
-    errors: RequirementCheckErrors<Game>;
+    errors: RequirementCheckErrors[Game];
 };
 
 const InfoWrapper = styled.div`
@@ -78,17 +77,15 @@ export function SectionCheckBox<
     check,
     errors,
 }: SectionCheckBoxProps<Game, Section>) {
-    // TODO: tab?
-    const currentTab = useUiStore(state => state.currentTab);
-    const useStore = useChecklistStore(currentTab);
-    const toggle = useStore(
+    const useChecklist = useCurrentChecklistStore();
+    const toggle = useChecklist(
         state =>
             state.toggle as <S extends SectionNames<Game>>(
                 section: S,
-                name: ChecksKeys<Game>[S] & string
+                name: CheckNames<Game, S>
             ) => void
     );
-    const validateCheck = useStore(
+    const validateCheck = useChecklist(
         state => (check: Check<Game>) => state.validateCheck(state, check)
     );
 
@@ -100,14 +97,21 @@ export function SectionCheckBox<
     const checksValidation = useUiStore(state => state.checksValidation);
 
     const { description } = check;
-    const sectionErrors = errors[sectionName];
-    const checkErrors = sectionErrors?.[checkName];
-    const error = formatCheckListError(checkName, checkErrors);
+    console.log({ errors });
+
+    const error = formatCheckListError(
+        checkName,
+        errors
+            ? errors![sectionName]
+                ? errors![sectionName]![checkName] // wtf typescript
+                : undefined
+            : undefined
+    );
 
     let label =
         useOfficialTMGrubNames && sectionName === 'grubs'
             ? OFFICIAL_TM_GRUB_NAMES[
-                  checkName as keyof ChecksSection<'hollow-knight', 'grubs'>
+                  checkName as CheckNames<'hollow-knight', 'grubs'>
               ]
             : checkName;
 

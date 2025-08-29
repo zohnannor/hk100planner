@@ -31,24 +31,12 @@ import {
     PercentLabel,
     SectionsColumn,
 } from './styles';
+import { typedKeys } from './util/typedObject.ts';
 
 const App = () => {
     const { isLoading, error, result, isWasmReady, parseSaveFile } =
         useSaveParser();
 
-    const {
-        percent,
-        geo,
-        essence,
-        simpleKeys,
-        paleOre,
-        geoReq,
-        essenceReq,
-        paleOreReq,
-        simpleKeysReq,
-        reset,
-        checkAll,
-    } = useChecklistStore('hollow-knight')();
     const setFromSaveFile = useChecklistStore('hollow-knight')(
         state => state.setFromSaveFile
     );
@@ -76,6 +64,8 @@ const App = () => {
     const currentTab = useUiStore(state => state.currentTab);
     const setCurrentTab = useUiStore(state => state.setCurrentTab);
 
+    const { percent, reset, checkAll } = useChecklistStore(currentTab)();
+
     const validateChecks = useChecklistStore(currentTab)(
         state => () => state.validateChecks(state)
     );
@@ -95,43 +85,66 @@ const App = () => {
     const decide = (a: number, b: number) =>
         checksValidation ? (a >= b ? COLORS.white : COLORS.red) : COLORS.white;
 
-    const info = (sidebar?: boolean) => (
-        <InfoContainter $tabletAlign={sidebar ? 'flex-end' : 'center'}>
-            {[
-                ['[GEO]', geo, geoReq],
-                ['[ESSENCE]', essence, Math.max(...essenceReq)],
-                ['[PALE_ORE]', paleOre, paleOreReq],
-                ['[SIMPLE_KEY]', simpleKeys, simpleKeysReq],
-            ].map(x => {
-                const [it, val, req] = x as [string, number, number];
-                const available = val - req;
+    const info = (sidebar?: boolean) => {
+        // TODO: refactor
+        const info =
+            currentTab === 'hollow-knight'
+                ? (() => {
+                      const {
+                          geo,
+                          geoReq,
+                          essence,
+                          essenceReq,
+                          paleOre,
+                          paleOreReq,
+                          simpleKeys,
+                          simpleKeysReq,
+                      } = useChecklistStore(currentTab)();
+                      return [
+                          ['[GEO]', geo, geoReq],
+                          ['[ESSENCE]', essence, Math.max(...essenceReq)],
+                          ['[PALE_ORE]', paleOre, paleOreReq],
+                          ['[SIMPLE_KEY]', simpleKeys, simpleKeysReq],
+                      ] as const;
+                  })()
+                : (() => {
+                      const { rosaries, rosariesReq } =
+                          useChecklistStore(currentTab)();
+                      return [['[ROSARIES]', rosaries, rosariesReq]] as const;
+                  })();
+        return (
+            <InfoContainter $tabletAlign={sidebar ? 'flex-end' : 'center'}>
+                {info.map(x => {
+                    const [it, val, req] = x;
+                    const available = val - req;
 
-                if (sidebar)
+                    if (sidebar)
+                        return (
+                            <FText color={decide(val, req)} key={it}>
+                                {it} {val} / {req}
+                            </FText>
+                        );
+
+                    const p =
+                        available === 0 || it === '[ESSENCE]'
+                            ? ''
+                            : available > 0
+                            ? `(${available} unspent)`
+                            : `(${-available} short)`;
+
                     return (
                         <FText color={decide(val, req)} key={it}>
-                            {it} {val} / {req}
+                            {it} {val} collected / {req} required
+                            {p}
                         </FText>
                     );
-
-                const p =
-                    available === 0 || it === '[ESSENCE]'
-                        ? ''
-                        : available > 0
-                        ? `(${available} unspent)`
-                        : `(${-available} short)`;
-
-                return (
-                    <FText color={decide(val, req)} key={it}>
-                        {it} {val} collected / {req} required
-                        {p}
-                    </FText>
-                );
-            })}
-        </InfoContainter>
-    );
+                })}
+            </InfoContainter>
+        );
+    };
 
     const errors = checksValidation ? validateChecks() : {};
-    setChecklistHasErrors(Object.keys(errors).length > 0);
+    setChecklistHasErrors(typedKeys(errors).length > 0);
 
     return (
         <MainWrapper>
@@ -140,11 +153,6 @@ const App = () => {
 
             <div>
                 {!isWasmReady && <p>Loading WebAssembly module...</p>}
-                {/* TODO: thing that copies the path on click
-                    win: `%appdata%\..\LocalLow\Team Cherry\Hollow Knight\`
-                    mac: `~/Library/Application Support/unity.Team Cherry.Hollow Knight/`
-                    linux: `~/.config/unity3d/Team Cherry/Hollow Knight/`
-                */}
                 <input
                     type='file'
                     accept='.dat'
@@ -154,32 +162,6 @@ const App = () => {
 
                 {isLoading && <p>Parsing save file...</p>}
                 {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-
-                {/* TODO: remove, this is just to debug! :) */}
-                {/* {result && (
-                    <div>
-                        <h3>Parse Results:</h3>
-                        <ul>
-                            {Object.entries(result).map(
-                                ([sectionName, section]) => (
-                                    <>
-                                        <li>{sectionName}</li>
-                                        <ul>
-                                            {Array.from(section.entries()).map(
-                                                ([key, value]) => (
-                                                    <li key={key}>
-                                                        {key}:
-                                                        {value ? '✓' : '✗'}
-                                                    </li>
-                                                )
-                                            )}
-                                        </ul>
-                                    </>
-                                )
-                            )}
-                        </ul>
-                    </div>
-                )} */}
             </div>
 
             <FlexBox $margin='16px 0'>
@@ -250,30 +232,47 @@ const App = () => {
             </SideBar>
 
             <MainContent>
-                {(currentTab === 'hollow-knight'
-                    ? HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS
-                    : SILKSONG_DISTRIBUTED_SECTIONS
-                ).map(sectionColumn => (
-                    <SectionsColumn key={sectionColumn.toString()}>
-                        {sectionColumn.map(sectionName => {
-                            return (
-                                <Section
-                                    key={sectionName}
-                                    title={
-                                        (currentTab === 'hollow-knight'
-                                            ? (HOLLOW_KNIGHT_SECTION_TITLES as any)
-                                            : (SILKSONG_SECTION_TITLES as any))[
-                                            sectionName
-                                        ]
-                                    }
-                                    game={currentTab}
-                                    sectionName={sectionName as any}
-                                    errors={errors}
-                                />
-                            );
-                        })}
-                    </SectionsColumn>
-                ))}
+                {/* TODO: refactor duplacated code... somehow */}
+                {currentTab === 'hollow-knight' &&
+                    HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS.map(sectionColumn => (
+                        <SectionsColumn key={sectionColumn.toString()}>
+                            {sectionColumn.map(sectionName => {
+                                return (
+                                    <Section<'hollow-knight'>
+                                        key={sectionName}
+                                        title={
+                                            HOLLOW_KNIGHT_SECTION_TITLES[
+                                                sectionName
+                                            ]
+                                        }
+                                        game={currentTab}
+                                        sectionName={sectionName}
+                                        errors={errors[currentTab]}
+                                    />
+                                );
+                            })}
+                        </SectionsColumn>
+                    ))}
+                {currentTab === 'silksong' &&
+                    SILKSONG_DISTRIBUTED_SECTIONS.map(sectionColumn => (
+                        <SectionsColumn key={sectionColumn.toString()}>
+                            {sectionColumn.map(sectionName => {
+                                console.log({ e: errors[currentTab] });
+
+                                return (
+                                    <Section<'silksong'>
+                                        key={sectionName}
+                                        title={
+                                            SILKSONG_SECTION_TITLES[sectionName]
+                                        }
+                                        game={currentTab}
+                                        sectionName={sectionName}
+                                        errors={errors[currentTab]}
+                                    />
+                                );
+                            })}
+                        </SectionsColumn>
+                    ))}
             </MainContent>
         </MainWrapper>
     );

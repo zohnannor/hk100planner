@@ -5,13 +5,13 @@ import useChecklistStore from '../stores/checklistStore';
 import useUiStore from '../stores/uiStore';
 import { FlexBox } from '../styles';
 import {
-    Check,
     Checks,
-    ChecksKeys,
+    ChecksSection,
     GameKey,
     RequirementCheckErrors,
     SectionNames,
 } from '../types/checklist';
+import { typedEntries, typedKeys } from '../util/typedObject';
 import Button from './Button';
 import { SectionCheckBox } from './Checkbox/SectionCheckBox';
 import FText from './FText';
@@ -76,10 +76,10 @@ const SectionButtons = styled.div`
 `;
 
 type SectionProps<Game extends GameKey> = {
-    game: GameKey;
+    game: Game;
     title: string;
     sectionName: SectionNames<Game>;
-    errors: RequirementCheckErrors<Game>;
+    errors: RequirementCheckErrors[Game];
 };
 
 function Section<Game extends GameKey>({
@@ -88,25 +88,26 @@ function Section<Game extends GameKey>({
     sectionName,
     errors,
 }: SectionProps<Game>) {
-    const useStore = useChecklistStore(game); // :sob:
-    const section = useStore(
-        state => (state.checks as Checks<Game>)[sectionName]
+    const useChecklist = useChecklistStore(game);
+    const section = useChecklist(
+        state =>
+            (state.checks as Checks<Game>)[sectionName] as ChecksSection<
+                Game,
+                SectionNames<Game>
+            >
     );
-    const reset = useStore(
-        state => state.reset as (sectionName?: SectionNames<Game>) => void
-    );
-    const checkAll = useStore(
-        state => state.checkAll as (sectionName?: SectionNames<Game>) => void
-    );
+    const reset = useChecklist(state => state.reset);
+    const checkAll = useChecklist(state => state.checkAll);
 
-    const collapsedSections = useUiStore(state => state.collapsedSections);
+    const collapsedSections = useUiStore(
+        state =>
+            state.collapsedSections[state.currentTab] as SectionNames<Game>[]
+    );
     const toggleCollapsed = useUiStore(state => state.toggleSection);
 
-    const collapsed = (
-        collapsedSections[game] as SectionNames<Game>[]
-    ).includes(sectionName);
-    const sectionHasErrors = Object.keys(errors).some(
-        err => err.split(' ')[0] === sectionName
+    const collapsed = collapsedSections.includes(sectionName);
+    const sectionHasErrors = typedKeys(errors ?? {}).some(
+        section => section === sectionName
     );
 
     return (
@@ -135,17 +136,15 @@ function Section<Game extends GameKey>({
             </FlexBox>
             <SectionUnderline />
             <SectionContent
-                $checksCount={Object.keys(section).length}
+                $checksCount={typedKeys(section).length}
                 $collapsed={collapsed}
             >
-                {Object.entries<Check<Game>>(section).map(([name, check]) => {
-                    const typedName =
-                        name as ChecksKeys<Game>[SectionNames<Game>] & string;
+                {typedEntries(section).map(([name, check]) => {
                     return (
                         <SectionCheckBox
                             key={name}
                             sectionName={sectionName}
-                            checkName={typedName}
+                            checkName={name}
                             check={check}
                             errors={errors}
                         />

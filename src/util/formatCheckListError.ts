@@ -1,25 +1,21 @@
-import { PartialDeep } from 'type-fest';
-
 import { OFFICIAL_TM_GRUB_NAMES } from '../constants';
 import useUiStore from '../stores/uiStore';
 import {
-    Check,
-    ChecklistState,
+    CheckNames,
     Checks,
-    ChecksKeys,
     ChecksSection,
     GameKey,
-    SectionErrors,
+    RequirementCheckErrors,
     SectionNames,
 } from '../types/checklist';
+import { typedEntries } from './typedObject';
 
-const formatCheckListError = <
-    Game extends GameKey,
-    Section extends SectionNames<Game>
->(
-    checkName: ChecksKeys<Game>[Section] & string,
+const formatCheckListError = <Game extends GameKey>(
+    checkName: CheckNames<Game, SectionNames<Game>>,
     errors:
-        | SectionErrors<Game, Section>[ChecksKeys<Game>[Section] & string]
+        | NonNullable<
+              NonNullable<RequirementCheckErrors[Game]>[SectionNames<Game>]
+          >[CheckNames<Game, SectionNames<Game>>] // | string
         | undefined
 ): string | undefined => {
     if (errors && typeof errors === 'object') {
@@ -29,81 +25,68 @@ const formatCheckListError = <
             useOfficialTMGrubNames &&
             OFFICIAL_TM_GRUB_NAMES.hasOwnProperty(checkName)
                 ? OFFICIAL_TM_GRUB_NAMES[
-                      checkName as ChecksKeys<'hollow-knight'>['grubs']
+                      checkName as CheckNames<'hollow-knight', 'grubs'>
                   ]
                 : checkName;
 
-        const requires = Object.entries(errors)
-            .map(
-                ([requirement, error]: [
-                    string,
-                    PartialDeep<ChecklistState<Game>>
-                ]) => {
-                    const typedRequirement =
-                        requirement as keyof ChecklistState<Game>;
+        console.log({ checkName, errors });
 
-                    switch (typedRequirement) {
-                        case 'geo':
-                            return `[GEO] ${error}`;
-                        case 'essence':
-                            return `[ESSENCE] ${error}`;
-                        case 'paleOre':
-                            return `[PALE_ORE] ${error}`;
-                        case 'grubs':
-                            return `${error} grubs rescued`;
-                        case 'simpleKeys':
-                            return `${error} simple key(s) collected`;
-                        case 'maskShards':
-                            return `${error} mask shard(s) collected`;
-                        case 'charms':
-                            return `${error} charms collected`;
-                        case 'checks': {
-                            return Object.entries(error as Checks<Game>)
-                                .map(([section, sectionErrors]) => {
-                                    const typedSection =
-                                        section as SectionNames<Game>;
-                                    const typedSectionErrors =
-                                        sectionErrors as ChecksSection<
-                                            Game,
-                                            SectionNames<Game>
-                                        >;
+        const requires = typedEntries(errors)
+            .map(([requirement, error]) => {
+                // TODO: types?
+                const typedRequirement = requirement as SectionNames<Game>;
+                switch (typedRequirement) {
+                    case 'geo':
+                        return `[GEO] ${error}`;
+                    case 'essence':
+                        return `[ESSENCE] ${error}`;
+                    case 'paleOre':
+                        return `[PALE_ORE] ${error}`;
+                    case 'grubs':
+                        return `${error} grubs rescued`;
+                    case 'simpleKeys':
+                        return `${error} simple key(s) collected`;
+                    case 'maskShards':
+                        return `${error} mask shard(s) collected`;
+                    case 'charms':
+                        return `${error} charms collected`;
+                    case 'vesselFragments':
+                    case 'geoReq':
+                    case 'essenceReq':
+                    case 'paleOreReq':
+                    case 'simpleKeysReq':
+                    case 'game':
+                    case 'percent':
+                        throw new Error(
+                            `Nothing should require ${typedRequirement}`
+                        );
+                    case 'checks': {
+                        return typedEntries(error as Checks<Game>)
+                            .map(([section, sectionErrors]) => {
+                                const positive = getEntriesText(
+                                    section,
+                                    sectionErrors,
+                                    true
+                                );
+                                const negative = getEntriesText(
+                                    section,
+                                    sectionErrors,
+                                    false
+                                );
 
-                                    const positive = getEntriesText(
-                                        typedSection,
-                                        typedSectionErrors,
-                                        true
-                                    );
-                                    const negative = getEntriesText(
-                                        typedSection,
-                                        typedSectionErrors,
-                                        false
-                                    );
-
-                                    return positive + negative;
-                                })
-                                .join('; ');
-                        }
-
-                        case 'percent':
-                        case 'geoReq':
-                        case 'essenceReq':
-                        case 'paleOreReq':
-                        case 'simpleKeysReq':
-                        case 'vesselFragments': {
-                            throw new Error(
-                                `Nothing should require ${requirement}`
-                            );
-                        }
-
-                        default:
-                            throw new Error(
-                                `Unimplemented requirement for '${
-                                    typedRequirement as string /* satisfies never */ // :(
-                                }' type`
-                            );
+                                return positive + negative;
+                            })
+                            .join('; ');
                     }
+                    default:
+                        throw new Error(
+                            `Unimplemented requirement for '${
+                                typedRequirement /* satisfies never */ // :(
+                            }' type`
+                        );
                 }
-            )
+            })
+            .filter(Boolean)
             .join(', ');
 
         return `${name} requires ${requires}.`;
@@ -118,7 +101,7 @@ const getEntriesText = <Game extends GameKey>(
     sectionErrors: ChecksSection<Game, SectionNames<Game>>,
     checked: boolean
 ) => {
-    const entries = Object.entries<Check<Game>>(sectionErrors)
+    const entries = typedEntries(sectionErrors)
         .filter(([, check]) => (check.checked ?? false) === checked)
         .map(([name]) => name);
 
@@ -134,6 +117,7 @@ const requirementTextForSection = <Game extends GameKey>(
     section: SectionNames<Game>,
     joined: string
 ) => {
+    // TODO: isHollowKnightState (?)
     switch (section) {
         case 'bosses':
         case 'optionalBosses':
@@ -177,7 +161,7 @@ const requirementTextForSection = <Game extends GameKey>(
         default:
             throw new Error(
                 `Unimplemented requirement for '${
-                    section as string /* satisfies never */ // :(
+                    section /* satisfies never */ // :(
                 }' section`
             );
     }
