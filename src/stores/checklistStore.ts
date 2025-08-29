@@ -13,13 +13,19 @@ import {
     ChecklistState,
     CheckRewards,
     Checks,
-    CheckSection,
     ChecksSection,
+    GameKey,
+    HollowKnightChecklistState,
     RequirementCheckErrors,
     SaveFile,
+    SaveFileData,
+    SectionNames,
 } from '../types/checklist';
+import { isHollowKnight } from '../util/isHollowKnight';
 import partialDeepEqual, { Comparable } from '../util/partialDeepEqual';
-import { INITIAL_CHECKLIST_STATE } from './INITIAL_CHECKLIST_STATE';
+import { INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE } from './INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE';
+import { INITIAL_SILKSONG_CHECKLIST_STATE } from './INITIAL_SILKSONG_CHECKLIST_STATE';
+import useUiStore from './uiStore';
 
 /**
  * Recursively updates the state object based on the provided updates and operation.
@@ -94,15 +100,22 @@ const comparator = (
     throw new Error(`Unsupported type ${typeof left}`);
 };
 
-const validateCheck = (
-    state: ChecklistState,
-    check: Check
-): PartialDeep<ChecklistState> | undefined => {
+const validateCheck = <Game extends GameKey>(
+    state: ChecklistState<Game>,
+    check: Check<Game>
+): PartialDeep<ChecklistState<Game>> | undefined => {
     const requires = check.requires;
 
     if (requires && !partialDeepEqual(state, requires, comparator)) {
         return requires;
     }
+
+    if (!isHollowKnight(state)) {
+        return undefined;
+    }
+
+    const hkRequires =
+        check.requires as PartialDeep<HollowKnightChecklistState>;
 
     /// special case for "consumable items", we don't want to just check if the
     /// value is greater, we wanna know that we have enough of it
@@ -113,19 +126,23 @@ const validateCheck = (
         paleOre: [
             state.paleOre,
             state.paleOreReq,
-            check.checked ? 0 : requires?.paleOre ?? 0,
+            check.checked ? 0 : hkRequires?.paleOre ?? 0,
         ],
-        geo: [state.geo, state.geoReq, check.checked ? 0 : requires?.geo ?? 0],
+        geo: [
+            state.geo,
+            state.geoReq,
+            check.checked ? 0 : hkRequires?.geo ?? 0,
+        ],
         simpleKeys: [
             state.simpleKeys,
             state.simpleKeysReq,
-            check.checked ? 0 : requires?.simpleKeys ?? 0,
+            check.checked ? 0 : hkRequires?.simpleKeys ?? 0,
         ],
     };
 
     for (const key of Object.keys(reqs)) {
         const typedKey = key as keyof typeof reqs;
-        if (requires?.[typedKey]) {
+        if (hkRequires?.[typedKey]) {
             const [collected, requirements, checkReq] = reqs[typedKey];
             if (collected - requirements < checkReq) {
                 return requires;
@@ -147,39 +164,40 @@ const validateCheck = (
  * sections and checks.
  * @returns An object containing errors for any checks that failed validation.
  */
-const validateChecks = (state: ChecklistState): RequirementCheckErrors => {
-    const errors: RequirementCheckErrors = {};
+const validateChecks = <Game extends GameKey>(
+    state: ChecklistState<Game>
+): RequirementCheckErrors<Game> => {
+    const errors: RequirementCheckErrors<Game> = {};
 
-    Object.values(state).forEach(
-        stateValue =>
-            typeof stateValue === 'object' &&
-            !Array.isArray(stateValue) &&
-            stateValue !== null &&
-            Object.entries(stateValue as Checks).forEach(
-                ([sectionName, section]) => {
-                    const typedSectionName = sectionName as CheckSection;
-                    Object.entries(section).forEach(([checkName, check]) => {
-                        const typedCheckName =
-                            checkName as keyof ChecksSection<CheckSection>;
+    Object.entries(state.checks).forEach(([sectionName, section]) => {
+        const typedSectionName = sectionName as SectionNames<Game>;
+        Object.entries(
+            section as ChecksSection<Game, SectionNames<Game>>
+        ).forEach(([checkName, check]) => {
+            const typedCheckName = checkName as keyof ChecksSection<
+                Game,
+                SectionNames<Game>
+            >;
+            const typedCheck = check as Check<Game>;
 
-                        const error =
-                            check.checked && validateCheck(state, check);
+            const error =
+                typedCheck.checked && validateCheck(state, typedCheck);
 
-                        if (error) {
-                            errors[`${typedSectionName} ${typedCheckName}`] =
-                                error;
-                        }
-                    });
+            if (error) {
+                if (!errors[typedSectionName]) {
+                    errors[typedSectionName] = {};
                 }
-            )
-    );
+                errors[typedSectionName][typedCheckName] = error;
+            }
+        });
+    });
 
     return errors;
 };
 
-const applyReward = (
-    state: ChecklistState,
-    reward: CheckRewards,
+const applyReward = <Game extends GameKey>(
+    state: ChecklistState<Game>,
+    reward: CheckRewards<Game>,
     willCheck: boolean
 ) => {
     if (willCheck) {
@@ -189,17 +207,23 @@ const applyReward = (
     }
 };
 
-const grubRewards = (state: ChecklistState, willCheck: boolean) => {
+const grubRewards = (
+    state: ChecklistState<'hollow-knight'>,
+    willCheck: boolean
+) => {
     const grubs = state.grubs;
 
     const grubReward = willCheck
         ? GRUB_REWARDS[grubs - 1]
         : GRUB_REWARDS[grubs];
 
-    applyReward(state, { geo: grubReward }, willCheck);
+    applyReward<'hollow-knight'>(state, { geo: grubReward }, willCheck);
 };
 
-const maskShardRewards = (state: ChecklistState, willCheck: boolean) => {
+const maskShardRewards = (
+    state: ChecklistState<'hollow-knight'>,
+    willCheck: boolean
+) => {
     const maskShards = state.maskShards;
 
     const percent = willCheck
@@ -209,7 +233,10 @@ const maskShardRewards = (state: ChecklistState, willCheck: boolean) => {
     applyReward(state, { percent }, willCheck);
 };
 
-const vesselFragmentRewards = (state: ChecklistState, willCheck: boolean) => {
+const vesselFragmentRewards = (
+    state: ChecklistState<'hollow-knight'>,
+    willCheck: boolean
+) => {
     const vesselFragments = state.vesselFragments;
 
     const percent = willCheck
@@ -219,10 +246,10 @@ const vesselFragmentRewards = (state: ChecklistState, willCheck: boolean) => {
     applyReward(state, { percent }, willCheck);
 };
 
-const handleCheck = (
-    state: ChecklistState,
-    sectionName: CheckSection,
-    check: Check,
+const handleCheck = <Game extends GameKey>(
+    state: ChecklistState<Game>,
+    sectionName: SectionNames<Game>,
+    check: Check<Game>,
     willCheck: boolean
 ) => {
     if ((check.checked ?? false) === willCheck) {
@@ -231,135 +258,188 @@ const handleCheck = (
     applyReward(state, check.reward, willCheck);
     check.checked = willCheck;
     if (sectionName === 'grubs') {
-        grubRewards(state, willCheck);
+        grubRewards(state as HollowKnightChecklistState, willCheck);
     }
     if (sectionName === 'maskShards') {
-        maskShardRewards(state, willCheck);
+        maskShardRewards(state as HollowKnightChecklistState, willCheck);
     }
     if (sectionName === 'vesselFragments') {
-        vesselFragmentRewards(state, willCheck);
+        vesselFragmentRewards(state as HollowKnightChecklistState, willCheck);
     }
 };
 
-const useChecklistStore = create<ChecklistState & Action>()(
-    persist(
-        temporal(
-            immer(set => ({
-                ...INITIAL_CHECKLIST_STATE,
+const createChecklistStore = <Game extends GameKey>(
+    game: GameKey,
+    initialState: ChecklistState<Game>
+) =>
+    create<ChecklistState<Game> & Action<Game>>()(
+        persist(
+            temporal(
+                immer(set => ({
+                    ...initialState,
 
-                setFromSaveFile: (savefile: SaveFile) => {
-                    console.log({ savefile });
+                    setFromSaveFile: (savefile: SaveFile) => {
+                        console.log({ savefile });
+                        const [save, tab]: [SaveFileData, GameKey] =
+                            'hollow-knight' in savefile
+                                ? [savefile['hollow-knight'], 'hollow-knight']
+                                : [savefile['silksong'], 'silksong'];
 
-                    set(state => {
-                        Object.entries(savefile).forEach(
-                            ([sectionName, section]) => {
-                                const typedSectionName =
-                                    sectionName as CheckSection;
-                                console.log({ typedSectionName, section });
-
-                                Array.from(section.entries()).forEach(
-                                    ([checkName, checked]) => {
-                                        const typedCheckName =
-                                            checkName as keyof ChecksSection<CheckSection>;
-
-                                        // i hate this.
-                                        // TODO: add asserts for `as` casts
-                                        const section =
-                                            state.checks[typedSectionName];
-                                        const check = section[
-                                            typedCheckName as keyof typeof section
-                                        ] as Check;
-
-                                        console.log(check);
-
-                                        handleCheck(
-                                            state,
-                                            typedSectionName,
-                                            check,
-                                            checked
-                                        );
-                                    }
-                                );
-                            }
-                        );
-                    });
-                },
-
-                reset: (sectionName?: CheckSection) => {
-                    if (sectionName) {
-                        set(state =>
-                            Object.values(state.checks[sectionName]).forEach(
-                                check =>
-                                    handleCheck(
-                                        state,
-                                        sectionName,
-                                        check,
-                                        false
-                                    )
-                            )
-                        );
-                    } else {
-                        // This doesn't need to give (or rather, take) rewards,
-                        // because the state mutation doesn't depend on the
-                        // checks being checked (we just set state to the
-                        // initial, all-zero state).
-                        set(INITIAL_CHECKLIST_STATE);
-                    }
-                },
-
-                checkAll: (sectionName?: CheckSection) => {
-                    if (sectionName) {
                         set(state => {
-                            Object.values(state.checks[sectionName]).forEach(
-                                check =>
-                                    handleCheck(state, sectionName, check, true)
-                            );
-                        });
-                    } else {
-                        set(state => {
-                            Object.entries(state.checks).forEach(
+                            Object.entries(save).forEach(
                                 ([sectionName, section]) => {
-                                    Object.values(section).forEach(check =>
-                                        handleCheck(
-                                            state,
-                                            sectionName as CheckSection,
-                                            check,
-                                            true
-                                        )
+                                    const typedSectionName =
+                                        sectionName as SectionNames<Game>;
+                                    console.log({ typedSectionName, section });
+
+                                    Array.from(section.entries()).forEach(
+                                        ([checkName, checked]) => {
+                                            const typedCheckName =
+                                                checkName as keyof ChecksSection<
+                                                    Game,
+                                                    SectionNames<Game>
+                                                >;
+
+                                            // i hate this.
+                                            // TODO: add asserts for `as` casts
+                                            const section = (
+                                                state.checks as Checks<Game>
+                                            )[typedSectionName];
+                                            const check = section[
+                                                typedCheckName
+                                            ] as Check<Game>;
+
+                                            console.log(check);
+
+                                            handleCheck(
+                                                state as ChecklistState<Game>,
+                                                typedSectionName,
+                                                check,
+                                                checked
+                                            );
+                                        }
                                     );
                                 }
                             );
                         });
-                    }
-                },
 
-                toggle: <S extends CheckSection>(
-                    section: S,
-                    name: keyof ChecksSection<S>
-                ) => {
-                    set(state => {
-                        // Update state after a check/uncheck
+                        useUiStore.getState().setCurrentTab(tab);
+                    },
 
-                        const check = (
-                            state.checks[section] as ChecksSection<S>
-                        )[name] as Check;
+                    reset: (sectionName?: SectionNames<Game>) => {
+                        if (sectionName) {
+                            set(state =>
+                                Object.values(
+                                    (state.checks as Checks<Game>)[sectionName]
+                                ).forEach(check =>
+                                    handleCheck(
+                                        state as ChecklistState<Game>,
+                                        sectionName,
+                                        check as Check<Game>,
+                                        false
+                                    )
+                                )
+                            );
+                        } else {
+                            // This doesn't need to give (or rather, take) rewards,
+                            // because the state mutation doesn't depend on the
+                            // checks being checked (we just set state to the
+                            // initial, all-zero state).
+                            set(
+                                initialState as ChecklistState<Game> &
+                                    Action<Game>
+                            );
+                        }
+                    },
 
-                        const willCheck = !check.checked;
-                        handleCheck(state, section, check, willCheck);
-                    });
-                },
+                    checkAll: (sectionName?: SectionNames<Game>) => {
+                        if (sectionName) {
+                            set(state => {
+                                Object.values(
+                                    (state.checks as Checks<Game>)[sectionName]
+                                ).forEach(check =>
+                                    handleCheck(
+                                        state as ChecklistState<Game>,
+                                        sectionName,
+                                        check as Check<Game>,
+                                        true
+                                    )
+                                );
+                            });
+                        } else {
+                            set(state => {
+                                Object.entries(state.checks).forEach(
+                                    ([sectionName, section]) => {
+                                        Object.values(section).forEach(check =>
+                                            handleCheck(
+                                                state as ChecklistState<Game>,
+                                                sectionName as SectionNames<Game>,
+                                                check as Check<Game>,
+                                                true
+                                            )
+                                        );
+                                    }
+                                );
+                            });
+                        }
+                    },
 
-                validateCheck,
+                    toggle: <S extends SectionNames<Game>>(
+                        section: S,
+                        name: keyof ChecksSection<Game, S>
+                    ) => {
+                        set(state => {
+                            // Update state after a check/uncheck
+                            const check = (
+                                (state.checks as Checks<Game>)[
+                                    section
+                                ] as ChecksSection<Game, S>
+                            )[name] as Check<Game>;
 
-                validateChecks,
-            }))
-        ),
-        {
-            name: 'checklist-storage',
-            merge: (persisted, current) =>
-                deepMerge(current, persisted as ChecklistState & Action),
-        }
-    )
-);
+                            const willCheck = !check.checked;
+                            handleCheck(
+                                state as ChecklistState<Game>,
+                                section,
+                                check,
+                                willCheck
+                            );
+                        });
+                    },
+
+                    validateCheck,
+
+                    validateChecks,
+                }))
+            ),
+            {
+                name: `checklist-storage-${game}`,
+                merge: (persisted, current) =>
+                    deepMerge(
+                        current,
+                        persisted as ChecklistState<Game> & Action<Game>
+                    ),
+            }
+        )
+    );
+
+export type ChecklistStore<Game extends GameKey> = ReturnType<
+    typeof createChecklistStore<Game>
+>;
+
+type UseChecklistStore = {
+    'hollow-knight': ChecklistStore<'hollow-knight'>;
+    silksong: ChecklistStore<'silksong'>;
+};
+
+const useChecklistStore: UseChecklistStore = {
+    'hollow-knight': createChecklistStore<'hollow-knight'>(
+        'hollow-knight',
+        INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE
+    ),
+    silksong: createChecklistStore<'silksong'>(
+        'silksong',
+        INITIAL_SILKSONG_CHECKLIST_STATE
+    ),
+};
 
 export default useChecklistStore;

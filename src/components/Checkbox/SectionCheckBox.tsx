@@ -1,18 +1,21 @@
-import React from 'react';
 import styled from 'styled-components';
+import { PartialDeep } from 'type-fest';
 
 import { ExclamationMark, QuestionMark } from '../../assets';
 import { COLORS, OFFICIAL_TM_GRUB_NAMES } from '../../constants';
-import useChecklistStore from '../../stores/checklistStore';
+import useChecklistStore, { ChecklistStore } from '../../stores/checklistStore';
 import useUiStore from '../../stores/uiStore';
 import {
     Check,
-    CheckSection,
+    ChecklistState,
     ChecksKeys,
     ChecksSection,
+    GameKey,
     RequirementCheckErrors,
+    SectionNames,
 } from '../../types/checklist';
 import formatCheckListError from '../../util/formatCheckListError';
+import { isHollowKnight } from '../../util/isHollowKnight';
 import { CheckBox } from './CheckBox';
 
 const OuterShadow = styled.div`
@@ -51,11 +54,14 @@ const CheckBoxWrapper = styled.div`
     }
 `;
 
-type SectionCheckBoxProps = {
-    sectionName: keyof ChecksKeys;
-    name: keyof ChecksSection<CheckSection>;
-    check: Check;
-    errors: RequirementCheckErrors;
+type SectionCheckBoxProps<
+    Game extends GameKey,
+    Section extends SectionNames<Game>
+> = {
+    sectionName: Section;
+    checkName: ChecksKeys<Game>[Section] & string;
+    check: Check<Game>;
+    errors: RequirementCheckErrors<Game>;
 };
 
 const InfoWrapper = styled.div`
@@ -64,15 +70,23 @@ const InfoWrapper = styled.div`
     gap: 8px;
 `;
 
-export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
+export function SectionCheckBox<
+    Game extends GameKey,
+    Section extends SectionNames<Game>
+>({
     sectionName,
-    name,
+    checkName,
     check,
     errors,
-}) => {
-    const toggle = useChecklistStore(state => state.toggle);
-    const validateCheck = useChecklistStore(
-        state => (check: Check) => state.validateCheck(state, check)
+}: SectionCheckBoxProps<Game, Section>) {
+    // TODO: tab?
+    const currentTab = useUiStore(state => state.currentTab);
+    const useStore = useChecklistStore[
+        currentTab
+    ] as unknown as ChecklistStore<Game>; // :sob:
+    const toggle = useStore(state => state.toggle);
+    const validateCheck = useStore(
+        state => (check: Check<Game>) => state.validateCheck(state, check)
     );
 
     const setTooltipText = useUiStore(state => state.setTooltipText);
@@ -83,15 +97,21 @@ export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
     const checksValidation = useUiStore(state => state.checksValidation);
 
     const { description } = check;
-    const error = formatCheckListError(name, errors[`${sectionName} ${name}`]);
+    const sectionErrors = errors[sectionName];
+    const checkErrors = sectionErrors?.[checkName];
+    const error = formatCheckListError(checkName, checkErrors);
 
     let label =
         useOfficialTMGrubNames && sectionName === 'grubs'
-            ? OFFICIAL_TM_GRUB_NAMES[name as keyof ChecksSection<'grubs'>]
-            : name;
+            ? OFFICIAL_TM_GRUB_NAMES[
+                  checkName as keyof ChecksSection<'hollow-knight', 'grubs'>
+              ]
+            : checkName;
 
-    {
-        const req = check.requires;
+    if (isHollowKnight(useChecklistStore['hollow-knight']())) {
+        const req = check.requires as PartialDeep<
+            ChecklistState<'hollow-knight'>
+        >;
         if (typeof req === 'object') {
             const parts = [
                 req?.geo ? `[GEO] ${req.geo}` : null,
@@ -106,7 +126,7 @@ export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
         }
     }
 
-    const handleClick = () => toggle(sectionName, name);
+    const handleClick = () => toggle(sectionName, checkName);
 
     const canBeChecked = !validateCheck(check);
 
@@ -151,4 +171,4 @@ export const SectionCheckBox: React.FC<SectionCheckBoxProps> = ({
             )}
         </CheckBoxWrapper>
     );
-};
+}

@@ -2,8 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { QuestionMark } from './assets';
 import Button from './components/Button';
-import { FText } from './components/FText/FText';
-import useChecklistStore from './stores/checklistStore';
+import FText from './components/FText';
 import useUiStore from './stores/uiStore';
 import { FlexBox } from './styles';
 
@@ -52,6 +51,7 @@ type SettingsProps = {
 };
 
 const Settings: React.FC<SettingsProps> = ({ collapsed }) => {
+    const currentTab = useUiStore(state => state.currentTab);
     const checksValidation = useUiStore(state => state.checksValidation);
     const toggleChecksValidation = useUiStore(
         state => state.toggleChecksValidation
@@ -66,9 +66,8 @@ const Settings: React.FC<SettingsProps> = ({ collapsed }) => {
     const openTooltip = useUiStore(state => state.openTooltip);
     const collapsedSections = useUiStore(state => state.collapsedSections);
     const toggleSection = useUiStore(state => state.toggleSection);
-    const checklist = useChecklistStore();
     const hideCompletedSections = useUiStore(
-        state => () => state.hideCompletedSections(checklist)
+        state => () => state.hideCompletedSections
     );
 
     return (
@@ -109,7 +108,7 @@ const Settings: React.FC<SettingsProps> = ({ collapsed }) => {
                     <Button
                         size='small'
                         label={
-                            collapsedSections.length === 0
+                            collapsedSections[currentTab].length === 0
                                 ? 'hide all'
                                 : 'show all'
                         }

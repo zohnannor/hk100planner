@@ -1,12 +1,13 @@
 import { PropsWithChildren } from 'react';
 import styled, { css } from 'styled-components';
 
-import { HR2 } from '../../assets';
-import { BREAKPOINTS, COLORS } from '../../constants';
-import { useBreakpoint } from '../../hooks/useBreakpoint';
-import useChecklistStore from '../../stores/checklistStore';
-import { FlexBox, HasErrors } from '../../styles';
-import Button from '../Button';
+import { HR2 } from '../assets';
+import { BREAKPOINTS, COLORS } from '../constants';
+import { useBreakpoint } from '../hooks/useBreakpoint';
+import useChecklistStore, { ChecklistStore } from '../stores/checklistStore';
+import { FlexBox, HasErrors } from '../styles';
+import { GameKey } from '../types/checklist';
+import Button from './Button';
 
 interface ContainerProps {
     $visible: boolean;
@@ -102,19 +103,22 @@ const MobileContainer = styled.div`
     padding: 0 10vw;
 `;
 
-interface SideBarProps {
+interface SideBarProps<Game extends GameKey> {
+    game: Game;
     visible: boolean;
     hasErrors: boolean;
 }
 
-export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
+function SideBar<Game extends GameKey>({
+    game,
     visible,
     children,
     hasErrors,
-}) => {
-    const percent = useChecklistStore(state => state.percent);
-    const reset = useChecklistStore(state => state.reset);
-    const checkAll = useChecklistStore(state => state.checkAll);
+}: PropsWithChildren<SideBarProps<Game>>) {
+    const useStore = useChecklistStore[game] as unknown as ChecklistStore<Game>; // :sob:
+    const percent = useStore(state => state.percent);
+    const reset = useStore(state => state.reset);
+    const checkAll = useStore(state => state.checkAll);
 
     const isTablet = useBreakpoint(BREAKPOINTS.laptop);
 
@@ -162,4 +166,6 @@ export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
             </FlexBox>
         </Container>
     );
-};
+}
+
+export default SideBar;

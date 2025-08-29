@@ -2,17 +2,19 @@ import { useEffect, useRef } from 'react';
 import { useIntersectionObserver, useToggle } from 'usehooks-ts';
 
 import { LOGO } from './assets/index.ts';
-import { Button } from './components/Button/Button.tsx';
-import { FText } from './components/FText/FText.tsx';
-import Section from './components/Section';
-import { SideBar } from './components/SideBar/SideBar.tsx';
-import { Tooltip } from './components/Tooltip/Tooltip.tsx';
+import Button from './components/Button.tsx';
+import FText from './components/FText.tsx';
+import Section from './components/Section.tsx';
+import SideBar from './components/SideBar.tsx';
+import Tooltip from './components/Tooltip.tsx';
 import {
     ABOUT_TEXT,
     COLORS,
     DESCRIPTION_TEXT,
-    DISTRIBUTED_SECTIONS,
-    SECTION_TITLES,
+    HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS,
+    HOLLOW_KNIGHT_SECTION_TITLES,
+    SILKSONG_DISTRIBUTED_SECTIONS,
+    SILKSONG_SECTION_TITLES,
 } from './constants.ts';
 import { useParallaxBackground } from './hooks/useParallaxBackground.ts';
 import { useSaveParser } from './hooks/useSaveParser.ts';
@@ -46,8 +48,10 @@ const App = () => {
         simpleKeysReq,
         reset,
         checkAll,
-    } = useChecklistStore();
-    const setFromSaveFile = useChecklistStore(state => state.setFromSaveFile);
+    } = useChecklistStore['hollow-knight']();
+    const setFromSaveFile = useChecklistStore['hollow-knight'](
+        state => state.setFromSaveFile
+    );
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -64,7 +68,7 @@ const App = () => {
         }
     }, [result, isLoading]);
 
-    const validateChecks = useChecklistStore(
+    const validateChecks = useChecklistStore['hollow-knight'](
         state => () => state.validateChecks(state)
     );
     const setChecklistHasErrors = useUiStore(
@@ -76,6 +80,8 @@ const App = () => {
     const openTooltip = useUiStore(state => state.openTooltip);
     const checklistHasErrors = useUiStore(state => state.checklistHasErrors);
     const checksValidation = useUiStore(state => state.checksValidation);
+    const currentTab = useUiStore(state => state.currentTab);
+    const setCurrentTab = useUiStore(state => state.setCurrentTab);
 
     useUndoRedoKeybinds();
 
@@ -207,6 +213,18 @@ const App = () => {
                         );
                     }}
                 />
+                <Button
+                    label={
+                        currentTab !== 'silksong' ? 'hollow-knight' : 'silksong'
+                    }
+                    onClick={() =>
+                        setCurrentTab(
+                            currentTab === 'silksong'
+                                ? 'hollow-knight'
+                                : 'silksong'
+                        )
+                    }
+                />
             </FlexBox>
 
             <Settings collapsed={settingsCollapsed} />
@@ -223,19 +241,33 @@ const App = () => {
             </FlexBox>
 
             <MainLabel ref={ref}>{info()}</MainLabel>
-            <SideBar visible={!isIntersecting} hasErrors={checklistHasErrors}>
+            <SideBar
+                visible={!isIntersecting}
+                game={currentTab}
+                hasErrors={checklistHasErrors}
+            >
                 {info(true)}
             </SideBar>
 
             <MainContent>
-                {DISTRIBUTED_SECTIONS.map(sectionColumn => (
+                {(currentTab === 'hollow-knight'
+                    ? HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS
+                    : SILKSONG_DISTRIBUTED_SECTIONS
+                ).map(sectionColumn => (
                     <SectionsColumn key={sectionColumn.toString()}>
                         {sectionColumn.map(sectionName => {
                             return (
                                 <Section
                                     key={sectionName}
-                                    title={SECTION_TITLES[sectionName]}
-                                    sectionName={sectionName}
+                                    title={
+                                        (currentTab === 'hollow-knight'
+                                            ? (HOLLOW_KNIGHT_SECTION_TITLES as any)
+                                            : (SILKSONG_SECTION_TITLES as any))[
+                                            sectionName
+                                        ]
+                                    }
+                                    game={currentTab}
+                                    sectionName={sectionName as any}
                                     errors={errors}
                                 />
                             );

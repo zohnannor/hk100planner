@@ -2,10 +2,10 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
-import useUiStore from '../../stores/uiStore';
-import sleep from '../../util/sleep';
-import DialogBox from '../DialogBox';
-import { FText } from '../FText/FText';
+import useUiStore from '../stores/uiStore';
+import sleep from '../util/sleep';
+import DialogBox from './DialogBox';
+import FText from './FText';
 
 interface TooltipProps {
     $opacity: number;
@@ -50,7 +50,7 @@ const Shadow = styled.div`
     }
 `;
 
-export const Tooltip: React.FC<PropsWithChildren> = ({ children }) => {
+const Tooltip: React.FC<PropsWithChildren> = ({ children }) => {
     const closeTooltip = useUiStore(state => state.closeTooltip);
     const isTooltipOpen = useUiStore(state => state.isTooltipOpen);
     const [opacity, setOpacity] = useState(0);
@@ -97,3 +97,5 @@ export const Tooltip: React.FC<PropsWithChildren> = ({ children }) => {
         document.querySelector('#tooltip-root')!
     );
 };
+
+export default Tooltip;

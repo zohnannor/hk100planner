@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 
 import useChecklistStore from '../stores/checklistStore';
+import useUiStore from '../stores/uiStore';
 
 const useUndoRedoKeybinds = () => {
-    const { undo, redo } = useChecklistStore.temporal.getState();
+    const currentTab = useUiStore.getState().currentTab;
+    const { undo, redo } = useChecklistStore[currentTab].temporal.getState();
 
     useEffect(() => {
         const handleUndoRedo = (e: KeyboardEvent): void => {

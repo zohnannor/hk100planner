@@ -1,8 +1,8 @@
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
-import { BOTTOM, TOP } from '../../assets';
-import { FlexBox } from '../../styles';
+import { BOTTOM, TOP } from '../assets';
+import { FlexBox } from '../styles';
 
 const TopFleur = styled.div`
     background: transparent center/contain scroll no-repeat;
@@ -24,7 +24,7 @@ const BottomFleur = styled.div`
     position: absolute;
 `;
 
-export const DialogBox: React.FC<PropsWithChildren> = ({ children }) => {
+const DialogBox: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <FlexBox
             $direction='column'
@@ -38,3 +38,5 @@ export const DialogBox: React.FC<PropsWithChildren> = ({ children }) => {
         </FlexBox>
     );
 };
+
+export default DialogBox;

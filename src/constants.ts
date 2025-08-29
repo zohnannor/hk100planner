@@ -1,4 +1,4 @@
-import { CheckSection, ChecksKeys } from './types/checklist';
+import { SectionNames, ChecksKeys } from './types/checklist';
 import { UnionToArray } from './types/util';
 
 export const COLORS = {
@@ -20,7 +20,10 @@ export const GRUB_REWARDS = [
     245, 250, 255, 0, 260, 265, 270, 280, 290, 295, 300, 0,
 ] as const;
 
-export const SECTION_TITLES: Record<CheckSection, string> = {
+export const HOLLOW_KNIGHT_SECTION_TITLES: Record<
+    SectionNames<'hollow-knight'>,
+    string
+> = {
     bosses: '[Bosses](Bosses (Hollow Knight))',
     optionalBosses: '[Bosses](Bosses (Hollow Knight)) (no percents)',
     equipment: '[Equipment](Abilities)',
@@ -44,7 +47,15 @@ export const SECTION_TITLES: Record<CheckSection, string> = {
     // endings: '[Endings](Endings (Hollow Knight))',
 };
 
-export const DISTRIBUTED_SECTIONS = [
+export const SILKSONG_SECTION_TITLES: Record<
+    SectionNames<'silksong'>,
+    string
+> = {
+    bosses: '[Bosses](Bosses (Silksong))',
+    things: '[Things](Things (Silksong))',
+};
+
+export const HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS = [
     [
         'bosses',
         'equipment',
@@ -69,15 +80,35 @@ export const DISTRIBUTED_SECTIONS = [
         'whisperingRoots',
         'optionalBosses',
     ],
-] as const satisfies CheckSection[][];
+] as const satisfies SectionNames<'hollow-knight'>[][];
 
-type MissingSectionNames = UnionToArray<
-    Exclude<CheckSection, (typeof DISTRIBUTED_SECTIONS)[number][number]>
+export const SILKSONG_DISTRIBUTED_SECTIONS = [
+    ['bosses'],
+    ['things'],
+] as const satisfies SectionNames<'silksong'>[][];
+
+type MissingHollowKnightSectionNames = UnionToArray<
+    Exclude<
+        SectionNames<'hollow-knight'>,
+        (typeof HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS)[number][number]
+    >
 >;
 
 // Compile-time check to make sure all sections are used in
-// `DISTRIBUTED_SECTIONS`.
-export const __missingSectionNames: MissingSectionNames = [];
+// `HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS`.
+export const __missingHollowKnightSectionNames: MissingHollowKnightSectionNames =
+    [];
+
+type MissingSilksongSectionNames = UnionToArray<
+    Exclude<
+        SectionNames<'silksong'>,
+        (typeof SILKSONG_DISTRIBUTED_SECTIONS)[number][number]
+    >
+>;
+
+// Compile-time check to make sure all sections are used in
+// `SILKSONG_DISTRIBUTED_SECTIONS`.
+export const __missingSilksongSectionNames: MissingSilksongSectionNames = [];
 
 export const DESCRIPTION_TEXT =
     'This is a tool to help you plan your Hollow Knight ["Speed Completion"](Achievements (Hollow Knight)#Challenges) achievement checklist. ' +
@@ -92,7 +123,10 @@ export const ABOUT_TEXT =
     'Made by [me](https://github.com/zohnannor) (mostly logic) and [my friend](https://github.com/swbuwk) (mostly design). ' +
     'Check out [the repo](https://github.com/zohnannor/hk100planner) and leave a star if you like it! :)';
 
-export const OFFICIAL_TM_GRUB_NAMES: Record<ChecksKeys['grubs'], string> = {
+export const OFFICIAL_TM_GRUB_NAMES: Record<
+    ChecksKeys<'hollow-knight'>['grubs'],
+    string
+> = {
     '[Forgotten Crossroads] behind [Husk Guard]': 'Stefan',
     '[Forgotten Crossroads] [Fog Canyon] entrance': 'Andy',
     '[Forgotten Crossroads] breakable wall': 'Jasper',

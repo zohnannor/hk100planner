@@ -1,16 +1,26 @@
+import { PartialDeep } from 'type-fest';
+
 import { OFFICIAL_TM_GRUB_NAMES } from '../constants';
 import useUiStore from '../stores/uiStore';
 import {
+    Check,
     ChecklistState,
     Checks,
-    CheckSection,
+    ChecksKeys,
     ChecksSection,
-    RequirementCheckErrors,
+    GameKey,
+    SectionErrors,
+    SectionNames,
 } from '../types/checklist';
 
-const formatCheckListError = (
-    checkName: keyof ChecksSection<CheckSection>,
-    errors: RequirementCheckErrors[`${CheckSection} ${keyof ChecksSection<CheckSection>}`]
+const formatCheckListError = <
+    Game extends GameKey,
+    Section extends SectionNames<Game>
+>(
+    checkName: ChecksKeys<Game>[Section] & string,
+    errors:
+        | SectionErrors<Game, Section>[ChecksKeys<Game>[Section] & string]
+        | undefined
 ): string | undefined => {
     if (errors && typeof errors === 'object') {
         const useOfficialTMGrubNames =
@@ -19,84 +29,96 @@ const formatCheckListError = (
             useOfficialTMGrubNames &&
             OFFICIAL_TM_GRUB_NAMES.hasOwnProperty(checkName)
                 ? OFFICIAL_TM_GRUB_NAMES[
-                      checkName as keyof ChecksSection<'grubs'>
+                      checkName as ChecksKeys<'hollow-knight'>['grubs']
                   ]
                 : checkName;
 
-        return `${name} requires ${Object.entries(errors)
-            .map(([requirement, error]) => {
-                const typedRequirement = requirement as keyof ChecklistState;
+        const requires = Object.entries(errors)
+            .map(
+                ([requirement, error]: [
+                    string,
+                    PartialDeep<ChecklistState<Game>>
+                ]) => {
+                    const typedRequirement =
+                        requirement as keyof ChecklistState<Game>;
 
-                switch (typedRequirement) {
-                    case 'geo':
-                        return `[GEO] ${error}`;
-                    case 'essence':
-                        return `[ESSENCE] ${error}`;
-                    case 'paleOre':
-                        return `[PALE_ORE] ${error}`;
-                    case 'grubs':
-                        return `${error} grubs rescued`;
-                    case 'simpleKeys':
-                        return `${error} simple key(s) collected`;
-                    case 'maskShards':
-                        return `${error} mask shard(s) collected`;
-                    case 'charms':
-                        return `${error} charms collected`;
-                    case 'checks': {
-                        return Object.entries(error as Checks)
-                            .map(([section, sectionErrors]) => {
-                                const typedSection = section as CheckSection;
-                                const typedSectionErrors =
-                                    sectionErrors as ChecksSection<CheckSection>;
+                    switch (typedRequirement) {
+                        case 'geo':
+                            return `[GEO] ${error}`;
+                        case 'essence':
+                            return `[ESSENCE] ${error}`;
+                        case 'paleOre':
+                            return `[PALE_ORE] ${error}`;
+                        case 'grubs':
+                            return `${error} grubs rescued`;
+                        case 'simpleKeys':
+                            return `${error} simple key(s) collected`;
+                        case 'maskShards':
+                            return `${error} mask shard(s) collected`;
+                        case 'charms':
+                            return `${error} charms collected`;
+                        case 'checks': {
+                            return Object.entries(error as Checks<Game>)
+                                .map(([section, sectionErrors]) => {
+                                    const typedSection =
+                                        section as SectionNames<Game>;
+                                    const typedSectionErrors =
+                                        sectionErrors as ChecksSection<
+                                            Game,
+                                            SectionNames<Game>
+                                        >;
 
-                                const positive = getEntriesText(
-                                    typedSection,
-                                    typedSectionErrors,
-                                    true
-                                );
-                                const negative = getEntriesText(
-                                    typedSection,
-                                    typedSectionErrors,
-                                    false
-                                );
+                                    const positive = getEntriesText(
+                                        typedSection,
+                                        typedSectionErrors,
+                                        true
+                                    );
+                                    const negative = getEntriesText(
+                                        typedSection,
+                                        typedSectionErrors,
+                                        false
+                                    );
 
-                                return positive + negative;
-                            })
-                            .join('; ');
+                                    return positive + negative;
+                                })
+                                .join('; ');
+                        }
+
+                        case 'percent':
+                        case 'geoReq':
+                        case 'essenceReq':
+                        case 'paleOreReq':
+                        case 'simpleKeysReq':
+                        case 'vesselFragments': {
+                            throw new Error(
+                                `Nothing should require ${requirement}`
+                            );
+                        }
+
+                        default:
+                            throw new Error(
+                                `Unimplemented requirement for '${
+                                    typedRequirement as string /* satisfies never */ // :(
+                                }' type`
+                            );
                     }
-
-                    case 'percent':
-                    case 'geoReq':
-                    case 'essenceReq':
-                    case 'paleOreReq':
-                    case 'simpleKeysReq':
-                    case 'vesselFragments': {
-                        throw new Error(
-                            `Nothing should require ${requirement}`
-                        );
-                    }
-
-                    default:
-                        throw new Error(
-                            `Unimplemented requirement for '${
-                                typedRequirement satisfies never
-                            }' type`
-                        );
                 }
-            })
-            .join(', ')}.`;
+            )
+            .join(', ');
+
+        return `${name} requires ${requires}.`;
     } else if (typeof errors === 'string') {
         return errors;
     }
     return undefined;
 };
 
-const getEntriesText = (
-    section: CheckSection,
-    sectionErrors: ChecksSection<CheckSection>,
+const getEntriesText = <Game extends GameKey>(
+    section: SectionNames<Game>,
+    sectionErrors: ChecksSection<Game, SectionNames<Game>>,
     checked: boolean
 ) => {
-    const entries = Object.entries(sectionErrors)
+    const entries = Object.entries<Check<Game>>(sectionErrors)
         .filter(([, check]) => (check.checked ?? false) === checked)
         .map(([name]) => name);
 
@@ -108,7 +130,10 @@ const getEntriesText = (
         : '';
 };
 
-function requirementTextForSection(section: CheckSection, joined: string) {
+const requirementTextForSection = <Game extends GameKey>(
+    section: SectionNames<Game>,
+    joined: string
+) => {
     switch (section) {
         case 'bosses':
         case 'optionalBosses':
@@ -152,11 +177,11 @@ function requirementTextForSection(section: CheckSection, joined: string) {
         default:
             throw new Error(
                 `Unimplemented requirement for '${
-                    section satisfies never
+                    section as string /* satisfies never */ // :(
                 }' section`
             );
     }
     return joined;
-}
+};
 
 export default formatCheckListError;

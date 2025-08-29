@@ -1,17 +1,20 @@
 import styled, { css } from 'styled-components';
 
-import { HR } from '../../assets';
-import useChecklistStore from '../../stores/checklistStore';
-import useUiStore from '../../stores/uiStore';
-import { FlexBox } from '../../styles';
+import { HR } from '../assets';
+import useChecklistStore, { ChecklistStore } from '../stores/checklistStore';
+import useUiStore from '../stores/uiStore';
+import { FlexBox } from '../styles';
 import {
-    CheckSection,
-    ChecksSection,
+    Check,
+    Checks,
+    ChecksKeys,
+    GameKey,
     RequirementCheckErrors,
-} from '../../types/checklist';
-import Button from '../Button';
-import { SectionCheckBox } from '../Checkbox/SectionCheckBox';
-import { FText } from '../FText/FText';
+    SectionNames,
+} from '../types/checklist';
+import Button from './Button';
+import { SectionCheckBox } from './Checkbox/SectionCheckBox';
+import FText from './FText';
 
 const SectionWrapper = styled.div`
     display: flex;
@@ -72,25 +75,32 @@ const SectionButtons = styled.div`
     }
 `;
 
-type SectionProps = {
+type SectionProps<Game extends GameKey> = {
+    game: GameKey;
     title: string;
-    sectionName: CheckSection;
-    errors: RequirementCheckErrors;
+    sectionName: SectionNames<Game>;
+    errors: RequirementCheckErrors<Game>;
 };
 
-export const Section: React.FC<SectionProps> = ({
+function Section<Game extends GameKey>({
+    game,
     title,
     sectionName,
     errors,
-}) => {
-    const section = useChecklistStore(state => state.checks[sectionName]);
-    const reset = useChecklistStore(state => state.reset);
-    const checkAll = useChecklistStore(state => state.checkAll);
+}: SectionProps<Game>) {
+    const useStore = useChecklistStore[game] as unknown as ChecklistStore<Game>; // :sob:
+    const section = useStore(
+        state => (state.checks as Checks<Game>)[sectionName]
+    );
+    const reset = useStore(state => state.reset);
+    const checkAll = useStore(state => state.checkAll);
 
     const collapsedSections = useUiStore(state => state.collapsedSections);
     const toggleCollapsed = useUiStore(state => state.toggleSection);
 
-    const collapsed = collapsedSections.includes(sectionName);
+    const collapsed = (
+        collapsedSections[game] as SectionNames<Game>[]
+    ).includes(sectionName);
     const sectionHasErrors = Object.keys(errors).some(
         err => err.split(' ')[0] === sectionName
     );
@@ -124,13 +134,14 @@ export const Section: React.FC<SectionProps> = ({
                 $checksCount={Object.keys(section).length}
                 $collapsed={collapsed}
             >
-                {Object.entries(section).map(([name, check]) => {
-                    const typedName = name as keyof ChecksSection<CheckSection>;
+                {Object.entries<Check<Game>>(section).map(([name, check]) => {
+                    const typedName =
+                        name as ChecksKeys<Game>[SectionNames<Game>] & string;
                     return (
                         <SectionCheckBox
                             key={name}
                             sectionName={sectionName}
-                            name={typedName}
+                            checkName={typedName}
                             check={check}
                             errors={errors}
                         />
@@ -139,4 +150,6 @@ export const Section: React.FC<SectionProps> = ({
             </SectionContent>
         </SectionWrapper>
     );
-};
+}
+
+export default Section;

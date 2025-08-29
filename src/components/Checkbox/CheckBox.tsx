@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { CheckIcon } from '../../assets';
 import { COLORS } from '../../constants';
 import { FlexBox } from '../../styles';
-import { FText } from '../FText/FText';
+import FText from '../FText';
 
 import type { Property } from 'csstype';
 
