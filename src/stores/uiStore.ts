@@ -119,7 +119,7 @@ const useUiStore = create<UiState & UiActions>()(
 
             hideCompletedSections: <Game extends GameKey>() =>
                 set(state => {
-                    const checklist = useChecklistStore[state.currentTab]();
+                    const checklist = useChecklistStore(state.currentTab)();
                     Object.entries(checklist.checks).forEach(
                         ([section, checks]: [
                             string,

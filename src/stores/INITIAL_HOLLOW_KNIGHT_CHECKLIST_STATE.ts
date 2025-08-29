@@ -2,6 +2,7 @@ import { HollowKnightChecklistState } from '../types/checklist';
 
 export const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState =
     {
+        game: 'hollow-knight',
         percent: 0,
 
         geo: 0,

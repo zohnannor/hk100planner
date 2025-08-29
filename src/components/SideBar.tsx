@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import { HR2 } from '../assets';
 import { BREAKPOINTS, COLORS } from '../constants';
 import { useBreakpoint } from '../hooks/useBreakpoint';
-import useChecklistStore, { ChecklistStore } from '../stores/checklistStore';
+import useChecklistStore from '../stores/checklistStore';
 import { FlexBox, HasErrors } from '../styles';
 import { GameKey } from '../types/checklist';
 import Button from './Button';
@@ -115,7 +115,7 @@ function SideBar<Game extends GameKey>({
     children,
     hasErrors,
 }: PropsWithChildren<SideBarProps<Game>>) {
-    const useStore = useChecklistStore[game] as unknown as ChecklistStore<Game>; // :sob:
+    const useStore = useChecklistStore(game);
     const percent = useStore(state => state.percent);
     const reset = useStore(state => state.reset);
     const checkAll = useStore(state => state.checkAll);

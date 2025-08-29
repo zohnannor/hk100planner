@@ -3,7 +3,7 @@ import { PartialDeep } from 'type-fest';
 
 import { ExclamationMark, QuestionMark } from '../../assets';
 import { COLORS, OFFICIAL_TM_GRUB_NAMES } from '../../constants';
-import useChecklistStore, { ChecklistStore } from '../../stores/checklistStore';
+import useChecklistStore from '../../stores/checklistStore';
 import useUiStore from '../../stores/uiStore';
 import {
     Check,
@@ -15,7 +15,6 @@ import {
     SectionNames,
 } from '../../types/checklist';
 import formatCheckListError from '../../util/formatCheckListError';
-import { isHollowKnight } from '../../util/isHollowKnight';
 import { CheckBox } from './CheckBox';
 
 const OuterShadow = styled.div`
@@ -81,10 +80,14 @@ export function SectionCheckBox<
 }: SectionCheckBoxProps<Game, Section>) {
     // TODO: tab?
     const currentTab = useUiStore(state => state.currentTab);
-    const useStore = useChecklistStore[
-        currentTab
-    ] as unknown as ChecklistStore<Game>; // :sob:
-    const toggle = useStore(state => state.toggle);
+    const useStore = useChecklistStore(currentTab);
+    const toggle = useStore(
+        state =>
+            state.toggle as <S extends SectionNames<Game>>(
+                section: S,
+                name: ChecksKeys<Game>[S] & string
+            ) => void
+    );
     const validateCheck = useStore(
         state => (check: Check<Game>) => state.validateCheck(state, check)
     );
@@ -108,7 +111,7 @@ export function SectionCheckBox<
               ]
             : checkName;
 
-    if (isHollowKnight(useChecklistStore['hollow-knight']())) {
+    {
         const req = check.requires as PartialDeep<
             ChecklistState<'hollow-knight'>
         >;
@@ -126,7 +129,8 @@ export function SectionCheckBox<
         }
     }
 
-    const handleClick = () => toggle(sectionName, checkName);
+    const handleClick = () =>
+        toggle(sectionName as SectionNames<Game>, checkName);
 
     const canBeChecked = !validateCheck(check);
 

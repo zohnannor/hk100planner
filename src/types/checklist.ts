@@ -24,7 +24,7 @@ export type Check<Game extends GameKey> = {
     //     | ((state: ChecklistState) => string | undefined);
 };
 
-/** Defines the keys for various checks in the checklist. */
+/** Hollow Knight specific check keys */
 export type HollowKnightChecksKeys = {
     bosses:
         | '[Broken Vessel]'
@@ -322,18 +322,21 @@ export type HollowKnightChecksKeys = {
     //     | 'Any ending';
 };
 
+/** Silksong specific check keys */
 export type SilksongChecksKeys = {
     bosses: 'LACE TODO'; // TODO
     things: 'TODO'; // TODO
 };
 
+/** Union type for all possible check keys */
 export type ChecksKeys<Game extends GameKey> = {
     'hollow-knight': HollowKnightChecksKeys;
     silksong: SilksongChecksKeys;
 }[Game];
 
 /** Names of the sections of the checks defined in ChecksKeys. */
-export type SectionNames<Game extends GameKey> = keyof ChecksKeys<Game>;
+export type SectionNames<Game extends GameKey> = keyof ChecksKeys<Game> &
+    string;
 
 /**
  * Represents a section of checks for a specific category.
@@ -343,25 +346,24 @@ export type SectionNames<Game extends GameKey> = keyof ChecksKeys<Game>;
 export type ChecksSection<
     Game extends GameKey,
     Section extends SectionNames<Game>
-> = {
-    [K in ChecksKeys<Game>[Section] & string]: Check<Game>;
-};
+> = Record<ChecksKeys<Game>[Section] & string, Check<Game>>;
 
-/** Represents the entire checklist containing all sections of checks of a game. */
+/** Represents the entire checklist containing all sections of checks. */
 export type Checks<Game extends GameKey> = {
     [Section in SectionNames<Game>]: ChecksSection<Game, Section>;
 };
 
-/** Represents the common checklist state for all games. */
+/** Base state properties common to both games. */
 export type CommonChecklistState<Game extends GameKey> = {
+    /** The game discriminator. */
+    game: Game;
     /** The percentage of completion for the checklist. */
     percent: number;
     /** The checks that make up the checklist. */
     checks: Checks<Game>;
 };
 
-/** Represents the state of the checklist, including progress and requirements
- * for Hollow Knight. */
+/** Hollow Knight specific state properties. */
 export type HollowKnightChecklistState =
     CommonChecklistState<'hollow-knight'> & {
         /** The amount of geo collected. */
@@ -390,14 +392,13 @@ export type HollowKnightChecklistState =
         simpleKeysReq: number;
     };
 
-/** Represents the state of the checklist, including progress and requirements
- * for Hollow Knight. */
+/** Silksong specific state properties. */
 export type SilksongChecklistState = CommonChecklistState<'silksong'> & {};
 
-export type ChecklistState<Game extends GameKey> = {
-    'hollow-knight': HollowKnightChecklistState;
-    silksong: SilksongChecklistState;
-}[Game];
+/** Represents the state of the checklist, including progress and requirements. */
+export type ChecklistState<Game extends GameKey> = Game extends 'hollow-knight'
+    ? HollowKnightChecklistState
+    : SilksongChecklistState;
 
 /** Represents actions that can be performed on the checklist. */
 export type Action<Game extends GameKey> = {
@@ -409,7 +410,7 @@ export type Action<Game extends GameKey> = {
      */
     toggle: <S extends SectionNames<Game>>(
         section: S,
-        name: keyof ChecksSection<Game, S>
+        name: ChecksKeys<Game>[S] & string
     ) => void;
 
     /** Checks all items in the checklist or the specific section. */

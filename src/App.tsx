@@ -48,8 +48,8 @@ const App = () => {
         simpleKeysReq,
         reset,
         checkAll,
-    } = useChecklistStore['hollow-knight']();
-    const setFromSaveFile = useChecklistStore['hollow-knight'](
+    } = useChecklistStore('hollow-knight')();
+    const setFromSaveFile = useChecklistStore('hollow-knight')(
         state => state.setFromSaveFile
     );
 
@@ -68,13 +68,6 @@ const App = () => {
         }
     }, [result, isLoading]);
 
-    const validateChecks = useChecklistStore['hollow-knight'](
-        state => () => state.validateChecks(state)
-    );
-    const setChecklistHasErrors = useUiStore(
-        state => state.setChecklistHasErrors
-    );
-
     const tooltipText = useUiStore(state => state.tooltipText);
     const setTooltipText = useUiStore(state => state.setTooltipText);
     const openTooltip = useUiStore(state => state.openTooltip);
@@ -82,6 +75,13 @@ const App = () => {
     const checksValidation = useUiStore(state => state.checksValidation);
     const currentTab = useUiStore(state => state.currentTab);
     const setCurrentTab = useUiStore(state => state.setCurrentTab);
+
+    const validateChecks = useChecklistStore(currentTab)(
+        state => () => state.validateChecks(state)
+    );
+    const setChecklistHasErrors = useUiStore(
+        state => state.setChecklistHasErrors
+    );
 
     useUndoRedoKeybinds();
 

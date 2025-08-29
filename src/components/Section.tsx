@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { HR } from '../assets';
-import useChecklistStore, { ChecklistStore } from '../stores/checklistStore';
+import useChecklistStore from '../stores/checklistStore';
 import useUiStore from '../stores/uiStore';
 import { FlexBox } from '../styles';
 import {
@@ -88,12 +88,16 @@ function Section<Game extends GameKey>({
     sectionName,
     errors,
 }: SectionProps<Game>) {
-    const useStore = useChecklistStore[game] as unknown as ChecklistStore<Game>; // :sob:
+    const useStore = useChecklistStore(game); // :sob:
     const section = useStore(
         state => (state.checks as Checks<Game>)[sectionName]
     );
-    const reset = useStore(state => state.reset);
-    const checkAll = useStore(state => state.checkAll);
+    const reset = useStore(
+        state => state.reset as (sectionName?: SectionNames<Game>) => void
+    );
+    const checkAll = useStore(
+        state => state.checkAll as (sectionName?: SectionNames<Game>) => void
+    );
 
     const collapsedSections = useUiStore(state => state.collapsedSections);
     const toggleCollapsed = useUiStore(state => state.toggleSection);

@@ -5,7 +5,7 @@ import useUiStore from '../stores/uiStore';
 
 const useUndoRedoKeybinds = () => {
     const currentTab = useUiStore.getState().currentTab;
-    const { undo, redo } = useChecklistStore[currentTab].temporal.getState();
+    const { undo, redo } = useChecklistStore(currentTab).temporal.getState();
 
     useEffect(() => {
         const handleUndoRedo = (e: KeyboardEvent): void => {
