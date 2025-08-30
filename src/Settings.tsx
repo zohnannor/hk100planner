@@ -67,7 +67,7 @@ const Settings: React.FC<SettingsProps> = ({ collapsed }) => {
     const collapsedSections = useUiStore(state => state.collapsedSections);
     const toggleSection = useUiStore(state => state.toggleSection);
     const hideCompletedSections = useUiStore(
-        state => () => state.hideCompletedSections
+        state => state.hideCompletedSections
     );
 
     return (

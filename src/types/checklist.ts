@@ -24,7 +24,7 @@ export type Check<Game extends GameKey> = {
 };
 
 /** Hollow Knight specific check keys */
-export type HollowKnightChecksKeys = {
+type HollowKnightChecksKeys = {
     bosses:
         | '[Broken Vessel]'
         | '[Brooding Mawlek]'
@@ -322,13 +322,13 @@ export type HollowKnightChecksKeys = {
 };
 
 /** Silksong specific check keys */
-export type SilksongChecksKeys = {
+type SilksongChecksKeys = {
     bosses: '[Lace]'; // TODO
     things: 'TODO'; // TODO
 };
 
 /** Union type for all possible check keys */
-export type ChecksKeys<Game extends GameKey> = {
+type ChecksKeys<Game extends GameKey> = {
     'hollow-knight': HollowKnightChecksKeys;
     silksong: SilksongChecksKeys;
 }[Game];
@@ -361,7 +361,7 @@ export type Checks<Game extends GameKey> = {
 };
 
 /** Base state properties common to both games. */
-export type CommonChecklistState<Game extends GameKey> = {
+type CommonChecklistState<Game extends GameKey> = {
     /** The game discriminator. */
     game: Game;
     /** The percentage of completion for the checklist. */
@@ -413,7 +413,7 @@ export type ChecklistState<Game extends GameKey> = {
     silksong: SilksongChecklistState;
 }[Game];
 
-/** Represents actions that can be performed on the checklist. */
+/** Actions that can be performed on the checklist. */
 export type Action<Game extends GameKey> = {
     /**
      * Toggles the checked state of a specific check.

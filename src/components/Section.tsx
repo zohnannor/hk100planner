@@ -3,10 +3,10 @@ import styled, { css } from 'styled-components';
 import { HR } from '../assets';
 import useChecklistStore from '../stores/checklistStore';
 import useUiStore from '../stores/uiStore';
-import { FlexBox } from '../styles';
+import { FlexBox, HasErrors } from '../styles';
 import {
+    CheckNames,
     Checks,
-    ChecksSection,
     GameKey,
     RequirementCheckErrors,
     SectionNames,
@@ -23,7 +23,7 @@ const SectionWrapper = styled.div`
     justify-content: center;
 `;
 
-const SectionTitle = styled.h1<{ $hasErrors: boolean }>`
+const SectionTitle = styled.h1<HasErrors>`
     font-size: min(32px, 8vw);
     line-height: min(32px, 8vw);
     margin: 0;
@@ -82,19 +82,15 @@ type SectionProps<Game extends GameKey> = {
     errors: RequirementCheckErrors[Game];
 };
 
-function Section<Game extends GameKey>({
+const Section = <Game extends GameKey>({
     game,
     title,
     sectionName,
     errors,
-}: SectionProps<Game>) {
+}: SectionProps<Game>) => {
     const useChecklist = useChecklistStore(game);
     const section = useChecklist(
-        state =>
-            (state.checks as Checks<Game>)[sectionName] as ChecksSection<
-                Game,
-                SectionNames<Game>
-            >
+        state => (state.checks as Checks<Game>)[sectionName]
     );
     const reset = useChecklist(state => state.reset);
     const checkAll = useChecklist(state => state.checkAll);
@@ -141,10 +137,13 @@ function Section<Game extends GameKey>({
             >
                 {typedEntries(section).map(([name, check]) => {
                     return (
-                        <SectionCheckBox
-                            key={name}
+                        <SectionCheckBox<Game>
+                            game={game}
+                            key={name as string}
                             sectionName={sectionName}
-                            checkName={name}
+                            checkName={
+                                name as CheckNames<Game, SectionNames<Game>>
+                            }
                             check={check}
                             errors={errors}
                         />
@@ -153,6 +152,6 @@ function Section<Game extends GameKey>({
             </SectionContent>
         </SectionWrapper>
     );
-}
+};
 
 export default Section;

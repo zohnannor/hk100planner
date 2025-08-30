@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import renderLink from '../util/renderLink';
@@ -34,9 +34,9 @@ const IconWrapper = styled.img`
     top: min(4px, 1vw);
 `;
 
-interface FTextProps {
+type FTextProps = {
     color?: string;
-}
+};
 
 const FText: React.FC<PropsWithChildren<FTextProps>> = ({
     children,

@@ -7,9 +7,9 @@ import sleep from '../util/sleep';
 import DialogBox from './DialogBox';
 import FText from './FText';
 
-interface TooltipProps {
+type TooltipProps = {
     $opacity: number;
-}
+};
 
 const TooltipRoot = styled.div<TooltipProps>`
     position: fixed;

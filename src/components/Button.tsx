@@ -5,11 +5,11 @@ import { COLORS } from '../constants';
 
 type ButtonSize = 'big' | 'small';
 
-interface ButtonProps {
+type ButtonProps = {
     size?: ButtonSize;
     label: string;
     onClick: () => void;
-}
+};
 
 type ButtonWrapperProps = {
     $size: ButtonSize;

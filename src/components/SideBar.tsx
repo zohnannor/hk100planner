@@ -4,14 +4,13 @@ import styled, { css } from 'styled-components';
 import { HR2 } from '../assets';
 import { BREAKPOINTS, COLORS } from '../constants';
 import { useBreakpoint } from '../hooks/useBreakpoint';
-import useChecklistStore from '../stores/checklistStore';
+import { useCurrentChecklistStore } from '../hooks/useCurrentChecklistStore';
 import { FlexBox, HasErrors } from '../styles';
-import { GameKey } from '../types/checklist';
 import Button from './Button';
 
-interface ContainerProps {
+type ContainerProps = {
     $visible: boolean;
-}
+};
 
 const Container = styled.div<ContainerProps>`
     position: relative;
@@ -45,7 +44,7 @@ const MobileContainerBackdropBlur = styled.div`
     }
 `;
 
-export const SidePercentLabel = styled.div<HasErrors>`
+const SidePercentLabel = styled.div<HasErrors>`
     font-size: 52px;
     line-height: 52px;
     margin-bottom: 12px;
@@ -63,7 +62,7 @@ export const SidePercentLabel = styled.div<HasErrors>`
     }
 `;
 
-export const SidebarButtons = styled.div`
+const SidebarButtons = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -74,7 +73,7 @@ export const SidebarButtons = styled.div`
     }
 `;
 
-export const SideLabel = styled.div`
+const SideLabel = styled.div`
     font-size: min(18px, 5vw);
     line-height: min(18px, 5vw);
     align-self: center;
@@ -103,19 +102,17 @@ const MobileContainer = styled.div`
     padding: 0 10vw;
 `;
 
-interface SideBarProps<Game extends GameKey> {
-    game: Game;
+type SideBarProps = {
     visible: boolean;
     hasErrors: boolean;
-}
+};
 
-function SideBar<Game extends GameKey>({
-    game,
+const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
     visible,
     children,
     hasErrors,
-}: PropsWithChildren<SideBarProps<Game>>) {
-    const useChecklist = useChecklistStore(game);
+}) => {
+    const useChecklist = useCurrentChecklistStore();
     const percent = useChecklist(state => state.percent);
     const reset = useChecklist(state => state.reset);
     const checkAll = useChecklist(state => state.checkAll);
@@ -166,6 +163,6 @@ function SideBar<Game extends GameKey>({
             </FlexBox>
         </Container>
     );
-}
+};
 
 export default SideBar;

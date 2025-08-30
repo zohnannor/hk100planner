@@ -96,8 +96,8 @@ type MissingHollowKnightSectionNames = UnionToArray<
 
 // Compile-time check to make sure all sections are used in
 // `HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS`.
-export const __missingHollowKnightSectionNames: MissingHollowKnightSectionNames =
-    [];
+const __missingHollowKnightSectionNames: MissingHollowKnightSectionNames = [];
+void __missingHollowKnightSectionNames;
 
 type MissingSilksongSectionNames = UnionToArray<
     Exclude<
@@ -108,7 +108,8 @@ type MissingSilksongSectionNames = UnionToArray<
 
 // Compile-time check to make sure all sections are used in
 // `SILKSONG_DISTRIBUTED_SECTIONS`.
-export const __missingSilksongSectionNames: MissingSilksongSectionNames = [];
+const __missingSilksongSectionNames: MissingSilksongSectionNames = [];
+void __missingSilksongSectionNames;
 
 export const DESCRIPTION_TEXT =
     'This is a tool to help you plan your Hollow Knight ["Speed Completion"](Achievements (Hollow Knight)#Challenges) achievement checklist. ' +

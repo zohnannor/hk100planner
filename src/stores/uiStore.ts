@@ -2,15 +2,13 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import { HOLLOW_KNIGHT_SECTION_TITLES } from '../constants';
+import {
+    HOLLOW_KNIGHT_SECTION_TITLES,
+    SILKSONG_SECTION_TITLES,
+} from '../constants';
 import { Checks, GameKey, SectionNames } from '../types/checklist';
 import { typedEntries, typedKeys, typedValues } from '../util/typedObject';
 import useChecklistStore from './checklistStore';
-
-{
-    downloads: [];
-    notifications: [];
-}
 
 type UiState = {
     /** Whether the tooltip is open. */
@@ -95,6 +93,10 @@ const useUiStore = create<UiState & UiActions>()(
                 section?: SectionNames<Game>
             ) =>
                 set(state => {
+                    const sectionTitles =
+                        state.currentTab === 'hollow-knight'
+                            ? HOLLOW_KNIGHT_SECTION_TITLES
+                            : SILKSONG_SECTION_TITLES;
                     const collapsed = state.collapsedSections[
                         state.currentTab
                     ] as SectionNames<Game>[];
@@ -111,7 +113,7 @@ const useUiStore = create<UiState & UiActions>()(
                         } else {
                             collapsed.push(
                                 ...(typedKeys(
-                                    HOLLOW_KNIGHT_SECTION_TITLES
+                                    sectionTitles
                                 ) as SectionNames<Game>[])
                             );
                         }
@@ -122,7 +124,8 @@ const useUiStore = create<UiState & UiActions>()(
                 set(state => {
                     const checklistState = useChecklistStore(
                         state.currentTab
-                    )();
+                    ).getState();
+
                     typedEntries(checklistState.checks as Checks<Game>).forEach(
                         ([section, checks]) => {
                             if (typedValues(checks).every(x => x.checked)) {

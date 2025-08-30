@@ -11,7 +11,3 @@ export type UnionToArray<T> = PickOne<T> extends infer U
             : [T]
         : [...UnionToArray<Exclude<T, U>>, U]
     : never;
-
-export type SinglePropertyUnion<T> = {
-    [K in keyof T]: Pick<T, K>;
-}[keyof T];

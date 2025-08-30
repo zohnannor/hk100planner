@@ -3,18 +3,18 @@ import { PartialDeep } from 'type-fest';
 
 import { ExclamationMark, QuestionMark } from '../../assets';
 import { COLORS, OFFICIAL_TM_GRUB_NAMES } from '../../constants';
-import { useCurrentChecklistStore } from '../../hooks/useCurrentChecklistStore';
+import useChecklistStore from '../../stores/checklistStore';
 import useUiStore from '../../stores/uiStore';
 import {
     Check,
-    ChecklistState,
     CheckNames,
     GameKey,
+    HollowKnightChecklistState,
     RequirementCheckErrors,
     SectionNames,
 } from '../../types/checklist';
 import formatCheckListError from '../../util/formatCheckListError';
-import { CheckBox } from './CheckBox';
+import CheckBox from './';
 
 const OuterShadow = styled.div`
     cursor: pointer;
@@ -52,12 +52,10 @@ const CheckBoxWrapper = styled.div`
     }
 `;
 
-type SectionCheckBoxProps<
-    Game extends GameKey,
-    Section extends SectionNames<Game>
-> = {
-    sectionName: Section;
-    checkName: CheckNames<Game, Section>;
+type SectionCheckBoxProps<Game extends GameKey> = {
+    game: Game;
+    sectionName: SectionNames<Game>;
+    checkName: CheckNames<Game, SectionNames<Game>>;
     check: Check<Game>;
     errors: RequirementCheckErrors[Game];
 };
@@ -68,23 +66,15 @@ const InfoWrapper = styled.div`
     gap: 8px;
 `;
 
-export function SectionCheckBox<
-    Game extends GameKey,
-    Section extends SectionNames<Game>
->({
+export const SectionCheckBox = <Game extends GameKey>({
+    game,
     sectionName,
     checkName,
     check,
     errors,
-}: SectionCheckBoxProps<Game, Section>) {
-    const useChecklist = useCurrentChecklistStore();
-    const toggle = useChecklist(
-        state =>
-            state.toggle as <S extends SectionNames<Game>>(
-                section: S,
-                name: CheckNames<Game, S>
-            ) => void
-    );
+}: SectionCheckBoxProps<Game>) => {
+    const useChecklist = useChecklistStore(game);
+    const toggle = useChecklist(state => state.toggle);
     const validateCheck = useChecklist(
         state => (check: Check<Game>) => state.validateCheck(state, check)
     );
@@ -97,8 +87,6 @@ export function SectionCheckBox<
     const checksValidation = useUiStore(state => state.checksValidation);
 
     const { description } = check;
-    console.log({ errors });
-
     const error = formatCheckListError(
         checkName,
         errors
@@ -115,10 +103,8 @@ export function SectionCheckBox<
               ]
             : checkName;
 
-    {
-        const req = check.requires as PartialDeep<
-            ChecklistState<'hollow-knight'>
-        >;
+    if (useChecklist(state => state.game) === 'hollow-knight') {
+        const req = check.requires as PartialDeep<HollowKnightChecklistState>;
         if (typeof req === 'object') {
             const parts = [
                 req?.geo ? `[GEO] ${req.geo}` : null,
@@ -133,8 +119,7 @@ export function SectionCheckBox<
         }
     }
 
-    const handleClick = () =>
-        toggle(sectionName as SectionNames<Game>, checkName);
+    const handleClick = () => toggle(sectionName, checkName);
 
     const canBeChecked = !validateCheck(check);
 
@@ -179,4 +164,4 @@ export function SectionCheckBox<
             )}
         </CheckBoxWrapper>
     );
-}
+};

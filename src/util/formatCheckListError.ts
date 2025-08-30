@@ -29,8 +29,6 @@ const formatCheckListError = <Game extends GameKey>(
                   ]
                 : checkName;
 
-        console.log({ checkName, errors });
-
         const requires = typedEntries(errors)
             .map(([requirement, error]) => {
                 // TODO: types?
