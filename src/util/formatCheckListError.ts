@@ -1,16 +1,22 @@
 import { OFFICIAL_TM_GRUB_NAMES } from '../constants';
 import useUiStore from '../stores/uiStore';
 import {
-    ChecklistState,
+    CheckNames,
     Checks,
-    CheckSection,
     ChecksSection,
+    GameKey,
     RequirementCheckErrors,
+    SectionNames,
 } from '../types/checklist';
+import { typedEntries } from './typedObject';
 
-const formatCheckListError = (
-    checkName: keyof ChecksSection<CheckSection>,
-    errors: RequirementCheckErrors[`${CheckSection} ${keyof ChecksSection<CheckSection>}`]
+const formatCheckListError = <Game extends GameKey>(
+    checkName: CheckNames<Game, SectionNames<Game>>,
+    errors:
+        | NonNullable<
+              NonNullable<RequirementCheckErrors[Game]>[SectionNames<Game>]
+          >[CheckNames<Game, SectionNames<Game>>] // | string
+        | undefined
 ): string | undefined => {
     if (errors && typeof errors === 'object') {
         const useOfficialTMGrubNames =
@@ -19,14 +25,14 @@ const formatCheckListError = (
             useOfficialTMGrubNames &&
             OFFICIAL_TM_GRUB_NAMES.hasOwnProperty(checkName)
                 ? OFFICIAL_TM_GRUB_NAMES[
-                      checkName as keyof ChecksSection<'grubs'>
+                      checkName as CheckNames<'hollow-knight', 'grubs'>
                   ]
                 : checkName;
 
-        return `${name} requires ${Object.entries(errors)
+        const requires = typedEntries(errors)
             .map(([requirement, error]) => {
-                const typedRequirement = requirement as keyof ChecklistState;
-
+                // TODO: types?
+                const typedRequirement = requirement as SectionNames<Game>;
                 switch (typedRequirement) {
                     case 'geo':
                         return `[GEO] ${error}`;
@@ -42,21 +48,27 @@ const formatCheckListError = (
                         return `${error} mask shard(s) collected`;
                     case 'charms':
                         return `${error} charms collected`;
+                    case 'vesselFragments':
+                    case 'geoReq':
+                    case 'essenceReq':
+                    case 'paleOreReq':
+                    case 'simpleKeysReq':
+                    case 'game':
+                    case 'percent':
+                        throw new Error(
+                            `Nothing should require ${typedRequirement}`
+                        );
                     case 'checks': {
-                        return Object.entries(error as Checks)
+                        return typedEntries(error as Checks<Game>)
                             .map(([section, sectionErrors]) => {
-                                const typedSection = section as CheckSection;
-                                const typedSectionErrors =
-                                    sectionErrors as ChecksSection<CheckSection>;
-
                                 const positive = getEntriesText(
-                                    typedSection,
-                                    typedSectionErrors,
+                                    section,
+                                    sectionErrors,
                                     true
                                 );
                                 const negative = getEntriesText(
-                                    typedSection,
-                                    typedSectionErrors,
+                                    section,
+                                    sectionErrors,
                                     false
                                 );
 
@@ -64,39 +76,30 @@ const formatCheckListError = (
                             })
                             .join('; ');
                     }
-
-                    case 'percent':
-                    case 'geoReq':
-                    case 'essenceReq':
-                    case 'paleOreReq':
-                    case 'simpleKeysReq':
-                    case 'vesselFragments': {
-                        throw new Error(
-                            `Nothing should require ${requirement}`
-                        );
-                    }
-
                     default:
                         throw new Error(
                             `Unimplemented requirement for '${
-                                typedRequirement satisfies never
+                                typedRequirement /* satisfies never */ // :(
                             }' type`
                         );
                 }
             })
-            .join(', ')}.`;
+            .filter(Boolean)
+            .join(', ');
+
+        return `${name} requires ${requires}.`;
     } else if (typeof errors === 'string') {
         return errors;
     }
     return undefined;
 };
 
-const getEntriesText = (
-    section: CheckSection,
-    sectionErrors: ChecksSection<CheckSection>,
+const getEntriesText = <Game extends GameKey>(
+    section: SectionNames<Game>,
+    sectionErrors: ChecksSection<Game, SectionNames<Game>>,
     checked: boolean
 ) => {
-    const entries = Object.entries(sectionErrors)
+    const entries = typedEntries(sectionErrors)
         .filter(([, check]) => (check.checked ?? false) === checked)
         .map(([name]) => name);
 
@@ -108,7 +111,11 @@ const getEntriesText = (
         : '';
 };
 
-function requirementTextForSection(section: CheckSection, joined: string) {
+const requirementTextForSection = <Game extends GameKey>(
+    section: SectionNames<Game>,
+    joined: string
+) => {
+    // TODO: isHollowKnightState (?)
     switch (section) {
         case 'bosses':
         case 'optionalBosses':
@@ -152,11 +159,11 @@ function requirementTextForSection(section: CheckSection, joined: string) {
         default:
             throw new Error(
                 `Unimplemented requirement for '${
-                    section satisfies never
+                    section /* satisfies never */ // :(
                 }' section`
             );
     }
     return joined;
-}
+};
 
 export default formatCheckListError;

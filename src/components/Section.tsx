@@ -1,17 +1,20 @@
 import styled, { css } from 'styled-components';
 
-import { HR } from '../../assets';
-import useChecklistStore from '../../stores/checklistStore';
-import useUiStore from '../../stores/uiStore';
-import { FlexBox } from '../../styles';
+import { HR } from '../assets';
+import useChecklistStore from '../stores/checklistStore';
+import useUiStore from '../stores/uiStore';
+import { FlexBox, HasErrors } from '../styles';
 import {
-    CheckSection,
-    ChecksSection,
+    CheckNames,
+    Checks,
+    GameKey,
     RequirementCheckErrors,
-} from '../../types/checklist';
-import Button from '../Button';
-import { SectionCheckBox } from '../Checkbox/SectionCheckBox';
-import { FText } from '../FText/FText';
+    SectionNames,
+} from '../types/checklist';
+import { typedEntries, typedKeys } from '../util/typedObject';
+import Button from './Button';
+import { SectionCheckBox } from './Checkbox/SectionCheckBox';
+import FText from './FText';
 
 const SectionWrapper = styled.div`
     display: flex;
@@ -20,7 +23,7 @@ const SectionWrapper = styled.div`
     justify-content: center;
 `;
 
-const SectionTitle = styled.h1<{ $hasErrors: boolean }>`
+const SectionTitle = styled.h1<HasErrors>`
     font-size: min(32px, 8vw);
     line-height: min(32px, 8vw);
     margin: 0;
@@ -72,27 +75,35 @@ const SectionButtons = styled.div`
     }
 `;
 
-type SectionProps = {
+type SectionProps<Game extends GameKey> = {
+    game: Game;
     title: string;
-    sectionName: CheckSection;
-    errors: RequirementCheckErrors;
+    sectionName: SectionNames<Game>;
+    errors: RequirementCheckErrors[Game];
 };
 
-export const Section: React.FC<SectionProps> = ({
+const Section = <Game extends GameKey>({
+    game,
     title,
     sectionName,
     errors,
-}) => {
-    const section = useChecklistStore(state => state.checks[sectionName]);
-    const reset = useChecklistStore(state => state.reset);
-    const checkAll = useChecklistStore(state => state.checkAll);
+}: SectionProps<Game>) => {
+    const useChecklist = useChecklistStore(game);
+    const section = useChecklist(
+        state => (state.checks as Checks<Game>)[sectionName]
+    );
+    const reset = useChecklist(state => state.reset);
+    const checkAll = useChecklist(state => state.checkAll);
 
-    const collapsedSections = useUiStore(state => state.collapsedSections);
+    const collapsedSections = useUiStore(
+        state =>
+            state.collapsedSections[state.currentTab] as SectionNames<Game>[]
+    );
     const toggleCollapsed = useUiStore(state => state.toggleSection);
 
     const collapsed = collapsedSections.includes(sectionName);
-    const sectionHasErrors = Object.keys(errors).some(
-        err => err.split(' ')[0] === sectionName
+    const sectionHasErrors = typedKeys(errors ?? {}).some(
+        section => section === sectionName
     );
 
     return (
@@ -121,16 +132,18 @@ export const Section: React.FC<SectionProps> = ({
             </FlexBox>
             <SectionUnderline />
             <SectionContent
-                $checksCount={Object.keys(section).length}
+                $checksCount={typedKeys(section).length}
                 $collapsed={collapsed}
             >
-                {Object.entries(section).map(([name, check]) => {
-                    const typedName = name as keyof ChecksSection<CheckSection>;
+                {typedEntries(section).map(([name, check]) => {
                     return (
-                        <SectionCheckBox
-                            key={name}
+                        <SectionCheckBox<Game>
+                            game={game}
+                            key={name as string}
                             sectionName={sectionName}
-                            name={typedName}
+                            checkName={
+                                name as CheckNames<Game, SectionNames<Game>>
+                            }
                             check={check}
                             errors={errors}
                         />
@@ -140,3 +153,5 @@ export const Section: React.FC<SectionProps> = ({
         </SectionWrapper>
     );
 };
+
+export default Section;

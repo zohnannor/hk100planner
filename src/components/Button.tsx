@@ -1,19 +1,21 @@
 import styled, { css } from 'styled-components';
 
-import { POINTER } from '../../assets';
-import { COLORS } from '../../constants';
+import { POINTER } from '../assets';
+import { COLORS } from '../constants';
 
 type ButtonSize = 'big' | 'small';
 
-interface ButtonProps {
+type ButtonProps = {
     size?: ButtonSize;
     label: string;
     onClick: () => void;
-}
+};
 
-const ButtonWrapper = styled.div<{
+type ButtonWrapperProps = {
     $size: ButtonSize;
-}>`
+};
+
+const ButtonWrapper = styled.div<ButtonWrapperProps>`
     transition: 0.2s;
     display: flex;
     align-items: center;
@@ -76,7 +78,7 @@ const ButtonWrapper = styled.div<{
         `}
 `;
 
-export const Button: React.FC<ButtonProps> = ({ label, onClick, size }) => {
+const Button: React.FC<ButtonProps> = ({ label, onClick, size }) => {
     return (
         <ButtonWrapper $size={size || 'big'}>
             <div>
@@ -89,3 +91,5 @@ export const Button: React.FC<ButtonProps> = ({ label, onClick, size }) => {
         </ButtonWrapper>
     );
 };
+
+export default Button;

@@ -1,3 +1,5 @@
+import { typedKeys } from './typedObject';
+
 /**
  * A type representing a value that can be compared.
  *
@@ -37,7 +39,7 @@ const partialDeepEqual = (
     right: Comparable,
     comparator: Comparator<Comparable[keyof Comparable]>
 ): boolean =>
-    Object.keys(right).every((key: keyof Comparable) => {
+    typedKeys(right).every(key => {
         if (!left.hasOwnProperty(key)) {
             return false; // Key does not exist in left
         }
@@ -65,6 +67,6 @@ const partialDeepEqual = (
             // Use the comparator for primitive values
             return comparator(leftValue, rightValue);
         }
-    }) || Object.keys(right).length === 0; // Allow for right to be empty
+    }) || typedKeys(right).length === 0; // Allow for right to be empty
 
 export default partialDeepEqual;

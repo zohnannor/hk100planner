@@ -32,23 +32,3 @@ body {
     background-size: cover;
     background-position: center;
 }
-
-.background {
-    top: 0;
-    position: fixed;
-    z-index: -1;
-    width: 120vw;
-    height: calc(100vh + 200px);
-
-    background: url('./assets/voidheart.png');
-    background-size: cover;
-    background-position: center 0;
-}
-
-.background::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}

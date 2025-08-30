@@ -1,6 +1,7 @@
-import { ChecklistState } from '../types/checklist';
+import { HollowKnightChecklistState } from '../types/checklist';
 
-export const INITIAL_CHECKLIST_STATE: ChecklistState = {
+const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
+    game: 'hollow-knight',
     percent: 0,
 
     geo: 0,
@@ -34,7 +35,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         equipment: { '[Mantis Claw]': { checked: true } },
-                        items: { '[LOVE_KEY] [Love Key]': { checked: true } },
+                        items: {
+                            '[LOVE_KEY] [Love Key]': { checked: true },
+                        },
                     },
                 },
             },
@@ -65,7 +68,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        items: {
+                            '[TRAM_PASS] [Tram Pass]': { checked: true },
+                        },
                     },
                 },
             },
@@ -89,7 +94,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { percent: 1, geo: 620 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -189,7 +196,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: {},
                 requires: {
                     checks: {
-                        colosseum: { '[Trial of the Fool]': { checked: true } },
+                        colosseum: {
+                            '[Trial of the Fool]': { checked: true },
+                        },
                     },
                 },
             },
@@ -219,7 +228,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { geo: 300 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -340,7 +351,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { percent: 2 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -423,7 +436,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     paleOre: 3,
                     checks: {
                         nail: {
-                            '[Coiled Nail](Nail#Upgrades)': { checked: true },
+                            '[Coiled Nail](Nail#Upgrades)': {
+                                checked: true,
+                            },
                         },
                     },
                 },
@@ -454,7 +469,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     essence: 2400,
                     checks: {
-                        dreamNail: { '[Awoken Dream Nail]': { checked: true } },
+                        dreamNail: {
+                            '[Awoken Dream Nail]': { checked: true },
+                        },
                     },
                 },
             },
@@ -487,7 +504,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Desolate Dive]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: { bosses: { '[Soul Master]': { checked: true } } },
+                    checks: {
+                        bosses: { '[Soul Master]': { checked: true } },
+                    },
                 },
             },
             '[Descending Dark]': {
@@ -517,7 +536,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Vengeful Spirit]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: { bosses: { '[False Knight]': { checked: true } } },
+                    checks: {
+                        bosses: { '[False Knight]': { checked: true } },
+                    },
                 },
             },
             '[Shade Soul]': {
@@ -525,7 +546,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         items: {
-                            '[ELEGANT_KEY] [Elegant Key]': { checked: true },
+                            '[ELEGANT_KEY] [Elegant Key]': {
+                                checked: true,
+                            },
                         },
                     },
                 },
@@ -566,7 +589,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     geo: 220,
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -586,7 +611,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { percent: 1, charms: 1 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -652,7 +679,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     geo: 120,
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -688,7 +717,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     geo: 300,
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -697,7 +728,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     'In the [Mantis Village], in a chest in a room northeast of the [Mantis Lords] arena.',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: { bosses: { '[Mantis Lords]': { checked: true } } },
+                    checks: {
+                        bosses: { '[Mantis Lords]': { checked: true } },
+                    },
                 },
             },
             '[Fury of the Fallen]': {
@@ -711,7 +744,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { percent: 1, charms: 1 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -721,7 +756,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { percent: 1, charms: 1 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -732,7 +769,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         spells: { '[Desolate Dive]': { checked: true } },
-                        optionalBosses: { '[Flukemarm]': { checked: true } },
+                        optionalBosses: {
+                            '[Flukemarm]': { checked: true },
+                        },
                     },
                 },
             },
@@ -763,7 +802,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     geo: 800,
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -784,7 +825,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     geo: 250,
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -823,7 +866,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         bosses: { '[Hive Knight]': { checked: true } },
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        items: {
+                            '[TRAM_PASS] [Tram Pass]': { checked: true },
+                        },
                     },
                 },
             },
@@ -924,7 +969,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     checks: {
                         bosses: { '[Traitor Lord]': { checked: true } },
                         equipment: { '[Monarch Wings]': { checked: true } },
-                        dreamNail: { '[Awoken Dream Nail]': { checked: true } },
+                        dreamNail: {
+                            '[Awoken Dream Nail]': { checked: true },
+                        },
                     },
                 },
             },
@@ -941,7 +988,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { maskShards: 1, geoReq: 500 },
                 requires: {
                     geo: 500,
-                    checks: { maskShards: { '[Sly] #1': { checked: true } } },
+                    checks: {
+                        maskShards: { '[Sly] #1': { checked: true } },
+                    },
                 },
             },
             '[Sly] #3': {
@@ -1058,7 +1107,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { maskShards: 1 },
                 requires: {
                     checks: {
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        items: {
+                            '[TRAM_PASS] [Tram Pass]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1082,7 +1133,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         items: { '[Delicate Flower]': { checked: true } },
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1321,7 +1374,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                         colosseum: {
                             '[Trial of the Warrior]': { checked: true },
                         },
-                        optionalBosses: { '[Oblobbles]': { checked: true } },
+                        optionalBosses: {
+                            '[Oblobbles]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1333,7 +1388,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                         colosseum: {
                             '[Trial of the Conqueror]': { checked: true },
                         },
-                        optionalBosses: { '[God Tamer]': { checked: true } },
+                        optionalBosses: {
+                            '[God Tamer]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1409,9 +1466,7 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                             '[Elder Hu]': { checked: true },
                             '[Galien]': { checked: true },
                         },
-                        dreamBosses: {
-                            '[Grey Prince Zote]': { checked: true },
-                        },
+                        dreamBosses: {},
                         optionalBosses: {
                             '[Great Nailsage Sly]': { checked: true },
                         },
@@ -1505,7 +1560,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[Forgotten Crossroads] [Fog Canyon] entrance': {
                 reward: { grubs: 1 },
             },
-            '[Forgotten Crossroads] breakable wall': { reward: { grubs: 1 } },
+            '[Forgotten Crossroads] breakable wall': {
+                reward: { grubs: 1 },
+            },
             '[Forgotten Crossroads] [Pogo](Nail#Nail-bouncing)': {
                 reward: { grubs: 1 },
             },
@@ -1513,11 +1570,15 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { grubs: 1 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
-            '[Greenpath] with a moss block shortcut': { reward: { grubs: 1 } },
+            '[Greenpath] with a moss block shortcut': {
+                reward: { grubs: 1 },
+            },
             '[Greenpath] near acid': { reward: { grubs: 1 } },
             '[Greenpath] behind [Moss Knight]': { reward: { grubs: 1 } },
             '[Greenpath] in the middle of a [Durandoo] room': {
@@ -1594,7 +1655,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { grubs: 1 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1613,7 +1676,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { grubs: 1 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1648,7 +1713,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                             '[Crystal Heart]': { checked: true },
                             '[Monarch Wings]': { checked: true },
                         },
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        items: {
+                            '[TRAM_PASS] [Tram Pass]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1786,7 +1853,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     checks: {
                         equipment: { "[Isma's Tear]": { checked: true } },
                         spells: { '[Desolate Dive]': { checked: true } },
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        items: {
+                            '[TRAM_PASS] [Tram Pass]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1798,7 +1867,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                             '[Crystal Heart]': { checked: true },
                             '[Monarch Wings]': { checked: true },
                         },
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        items: {
+                            '[TRAM_PASS] [Tram Pass]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1886,7 +1957,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: {},
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -1987,7 +2060,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: {},
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -2021,7 +2096,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     reward: { geo: 200 },
                     requires: {
                         checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
+                            equipment: {
+                                '[Mantis Claw]': { checked: true },
+                            },
                         },
                     },
                 },
@@ -2038,7 +2115,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { geo: 200 },
                 requires: {
                     checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
+                        equipment: {
+                            '[Mantis Claw]': { checked: true },
+                        },
                     },
                 },
             },
@@ -2062,7 +2141,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     reward: { geo: 200 },
                     requires: {
                         checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
+                            equipment: {
+                                '[Mantis Claw]': { checked: true },
+                            },
                         },
                     },
                 },
@@ -2071,7 +2152,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     reward: { geo: 200 },
                     requires: {
                         checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
+                            equipment: {
+                                '[Mantis Claw]': { checked: true },
+                            },
                         },
                     },
                 },
@@ -2092,7 +2175,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     reward: { geo: 450 },
                     requires: {
                         checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
+                            equipment: {
+                                '[Mantis Claw]': { checked: true },
+                            },
                         },
                     },
                 },
@@ -2100,7 +2185,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { geo: 450 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -2110,7 +2197,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
             '[HALLOWNEST_SEAL] [Hallownest Seal] in [Mantis Village]': {
                 reward: { geo: 450 },
                 requires: {
-                    checks: { bosses: { '[Mantis Lords]': { checked: true } } },
+                    checks: {
+                        bosses: { '[Mantis Lords]': { checked: true } },
+                    },
                 },
             },
             '[HALLOWNEST_SEAL] [Hallownest Seal] at the [Willoh]': {
@@ -2134,7 +2223,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     reward: { geo: 450 },
                     requires: {
                         checks: {
-                            equipment: { "[Isma's Tear]": { checked: true } },
+                            equipment: {
+                                "[Isma's Tear]": { checked: true },
+                            },
                         },
                     },
                 },
@@ -2143,7 +2234,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     reward: { geo: 450 },
                     requires: {
                         checks: {
-                            spells: { '[Desolate Dive]': { checked: true } },
+                            spells: {
+                                '[Desolate Dive]': { checked: true },
+                            },
                         },
                     },
                 },
@@ -2159,7 +2252,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     reward: { geo: 450 },
                     requires: {
                         checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
+                            equipment: {
+                                '[Mantis Claw]': { checked: true },
+                            },
                         },
                     },
                 },
@@ -2183,7 +2278,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { geo: 450 },
                 requires: {
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -2192,7 +2289,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                     reward: { geo: 450 },
                     requires: {
                         checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
+                            equipment: {
+                                '[Mantis Claw]': { checked: true },
+                            },
                         },
                     },
                 },
@@ -2221,7 +2320,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     essence: 200,
                     checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        equipment: {
+                            '[Mothwing Cloak]': { checked: true },
+                        },
                     },
                 },
             },
@@ -2229,7 +2330,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 reward: { geo: 800 },
                 requires: {
                     checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
+                        spells: {
+                            '[Desolate Dive]': { checked: true },
+                        },
                     },
                 },
             },
@@ -2375,7 +2478,9 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                 requires: {
                     checks: {
                         dreamNail: { '[Dream Nail]': { checked: true } },
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        items: {
+                            '[TRAM_PASS] [Tram Pass]': { checked: true },
+                        },
                     },
                 },
             },
@@ -2430,3 +2535,5 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
         },
     },
 };
+
+export default INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE;

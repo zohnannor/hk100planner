@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import useChecklistStore from '../stores/checklistStore';
 
 const useUndoRedoKeybinds = () => {
-    const { undo, redo } = useChecklistStore.temporal.getState();
+    const { undo, redo } =
+        useChecklistStore('hollow-knight').temporal.getState();
 
     useEffect(() => {
         const handleUndoRedo = (e: KeyboardEvent): void => {

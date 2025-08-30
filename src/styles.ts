@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { BREAKPOINTS, COLORS } from './constants';
 
 import type { Property } from 'csstype';
+
 export const MainWrapper = styled.div`
     margin-bottom: 100px;
     width: 100%;
@@ -54,9 +55,11 @@ export const PercentLabel = styled.span<HasErrors>`
         `}
 `;
 
-export const InfoContainter = styled.div<{
+type InfoContainerProps = {
     $tabletAlign?: Property.AlignItems;
-}>`
+};
+
+export const InfoContainter = styled.div<InfoContainerProps>`
     display: flex;
     flex-direction: column;
     align-items: center;
