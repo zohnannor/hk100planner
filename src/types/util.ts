@@ -1,5 +1,3 @@
-import { typedKeys } from '../util/typedObject';
-
 type Contra<T> = T extends any ? (arg: T) => void : never;
 
 type InferContra<T> = [T] extends [(arg: infer I) => void] ? I : never;
@@ -21,6 +19,7 @@ type Split<T, K extends keyof T> = K extends unknown
 type Explode<T> = Split<T, keyof T>;
 
 type AtMostOne<T> = Explode<Partial<T>>;
+
 type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
     U[keyof U];
 
