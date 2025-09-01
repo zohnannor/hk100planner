@@ -140,3 +140,12 @@ export const OFFICIAL_TM_GRUB_NAMES: Record<ChecksKeys['grubs'], string> = {
     '[Tower of Love] #2': 'Grubles',
     '[Tower of Love] #3': 'Grubathy',
 };
+
+export const UPLOAD_SAVE_DESCRIPTION = `
+    To load a save file, you need to find the “user*.dat” file in the save folder. 
+    The path to the save folder depends on your OS:
+
+    Windows: \`%appdata%\\..\\LocalLow\\Team Cherry\\Hollow Knight\\\`
+    Mac: \`~/Library/Application Support/unity.Team Cherry.Hollow Knight/\`
+    Linux: \`~/.config/unity3d/Team Cherry/Hollow Knight/\`
+`;

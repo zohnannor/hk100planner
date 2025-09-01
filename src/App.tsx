@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useIntersectionObserver, useToggle } from 'usehooks-ts';
 
 import { LOGO } from './assets/index.ts';
@@ -9,13 +9,13 @@ import { SideBar } from './components/SideBar/SideBar.tsx';
 import { Tooltip } from './components/Tooltip/Tooltip.tsx';
 import {
     ABOUT_TEXT,
+    BREAKPOINTS,
     COLORS,
     DESCRIPTION_TEXT,
     DISTRIBUTED_SECTIONS,
     SECTION_TITLES,
 } from './constants.ts';
 import { useParallaxBackground } from './hooks/useParallaxBackground.ts';
-import { useSaveParser } from './hooks/useSaveParser.ts';
 import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds.ts';
 import Settings from './Settings.tsx';
 import useChecklistStore from './stores/checklistStore.ts';
@@ -29,11 +29,10 @@ import {
     PercentLabel,
     SectionsColumn,
 } from './styles';
+import { SaveUploader } from './components/SaveUploader/SaveUploader.tsx';
+import { useBreakpoint } from './hooks/useBreakpoint.ts';
 
 const App = () => {
-    const { isLoading, error, result, isWasmReady, parseSaveFile } =
-        useSaveParser();
-
     const {
         percent,
         geo,
@@ -47,22 +46,6 @@ const App = () => {
         reset,
         checkAll,
     } = useChecklistStore();
-    const setFromSaveFile = useChecklistStore(state => state.setFromSaveFile);
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            parseSaveFile(file);
-        }
-    };
-
-    useEffect(() => {
-        if (result) {
-            // TODO: remove!
-            console.log(result);
-            setFromSaveFile(result);
-        }
-    }, [result, isLoading]);
 
     const validateChecks = useChecklistStore(
         state => () => state.validateChecks(state)
@@ -79,6 +62,7 @@ const App = () => {
 
     useUndoRedoKeybinds();
 
+    const isMobile = useBreakpoint(BREAKPOINTS.mobile);
     const { isIntersecting, ref } = useIntersectionObserver();
 
     const backgroundRef = useRef<HTMLDivElement>(null);
@@ -132,49 +116,7 @@ const App = () => {
             <div ref={backgroundRef} className='background' />
             <img src={LOGO} alt='logo' />
 
-            <div>
-                {!isWasmReady && <p>Loading WebAssembly module...</p>}
-                {/* TODO: thing that copies the path on click
-                    win: `%appdata%\..\LocalLow\Team Cherry\Hollow Knight\`
-                    mac: `~/Library/Application Support/unity.Team Cherry.Hollow Knight/`
-                    linux: `~/.config/unity3d/Team Cherry/Hollow Knight/`
-                */}
-                <input
-                    type='file'
-                    accept='.dat'
-                    onChange={handleFileChange}
-                    disabled={isLoading}
-                />
-
-                {isLoading && <p>Parsing save file...</p>}
-                {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-
-                {/* TODO: remove, this is just to debug! :) */}
-                {/* {result && (
-                    <div>
-                        <h3>Parse Results:</h3>
-                        <ul>
-                            {Object.entries(result).map(
-                                ([sectionName, section]) => (
-                                    <>
-                                        <li>{sectionName}</li>
-                                        <ul>
-                                            {Array.from(section.entries()).map(
-                                                ([key, value]) => (
-                                                    <li key={key}>
-                                                        {key}:
-                                                        {value ? '✓' : '✗'}
-                                                    </li>
-                                                )
-                                            )}
-                                        </ul>
-                                    </>
-                                )
-                            )}
-                        </ul>
-                    </div>
-                )} */}
-            </div>
+            {!isMobile && <SaveUploader />}
 
             <FlexBox $margin='16px 0'>
                 <Button
