@@ -16,6 +16,7 @@ import {
     CheckSection,
     ChecksSection,
     RequirementCheckErrors,
+    SaveFile,
 } from '../types/checklist';
 import partialDeepEqual, { Comparable } from '../util/partialDeepEqual';
 import { INITIAL_CHECKLIST_STATE } from './INITIAL_CHECKLIST_STATE';
@@ -245,6 +246,39 @@ const useChecklistStore = create<ChecklistState & Action>()(
         temporal(
             immer(set => ({
                 ...INITIAL_CHECKLIST_STATE,
+
+                setFromSaveFile: (savefile: SaveFile) => {
+                    set(state => {
+                        Object.entries(savefile).forEach(
+                            ([sectionName, section]) => {
+                                const typedSectionName =
+                                    sectionName as CheckSection;
+
+                                Array.from(section.entries()).forEach(
+                                    ([checkName, checked]) => {
+                                        const typedCheckName =
+                                            checkName as keyof ChecksSection<CheckSection>;
+
+                                        // i hate this.
+                                        // TODO: add asserts for `as` casts
+                                        const section =
+                                            state.checks[typedSectionName];
+                                        const check = section[
+                                            typedCheckName as keyof typeof section
+                                        ] as Check;
+
+                                        handleCheck(
+                                            state,
+                                            typedSectionName,
+                                            check,
+                                            checked
+                                        );
+                                    }
+                                );
+                            }
+                        );
+                    });
+                },
 
                 reset: (sectionName?: CheckSection) => {
                     if (sectionName) {

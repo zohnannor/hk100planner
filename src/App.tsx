@@ -4,16 +4,19 @@ import { useIntersectionObserver, useToggle } from 'usehooks-ts';
 import { LOGO } from './assets/index.ts';
 import { Button } from './components/Button/Button.tsx';
 import { FText } from './components/FText/FText.tsx';
+import { SaveUploader } from './components/SaveUploader/SaveUploader.tsx';
 import Section from './components/Section';
 import { SideBar } from './components/SideBar/SideBar.tsx';
 import { Tooltip } from './components/Tooltip/Tooltip.tsx';
 import {
     ABOUT_TEXT,
+    BREAKPOINTS,
     COLORS,
     DESCRIPTION_TEXT,
     DISTRIBUTED_SECTIONS,
     SECTION_TITLES,
 } from './constants.ts';
+import { useBreakpoint } from './hooks/useBreakpoint.ts';
 import { useParallaxBackground } from './hooks/useParallaxBackground.ts';
 import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds.ts';
 import Settings from './Settings.tsx';
@@ -43,6 +46,7 @@ const App = () => {
         reset,
         checkAll,
     } = useChecklistStore();
+
     const validateChecks = useChecklistStore(
         state => () => state.validateChecks(state)
     );
@@ -58,6 +62,7 @@ const App = () => {
 
     useUndoRedoKeybinds();
 
+    const isMobile = useBreakpoint(BREAKPOINTS.mobile);
     const { isIntersecting, ref } = useIntersectionObserver();
 
     const backgroundRef = useRef<HTMLDivElement>(null);
@@ -108,6 +113,8 @@ const App = () => {
 
     return (
         <MainWrapper>
+            <Tooltip>{tooltipText}</Tooltip>
+
             <div ref={backgroundRef} className='background' />
             <img src={LOGO} alt='logo' />
 
@@ -136,17 +143,16 @@ const App = () => {
                 <Button
                     label='Report a bug'
                     size='small'
-                    onClick={() => {
+                    onClick={() =>
                         window.open(
                             'https://github.com/zohnannor/hk100planner/issues/new/choose'
-                        );
-                    }}
+                        )
+                    }
                 />
             </FlexBox>
 
             <Settings collapsed={settingsCollapsed} />
-
-            <Tooltip>{tooltipText}</Tooltip>
+            {!isMobile && <SaveUploader />}
 
             <PercentLabel $hasErrors={checklistHasErrors}>
                 {percent}%
