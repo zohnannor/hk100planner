@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+
+import { UPLOAD_SAVE_DESCRIPTION } from '../../constants';
+import { useSaveParser } from '../../hooks/useSaveParser';
 import useChecklistStore from '../../stores/checklistStore';
 import useUiStore from '../../stores/uiStore';
-import { useSaveParser } from '../../hooks/useSaveParser';
 import Button from '../Button';
-import { UPLOAD_SAVE_DESCRIPTION } from '../../constants';
 
 export const UploadeSaveWrapper = styled.div`
     position: relative;
@@ -30,7 +31,6 @@ export const SaveUploader: React.FC = () => {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        console.log(file);
         if (file) {
             setUploadButtonText(`Uploaded: ${file.name}`);
             parseSaveFile(file);
@@ -45,39 +45,9 @@ export const SaveUploader: React.FC = () => {
 
     return (
         <>
-            {!isWasmReady && <p>Loading WebAssembly module...</p>}
-            <div>
-                {/* TODO: remove, this is just to debug! :) */}
-                {/* {result && (
-                    <div>
-                        <h3>Parse Results:</h3>
-                        <ul>
-                            {Object.entries(result).map(
-                                ([sectionName, section]) => (
-                                    <>
-                                        <li>{sectionName}</li>
-                                        <ul>
-                                            {Array.from(section.entries()).map(
-                                                ([key, value]) => (
-                                                    <li key={key}>
-                                                        {key}:
-                                                        {value ? '✓' : '✗'}
-                                                    </li>
-                                                )
-                                            )}
-                                        </ul>
-                                    </>
-                                )
-                            )}
-                        </ul>
-                    </div>
-                )} */}
-            </div>
             <UploadeSaveWrapper>
                 <Button
-                    onClick={() => {
-                        uploadRef.current?.click();
-                    }}
+                    onClick={() => uploadRef.current?.click()}
                     label={uploadButtonText}
                 />
                 <Button
@@ -96,6 +66,7 @@ export const SaveUploader: React.FC = () => {
                     disabled={isLoading}
                 />
             </UploadeSaveWrapper>
+            {!isWasmReady && <p>Loading WebAssembly module...</p>}
             {isLoading && <p>Parsing save file...</p>}
             {error && <p style={{ color: 'red' }}>Error: {error}</p>}
         </>

@@ -248,14 +248,11 @@ const useChecklistStore = create<ChecklistState & Action>()(
                 ...INITIAL_CHECKLIST_STATE,
 
                 setFromSaveFile: (savefile: SaveFile) => {
-                    console.log({ savefile });
-
                     set(state => {
                         Object.entries(savefile).forEach(
                             ([sectionName, section]) => {
                                 const typedSectionName =
                                     sectionName as CheckSection;
-                                console.log({ typedSectionName, section });
 
                                 Array.from(section.entries()).forEach(
                                     ([checkName, checked]) => {
@@ -269,8 +266,6 @@ const useChecklistStore = create<ChecklistState & Action>()(
                                         const check = section[
                                             typedCheckName as keyof typeof section
                                         ] as Check;
-
-                                        console.log(check);
 
                                         handleCheck(
                                             state,

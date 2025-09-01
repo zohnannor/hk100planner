@@ -54,9 +54,11 @@ export const PercentLabel = styled.span<HasErrors>`
         `}
 `;
 
-export const InfoContainter = styled.div<{
+type InfoContainerProps = {
     $tabletAlign?: Property.AlignItems;
-}>`
+};
+
+export const InfoContainter = styled.div<InfoContainerProps>`
     display: flex;
     flex-direction: column;
     align-items: center;
