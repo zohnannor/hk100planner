@@ -38,6 +38,13 @@ interface FTextProps {
     color?: string;
 }
 
+const Monospace = styled.code`
+    font-size: min(1.1rem, 5vw);
+    font-family: 'Fira Code', monospace;
+    color: lightcyan;
+    cursor: pointer;
+`;
+
 export const FText: React.FC<PropsWithChildren<FTextProps>> = ({
     children,
     color,
@@ -49,10 +56,18 @@ export const FText: React.FC<PropsWithChildren<FTextProps>> = ({
         ).toString()
     );
 
+    const handleCopy = (text: string) => {
+        navigator.clipboard.writeText(text);
+    };
+
     return (
         <FTextWrapper $color={color}>
             {textParts.map((part, n) =>
-                part.type === 'link' ? (
+                part.type === 'monospace' ? (
+                    <Monospace key={n} onClick={() => handleCopy(part.val)}>
+                        {part.val}
+                    </Monospace>
+                ) : part.type === 'link' ? (
                     <a
                         href={part.link}
                         title={part.link}

@@ -1410,7 +1410,8 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                             '[Galien]': { checked: true },
                         },
                         dreamBosses: {
-                            '[Grey Prince Zote]': { checked: true },
+                            // TODO: make optional?
+                            // '[Grey Prince Zote]': { checked: true },
                         },
                         optionalBosses: {
                             '[Great Nailsage Sly]': { checked: true },
@@ -1491,7 +1492,8 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
                             '[Markoth]': { checked: true },
                         },
                         dreamBosses: {
-                            '[Grey Prince Zote]': { checked: true },
+                            // TODO: make optional?
+                            // '[Grey Prince Zote]': { checked: true },
                         },
                     },
                 },

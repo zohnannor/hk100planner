@@ -38,7 +38,6 @@ export const useSaveParser = () => {
                 const parser = new Parser();
                 parser.parse_save_file(bytes);
                 const map = parser.get_map();
-                console.log(map);
                 setResult(map);
             } catch (err) {
                 setError(
