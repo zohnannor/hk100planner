@@ -4,10 +4,10 @@ import { useIntersectionObserver, useToggle } from 'usehooks-ts';
 
 import {
     HOLLOW_KNIGHT,
+    HOLLOW_KNIGHT_BACKGROUD,
     LOGO,
     SILKSONG,
     SILKSONG_BACKGROUND,
-    VOIDHEARD_BACKGROUD,
 } from './assets';
 import Button from './components/Button';
 import FText from './components/FText';
@@ -20,14 +20,12 @@ import {
     BREAKPOINTS,
     COLORS,
     DESCRIPTION_TEXT,
-    HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS,
-    HOLLOW_KNIGHT_SECTION_TITLES,
-    SILKSONG_DISTRIBUTED_SECTIONS,
-    SILKSONG_SECTION_TITLES,
+    DISTRIBUTED_SECTIONS,
+    SECTION_TITLES,
 } from './constants';
-import { useBreakpoint } from './hooks/useBreakpoint';
+import useBreakpoint from './hooks/useBreakpoint';
 import useFavicon from './hooks/useFavicon';
-import { useParallaxBackground } from './hooks/useParallaxBackground';
+import useParallaxBackground from './hooks/useParallaxBackground';
 import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds';
 import Settings from './Settings';
 import useChecklistStore from './stores/checklistStore';
@@ -73,7 +71,7 @@ const Background = styled.div<BackgroundProps>`
                 rgba(0, 0, 0, 0.5),
                 rgba(0, 0, 0, 0.5)
             ),
-            url(${VOIDHEARD_BACKGROUD});
+            url(${HOLLOW_KNIGHT_BACKGROUD});
         opacity: ${({ $currentTab }) =>
             $currentTab === 'hollow-knight' ? 1 : 0};
         z-index: 1;
@@ -162,16 +160,11 @@ const SectionColumns = <Game extends GameKey>({ game }: { game: Game }) => {
     const errors = checksValidation ? validateChecks() : {};
     setChecklistHasErrors(typedKeys(errors).length > 0);
 
-    const sectionTitles = (
-        game === 'hollow-knight'
-            ? HOLLOW_KNIGHT_SECTION_TITLES
-            : SILKSONG_SECTION_TITLES
-    ) as Record<SectionNames<Game>, string>;
-    const sections = (
-        game === 'hollow-knight'
-            ? HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS
-            : SILKSONG_DISTRIBUTED_SECTIONS
-    ) as SectionNames<Game>[][];
+    const sectionTitles = SECTION_TITLES[game] as Record<
+        SectionNames<Game>,
+        string
+    >;
+    const sections = DISTRIBUTED_SECTIONS[game] as SectionNames<Game>[][];
 
     return (
         <>

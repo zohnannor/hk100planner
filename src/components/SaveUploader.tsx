@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { UPLOAD_SAVE_DESCRIPTION } from '../constants';
-import { useCurrentChecklistStore } from '../hooks/useCurrentChecklistStore';
+import useCurrentChecklistStore from '../hooks/useCurrentChecklistStore';
 import useSaveParser from '../hooks/useSaveParser';
 import useUiStore from '../stores/uiStore';
 import Button from './Button';

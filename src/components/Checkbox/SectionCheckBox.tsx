@@ -103,7 +103,7 @@ export const SectionCheckBox = <Game extends GameKey>({
               ]
             : checkName;
 
-    if (useChecklist(state => state.game) === 'hollow-knight') {
+    if (game === 'hollow-knight') {
         const req = check.requires as PartialDeep<HollowKnightChecklistState>;
         if (typeof req === 'object') {
             const parts = [

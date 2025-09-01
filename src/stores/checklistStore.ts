@@ -24,8 +24,7 @@ import {
 } from '../types/checklist';
 import partialDeepEqual, { Comparable } from '../util/partialDeepEqual';
 import { typedEntries, typedKeys, typedValues } from '../util/typedObject';
-import INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE from './INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE';
-import INITIAL_SILKSONG_CHECKLIST_STATE from './INITIAL_SILKSONG_CHECKLIST_STATE';
+import INITIAL_CHECKLIST_STATE from './INITIAL_CHECKLIST_STATE';
 import useUiStore from './uiStore';
 
 /**
@@ -407,10 +406,10 @@ type ChecklistStore<Game extends GameKey> = ReturnType<
 
 const STATES = {
     'hollow-knight': createChecklistStore<'hollow-knight'>(
-        INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE
+        INITIAL_CHECKLIST_STATE['hollow-knight']
     ),
     silksong: createChecklistStore<'silksong'>(
-        INITIAL_SILKSONG_CHECKLIST_STATE
+        INITIAL_CHECKLIST_STATE['silksong']
     ),
 };
 

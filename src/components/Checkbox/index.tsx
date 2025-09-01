@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+
 import { CheckIcon } from '../../assets';
 import { COLORS } from '../../constants';
 import { FlexBox } from '../../styles';

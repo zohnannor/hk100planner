@@ -2,10 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import {
-    HOLLOW_KNIGHT_SECTION_TITLES,
-    SILKSONG_SECTION_TITLES,
-} from '../constants';
+import { SECTION_TITLES } from '../constants';
 import { Checks, GameKey, SectionNames } from '../types/checklist';
 import { typedEntries, typedKeys, typedValues } from '../util/typedObject';
 import useChecklistStore from './checklistStore';
@@ -93,10 +90,7 @@ const useUiStore = create<UiState & UiActions>()(
                 section?: SectionNames<Game>
             ) =>
                 set(state => {
-                    const sectionTitles =
-                        state.currentTab === 'hollow-knight'
-                            ? HOLLOW_KNIGHT_SECTION_TITLES
-                            : SILKSONG_SECTION_TITLES;
+                    const sectionTitles = SECTION_TITLES[state.currentTab];
                     const collapsed = state.collapsedSections[
                         state.currentTab
                     ] as SectionNames<Game>[];

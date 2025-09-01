@@ -1,4 +1,4 @@
-import { CheckNames, SectionNames } from './types/checklist';
+import { CheckNames, GameKey, SectionNames } from './types/checklist';
 import { UnionToArray } from './types/util';
 
 export const COLORS = {
@@ -20,7 +20,7 @@ export const GRUB_REWARDS = [
     245, 250, 255, 0, 260, 265, 270, 280, 290, 295, 300, 0,
 ] as const;
 
-export const HOLLOW_KNIGHT_SECTION_TITLES: Record<
+const HOLLOW_KNIGHT_SECTION_TITLES: Record<
     SectionNames<'hollow-knight'>,
     string
 > = {
@@ -47,12 +47,14 @@ export const HOLLOW_KNIGHT_SECTION_TITLES: Record<
     // endings: '[Endings](Endings (Hollow Knight))',
 };
 
-export const SILKSONG_SECTION_TITLES: Record<
-    SectionNames<'silksong'>,
-    string
-> = {
+const SILKSONG_SECTION_TITLES: Record<SectionNames<'silksong'>, string> = {
     bosses: '[Bosses](Bosses (Silksong))',
 };
+
+export const SECTION_TITLES = {
+    'hollow-knight': HOLLOW_KNIGHT_SECTION_TITLES,
+    silksong: SILKSONG_SECTION_TITLES,
+} as const;
 
 export const HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS = [
     [
@@ -86,29 +88,28 @@ export const SILKSONG_DISTRIBUTED_SECTIONS = [
     [],
 ] as const satisfies SectionNames<'silksong'>[][];
 
-type MissingHollowKnightSectionNames = UnionToArray<
+type MissingSectionNames<Game extends GameKey> = UnionToArray<
     Exclude<
-        SectionNames<'hollow-knight'>,
-        (typeof HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS)[number][number]
+        SectionNames<Game>,
+        (typeof DISTRIBUTED_SECTIONS)[Game][number][number]
     >
 >;
 
 // Compile-time check to make sure all sections are used in
 // `HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS`.
-const __missingHollowKnightSectionNames: MissingHollowKnightSectionNames = [];
+const __missingHollowKnightSectionNames: MissingSectionNames<'hollow-knight'> =
+    [];
 void __missingHollowKnightSectionNames;
-
-type MissingSilksongSectionNames = UnionToArray<
-    Exclude<
-        SectionNames<'silksong'>,
-        (typeof SILKSONG_DISTRIBUTED_SECTIONS)[number][number]
-    >
->;
 
 // Compile-time check to make sure all sections are used in
 // `SILKSONG_DISTRIBUTED_SECTIONS`.
-const __missingSilksongSectionNames: MissingSilksongSectionNames = [];
+const __missingSilksongSectionNames: MissingSectionNames<'silksong'> = [];
 void __missingSilksongSectionNames;
+
+export const DISTRIBUTED_SECTIONS = {
+    'hollow-knight': HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS,
+    silksong: SILKSONG_DISTRIBUTED_SECTIONS,
+} as const;
 
 export const DESCRIPTION_TEXT =
     'This is a tool to help you plan your Hollow Knight ["Speed Completion"](Achievements (Hollow Knight)#Challenges) achievement checklist. ' +

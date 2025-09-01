@@ -1,8 +1,6 @@
 import { RefObject, useCallback, useEffect } from 'react';
 
-export const useParallaxBackground = (
-    ref: RefObject<HTMLDivElement | null>
-) => {
+const useParallaxBackground = (ref: RefObject<HTMLDivElement | null>) => {
     const handleScroll = useCallback((e: Event) => {
         const target = e.target;
         if (!(target instanceof Document) || !ref.current) {
@@ -18,3 +16,5 @@ export const useParallaxBackground = (
         return () => window.removeEventListener('scroll', handleScroll);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 };
+
+export default useParallaxBackground;

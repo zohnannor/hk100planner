@@ -23,5 +23,5 @@ export { default as SILKSONG } from './silksong.png';
 export { default as SILKSONG_BACKGROUND } from './silksongplaceholderbg.png';
 export { default as SIMPLE_KEY } from './simplekey.png';
 export { default as TRAM_PASS } from './trampass.png';
-export { default as VOIDHEARD_BACKGROUD } from './voidheart.png';
+export { default as HOLLOW_KNIGHT_BACKGROUD } from './voidheart.png';
 export { default as JOURNAL } from './wanderersjournal.png';
