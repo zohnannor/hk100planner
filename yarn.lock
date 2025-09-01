@@ -1926,14 +1926,14 @@ __metadata:
     vite-plugin-checker: "npm:^0.10.3"
     wasm-pack: "npm:^0.13.1"
     zundo: "npm:^2.3.0"
-    zustand: "npm:^4.5.7"
+    zustand: "npm:^5.0.8"
   languageName: unknown
   linkType: soft
 
 "hollow-knight-save-parser@file:./pkg::locator=hk100planner%40workspace%3A.":
   version: 0.0.0
-  resolution: "hollow-knight-save-parser@file:./pkg#./pkg::hash=893095&locator=hk100planner%40workspace%3A."
-  checksum: 10c0/7b4cd855d1cc7d88c7ace9da47b9a3b6da01388536ba97b998c6e2004bc3efc8ec02c971d1a41aa12708868bea701adb6d36a9f652fb575d435d420dbe1e5f71
+  resolution: "hollow-knight-save-parser@file:./pkg#./pkg::hash=7e6e50&locator=hk100planner%40workspace%3A."
+  checksum: 10c0/1913fd272d9bc6274413c3b8a0b6d55bb0b9b5c5ea1255f9eaf609f4901e46415a9102668e5f1807f1a87505f2bfd6ca438f64679b3eeee7cf6cf6d19ca99a75
   languageName: node
   linkType: hard
 
@@ -3162,15 +3162,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.2.2":
-  version: 1.5.0
-  resolution: "use-sync-external-store@npm:1.5.0"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/1b8663515c0be34fa653feb724fdcce3984037c78dd4a18f68b2c8be55cc1a1084c578d5b75f158d41b5ddffc2bf5600766d1af3c19c8e329bb20af2ec6f52f4
-  languageName: node
-  linkType: hard
-
 "usehooks-ts@npm:^3.1.1":
   version: 3.1.1
   resolution: "usehooks-ts@npm:3.1.1"
@@ -3400,15 +3391,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.5.7":
-  version: 4.5.7
-  resolution: "zustand@npm:4.5.7"
-  dependencies:
-    use-sync-external-store: "npm:^1.2.2"
+"zustand@npm:^5.0.8":
+  version: 5.0.8
+  resolution: "zustand@npm:5.0.8"
   peerDependencies:
-    "@types/react": ">=16.8"
+    "@types/react": ">=18.0.0"
     immer: ">=9.0.6"
-    react: ">=16.8"
+    react: ">=18.0.0"
+    use-sync-external-store: ">=1.2.0"
   peerDependenciesMeta:
     "@types/react":
       optional: true
@@ -3416,6 +3406,8 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 10c0/55559e37a82f0c06cadc61cb08f08314c0fe05d6a93815e41e3376130c13db22a5017cbb0cd1f018c82f2dad0051afe3592561d40f980bd4082e32005e8a950c
+    use-sync-external-store:
+      optional: true
+  checksum: 10c0/e865a6f7f1c0e03571701db5904151aaa7acefd6f85541a117085e129bf16e8f60b11f8cc82f277472de5c7ad5dcb201e1b0a89035ea0b40c9d9aab3cd24c8ad
   languageName: node
   linkType: hard
