@@ -35,7 +35,7 @@ const ICONS: Record<string, string> = {
     ROSARIES: ROSARIES,
 };
 
-type ParsedItemType = 'link' | 'text' | 'icon';
+type ParsedItemType = 'link' | 'text' | 'icon' | 'monospace';
 
 interface ParsedItem {
     type: ParsedItemType;
@@ -48,45 +48,58 @@ const toTitleCase = (s: string) =>
         c ? c.toUpperCase() : ' ' + d.toUpperCase()
     );
 
+const MD_URL_REGEX =
+    /(?<before>[^[]+)?(?:\[(?<val>[^\]]+)\])?(?:\((?<link>(?:[^)(]|\([^)(]*\))*)\))?/g;
+
 const renderLink = (text: string) => {
     const result: ParsedItem[] = [];
 
-    for (const match of text.matchAll(
-        /(?<before>[^[]+)?(?:\[(?<val>[^\]]+)\])?(?:\((?<link>(?:[^)(]|\([^)(]*\))*)\))?/g
-    )) {
-        const { before, val, link } = match.groups || {};
-        if (before) {
-            result.push({
-                type: 'text',
-                val: before,
-            });
-        }
-        if (val) {
-            if (link) {
-                result.push({
-                    type: 'link',
-                    val,
-                    link: link.startsWith('http') ? link : WIKI_URL_BASE + link,
-                });
-            } else {
-                const icon = ICONS[val];
-                if (icon) {
-                    result.push({
-                        type: 'icon',
-                        val: icon,
-                        link: WIKI_URL_BASE + toTitleCase(val.toLowerCase()),
-                    });
-                    continue;
-                } else {
-                    result.push({
-                        type: 'link',
-                        val,
-                        link: WIKI_URL_BASE + val,
-                    });
+    const segments = text.split('`');
+
+    segments.forEach((segment, index) => {
+        if (index % 2 === 1) {
+            // code block: `code`
+            result.push({ type: 'monospace', val: segment });
+        } else {
+            for (const match of segment.matchAll(MD_URL_REGEX)) {
+                const { before, val, link } = match.groups || {};
+                if (before) {
+                    // regular text w/o links
+                    result.push({ type: 'text', val: before });
+                }
+                if (val) {
+                    if (link) {
+                        result.push({
+                            type: 'link',
+                            val,
+                            link: link.startsWith('http')
+                                ? link
+                                : WIKI_URL_BASE + link,
+                        });
+                    } else {
+                        const icon = ICONS[val];
+                        if (icon) {
+                            // an icon: `[icon]`
+                            result.push({
+                                type: 'icon',
+                                val: icon,
+                                link:
+                                    WIKI_URL_BASE +
+                                    toTitleCase(val.toLowerCase()),
+                            });
+                        } else {
+                            // a link without a url: `[link]`
+                            result.push({
+                                type: 'link',
+                                val,
+                                link: WIKI_URL_BASE + val,
+                            });
+                        }
+                    }
                 }
             }
         }
-    }
+    });
 
     return result;
 };

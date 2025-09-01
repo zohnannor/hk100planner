@@ -1,15 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
 import { useIntersectionObserver, useToggle } from 'usehooks-ts';
 
 import { LOGO, SILKSONG_BACKGROUND, VOIDHEARD_BACKGROUD } from './assets';
 import Button from './components/Button';
 import FText from './components/FText';
+import SaveUploader from './components/SaveUploader';
 import Section from './components/Section';
 import SideBar from './components/SideBar';
 import Tooltip from './components/Tooltip';
 import {
     ABOUT_TEXT,
+    BREAKPOINTS,
     COLORS,
     DESCRIPTION_TEXT,
     HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS,
@@ -17,8 +19,8 @@ import {
     SILKSONG_DISTRIBUTED_SECTIONS,
     SILKSONG_SECTION_TITLES,
 } from './constants';
+import { useBreakpoint } from './hooks/useBreakpoint';
 import { useParallaxBackground } from './hooks/useParallaxBackground';
-import { useSaveParser } from './hooks/useSaveParser';
 import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds';
 import Settings from './Settings';
 import useChecklistStore from './stores/checklistStore';
@@ -186,26 +188,6 @@ const SectionColumns = <Game extends GameKey>({ game }: { game: Game }) => {
 };
 
 const App = () => {
-    const { isLoading, error, result, isWasmReady, parseSaveFile } =
-        useSaveParser();
-
-    const setFromSaveFile = useChecklistStore('hollow-knight')(
-        state => state.setFromSaveFile
-    );
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            parseSaveFile(file);
-        }
-    };
-
-    useEffect(() => {
-        if (result) {
-            setFromSaveFile(result);
-        }
-    }, [result, isLoading]);
-
     const tooltipText = useUiStore(state => state.tooltipText);
     const setTooltipText = useUiStore(state => state.setTooltipText);
     const openTooltip = useUiStore(state => state.openTooltip);
@@ -217,6 +199,7 @@ const App = () => {
 
     useUndoRedoKeybinds();
 
+    const isMobile = useBreakpoint(BREAKPOINTS.mobile);
     const { isIntersecting, ref } = useIntersectionObserver();
 
     const backgroundRef = useRef<HTMLDivElement>(null);
@@ -226,25 +209,14 @@ const App = () => {
 
     return (
         <MainWrapper>
+            <Tooltip>{tooltipText}</Tooltip>
+
             <Background
                 $currentTab={currentTab}
                 ref={backgroundRef}
                 className='background'
             />
             <img src={LOGO} alt='logo' />
-
-            <div>
-                {!isWasmReady && <p>Loading WebAssembly module...</p>}
-                <input
-                    type='file'
-                    accept='.dat'
-                    onChange={handleFileChange}
-                    disabled={isLoading}
-                />
-
-                {isLoading && <p>Parsing save file...</p>}
-                {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-            </div>
 
             <Button
                 label={currentTab !== 'silksong' ? 'hollow-knight' : 'silksong'}
@@ -280,17 +252,16 @@ const App = () => {
                 <Button
                     label='Report a bug'
                     size='small'
-                    onClick={() => {
+                    onClick={() =>
                         window.open(
                             'https://github.com/zohnannor/hk100planner/issues/new/choose'
-                        );
-                    }}
+                        )
+                    }
                 />
             </FlexBox>
 
             <Settings collapsed={settingsCollapsed} />
-
-            <Tooltip>{tooltipText}</Tooltip>
+            {!isMobile && <SaveUploader />}
 
             <PercentLabel $hasErrors={checklistHasErrors}>
                 {percent}%
