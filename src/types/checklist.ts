@@ -324,7 +324,6 @@ type HollowKnightChecksKeys = {
 /** Silksong specific check keys */
 type SilksongChecksKeys = {
     bosses: '[Lace]'; // TODO
-    things: 'TODO'; // TODO
 };
 
 /** Union type for all possible check keys */

@@ -12,11 +12,6 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 reward: {},
             },
         },
-        things: {
-            TODO: {
-                reward: {},
-            },
-        },
     },
 };
 

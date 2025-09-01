@@ -2,7 +2,13 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 import { useIntersectionObserver, useToggle } from 'usehooks-ts';
 
-import { LOGO, SILKSONG_BACKGROUND, VOIDHEARD_BACKGROUD } from './assets';
+import {
+    HOLLOW_KNIGHT,
+    LOGO,
+    SILKSONG,
+    SILKSONG_BACKGROUND,
+    VOIDHEARD_BACKGROUD,
+} from './assets';
 import Button from './components/Button';
 import FText from './components/FText';
 import SaveUploader from './components/SaveUploader';
@@ -20,6 +26,7 @@ import {
     SILKSONG_SECTION_TITLES,
 } from './constants';
 import { useBreakpoint } from './hooks/useBreakpoint';
+import useFavicon from './hooks/useFavicon';
 import { useParallaxBackground } from './hooks/useParallaxBackground';
 import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds';
 import Settings from './Settings';
@@ -84,7 +91,6 @@ const Background = styled.div<BackgroundProps>`
 
 const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
     const checksValidation = useUiStore(state => state.checksValidation);
-
     const decide = (a: number, b: number) =>
         checksValidation ? (a >= b ? COLORS.white : COLORS.red) : COLORS.white;
 
@@ -117,14 +123,15 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
                 const [it, val, req] = x;
                 const available = val - req;
 
-                if (sidebar)
+                if (sidebar) {
                     return (
                         <FText color={decide(val, req)} key={it}>
                             {it} {val} / {req}
                         </FText>
                     );
+                }
 
-                const p =
+                const paren =
                     available === 0 || it === '[ESSENCE]'
                         ? ''
                         : available > 0
@@ -134,7 +141,7 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
                 return (
                     <FText color={decide(val, req)} key={it}>
                         {it} {val} collected / {req} required
-                        {p}
+                        {paren}
                     </FText>
                 );
             })}
@@ -196,6 +203,8 @@ const App = () => {
     const setCurrentTab = useUiStore(state => state.setCurrentTab);
 
     const { percent, reset, checkAll } = useChecklistStore(currentTab)();
+    const icon = currentTab === 'hollow-knight' ? HOLLOW_KNIGHT : SILKSONG;
+    useFavicon(icon);
 
     useUndoRedoKeybinds();
 
@@ -219,7 +228,12 @@ const App = () => {
             <img src={LOGO} alt='logo' />
 
             <Button
-                label={currentTab !== 'silksong' ? 'hollow-knight' : 'silksong'}
+                icon={icon}
+                label={
+                    currentTab === 'hollow-knight'
+                        ? 'Hollow Knight'
+                        : 'Silksong'
+                }
                 onClick={() =>
                     setCurrentTab(
                         currentTab === 'silksong' ? 'hollow-knight' : 'silksong'

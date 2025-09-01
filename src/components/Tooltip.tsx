@@ -81,7 +81,9 @@ const Tooltip: React.FC<PropsWithChildren> = ({ children }) => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     });
 
-    if (!isTooltipOpen) return null;
+    if (!isTooltipOpen) {
+        return null;
+    }
 
     return ReactDOM.createPortal(
         <>

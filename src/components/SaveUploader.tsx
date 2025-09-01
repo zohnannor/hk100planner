@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { UPLOAD_SAVE_DESCRIPTION } from '../constants';
+import { useCurrentChecklistStore } from '../hooks/useCurrentChecklistStore';
 import useSaveParser from '../hooks/useSaveParser';
-import useChecklistStore from '../stores/checklistStore';
 import useUiStore from '../stores/uiStore';
 import Button from './Button';
 
@@ -27,7 +27,7 @@ const SaveUploader: React.FC = () => {
 
     const setTooltipText = useUiStore(state => state.setTooltipText);
     const openTooltip = useUiStore(state => state.openTooltip);
-    const setFromSaveFile = useChecklistStore('hollow-knight')(
+    const setFromSaveFile = useCurrentChecklistStore()(
         state => state.setFromSaveFile
     );
 

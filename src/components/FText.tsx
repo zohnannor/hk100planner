@@ -43,6 +43,10 @@ const Monospace = styled.code`
     font-family: 'Fira Code', monospace;
     color: lightcyan;
     cursor: pointer;
+
+    &:hover {
+        filter: drop-shadow(0 0 1px lightcyan);
+    }
 `;
 
 const FText: React.FC<PropsWithChildren<FTextProps>> = ({

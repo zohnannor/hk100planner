@@ -52,7 +52,6 @@ export const SILKSONG_SECTION_TITLES: Record<
     string
 > = {
     bosses: '[Bosses](Bosses (Silksong))',
-    things: '[Things](Things (Silksong))',
 };
 
 export const HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS = [
@@ -84,7 +83,7 @@ export const HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS = [
 
 export const SILKSONG_DISTRIBUTED_SECTIONS = [
     ['bosses'],
-    ['things'],
+    [],
 ] as const satisfies SectionNames<'silksong'>[][];
 
 type MissingHollowKnightSectionNames = UnionToArray<
@@ -178,11 +177,11 @@ export const OFFICIAL_TM_GRUB_NAMES: Record<
 
 export const UPLOAD_SAVE_DESCRIPTION = `\
     To load a save file, you need to find the \`user#.dat\` file (where \`#\`\
-    is a number corresponding to the save file in the list)  in the save folder.\
+    is a number corresponding to the save file in the list) in the save folder.\
     The path to the save folder depends on your OS (click a path to copy to \
     clipboard):
-
     - Windows: \`%appdata%\\..\\LocalLow\\Team Cherry\\Hollow Knight\\\`
     - Mac: \`~/Library/Application Support/unity.Team Cherry.Hollow Knight/\`
     - Linux: \`~/.config/unity3d/Team Cherry/Hollow Knight/\`
+    Both Hollow Knight and Silksong save files are supported.
 `;
