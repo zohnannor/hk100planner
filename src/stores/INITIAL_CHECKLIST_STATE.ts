@@ -1,6 +1,10 @@
-import { ChecklistState } from '../types/checklist';
+import {
+    HollowKnightChecklistState,
+    SilksongChecklistState,
+} from '../types/checklist';
 
-export const INITIAL_CHECKLIST_STATE: ChecklistState = {
+const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
+    game: 'hollow-knight',
     percent: 0,
 
     geo: 0,
@@ -2432,3 +2436,25 @@ export const INITIAL_CHECKLIST_STATE: ChecklistState = {
         },
     },
 };
+
+const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
+    game: 'silksong',
+    percent: 0,
+    rosaries: 0,
+    rosariesReq: 0,
+
+    checks: {
+        bosses: {
+            '[Lace]': {
+                reward: {},
+            },
+        },
+    },
+};
+
+const INITIAL_CHECKLIST_STATE = {
+    'hollow-knight': INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE,
+    silksong: INITIAL_SILKSONG_CHECKLIST_STATE,
+} as const;
+
+export default INITIAL_CHECKLIST_STATE;

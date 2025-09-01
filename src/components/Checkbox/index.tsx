@@ -3,21 +3,21 @@ import styled, { css } from 'styled-components';
 import { CheckIcon } from '../../assets';
 import { COLORS } from '../../constants';
 import { FlexBox } from '../../styles';
-import { FText } from '../FText/FText';
+import FText from '../FText';
 
 import type { Property } from 'csstype';
 
-interface CheckboxSquareProps {
+type CheckboxSquareProps = {
     $checked?: boolean;
     $color?: Property.Color;
-}
+};
 
-export interface CheckboxProps {
+type CheckboxProps = {
     defaultChecked?: boolean;
     label: string;
     color?: Property.Color;
     onToggle?: () => void;
-}
+};
 
 const CheckBoxLabel = styled.span<{ $color?: Property.Color }>`
     cursor: pointer;
@@ -58,7 +58,7 @@ const CheckBoxSquare = styled.div<CheckboxSquareProps>`
         `}
 `;
 
-export const CheckBox: React.FC<CheckboxProps> = ({
+const CheckBox: React.FC<CheckboxProps> = ({
     defaultChecked = false,
     label,
     color,
@@ -77,3 +77,5 @@ export const CheckBox: React.FC<CheckboxProps> = ({
         </FlexBox>
     );
 };
+
+export default CheckBox;

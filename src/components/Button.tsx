@@ -1,19 +1,22 @@
 import styled, { css } from 'styled-components';
 
-import { POINTER } from '../../assets';
-import { COLORS } from '../../constants';
+import { POINTER } from '../assets';
+import { COLORS } from '../constants';
 
 type ButtonSize = 'big' | 'small';
 
-interface ButtonProps {
+type ButtonProps = {
+    icon?: string;
     size?: ButtonSize;
     label: string;
     onClick: () => void;
-}
+};
 
-const ButtonWrapper = styled.div<{
+type ButtonWrapperProps = {
     $size: ButtonSize;
-}>`
+};
+
+const ButtonWrapper = styled.div<ButtonWrapperProps>`
     transition: 0.2s;
     display: flex;
     align-items: center;
@@ -27,6 +30,12 @@ const ButtonWrapper = styled.div<{
         color: ${COLORS.white};
         border: none;
         cursor: pointer;
+        display: flex;
+
+        img {
+            width: min(30px, 5vw);
+            height: min(32px, 5vw);
+        }
     }
 
     & div {
@@ -42,11 +51,11 @@ const ButtonWrapper = styled.div<{
         }
     }
 
-    & div:nth-of-type(1) img {
+    & div:first-child img {
         right: 0;
     }
 
-    & div:nth-of-type(2) img {
+    & div:last-child img {
         left: 0;
         transform: rotate(180deg);
     }
@@ -73,19 +82,29 @@ const ButtonWrapper = styled.div<{
                 height: min(16px, 3.5vw);
                 width: min(10px, 3vw);
             }
+
+            & button img {
+                height: min(16px, 3.5vw);
+                width: min(10px, 3vw);
+            }
         `}
 `;
 
-export const Button: React.FC<ButtonProps> = ({ label, onClick, size }) => {
+const Button: React.FC<ButtonProps> = ({ icon, label, onClick, size }) => {
     return (
         <ButtonWrapper $size={size || 'big'}>
             <div>
                 <img src={POINTER} alt='reset-button-left' />
             </div>
-            <button onClick={() => onClick()}>{label}</button>
+
+            <button onClick={() => onClick()}>
+                {icon && <img src={icon} alt='icon' />} {label}
+            </button>
             <div>
                 <img src={POINTER} alt='reset-button-right' />
             </div>
         </ButtonWrapper>
     );
 };
+
+export default Button;

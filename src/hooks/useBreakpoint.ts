@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export const useBreakpoint = (breakpoint: number) => {
+const useBreakpoint = (breakpoint: number) => {
     const [isMatch, setIsMatch] = useState(false);
     const handleResize = useCallback(() => {
         setIsMatch(window.innerWidth < breakpoint);
@@ -14,3 +14,5 @@ export const useBreakpoint = (breakpoint: number) => {
 
     return isMatch;
 };
+
+export default useBreakpoint;

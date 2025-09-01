@@ -3,7 +3,9 @@ import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import { SECTION_TITLES } from '../constants';
-import { Action, ChecklistState, CheckSection } from '../types/checklist';
+import { Checks, GameKey, SectionNames } from '../types/checklist';
+import { typedEntries, typedKeys, typedValues } from '../util/typedObject';
+import useChecklistStore from './checklistStore';
 
 type UiState = {
     /** Whether the tooltip is open. */
@@ -12,7 +14,11 @@ type UiState = {
     tooltipText: string;
 
     /** The sections that are collapsed. */
-    collapsedSections: CheckSection[];
+    collapsedSections: {
+        'hollow-knight': SectionNames<'hollow-knight'>[];
+        silksong: SectionNames<'silksong'>[];
+    };
+    currentTab: GameKey;
 
     /** Whether the checks should be validated. */
     checksValidation: boolean;
@@ -33,10 +39,13 @@ type UiActions = {
     openTooltip: () => void;
 
     /** Toggles the visibility of a section. */
-    toggleSection: (section?: CheckSection) => void;
+    toggleSection: <Game extends GameKey>(section?: SectionNames<Game>) => void;
 
     /** Hides all completed sections. */
-    hideCompletedSections: (checklist: ChecklistState & Action) => void;
+    hideCompletedSections: () => void;
+
+    /** Sets the current tab. */
+    setCurrentTab: (tab: GameKey) => void;
 
     /** Toggles whether the checks should be validated. */
     toggleChecksValidation: () => void;
@@ -52,7 +61,11 @@ const INITIAL: UiState = {
     isTooltipOpen: false,
     tooltipText:
         '[Bro](Pure Vessel) was tarnished by an idea instilled 😭😭😭😭💀',
-    collapsedSections: [],
+    collapsedSections: {
+        'hollow-knight': [],
+        silksong: [],
+    },
+    currentTab: 'hollow-knight',
     checksValidation: true,
     checklistHasErrors: false,
     useOfficialTMGrubNames: false,
@@ -73,40 +86,54 @@ const useUiStore = create<UiState & UiActions>()(
 
             openTooltip: () => set({ isTooltipOpen: true }),
 
-            toggleSection: (section?: CheckSection) =>
+            toggleSection: <Game extends GameKey>(
+                section?: SectionNames<Game>
+            ) =>
                 set(state => {
+                    const sectionTitles = SECTION_TITLES[state.currentTab];
+                    const collapsed = state.collapsedSections[
+                        state.currentTab
+                    ] as SectionNames<Game>[];
                     if (section) {
-                        const index = state.collapsedSections.indexOf(section);
+                        const index = collapsed.indexOf(section);
                         if (index === -1) {
-                            state.collapsedSections.push(section);
+                            collapsed.push(section);
                         } else {
-                            state.collapsedSections.splice(index, 1);
+                            collapsed.splice(index, 1);
                         }
                     } else {
-                        if (state.collapsedSections.length > 0) {
-                            state.collapsedSections = [];
+                        if (collapsed.length > 0) {
+                            state.collapsedSections[state.currentTab] = [];
                         } else {
-                            state.collapsedSections.push(
-                                ...(Object.keys(
-                                    SECTION_TITLES
-                                ) as CheckSection[])
+                            collapsed.push(
+                                ...(typedKeys(
+                                    sectionTitles
+                                ) as SectionNames<Game>[])
                             );
                         }
                     }
                 }),
 
-            hideCompletedSections: checklist =>
-                set(state =>
-                    Object.entries(checklist.checks).forEach(
+            hideCompletedSections: <Game extends GameKey>() =>
+                set(state => {
+                    const checklistState = useChecklistStore(
+                        state.currentTab
+                    ).getState();
+
+                    typedEntries(checklistState.checks as Checks<Game>).forEach(
                         ([section, checks]) => {
-                            if (Object.values(checks).every(x => x.checked)) {
-                                state.collapsedSections.push(
-                                    section as CheckSection
-                                );
+                            if (typedValues(checks).every(x => x.checked)) {
+                                (
+                                    state.collapsedSections[
+                                        state.currentTab
+                                    ] as SectionNames<Game>[]
+                                ).push(section);
                             }
                         }
-                    )
-                ),
+                    );
+                }),
+
+            setCurrentTab: (tab: GameKey) => set({ currentTab: tab }),
 
             toggleChecksValidation: () =>
                 set(state => {
@@ -129,6 +156,7 @@ const useUiStore = create<UiState & UiActions>()(
                 checksValidation: state.checksValidation,
                 checklistHasErrors: state.checklistHasErrors,
                 useOfficialTMGrubNames: state.useOfficialTMGrubNames,
+                currentTab: state.currentTab,
             }),
         }
     )

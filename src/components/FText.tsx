@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
-import renderLink from '../../util/renderLink';
+import renderLink from '../util/renderLink';
 
 import type { Property } from 'csstype';
 
@@ -9,7 +9,7 @@ type FTextWrapperProps = {
     $color?: Property.Color;
 };
 
-export const FTextWrapper = styled.span<FTextWrapperProps>`
+const FTextWrapper = styled.span<FTextWrapperProps>`
     display: block;
     flex-wrap: wrap;
     column-gap: 4px;
@@ -34,18 +34,22 @@ const IconWrapper = styled.img`
     top: min(4px, 1vw);
 `;
 
-interface FTextProps {
+type FTextProps = {
     color?: string;
-}
+};
 
 const Monospace = styled.code`
     font-size: min(1.1rem, 5vw);
     font-family: 'Fira Code', monospace;
     color: lightcyan;
     cursor: pointer;
+
+    &:hover {
+        filter: drop-shadow(0 0 1px lightcyan);
+    }
 `;
 
-export const FText: React.FC<PropsWithChildren<FTextProps>> = ({
+const FText: React.FC<PropsWithChildren<FTextProps>> = ({
     children,
     color,
 }) => {
@@ -94,3 +98,5 @@ export const FText: React.FC<PropsWithChildren<FTextProps>> = ({
         </FTextWrapper>
     );
 };
+
+export default FText;

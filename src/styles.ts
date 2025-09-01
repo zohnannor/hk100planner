@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { BREAKPOINTS, COLORS } from './constants';
 
 import type { Property } from 'csstype';
+
 export const MainWrapper = styled.div`
     margin-bottom: 100px;
     width: 100%;

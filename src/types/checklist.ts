@@ -1,25 +1,32 @@
 import { PartialDeep } from 'type-fest';
 
+import { ExactlyOne } from './util';
+
+/** Name of the game, used to parameterize the checklist state. */
+export type GameKey = 'hollow-knight' | 'silksong';
+
 /** Represents a reward (updates to the state) a check can provide. */
-export type CheckRewards = Partial<Omit<ChecklistState, 'checks'>>;
+export type CheckRewards<Game extends GameKey> = Partial<
+    Omit<ChecklistState<Game>, 'checks'>
+>;
 
 /** Represents a single check in the checklist. */
-export type Check = {
+export type Check<Game extends GameKey> = {
     /** Indicates whether the check is marked as completed. */
     checked?: boolean;
     /** An optional description of the check. */
     description?: string;
     /** A function that returns the reward for completing this check. */
-    reward: CheckRewards;
+    reward: CheckRewards<Game>;
     /** A function that returns the requirements for this check. */
-    requires?: PartialDeep<ChecklistState>;
+    requires?: PartialDeep<ChecklistState<Game>>;
     // requires?:
     //     | PartialDeep<ChecklistState>
     //     | ((state: ChecklistState) => string | undefined);
 };
 
-/** Defines the keys for various checks in the checklist. */
-export type ChecksKeys = {
+/** Hollow Knight specific check keys */
+type HollowKnightChecksKeys = {
     bosses:
         | '[Broken Vessel]'
         | '[Brooding Mawlek]'
@@ -316,80 +323,121 @@ export type ChecksKeys = {
     //     | 'Any ending';
 };
 
+/** Silksong specific check keys */
+type SilksongChecksKeys = {
+    bosses: '[Lace]'; // TODO
+};
+
+/** Union type for all possible check keys */
+type ChecksKeys<Game extends GameKey> = {
+    'hollow-knight': HollowKnightChecksKeys;
+    silksong: SilksongChecksKeys;
+}[Game];
+
+/** Names of the checks defined in ChecksKeys. */
+export type CheckNames<
+    Game extends GameKey,
+    Section extends SectionNames<Game>
+> = ChecksKeys<Game>[Section] & string;
+
 /** Names of the sections of the checks defined in ChecksKeys. */
-export type CheckSection = keyof ChecksKeys;
+export type SectionNames<Game extends GameKey> = keyof ChecksKeys<Game> &
+    string;
 
 /**
  * Represents a section of checks for a specific category.
  *
  * @param Section - The section of checks to define.
  */
-export type ChecksSection<Section extends CheckSection> = Record<
-    ChecksKeys[Section],
-    Check
->;
+export type ChecksSection<
+    Game extends GameKey,
+    Section extends SectionNames<Game>
+> = {
+    [CheckName in CheckNames<Game, Section>]: Check<Game>;
+};
 
 /** Represents the entire checklist containing all sections of checks. */
-export type Checks = {
-    [Section in CheckSection]: ChecksSection<Section>;
+export type Checks<Game extends GameKey> = {
+    [Section in SectionNames<Game>]: ChecksSection<Game, Section>;
+};
+
+/** Base state properties common to both games. */
+type CommonChecklistState<Game extends GameKey> = {
+    /** The game discriminator. */
+    game: Game;
+    /** The percentage of completion for the checklist. */
+    percent: number;
+    /** The checks that make up the checklist. */
+    checks: Checks<Game>;
+};
+
+/** Hollow Knight specific state properties. */
+export type HollowKnightChecklistState =
+    CommonChecklistState<'hollow-knight'> & {
+        /** The amount of geo collected. */
+        geo: number;
+        /** The amount of essence collected. */
+        essence: number;
+        /** The amount of pale ore collected. */
+        paleOre: number;
+        /** The amount of charms collected. */
+        charms: number;
+        /** The amount of grubs collected. */
+        grubs: number;
+        /** The amount of mask shards collected. */
+        maskShards: number;
+        /** The amount of vessel fragments collected. */
+        vesselFragments: number;
+        /** The amount of simple keys collected. */
+        simpleKeys: number;
+        /** The required amount of geo. */
+        geoReq: number;
+        /** The required amount of essence (array to track history and compute max). */
+        essenceReq: [number];
+        /** The required amount of pale ore. */
+        paleOreReq: number;
+        /** The required amount of simple keys. */
+        simpleKeysReq: number;
+    };
+
+/** Silksong specific state properties. */
+export type SilksongChecklistState = CommonChecklistState<'silksong'> & {
+    /** The amount of rosaries collected. */
+    rosaries: number;
+    /** The required amount of rosaries. */
+    rosariesReq: number;
 };
 
 /** Represents the state of the checklist, including progress and requirements. */
-export type ChecklistState = {
-    /** The percentage of completion for the checklist. */
-    percent: number;
-    /** The amount of geo collected. */
-    geo: number;
-    /** The amount of essence collected. */
-    essence: number;
-    /** The amount of pale ore collected. */
-    paleOre: number;
-    /** The amount of charms collected. */
-    charms: number;
-    /** The amount of grubs collected. */
-    grubs: number;
-    /** The amount of mask shards collected. */
-    maskShards: number;
-    /** The amount of vessel fragments collected. */
-    vesselFragments: number;
-    /** The amount of simple keys collected. */
-    simpleKeys: number;
-    /** The required amount of geo. */
-    geoReq: number;
-    /** The required amount of essence (array to track history and compute max). */
-    essenceReq: [number];
-    /** The required amount of pale ore. */
-    paleOreReq: number;
-    /** The required amount of simple keys. */
-    simpleKeysReq: number;
-    /** The checks that make up the checklist. */
-    checks: Checks;
-};
+export type ChecklistState<Game extends GameKey> = {
+    'hollow-knight': HollowKnightChecklistState;
+    silksong: SilksongChecklistState;
+}[Game];
 
-/** Represents actions that can be performed on the checklist. */
-export type Action = {
+/** Actions that can be performed on the checklist. */
+export type Action<Game extends GameKey> = {
     /**
      * Toggles the checked state of a specific check.
      *
      * @param section - The section of the checklist.
      * @param name - The name of the check to toggle.
      */
-    toggle: <S extends CheckSection>(
+    toggle: <S extends SectionNames<Game>>(
         section: S,
-        name: keyof ChecksSection<S>
+        name: CheckNames<Game, S>
     ) => void;
 
     /** Checks all items in the checklist or the specific section. */
-    checkAll: (sectionName?: CheckSection) => void;
+    checkAll: (sectionName?: SectionNames<Game>) => void;
 
     /** Resets the checklist or the specific section to its initial state. */
-    reset: (sectionName?: CheckSection) => void;
+    reset: (sectionName?: SectionNames<Game>) => void;
 
     /** Validates a specific check in the checklist. */
     validateCheck: (
-        state: ChecklistState,
-        check: Check
-    ) => PartialDeep<ChecklistState> | undefined;
+        state: ChecklistState<Game>,
+        check: Check<Game>
+    ) => PartialDeep<ChecklistState<Game>> | undefined;
 
     /**
      * Validates the current state of the checklist against its requirements.
@@ -397,7 +445,7 @@ export type Action = {
      * @param state - The current state of the checklist.
      * @returns An object containing any errors found during validation.
      */
-    validateChecks: (state: ChecklistState) => RequirementCheckErrors;
+    validateChecks: (state: ChecklistState<Game>) => RequirementCheckErrors;
 
     /**
      * Sets the checklist state from a save file.
@@ -409,16 +457,24 @@ export type Action = {
 
 /** Represents any errors found during the validation of checklist requirements. */
 export type RequirementCheckErrors = {
-    [CheckName in keyof ChecksSection<
-        keyof Checks
-    > as `${keyof Checks} ${CheckName}`]?: PartialDeep<ChecklistState> | string;
+    [Game in GameKey]?: {
+        [Section in SectionNames<Game>]?: {
+            [CheckName in CheckNames<Game, Section>]?: PartialDeep<
+                ChecklistState<Game> // | string
+            >;
+        };
+    };
 };
 
 /** Represents a generic object with string keys and any type of values. */
 export type AnyObject = Record<string, unknown>;
 
+export type SaveFileData<Game extends GameKey> = {
+    [Section in SectionNames<Game>]: Map<CheckNames<Game, Section>, boolean>;
+};
+
 /** A save file serialized by webasm savefile parser. */
-export type SaveFile = Record<
-    CheckSection,
-    Map<ChecksKeys[CheckSection], boolean>
->;
+export type SaveFile = ExactlyOne<{
+    'hollow-knight': SaveFileData<'hollow-knight'>;
+    silksong: SaveFileData<'silksong'>;
+}>;

@@ -1,13 +1,20 @@
 import { useRef } from 'react';
+import styled from 'styled-components';
 import { useIntersectionObserver, useToggle } from 'usehooks-ts';
 
-import { LOGO } from './assets/index.ts';
-import { Button } from './components/Button/Button.tsx';
-import { FText } from './components/FText/FText.tsx';
-import { SaveUploader } from './components/SaveUploader/SaveUploader.tsx';
+import {
+    HOLLOW_KNIGHT,
+    HOLLOW_KNIGHT_BACKGROUD,
+    LOGO,
+    SILKSONG,
+    SILKSONG_BACKGROUND,
+} from './assets';
+import Button from './components/Button';
+import FText from './components/FText';
+import SaveUploader from './components/SaveUploader';
 import Section from './components/Section';
-import { SideBar } from './components/SideBar/SideBar.tsx';
-import { Tooltip } from './components/Tooltip/Tooltip.tsx';
+import SideBar from './components/SideBar';
+import Tooltip from './components/Tooltip';
 import {
     ABOUT_TEXT,
     BREAKPOINTS,
@@ -15,13 +22,14 @@ import {
     DESCRIPTION_TEXT,
     DISTRIBUTED_SECTIONS,
     SECTION_TITLES,
-} from './constants.ts';
-import { useBreakpoint } from './hooks/useBreakpoint.ts';
-import { useParallaxBackground } from './hooks/useParallaxBackground.ts';
-import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds.ts';
-import Settings from './Settings.tsx';
-import useChecklistStore from './stores/checklistStore.ts';
-import useUiStore from './stores/uiStore.ts';
+} from './constants';
+import useBreakpoint from './hooks/useBreakpoint';
+import useFavicon from './hooks/useFavicon';
+import useParallaxBackground from './hooks/useParallaxBackground';
+import useUndoRedoKeybinds from './hooks/useUndoRedoKeybinds';
+import Settings from './Settings';
+import useChecklistStore from './stores/checklistStore';
+import useUiStore from './stores/uiStore';
 import {
     FlexBox,
     InfoContainter,
@@ -31,34 +39,165 @@ import {
     PercentLabel,
     SectionsColumn,
 } from './styles';
+import { GameKey, SectionNames } from './types/checklist';
+import { typedKeys } from './util/typedObject';
 
-const App = () => {
-    const {
-        percent,
-        geo,
-        essence,
-        simpleKeys,
-        paleOre,
-        geoReq,
-        essenceReq,
-        paleOreReq,
-        simpleKeysReq,
-        reset,
-        checkAll,
-    } = useChecklistStore();
+type BackgroundProps = {
+    $currentTab: GameKey;
+};
 
-    const validateChecks = useChecklistStore(
+const Background = styled.div<BackgroundProps>`
+    top: 0;
+    position: fixed;
+    z-index: -1;
+    width: 120vw;
+    height: calc(100vh + 200px);
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        opacity: 1;
+        background-size: cover;
+        background-position: center 0;
+    }
+
+    &::before {
+        background-image: linear-gradient(
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.5)
+            ),
+            url(${HOLLOW_KNIGHT_BACKGROUD});
+        opacity: ${({ $currentTab }) =>
+            $currentTab === 'hollow-knight' ? 1 : 0};
+        z-index: 1;
+        transition: opacity 0.5s;
+    }
+
+    &::after {
+        background-image: linear-gradient(
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.5)
+            ),
+            url(${SILKSONG_BACKGROUND});
+    }
+`;
+
+const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
+    const checksValidation = useUiStore(state => state.checksValidation);
+    const decide = (a: number, b: number) =>
+        checksValidation ? (a >= b ? COLORS.white : COLORS.red) : COLORS.white;
+
+    let info: [string, number, number][];
+    if (game === 'hollow-knight') {
+        const {
+            geo,
+            geoReq,
+            essence,
+            essenceReq,
+            paleOre,
+            paleOreReq,
+            simpleKeys,
+            simpleKeysReq,
+        } = useChecklistStore(game)();
+        info = [
+            ['[GEO]', geo, geoReq],
+            ['[ESSENCE]', essence, Math.max(...essenceReq)],
+            ['[PALE_ORE]', paleOre, paleOreReq],
+            ['[SIMPLE_KEY]', simpleKeys, simpleKeysReq],
+        ] as const;
+    } else {
+        const { rosaries, rosariesReq } = useChecklistStore(game)();
+        info = [['[ROSARIES]', rosaries, rosariesReq]] as const;
+    }
+
+    return (
+        <InfoContainter $tabletAlign={sidebar ? 'flex-end' : 'center'}>
+            {info.map(x => {
+                const [it, val, req] = x;
+                const available = val - req;
+
+                if (sidebar) {
+                    return (
+                        <FText color={decide(val, req)} key={it}>
+                            {it} {val} / {req}
+                        </FText>
+                    );
+                }
+
+                const paren =
+                    available === 0 || it === '[ESSENCE]'
+                        ? ''
+                        : available > 0
+                        ? `(${available} unspent)`
+                        : `(${-available} short)`;
+
+                return (
+                    <FText color={decide(val, req)} key={it}>
+                        {it} {val} collected / {req} required
+                        {paren}
+                    </FText>
+                );
+            })}
+        </InfoContainter>
+    );
+};
+
+const SectionColumns = <Game extends GameKey>({ game }: { game: Game }) => {
+    const checksValidation = useUiStore(state => state.checksValidation);
+
+    const validateChecks = useChecklistStore(game)(
         state => () => state.validateChecks(state)
     );
     const setChecklistHasErrors = useUiStore(
         state => state.setChecklistHasErrors
     );
 
+    const errors = checksValidation ? validateChecks() : {};
+    setChecklistHasErrors(typedKeys(errors).length > 0);
+
+    const sectionTitles = SECTION_TITLES[game] as Record<
+        SectionNames<Game>,
+        string
+    >;
+    const sections = DISTRIBUTED_SECTIONS[game] as SectionNames<Game>[][];
+
+    return (
+        <>
+            {sections.map(sectionColumn => (
+                <SectionsColumn key={sectionColumn.toString()}>
+                    {sectionColumn.map(sectionName => {
+                        return (
+                            <Section<Game>
+                                game={game}
+                                key={sectionName}
+                                title={sectionTitles[sectionName]}
+                                sectionName={sectionName}
+                                errors={errors[game]}
+                            />
+                        );
+                    })}
+                </SectionsColumn>
+            ))}
+        </>
+    );
+};
+
+const App = () => {
     const tooltipText = useUiStore(state => state.tooltipText);
     const setTooltipText = useUiStore(state => state.setTooltipText);
     const openTooltip = useUiStore(state => state.openTooltip);
     const checklistHasErrors = useUiStore(state => state.checklistHasErrors);
-    const checksValidation = useUiStore(state => state.checksValidation);
+    const currentTab = useUiStore(state => state.currentTab);
+    const setCurrentTab = useUiStore(state => state.setCurrentTab);
+
+    const { percent, reset, checkAll } = useChecklistStore(currentTab)();
+    const icon = currentTab === 'hollow-knight' ? HOLLOW_KNIGHT : SILKSONG;
+    useFavicon(icon);
 
     useUndoRedoKeybinds();
 
@@ -70,53 +209,30 @@ const App = () => {
 
     const [settingsCollapsed, toggleSettingsCollapsed] = useToggle(false);
 
-    const decide = (a: number, b: number) =>
-        checksValidation ? (a >= b ? COLORS.white : COLORS.red) : COLORS.white;
-
-    const info = (sidebar?: boolean) => (
-        <InfoContainter $tabletAlign={sidebar ? 'flex-end' : 'center'}>
-            {[
-                ['[GEO]', geo, geoReq],
-                ['[ESSENCE]', essence, Math.max(...essenceReq)],
-                ['[PALE_ORE]', paleOre, paleOreReq],
-                ['[SIMPLE_KEY]', simpleKeys, simpleKeysReq],
-            ].map(x => {
-                const [it, val, req] = x as [string, number, number];
-                const available = val - req;
-
-                if (sidebar)
-                    return (
-                        <FText color={decide(val, req)} key={it}>
-                            {it} {val} / {req}
-                        </FText>
-                    );
-
-                const p =
-                    available === 0 || it === '[ESSENCE]'
-                        ? ''
-                        : available > 0
-                        ? `(${available} unspent)`
-                        : `(${-available} short)`;
-
-                return (
-                    <FText color={decide(val, req)} key={it}>
-                        {it} {val} collected / {req} required
-                        {p}
-                    </FText>
-                );
-            })}
-        </InfoContainter>
-    );
-
-    const errors = checksValidation ? validateChecks() : {};
-    setChecklistHasErrors(Object.keys(errors).length > 0);
-
     return (
         <MainWrapper>
             <Tooltip>{tooltipText}</Tooltip>
 
-            <div ref={backgroundRef} className='background' />
+            <Background
+                $currentTab={currentTab}
+                ref={backgroundRef}
+                className='background'
+            />
             <img src={LOGO} alt='logo' />
+
+            <Button
+                icon={icon}
+                label={
+                    currentTab === 'hollow-knight'
+                        ? 'Hollow Knight'
+                        : 'Silksong'
+                }
+                onClick={() =>
+                    setCurrentTab(
+                        currentTab === 'silksong' ? 'hollow-knight' : 'silksong'
+                    )
+                }
+            />
 
             <FlexBox $margin='16px 0'>
                 <Button
@@ -163,26 +279,16 @@ const App = () => {
                 <Button label='Check All' onClick={checkAll} />
             </FlexBox>
 
-            <MainLabel ref={ref}>{info()}</MainLabel>
+            <MainLabel ref={ref}>
+                <Info game={currentTab} />
+            </MainLabel>
+
             <SideBar visible={!isIntersecting} hasErrors={checklistHasErrors}>
-                {info(true)}
+                <Info game={currentTab} sidebar={true} />
             </SideBar>
 
             <MainContent>
-                {DISTRIBUTED_SECTIONS.map(sectionColumn => (
-                    <SectionsColumn key={sectionColumn.toString()}>
-                        {sectionColumn.map(sectionName => {
-                            return (
-                                <Section
-                                    key={sectionName}
-                                    title={SECTION_TITLES[sectionName]}
-                                    sectionName={sectionName}
-                                    errors={errors}
-                                />
-                            );
-                        })}
-                    </SectionsColumn>
-                ))}
+                <SectionColumns game={currentTab} />
             </MainContent>
         </MainWrapper>
     );

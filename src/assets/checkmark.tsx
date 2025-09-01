@@ -2,9 +2,9 @@ import { COLORS } from '../constants';
 
 import type { Property } from 'csstype';
 
-interface Props {
+type Props = {
     color?: Property.Color;
-}
+};
 
 export const CheckIcon: React.FC<Props> = ({ color }) => (
     <svg

@@ -1,4 +1,4 @@
-import { CheckSection, ChecksKeys } from './types/checklist';
+import { CheckNames, GameKey, SectionNames } from './types/checklist';
 import { UnionToArray } from './types/util';
 
 export const COLORS = {
@@ -20,7 +20,10 @@ export const GRUB_REWARDS = [
     245, 250, 255, 0, 260, 265, 270, 280, 290, 295, 300, 0,
 ] as const;
 
-export const SECTION_TITLES: Record<CheckSection, string> = {
+const HOLLOW_KNIGHT_SECTION_TITLES: Record<
+    SectionNames<'hollow-knight'>,
+    string
+> = {
     bosses: '[Bosses](Bosses (Hollow Knight))',
     optionalBosses: '[Bosses](Bosses (Hollow Knight)) (no percents)',
     equipment: '[Equipment](Abilities)',
@@ -44,7 +47,16 @@ export const SECTION_TITLES: Record<CheckSection, string> = {
     // endings: '[Endings](Endings (Hollow Knight))',
 };
 
-export const DISTRIBUTED_SECTIONS = [
+const SILKSONG_SECTION_TITLES: Record<SectionNames<'silksong'>, string> = {
+    bosses: '[Bosses](Bosses (Silksong))',
+};
+
+export const SECTION_TITLES = {
+    'hollow-knight': HOLLOW_KNIGHT_SECTION_TITLES,
+    silksong: SILKSONG_SECTION_TITLES,
+} as const;
+
+export const HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS = [
     [
         'bosses',
         'equipment',
@@ -69,15 +81,35 @@ export const DISTRIBUTED_SECTIONS = [
         'whisperingRoots',
         'optionalBosses',
     ],
-] as const satisfies CheckSection[][];
+] as const satisfies SectionNames<'hollow-knight'>[][];
 
-type MissingSectionNames = UnionToArray<
-    Exclude<CheckSection, (typeof DISTRIBUTED_SECTIONS)[number][number]>
+export const SILKSONG_DISTRIBUTED_SECTIONS = [
+    ['bosses'],
+    [],
+] as const satisfies SectionNames<'silksong'>[][];
+
+type MissingSectionNames<Game extends GameKey> = UnionToArray<
+    Exclude<
+        SectionNames<Game>,
+        (typeof DISTRIBUTED_SECTIONS)[Game][number][number]
+    >
 >;
 
 // Compile-time check to make sure all sections are used in
-// `DISTRIBUTED_SECTIONS`.
-export const __missingSectionNames: MissingSectionNames = [];
+// `HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS`.
+const __missingHollowKnightSectionNames: MissingSectionNames<'hollow-knight'> =
+    [];
+void __missingHollowKnightSectionNames;
+
+// Compile-time check to make sure all sections are used in
+// `SILKSONG_DISTRIBUTED_SECTIONS`.
+const __missingSilksongSectionNames: MissingSectionNames<'silksong'> = [];
+void __missingSilksongSectionNames;
+
+export const DISTRIBUTED_SECTIONS = {
+    'hollow-knight': HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS,
+    silksong: SILKSONG_DISTRIBUTED_SECTIONS,
+} as const;
 
 export const DESCRIPTION_TEXT =
     'This is a tool to help you plan your Hollow Knight ["Speed Completion"](Achievements (Hollow Knight)#Challenges) achievement checklist. ' +
@@ -92,7 +124,10 @@ export const ABOUT_TEXT =
     'Made by [me](https://github.com/zohnannor) (mostly logic) and [my friend](https://github.com/swbuwk) (mostly design). ' +
     'Check out [the repo](https://github.com/zohnannor/hk100planner) and leave a star if you like it! :)';
 
-export const OFFICIAL_TM_GRUB_NAMES: Record<ChecksKeys['grubs'], string> = {
+export const OFFICIAL_TM_GRUB_NAMES: Record<
+    CheckNames<'hollow-knight', 'grubs'>,
+    string
+> = {
     '[Forgotten Crossroads] behind [Husk Guard]': 'Stefan',
     '[Forgotten Crossroads] [Fog Canyon] entrance': 'Andy',
     '[Forgotten Crossroads] breakable wall': 'Jasper',
@@ -143,11 +178,11 @@ export const OFFICIAL_TM_GRUB_NAMES: Record<ChecksKeys['grubs'], string> = {
 
 export const UPLOAD_SAVE_DESCRIPTION = `\
     To load a save file, you need to find the \`user#.dat\` file (where \`#\`\
-    is a number corresponding to the save file in the list)  in the save folder.\
+    is a number corresponding to the save file in the list) in the save folder.\
     The path to the save folder depends on your OS (click a path to copy to \
     clipboard):
-
     - Windows: \`%appdata%\\..\\LocalLow\\Team Cherry\\Hollow Knight\\\`
     - Mac: \`~/Library/Application Support/unity.Team Cherry.Hollow Knight/\`
     - Linux: \`~/.config/unity3d/Team Cherry/Hollow Knight/\`
+    Both Hollow Knight and Silksong save files are supported.
 `;

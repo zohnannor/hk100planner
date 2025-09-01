@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { UPLOAD_SAVE_DESCRIPTION } from '../../constants';
-import { useSaveParser } from '../../hooks/useSaveParser';
-import useChecklistStore from '../../stores/checklistStore';
-import useUiStore from '../../stores/uiStore';
-import Button from '../Button';
+import { UPLOAD_SAVE_DESCRIPTION } from '../constants';
+import useCurrentChecklistStore from '../hooks/useCurrentChecklistStore';
+import useSaveParser from '../hooks/useSaveParser';
+import useUiStore from '../stores/uiStore';
+import Button from './Button';
 
-export const UploadeSaveWrapper = styled.div`
+const UploadSaveWrapper = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
@@ -18,7 +18,7 @@ export const UploadeSaveWrapper = styled.div`
     }
 `;
 
-export const SaveUploader: React.FC = () => {
+const SaveUploader: React.FC = () => {
     const uploadRef = useRef<HTMLInputElement>(null);
     const [uploadButtonText, setUploadButtonText] =
         useState('Upload save file');
@@ -27,7 +27,9 @@ export const SaveUploader: React.FC = () => {
 
     const setTooltipText = useUiStore(state => state.setTooltipText);
     const openTooltip = useUiStore(state => state.openTooltip);
-    const setFromSaveFile = useChecklistStore(state => state.setFromSaveFile);
+    const setFromSaveFile = useCurrentChecklistStore()(
+        state => state.setFromSaveFile
+    );
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -45,7 +47,7 @@ export const SaveUploader: React.FC = () => {
 
     return (
         <>
-            <UploadeSaveWrapper>
+            <UploadSaveWrapper>
                 <Button
                     onClick={() => uploadRef.current?.click()}
                     label={uploadButtonText}
@@ -65,10 +67,12 @@ export const SaveUploader: React.FC = () => {
                     onChange={handleFileChange}
                     disabled={isLoading}
                 />
-            </UploadeSaveWrapper>
+            </UploadSaveWrapper>
             {!isWasmReady && <p>Loading WebAssembly module...</p>}
             {isLoading && <p>Parsing save file...</p>}
             {error && <p style={{ color: 'red' }}>Error: {error}</p>}
         </>
     );
 };
+
+export default SaveUploader;

@@ -8,6 +8,7 @@ import {
     KINGS_IDOL,
     LOVE_KEY,
     PALE_ORE,
+    ROSARIES,
     SEAL,
     SIMPLE_KEY,
     SLY_KEY,
@@ -30,6 +31,8 @@ const ICONS: Record<string, string> = {
     SIMPLE_KEY: SIMPLE_KEY,
     ELEGANT_KEY: ELEGANT_KEY,
     "SHOPKEEPER'S_KEY": SLY_KEY,
+
+    ROSARIES: ROSARIES,
 };
 
 type ParsedItemType = 'link' | 'text' | 'icon' | 'monospace';

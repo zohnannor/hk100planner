@@ -1,16 +1,16 @@
 import { PropsWithChildren } from 'react';
 import styled, { css } from 'styled-components';
 
-import { HR2 } from '../../assets';
-import { BREAKPOINTS, COLORS } from '../../constants';
-import { useBreakpoint } from '../../hooks/useBreakpoint';
-import useChecklistStore from '../../stores/checklistStore';
-import { FlexBox, HasErrors } from '../../styles';
-import Button from '../Button';
+import { HR2 } from '../assets';
+import { BREAKPOINTS, COLORS } from '../constants';
+import useBreakpoint from '../hooks/useBreakpoint';
+import useCurrentChecklistStore from '../hooks/useCurrentChecklistStore';
+import { FlexBox, HasErrors } from '../styles';
+import Button from './Button';
 
-interface ContainerProps {
+type ContainerProps = {
     $visible: boolean;
-}
+};
 
 const Container = styled.div<ContainerProps>`
     position: relative;
@@ -44,7 +44,7 @@ const MobileContainerBackdropBlur = styled.div`
     }
 `;
 
-export const SidePercentLabel = styled.div<HasErrors>`
+const SidePercentLabel = styled.div<HasErrors>`
     font-size: 52px;
     line-height: 52px;
     margin-bottom: 12px;
@@ -62,7 +62,7 @@ export const SidePercentLabel = styled.div<HasErrors>`
     }
 `;
 
-export const SidebarButtons = styled.div`
+const SidebarButtons = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -73,7 +73,7 @@ export const SidebarButtons = styled.div`
     }
 `;
 
-export const SideLabel = styled.div`
+const SideLabel = styled.div`
     font-size: min(18px, 5vw);
     line-height: min(18px, 5vw);
     align-self: center;
@@ -102,19 +102,20 @@ const MobileContainer = styled.div`
     padding: 0 10vw;
 `;
 
-interface SideBarProps {
+type SideBarProps = {
     visible: boolean;
     hasErrors: boolean;
-}
+};
 
-export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
+const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
     visible,
     children,
     hasErrors,
 }) => {
-    const percent = useChecklistStore(state => state.percent);
-    const reset = useChecklistStore(state => state.reset);
-    const checkAll = useChecklistStore(state => state.checkAll);
+    const useChecklist = useCurrentChecklistStore();
+    const percent = useChecklist(state => state.percent);
+    const reset = useChecklist(state => state.reset);
+    const checkAll = useChecklist(state => state.checkAll);
 
     const isTablet = useBreakpoint(BREAKPOINTS.laptop);
 
@@ -163,3 +164,5 @@ export const SideBar: React.FC<PropsWithChildren<SideBarProps>> = ({
         </Container>
     );
 };
+
+export default SideBar;
