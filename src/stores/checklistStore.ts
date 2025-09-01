@@ -116,6 +116,9 @@ const validateCheck = <Game extends GameKey>(
     const hkState = state as HollowKnightChecklistState;
     const hkRequires =
         check.requires as PartialDeep<HollowKnightChecklistState>;
+
+    /// special case for "consumable items", we don't want to just check if the
+    /// value is greater, we wanna know that we have enough of it
     const reqs: Record<
         'paleOre' | 'geo' | 'simpleKeys',
         [number, number, number]
@@ -138,9 +141,8 @@ const validateCheck = <Game extends GameKey>(
     };
 
     for (const key of typedKeys(reqs)) {
-        const typedKey = key as keyof typeof reqs;
-        if (hkRequires?.[typedKey]) {
-            const [collected, requirements, checkReq] = reqs[typedKey];
+        if (hkRequires?.[key]) {
+            const [collected, requirements, checkReq] = reqs[key];
             if (collected - requirements < checkReq) {
                 return requires;
             }
@@ -281,21 +283,25 @@ const createChecklistStore = <Game extends GameKey>(
                     ...initialState,
 
                     setFromSaveFile: (savefile: SaveFile) => {
-                        const tab = typedKeys(savefile)[0] as Game;
-                        const save = savefile[tab] as SaveFileData<Game>;
+                        const game = typedKeys(savefile)[0]!;
+                        type Save = typeof game;
+                        const save = savefile[game]! as SaveFileData<Save>;
 
-                        set(state => {
+                        useChecklistStore(game).setState(state => {
                             typedEntries(save).forEach(
                                 ([sectionName, section]) => {
                                     Array.from(section.entries()).forEach(
                                         ([checkName, checked]) => {
-                                            const section = (
-                                                state.checks as Checks<Game>
-                                            )[sectionName];
+                                            const section = state.checks[
+                                                sectionName
+                                            ] as ChecksSection<
+                                                Save,
+                                                SectionNames<Save>
+                                            >;
                                             const check = section[checkName];
 
-                                            handleCheck(
-                                                state as State<Game>,
+                                            handleCheck<Save>(
+                                                state,
                                                 sectionName,
                                                 check,
                                                 checked
@@ -306,7 +312,7 @@ const createChecklistStore = <Game extends GameKey>(
                             );
                         });
 
-                        useUiStore.getState().setCurrentTab(tab);
+                        useUiStore.getState().setCurrentTab(game);
                     },
 
                     reset: (sectionName?: Section) => {

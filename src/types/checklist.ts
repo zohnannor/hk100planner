@@ -1,5 +1,7 @@
 import { PartialDeep } from 'type-fest';
 
+import { ExactlyOne } from './util';
+
 /** Name of the game, used to parameterize the checklist state. */
 export type GameKey = 'hollow-knight' | 'silksong';
 
@@ -472,6 +474,7 @@ export type SaveFileData<Game extends GameKey> = {
 };
 
 /** A save file serialized by webasm savefile parser. */
-export type SaveFile = {
-    [Game in GameKey]: SaveFileData<Game>;
-};
+export type SaveFile = ExactlyOne<{
+    'hollow-knight': SaveFileData<'hollow-knight'>;
+    silksong: SaveFileData<'silksong'>;
+}>;

@@ -5,8 +5,8 @@ import useChecklistStore from '../stores/checklistStore';
 import useUiStore from '../stores/uiStore';
 import { FlexBox, HasErrors } from '../styles';
 import {
-    CheckNames,
     Checks,
+    ChecksSection,
     GameKey,
     RequirementCheckErrors,
     SectionNames,
@@ -90,7 +90,11 @@ const Section = <Game extends GameKey>({
 }: SectionProps<Game>) => {
     const useChecklist = useChecklistStore(game);
     const section = useChecklist(
-        state => (state.checks as Checks<Game>)[sectionName]
+        state =>
+            (state.checks as Checks<Game>)[sectionName] as ChecksSection<
+                Game,
+                SectionNames<Game>
+            >
     );
     const reset = useChecklist(state => state.reset);
     const checkAll = useChecklist(state => state.checkAll);
@@ -102,9 +106,8 @@ const Section = <Game extends GameKey>({
     const toggleCollapsed = useUiStore(state => state.toggleSection);
 
     const collapsed = collapsedSections.includes(sectionName);
-    const sectionHasErrors = typedKeys(errors ?? {}).some(
-        section => section === sectionName
-    );
+    const sectionHasErrors =
+        errors && typedKeys(errors).some(section => section === sectionName);
 
     return (
         <SectionWrapper>
@@ -139,11 +142,9 @@ const Section = <Game extends GameKey>({
                     return (
                         <SectionCheckBox<Game>
                             game={game}
-                            key={name as string}
+                            key={name}
                             sectionName={sectionName}
-                            checkName={
-                                name as CheckNames<Game, SectionNames<Game>>
-                            }
+                            checkName={name}
                             check={check}
                             errors={errors}
                         />
