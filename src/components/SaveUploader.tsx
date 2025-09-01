@@ -7,7 +7,7 @@ import useSaveParser from '../hooks/useSaveParser';
 import useUiStore from '../stores/uiStore';
 import Button from './Button';
 
-const UploadeSaveWrapper = styled.div`
+const UploadSaveWrapper = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
@@ -47,7 +47,7 @@ const SaveUploader: React.FC = () => {
 
     return (
         <>
-            <UploadeSaveWrapper>
+            <UploadSaveWrapper>
                 <Button
                     onClick={() => uploadRef.current?.click()}
                     label={uploadButtonText}
@@ -67,7 +67,7 @@ const SaveUploader: React.FC = () => {
                     onChange={handleFileChange}
                     disabled={isLoading}
                 />
-            </UploadeSaveWrapper>
+            </UploadSaveWrapper>
             {!isWasmReady && <p>Loading WebAssembly module...</p>}
             {isLoading && <p>Parsing save file...</p>}
             {error && <p style={{ color: 'red' }}>Error: {error}</p>}
