@@ -3,6 +3,8 @@ import {
     SilksongChecklistState,
 } from '../types/checklist';
 
+const checked = { checked: true } as const;
+
 const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
     game: 'hollow-knight',
     percent: 0,
@@ -27,9 +29,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Broken Vessel]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Crystal Heart]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Crystal Heart]': checked } },
                 },
             },
             '[Brooding Mawlek]': { reward: { percent: 1 } },
@@ -37,8 +37,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                        items: { '[LOVE_KEY] [Love Key]': { checked: true } },
+                        equipment: { '[Mantis Claw]': checked },
+                        items: { '[LOVE_KEY] [Love Key]': checked },
                     },
                 },
             },
@@ -46,9 +46,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, simpleKeysReq: 1 },
                 requires: {
                     simpleKeys: 1,
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[False Knight]': { reward: { percent: 1, geo: 200 } },
@@ -56,11 +54,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        charms: {
-                            '[Grimmchild] / [Carefree Melody]': {
-                                checked: true,
-                            },
-                        },
+                        charms: { '[Grimmchild] / [Carefree Melody]': checked },
                     },
                 },
             },
@@ -68,73 +62,55 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Hive Knight]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
-                    },
+                    checks: { items: { '[TRAM_PASS] [Tram Pass]': checked } },
                 },
             },
             '[Hornet Protector]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        spells: { '[Vengeful Spirit]': { checked: true } },
-                    },
+                    checks: { spells: { '[Vengeful Spirit]': checked } },
                 },
             },
             '[Hornet Sentinel]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Monarch Wings]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Monarch Wings]': checked } },
                 },
             },
             '[Mantis Lords]': {
                 reward: { percent: 1, geo: 620 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Nosk]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Crystal Heart]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Crystal Heart]': checked } },
                 },
             },
             '[Soul Master]': {
                 reward: { percent: 1, geo: 380 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Traitor Lord]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Shade Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Shade Cloak]': checked } },
                 },
             },
             '[Uumuu]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        equipment: { "[Isma's Tear]": { checked: true } },
-                    },
+                    checks: { equipment: { "[Isma's Tear]": checked } },
                 },
             },
             '[Watcher Knight]': {
                 reward: { percent: 1, geo: 655 },
                 requires: {
-                    checks: {
-                        equipment: { '[Monarch Wings]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Monarch Wings]': checked } },
                 },
             },
         },
@@ -145,9 +121,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         godhome: {
-                            '[Pantheon of the Hallownest] (no percent)': {
-                                checked: true,
-                            },
+                            '[Pantheon of the Hallownest] (no percent)':
+                                checked,
                         },
                     },
                 },
@@ -156,55 +131,41 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: {},
                 requires: {
                     checks: {
-                        godhome: {
-                            '[Pantheon of the Master]': { checked: true },
-                        },
+                        godhome: { '[Pantheon of the Master]': checked },
                     },
                 },
             },
             '[Crystal Guardian]': {
                 reward: { geo: 385 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Enraged Guardian]': {
                 reward: { geo: 550 },
                 requires: {
                     checks: {
-                        optionalBosses: {
-                            '[Crystal Guardian]': { checked: true },
-                        },
-                        equipment: { '[Monarch Wings]': { checked: true } },
+                        optionalBosses: { '[Crystal Guardian]': checked },
+                        equipment: { '[Monarch Wings]': checked },
                     },
                 },
             },
             '[Flukemarm]': {
                 reward: {},
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             '[God Tamer]': {
                 reward: {},
                 requires: {
-                    checks: {
-                        colosseum: { '[Trial of the Fool]': { checked: true } },
-                    },
+                    checks: { colosseum: { '[Trial of the Fool]': checked } },
                 },
             },
             '[Great Nailsage Sly]': {
                 reward: {},
                 requires: {
-                    checks: {
-                        godhome: {
-                            '[Pantheon of the Sage]': { checked: true },
-                        },
-                    },
+                    checks: { godhome: { '[Pantheon of the Sage]': checked } },
                 },
             },
             '[Hollow Knight]': {
@@ -212,9 +173,9 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         dreamers: {
-                            '[Herra the Beast]': { checked: true },
-                            '[Lurien the Watcher]': { checked: true },
-                            '[Monomon the Teacher]': { checked: true },
+                            '[Herra the Beast]': checked,
+                            '[Lurien the Watcher]': checked,
+                            '[Monomon the Teacher]': checked,
                         },
                     },
                 },
@@ -222,18 +183,14 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Massive Moss Charger]': {
                 reward: { geo: 300 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Oblobbles]': {
                 reward: {},
                 requires: {
                     checks: {
-                        colosseum: {
-                            '[Trial of the Conqueror]': { checked: true },
-                        },
+                        colosseum: { '[Trial of the Conqueror]': checked },
                     },
                 },
             },
@@ -241,9 +198,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: {},
                 requires: {
                     checks: {
-                        godhome: {
-                            '[Pantheon of the Artist]': { checked: true },
-                        },
+                        godhome: { '[Pantheon of the Artist]': checked },
                     },
                 },
             },
@@ -251,9 +206,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: {},
                 requires: {
                     checks: {
-                        godhome: {
-                            '[Pantheon of the Knight]': { checked: true },
-                        },
+                        godhome: { '[Pantheon of the Knight]': checked },
                     },
                 },
             },
@@ -261,13 +214,9 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: {},
                 requires: {
                     checks: {
-                        charms: {
-                            '[Kingsoul] / [Void Heart]': { checked: true },
-                        },
-                        optionalBosses: {
-                            '[Hollow Knight]': { checked: true },
-                        },
-                        dreamNail: { '[Dream Nail]': { checked: true } },
+                        charms: { '[Kingsoul] / [Void Heart]': checked },
+                        optionalBosses: { '[Hollow Knight]': checked },
+                        dreamNail: { '[Dream Nail]': checked },
                     },
                 },
             },
@@ -276,9 +225,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         godhome: {
-                            '[Pantheon of the Hallownest] (no percent)': {
-                                checked: true,
-                            },
+                            '[Pantheon of the Hallownest] (no percent)':
+                                checked,
                         },
                     },
                 },
@@ -287,9 +235,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Vengefly King]': {
                 reward: { geo: 65 },
                 requires: {
-                    checks: {
-                        spells: { '[Vengeful Spirit]': { checked: true } },
-                    },
+                    checks: { spells: { '[Vengeful Spirit]': checked } },
                 },
             },
             '[Winged Nosk]': {
@@ -297,9 +243,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         godhome: {
-                            '[Pantheon of the Hallownest] (no percent)': {
-                                checked: true,
-                            },
+                            '[Pantheon of the Hallownest] (no percent)':
+                                checked,
                         },
                     },
                 },
@@ -308,12 +253,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: {},
                 requires: {
                     checks: {
-                        colosseum: {
-                            '[Trial of the Warrior]': { checked: true },
-                        },
-                        optionalBosses: {
-                            '[Vengefly King]': { checked: true },
-                        },
+                        colosseum: { '[Trial of the Warrior]': checked },
+                        optionalBosses: { '[Vengefly King]': checked },
                     },
                 },
             },
@@ -325,8 +266,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mantis Claw]': { checked: true },
-                            '[Mothwing Cloak]': { checked: true },
+                            '[Mantis Claw]': checked,
+                            '[Mothwing Cloak]': checked,
                         },
                     },
                 },
@@ -335,27 +276,25 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 2 },
                 requires: {
                     checks: {
-                        bosses: { '[Dung Defender]': { checked: true } },
-                        equipment: { '[Crystal Heart]': { checked: true } },
+                        bosses: { '[Dung Defender]': checked },
+                        equipment: { '[Crystal Heart]': checked },
                     },
                 },
             },
             '[Mantis Claw]': {
                 reward: { percent: 2 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Monarch Wings]': {
                 reward: { percent: 2 },
                 requires: {
                     checks: {
-                        bosses: { '[Broken Vessel]': { checked: true } },
+                        bosses: { '[Broken Vessel]': checked },
                         equipment: {
-                            '[Crystal Heart]': { checked: true },
-                            '[Mantis Claw]': { checked: true },
+                            '[Crystal Heart]': checked,
+                            '[Mantis Claw]': checked,
                         },
                     },
                 },
@@ -363,25 +302,21 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Mothwing Cloak]': {
                 reward: { percent: 2 },
                 requires: {
-                    checks: {
-                        bosses: { '[Hornet Protector]': { checked: true } },
-                    },
+                    checks: { bosses: { '[Hornet Protector]': checked } },
                 },
             },
             '[Shade Cloak]': {
                 reward: { percent: 2 },
                 requires: {
-                    checks: {
-                        equipment: { "[King's Brand]": { checked: true } },
-                    },
+                    checks: { equipment: { "[King's Brand]": checked } },
                 },
             },
             "[King's Brand]": {
                 reward: { percent: 2 },
                 requires: {
                     checks: {
-                        bosses: { '[Hornet Sentinel]': { checked: true } },
-                        equipment: { '[Monarch Wings]': { checked: true } },
+                        bosses: { '[Hornet Sentinel]': checked },
+                        equipment: { '[Monarch Wings]': checked },
                     },
                 },
             },
@@ -398,11 +333,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     geo: 800,
                     paleOre: 1,
                     checks: {
-                        nail: {
-                            '[Sharpened Nail](Nail#Upgrades)': {
-                                checked: true,
-                            },
-                        },
+                        nail: { '[Sharpened Nail](Nail#Upgrades)': checked },
                     },
                 },
             },
@@ -412,11 +343,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     geo: 2000,
                     paleOre: 2,
                     checks: {
-                        nail: {
-                            '[Channelled Nail](Nail#Upgrades)': {
-                                checked: true,
-                            },
-                        },
+                        nail: { '[Channelled Nail](Nail#Upgrades)': checked },
                     },
                 },
             },
@@ -426,9 +353,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     geo: 4000,
                     paleOre: 3,
                     checks: {
-                        nail: {
-                            '[Coiled Nail](Nail#Upgrades)': { checked: true },
-                        },
+                        nail: { '[Coiled Nail](Nail#Upgrades)': checked },
                     },
                 },
             },
@@ -438,9 +363,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Dream Nail]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        items: { '[Lumafly Lantern]': { checked: true } },
-                    },
+                    checks: { items: { '[Lumafly Lantern]': checked } },
                 },
             },
             '[Awoken Dream Nail]': {
@@ -448,8 +371,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     essence: 1800,
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                        maskShards: { '[Seer]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
+                        maskShards: { '[Seer]': checked },
                     },
                 },
             },
@@ -457,9 +380,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, essenceReq: [2400] },
                 requires: {
                     essence: 2400,
-                    checks: {
-                        dreamNail: { '[Awoken Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Awoken Dream Nail]': checked } },
                 },
             },
         },
@@ -468,9 +389,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Cyclone Slash]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Dash Slash]': {
@@ -480,9 +399,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Great Slash]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Crystal Heart]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Crystal Heart]': checked } },
                 },
             },
         },
@@ -490,47 +407,41 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
         spells: {
             '[Desolate Dive]': {
                 reward: { percent: 1 },
-                requires: {
-                    checks: { bosses: { '[Soul Master]': { checked: true } } },
-                },
+                requires: { checks: { bosses: { '[Soul Master]': checked } } },
             },
             '[Descending Dark]': {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        items: { '[Lumafly Lantern]': { checked: true } },
+                        items: { '[Lumafly Lantern]': checked },
+                        spells: { '[Desolate Dive]': checked },
                     },
                 },
             },
             '[Howling Wraiths]': {
                 reward: { percent: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Abyss Shriek]': {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        equipment: { "[King's Brand]": { checked: true } },
+                        equipment: { "[King's Brand]": checked },
+                        spells: { '[Howling Wraiths]': checked },
                     },
                 },
             },
             '[Vengeful Spirit]': {
                 reward: { percent: 1 },
-                requires: {
-                    checks: { bosses: { '[False Knight]': { checked: true } } },
-                },
+                requires: { checks: { bosses: { '[False Knight]': checked } } },
             },
             '[Shade Soul]': {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        items: {
-                            '[ELEGANT_KEY] [Elegant Key]': { checked: true },
-                        },
+                        items: { '[ELEGANT_KEY] [Elegant Key]': checked },
                     },
                 },
             },
@@ -558,9 +469,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Found at the very end of the [Ancestral Mound], after killing the [Elder Baldur].',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        spells: { '[Vengeful Spirit]': { checked: true } },
-                    },
+                    checks: { spells: { '[Vengeful Spirit]': checked } },
                 },
             },
             '[Shaman Stone]': {
@@ -569,9 +478,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, charms: 1, geoReq: 220 },
                 requires: {
                     geo: 220,
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Soul Eater]': {
@@ -579,9 +486,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Found to the east side of the [Crypts](Resting Grounds#Crypts).',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             '[Dashmaster]': {
@@ -589,9 +494,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Found beneath a statue below the [Mantis Village] in the [Fungal Wastes], near the entrance to the [Royal Waterways].',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Sprintmaster]': {
@@ -602,9 +505,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     geo: 400,
                     checks: {
                         items: {
-                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
-                                checked: true,
-                            },
+                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": checked,
                         },
                     },
                 },
@@ -644,9 +545,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'A secret room on the top of the [Soul Sanctum], just before fighting [Soul Master].',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Steady Body]': {
@@ -655,9 +554,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, charms: 1, geoReq: 120 },
                 requires: {
                     geo: 120,
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Heavy Blow]': {
@@ -668,9 +565,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     geo: 350,
                     checks: {
                         items: {
-                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
-                                checked: true,
-                            },
+                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": checked,
                         },
                     },
                 },
@@ -680,9 +575,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Located in [Kingdom\'s Edge], on a massive anvil in a hidden room in front of a massive corpse known as an "[Ancient Nailsmith]".',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             '[Longnail]': {
@@ -691,18 +584,14 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, charms: 1, geoReq: 300 },
                 requires: {
                     geo: 300,
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Mark of Pride]': {
                 description:
                     'In the [Mantis Village], in a chest in a room northeast of the [Mantis Lords] arena.',
                 reward: { percent: 1, charms: 1 },
-                requires: {
-                    checks: { bosses: { '[Mantis Lords]': { checked: true } } },
-                },
+                requires: { checks: { bosses: { '[Mantis Lords]': checked } } },
             },
             '[Fury of the Fallen]': {
                 description:
@@ -714,9 +603,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Found in [Greenpath] in a maze of thorns featuring [Charged Lumaflies].',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Baldur Shell]': {
@@ -724,9 +611,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Found in the southwest portion of the [Howling Cliffs], where there is a chest that drops only [GEO] 1.',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Flukenest]': {
@@ -735,8 +620,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, charms: 1 },
                 requires: {
                     checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                        optionalBosses: { '[Flukemarm]': { checked: true } },
+                        spells: { '[Desolate Dive]': checked },
+                        optionalBosses: { '[Flukemarm]': checked },
                     },
                 },
             },
@@ -745,9 +630,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Reward from defeating [Dung Defender] in the [Royal Waterways].',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        bosses: { '[Dung Defender]': { checked: true } },
-                    },
+                    checks: { bosses: { '[Dung Defender]': checked } },
                 },
             },
             '[Glowing Womb]': {
@@ -755,9 +638,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Found in the [Aspid Nest](Forgotten Crossroads#Aspid Nest) after completing [Aspid] arena.',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Crystal Heart]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Crystal Heart]': checked } },
                 },
             },
             '[Quick Focus]': {
@@ -766,9 +647,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, charms: 1, geoReq: 800 },
                 requires: {
                     geo: 800,
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Deep Focus]': {
@@ -776,9 +655,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Found in [Crystal Peak] in a hidden cave made entirely of crystals.',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Crystal Heart]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Crystal Heart]': checked } },
                 },
             },
             '[Lifeblood Heart]': {
@@ -787,9 +664,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, charms: 1, geoReq: 250 },
                 requires: {
                     geo: 250,
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Lifeblood Core]': {
@@ -798,12 +673,10 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, charms: 1 },
                 requires: {
                     checks: {
-                        equipment: { "[King's Brand]": { checked: true } },
+                        equipment: { "[King's Brand]": checked },
                         charms: {
-                            "[Joni's Blessing]": { checked: true },
-                            '[Fragile Heart] / [Unbreakable Heart]': {
-                                checked: true,
-                            },
+                            "[Joni's Blessing]": checked,
+                            '[Fragile Heart] / [Unbreakable Heart]': checked,
                         },
                     },
                     maskShards: 8,
@@ -815,8 +688,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, charms: 1 },
                 requires: {
                     checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                        items: { '[Lumafly Lantern]': { checked: true } },
+                        equipment: { '[Mantis Claw]': checked },
+                        items: { '[Lumafly Lantern]': checked },
                     },
                 },
             },
@@ -826,8 +699,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, charms: 1 },
                 requires: {
                     checks: {
-                        bosses: { '[Hive Knight]': { checked: true } },
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        bosses: { '[Hive Knight]': checked },
+                        items: { '[TRAM_PASS] [Tram Pass]': checked },
                     },
                 },
             },
@@ -836,9 +709,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     "Found in the [Fungal Wastes] near a pool of acid, close to the entrances to the Queen's Gardens and Deepnest.",
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Sharp Shadow]': {
@@ -846,18 +717,14 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Located in [Deepnest], southeast of the Hot Spring behind a [Shade Gate].',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Shade Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Shade Cloak]': checked } },
                 },
             },
             '[Shape of Unn]': {
                 description: 'Acquired from [Unn] beneath the [Lake of Unn].',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        equipment: { "[Isma's Tear]": { checked: true } },
-                    },
+                    checks: { equipment: { "[Isma's Tear]": checked } },
                 },
             },
             "[Nailmaster's Glory]": {
@@ -867,9 +734,9 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         nailArts: {
-                            '[Cyclone Slash]': { checked: true },
-                            '[Dash Slash]': { checked: true },
-                            '[Great Slash]': { checked: true },
+                            '[Cyclone Slash]': checked,
+                            '[Dash Slash]': checked,
+                            '[Great Slash]': checked,
                         },
                     },
                 },
@@ -878,9 +745,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 description: "Found in the upper part of [Weavers' Den].",
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Dream Wielder]': {
@@ -891,9 +756,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     essence: 500,
                     checks: {
                         items: {
-                            '[PALE_ORE] [Pale Ore] awarded by the [Seer]': {
-                                checked: true,
-                            },
+                            '[PALE_ORE] [Pale Ore] awarded by the [Seer]':
+                                checked,
                         },
                     },
                 },
@@ -903,9 +767,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     "Found in a room in the [Resting Grounds], below [Seer]'s room.",
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Grimmchild] / [Carefree Melody]': {
@@ -914,9 +776,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'After banishing the Grimm Troupe, the [Carefree Melody] charm can be acquired from [Nymm] by listening to him in [Dirtmouth].',
                 reward: { percent: 1, charms: 1 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Kingsoul] / [Void Heart]': {
@@ -926,9 +786,9 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1, charms: 1 },
                 requires: {
                     checks: {
-                        bosses: { '[Traitor Lord]': { checked: true } },
-                        equipment: { '[Monarch Wings]': { checked: true } },
-                        dreamNail: { '[Awoken Dream Nail]': { checked: true } },
+                        bosses: { '[Traitor Lord]': checked },
+                        equipment: { '[Monarch Wings]': checked },
+                        dreamNail: { '[Awoken Dream Nail]': checked },
                     },
                 },
             },
@@ -945,7 +805,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { maskShards: 1, geoReq: 500 },
                 requires: {
                     geo: 500,
-                    checks: { maskShards: { '[Sly] #1': { checked: true } } },
+                    checks: { maskShards: { '[Sly] #1': checked } },
                 },
             },
             '[Sly] #3': {
@@ -954,11 +814,9 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     geo: 800,
                     checks: {
-                        maskShards: { '[Sly] #2': { checked: true } },
+                        maskShards: { '[Sly] #2': checked },
                         items: {
-                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
-                                checked: true,
-                            },
+                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": checked,
                         },
                     },
                 },
@@ -969,11 +827,9 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     geo: 1500,
                     checks: {
-                        maskShards: { '[Sly] #3': { checked: true } },
+                        maskShards: { '[Sly] #3': checked },
                         items: {
-                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
-                                checked: true,
-                            },
+                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": checked,
                         },
                     },
                 },
@@ -982,9 +838,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 description: 'Reward for defeating [Brooding Mawlek].',
                 reward: { maskShards: 1 },
                 requires: {
-                    checks: {
-                        bosses: { '[Brooding Mawlek]': { checked: true } },
-                    },
+                    checks: { bosses: { '[Brooding Mawlek]': checked } },
                 },
             },
             '[Grubfather]': {
@@ -997,18 +851,14 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Behind a gauntlet of [Goams] in [Forgotten Crossroads].',
                 reward: { maskShards: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Monarch Wings]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Monarch Wings]': checked } },
                 },
             },
             "[Queen's Station]": {
                 description: "Near east side of the [Queen's Station].",
                 reward: { maskShards: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             "[Bretta]'s house": {
@@ -1017,8 +867,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mothwing Cloak]': { checked: true },
-                            '[Mantis Claw]': { checked: true },
+                            '[Mothwing Cloak]': checked,
+                            '[Mantis Claw]': checked,
                         },
                     },
                 },
@@ -1026,9 +876,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Stone Sanctuary]': {
                 reward: { maskShards: 1 },
                 requires: {
-                    checks: {
-                        items: { '[Lumafly Lantern]': { checked: true } },
-                    },
+                    checks: { items: { '[Lumafly Lantern]': checked } },
                 },
             },
             '[Royal Waterways]': {
@@ -1040,19 +888,15 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Deepnest] from [Fungal Core]': {
                 reward: { maskShards: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Monarch Wings]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Monarch Wings]': checked } },
                 },
             },
             '[Enraged Guardian]': {
                 reward: { maskShards: 1 },
                 requires: {
                     checks: {
-                        equipment: { '[Monarch Wings]': { checked: true } },
-                        optionalBosses: {
-                            '[Enraged Guardian]': { checked: true },
-                        },
+                        equipment: { '[Monarch Wings]': checked },
+                        optionalBosses: { '[Enraged Guardian]': checked },
                     },
                 },
             },
@@ -1061,9 +905,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'Requires baiting a [Hive Guardian] into breaking a wall.',
                 reward: { maskShards: 1 },
                 requires: {
-                    checks: {
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
-                    },
+                    checks: { items: { '[TRAM_PASS] [Tram Pass]': checked } },
                 },
             },
             '[Seer]': {
@@ -1073,9 +915,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     essence: 1500,
                     checks: {
                         relics: {
-                            '[ARCANE_EGG] [Arcane Egg] awarded by the [Seer]': {
-                                checked: true,
-                            },
+                            '[ARCANE_EGG] [Arcane Egg] awarded by the [Seer]':
+                                checked,
                         },
                     },
                 },
@@ -1085,8 +926,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { maskShards: 1 },
                 requires: {
                     checks: {
-                        items: { '[Delicate Flower]': { checked: true } },
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
+                        items: { '[Delicate Flower]': checked },
+                        equipment: { '[Mothwing Cloak]': checked },
                     },
                 },
             },
@@ -1104,11 +945,9 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     geo: 900,
                     checks: {
-                        vesselFragments: { '[Sly] #1': { checked: true } },
+                        vesselFragments: { '[Sly] #1': checked },
                         items: {
-                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
-                                checked: true,
-                            },
+                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": checked,
                         },
                     },
                 },
@@ -1118,9 +957,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     "Near the inaccessible [Queen's Gardens] entrance.",
                 reward: { vesselFragments: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             'Left of the lift in [Forgotten Crossroads]': {
@@ -1132,9 +969,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 description: 'Accessible after completing the arena.',
                 reward: { vesselFragments: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Deepnest]': {
@@ -1148,9 +983,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { vesselFragments: 1, essenceReq: [700] },
                 requires: {
                     essence: 700,
-                    checks: {
-                        charms: { '[Dream Wielder]': { checked: true } },
-                    },
+                    checks: { charms: { '[Dream Wielder]': checked } },
                 },
             },
             '[Ancient Basin] fountain': {
@@ -1165,9 +998,9 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                        items: { '[Lumafly Lantern]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
+                        equipment: { '[Mantis Claw]': checked },
+                        items: { '[Lumafly Lantern]': checked },
                     },
                 },
             },
@@ -1175,8 +1008,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        bosses: { '[Watcher Knight]': { checked: true } },
-                        dreamNail: { '[Dream Nail]': { checked: true } },
+                        bosses: { '[Watcher Knight]': checked },
+                        dreamNail: { '[Dream Nail]': checked },
                     },
                 },
             },
@@ -1184,8 +1017,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        bosses: { '[Uumuu]': { checked: true } },
-                        dreamNail: { '[Dream Nail]': { checked: true } },
+                        bosses: { '[Uumuu]': checked },
+                        dreamNail: { '[Dream Nail]': checked },
                     },
                 },
             },
@@ -1195,69 +1028,51 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Elder Hu]': {
                 reward: { percent: 1, essence: 100 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Galien]': {
                 reward: { percent: 1, essence: 200 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Gorb]': {
                 reward: { percent: 1, essence: 100 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Markoth]': {
                 reward: { percent: 1, essence: 250 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Marmu]': {
                 reward: { percent: 1, essence: 150 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[No Eyes]': {
                 reward: { percent: 1, essence: 200 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Xero]': {
                 reward: { percent: 1, essence: 100 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Nightmare King Grimm] / [Banishment](Grimm Troupe (Quest))': {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                        charms: {
-                            '[Grimmchild] / [Carefree Melody]': {
-                                checked: true,
-                            },
-                        },
+                        dreamNail: { '[Dream Nail]': checked },
+                        charms: { '[Grimmchild] / [Carefree Melody]': checked },
                     },
                 },
             },
@@ -1268,8 +1083,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { essence: 300 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                        bosses: { '[False Knight]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
+                        bosses: { '[False Knight]': checked },
                     },
                 },
             },
@@ -1277,9 +1092,9 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { essence: 300 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                        optionalBosses: { '[Zote]': { checked: true } },
-                        equipment: { '[Monarch Wings]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
+                        optionalBosses: { '[Zote]': checked },
+                        equipment: { '[Monarch Wings]': checked },
                     },
                 },
             },
@@ -1287,8 +1102,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { essence: 400 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                        bosses: { '[Broken Vessel]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
+                        bosses: { '[Broken Vessel]': checked },
                     },
                 },
             },
@@ -1296,8 +1111,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { essence: 300 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                        bosses: { '[Dung Defender]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
+                        bosses: { '[Dung Defender]': checked },
                     },
                 },
             },
@@ -1305,8 +1120,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { essence: 300 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                        bosses: { '[Soul Master]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
+                        bosses: { '[Soul Master]': checked },
                     },
                 },
             },
@@ -1322,10 +1137,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     geo: 450,
                     checks: {
-                        colosseum: {
-                            '[Trial of the Warrior]': { checked: true },
-                        },
-                        optionalBosses: { '[Oblobbles]': { checked: true } },
+                        colosseum: { '[Trial of the Warrior]': checked },
+                        optionalBosses: { '[Oblobbles]': checked },
                     },
                 },
             },
@@ -1334,10 +1147,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     geo: 800,
                     checks: {
-                        colosseum: {
-                            '[Trial of the Conqueror]': { checked: true },
-                        },
-                        optionalBosses: { '[God Tamer]': { checked: true } },
+                        colosseum: { '[Trial of the Conqueror]': checked },
+                        optionalBosses: { '[God Tamer]': checked },
                     },
                 },
             },
@@ -1352,20 +1163,20 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
                         bosses: {
-                            '[Gruz Mother]': { checked: true },
-                            '[False Knight]': { checked: true },
-                            '[Hornet Protector]': { checked: true },
-                            '[Dung Defender]': { checked: true },
-                            '[Brooding Mawlek]': { checked: true },
+                            '[Gruz Mother]': checked,
+                            '[False Knight]': checked,
+                            '[Hornet Protector]': checked,
+                            '[Dung Defender]': checked,
+                            '[Brooding Mawlek]': checked,
                         },
-                        dreamWarriors: { '[Gorb]': { checked: true } },
+                        dreamWarriors: { '[Gorb]': checked },
                         optionalBosses: {
-                            '[Vengefly King]': { checked: true },
-                            '[Massive Moss Charger]': { checked: true },
-                            '[Soul Warrior]': { checked: true },
-                            '[Brothers Oro & Mato]': { checked: true },
+                            '[Vengefly King]': checked,
+                            '[Massive Moss Charger]': checked,
+                            '[Soul Warrior]': checked,
+                            '[Brothers Oro & Mato]': checked,
                         },
                     },
                 },
@@ -1374,25 +1185,23 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
                         bosses: {
-                            '[Soul Master]': { checked: true },
-                            '[Mantis Lords]': { checked: true },
-                            '[Nosk]': { checked: true },
-                            '[Broken Vessel]': { checked: true },
+                            '[Soul Master]': checked,
+                            '[Mantis Lords]': checked,
+                            '[Nosk]': checked,
+                            '[Broken Vessel]': checked,
                         },
-                        colosseum: {
-                            '[Trial of the Conqueror]': { checked: true },
-                        },
+                        colosseum: { '[Trial of the Conqueror]': checked },
                         dreamWarriors: {
-                            '[Xero]': { checked: true },
-                            '[Marmu]': { checked: true },
+                            '[Xero]': checked,
+                            '[Marmu]': checked,
                         },
                         optionalBosses: {
-                            '[Crystal Guardian]': { checked: true },
-                            '[Oblobbles]': { checked: true },
-                            '[Flukemarm]': { checked: true },
-                            '[Paintmaster Sheo]': { checked: true },
+                            '[Crystal Guardian]': checked,
+                            '[Oblobbles]': checked,
+                            '[Flukemarm]': checked,
+                            '[Paintmaster Sheo]': checked,
                         },
                     },
                 },
@@ -1401,25 +1210,22 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { percent: 1 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
                         bosses: {
-                            '[Hive Knight]': { checked: true },
-                            '[The Collector]': { checked: true },
-                            '[Grimm]': { checked: true },
-                            '[Uumuu]': { checked: true },
-                            '[Hornet Sentinel]': { checked: true },
+                            '[Hive Knight]': checked,
+                            '[The Collector]': checked,
+                            '[Grimm]': checked,
+                            '[Uumuu]': checked,
+                            '[Hornet Sentinel]': checked,
                         },
                         dreamWarriors: {
-                            '[Elder Hu]': { checked: true },
-                            '[Galien]': { checked: true },
+                            '[Elder Hu]': checked,
+                            '[Galien]': checked,
                         },
                         dreamBosses: {
-                            // TODO: make optional?
-                            // '[Grey Prince Zote]': { checked: true },
+                            /* TODO: make optional? // '[Grey Prince Zote]': checked, */
                         },
-                        optionalBosses: {
-                            '[Great Nailsage Sly]': { checked: true },
-                        },
+                        optionalBosses: { '[Great Nailsage Sly]': checked },
                     },
                 },
             },
@@ -1428,21 +1234,21 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         godhome: {
-                            '[Pantheon of the Master]': { checked: true },
-                            '[Pantheon of the Artist]': { checked: true },
-                            '[Pantheon of the Sage]': { checked: true },
+                            '[Pantheon of the Master]': checked,
+                            '[Pantheon of the Artist]': checked,
+                            '[Pantheon of the Sage]': checked,
                         },
                         bosses: {
-                            '[Traitor Lord]': { checked: true },
-                            '[Watcher Knight]': { checked: true },
+                            '[Traitor Lord]': checked,
+                            '[Watcher Knight]': checked,
                         },
                         dreamWarriors: {
-                            '[No Eyes]': { checked: true },
-                            '[Markoth]': { checked: true },
+                            '[No Eyes]': checked,
+                            '[Markoth]': checked,
                         },
                         optionalBosses: {
-                            '[Enraged Guardian]': { checked: true },
-                            '[Pure Vessel]': { checked: true },
+                            '[Enraged Guardian]': checked,
+                            '[Pure Vessel]': checked,
                         },
                     },
                 },
@@ -1451,53 +1257,48 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: {},
                 requires: {
                     checks: {
-                        godhome: {
-                            '[Pantheon of the Knight]': { checked: true },
-                        },
-                        charms: {
-                            '[Kingsoul] / [Void Heart]': { checked: true },
-                        },
+                        godhome: { '[Pantheon of the Knight]': checked },
+                        charms: { '[Kingsoul] / [Void Heart]': checked },
                         optionalBosses: {
-                            '[Massive Moss Charger]': { checked: true },
-                            '[Soul Warrior]': { checked: true },
-                            '[Brothers Oro & Mato]': { checked: true },
-                            '[Crystal Guardian]': { checked: true },
-                            '[Oblobbles]': { checked: true },
-                            '[Sisters of Battle]': { checked: true },
-                            '[Flukemarm]': { checked: true },
-                            '[Paintmaster Sheo]': { checked: true },
-                            '[Winged Nosk]': { checked: true },
-                            '[Great Nailsage Sly]': { checked: true },
-                            '[Enraged Guardian]': { checked: true },
-                            '[Pure Vessel]': { checked: true },
+                            '[Massive Moss Charger]': checked,
+                            '[Soul Warrior]': checked,
+                            '[Brothers Oro & Mato]': checked,
+                            '[Crystal Guardian]': checked,
+                            '[Oblobbles]': checked,
+                            '[Sisters of Battle]': checked,
+                            '[Flukemarm]': checked,
+                            '[Paintmaster Sheo]': checked,
+                            '[Winged Nosk]': checked,
+                            '[Great Nailsage Sly]': checked,
+                            '[Enraged Guardian]': checked,
+                            '[Pure Vessel]': checked,
                         },
                         bosses: {
-                            '[Gruz Mother]': { checked: true },
-                            '[Hornet Protector]': { checked: true },
-                            '[Dung Defender]': { checked: true },
-                            '[Brooding Mawlek]': { checked: true },
-                            '[Soul Master]': { checked: true },
-                            '[Broken Vessel]': { checked: true },
-                            '[Hive Knight]': { checked: true },
-                            '[The Collector]': { checked: true },
-                            '[Grimm]': { checked: true },
-                            '[Watcher Knight]': { checked: true },
-                            '[Uumuu]': { checked: true },
-                            '[Hornet Sentinel]': { checked: true },
-                            '[Traitor Lord]': { checked: true },
+                            '[Gruz Mother]': checked,
+                            '[Hornet Protector]': checked,
+                            '[Dung Defender]': checked,
+                            '[Brooding Mawlek]': checked,
+                            '[Soul Master]': checked,
+                            '[Broken Vessel]': checked,
+                            '[Hive Knight]': checked,
+                            '[The Collector]': checked,
+                            '[Grimm]': checked,
+                            '[Watcher Knight]': checked,
+                            '[Uumuu]': checked,
+                            '[Hornet Sentinel]': checked,
+                            '[Traitor Lord]': checked,
                         },
                         dreamWarriors: {
-                            '[Gorb]': { checked: true },
-                            '[Xero]': { checked: true },
-                            '[Marmu]': { checked: true },
-                            '[Galien]': { checked: true },
-                            '[Elder Hu]': { checked: true },
-                            '[No Eyes]': { checked: true },
-                            '[Markoth]': { checked: true },
+                            '[Gorb]': checked,
+                            '[Xero]': checked,
+                            '[Marmu]': checked,
+                            '[Galien]': checked,
+                            '[Elder Hu]': checked,
+                            '[No Eyes]': checked,
+                            '[Markoth]': checked,
                         },
                         dreamBosses: {
-                            // TODO: make optional?
-                            // '[Grey Prince Zote]': { checked: true },
+                            /* TODO: make optional? // '[Grey Prince Zote]': checked, */
                         },
                     },
                 },
@@ -1518,9 +1319,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Forgotten Crossroads] on a ledge': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Greenpath] with a moss block shortcut': { reward: { grubs: 1 } },
@@ -1535,9 +1334,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Fungal Wastes] near [Spore Shroom]': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[City of Tears] on a ledge': { reward: { grubs: 1 } },
@@ -1547,9 +1344,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[City of Tears] in the [Desolate Dive] dive': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             '[City of Tears] under the entrance to the [Tower of Love]': {
@@ -1558,9 +1353,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[City of Tears] room leading to [Watcher Knight]': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Crystal Peak] from [Dirtmouth]': {
@@ -1568,8 +1361,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mantis Claw]': { checked: true },
-                            '[Crystal Heart]': { checked: true },
+                            '[Mantis Claw]': checked,
+                            '[Crystal Heart]': checked,
                         },
                     },
                 },
@@ -1579,8 +1372,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mantis Claw]': { checked: true },
-                            '[Mothwing Cloak]': { checked: true },
+                            '[Mantis Claw]': checked,
+                            '[Mothwing Cloak]': checked,
                         },
                     },
                 },
@@ -1590,8 +1383,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mantis Claw]': { checked: true },
-                            '[Crystal Heart]': { checked: true },
+                            '[Mantis Claw]': checked,
+                            '[Crystal Heart]': checked,
                         },
                     },
                 },
@@ -1599,9 +1392,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             "[Crystal Peak] on the way to [Hallownest's Crown]": {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Crystal Peak] vertical conveyor belts lever': {
@@ -1609,8 +1400,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mantis Claw]': { checked: true },
-                            '[Mothwing Cloak]': { checked: true },
+                            '[Mantis Claw]': checked,
+                            '[Mothwing Cloak]': checked,
                         },
                     },
                 },
@@ -1618,9 +1409,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Crystal Peak] from the top room with presses': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[Crystal Peak] in the [Crystallized Mound]': {
@@ -1628,19 +1417,17 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mantis Claw]': { checked: true },
-                            '[Mothwing Cloak]': { checked: true },
+                            '[Mantis Claw]': checked,
+                            '[Mothwing Cloak]': checked,
                         },
-                        spells: { '[Desolate Dive]': { checked: true } },
+                        spells: { '[Desolate Dive]': checked },
                     },
                 },
             },
             '[Resting Grounds] [Crypts](Resting Grounds#Crypts)': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             '[Royal Waterways] behind a wall near water': {
@@ -1651,51 +1438,41 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Crystal Heart]': { checked: true },
-                            '[Monarch Wings]': { checked: true },
+                            '[Crystal Heart]': checked,
+                            '[Monarch Wings]': checked,
                         },
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        items: { '[TRAM_PASS] [Tram Pass]': checked },
                     },
                 },
             },
             "[Royal Waterways] above [Isma's Tear]": {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { "[Isma's Tear]": { checked: true } },
-                    },
+                    checks: { equipment: { "[Isma's Tear]": checked } },
                 },
             },
             '[Howling Cliffs]': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             "[Kingdom's Edge] under [Oro]'s hut": {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             "[Kingdom's Edge] behind a [Primal Aspid]": {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Fog Canyon]': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Crystal Heart]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Crystal Heart]': checked } },
                 },
             },
             "[Queen's Gardens] under the [Stag] station": {
@@ -1706,9 +1483,9 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mantis Claw]': { checked: true },
-                            '[Mothwing Cloak]': { checked: true },
-                            '[Crystal Heart]': { checked: true },
+                            '[Mantis Claw]': checked,
+                            '[Mothwing Cloak]': checked,
+                            '[Crystal Heart]': checked,
                         },
                     },
                 },
@@ -1716,33 +1493,25 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             "[Queen's Gardens] near [White Lady]": {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Deepnest] among [Grub Mimic]s': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Deepnest] above the spike pit': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Deepnest] on the way to [Nosk]': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Crystal Heart]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Crystal Heart]': checked } },
                 },
             },
             "[Deepnest] near the [Weavers' Den]": {
@@ -1750,8 +1519,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mantis Claw]': { checked: true },
-                            '[Mothwing Cloak]': { checked: true },
+                            '[Mantis Claw]': checked,
+                            '[Mothwing Cloak]': checked,
                         },
                     },
                 },
@@ -1761,8 +1530,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mantis Claw]': { checked: true },
-                            '[Mothwing Cloak]': { checked: true },
+                            '[Mantis Claw]': checked,
+                            '[Mothwing Cloak]': checked,
                         },
                     },
                 },
@@ -1772,8 +1541,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mothwing Cloak]': { checked: true },
-                            '[Monarch Wings]': { checked: true },
+                            '[Mothwing Cloak]': checked,
+                            '[Monarch Wings]': checked,
                         },
                     },
                 },
@@ -1781,18 +1550,16 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Ancient Basin] under [Cloth]': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             '[The Hive] isolated room': {
                 reward: { grubs: 1 },
                 requires: {
                     checks: {
-                        equipment: { "[Isma's Tear]": { checked: true } },
-                        spells: { '[Desolate Dive]': { checked: true } },
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        equipment: { "[Isma's Tear]": checked },
+                        spells: { '[Desolate Dive]': checked },
+                        items: { '[TRAM_PASS] [Tram Pass]': checked },
                     },
                 },
             },
@@ -1801,35 +1568,29 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Crystal Heart]': { checked: true },
-                            '[Monarch Wings]': { checked: true },
+                            '[Crystal Heart]': checked,
+                            '[Monarch Wings]': checked,
                         },
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        items: { '[TRAM_PASS] [Tram Pass]': checked },
                     },
                 },
             },
             '[Tower of Love] #1': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        bosses: { '[The Collector]': { checked: true } },
-                    },
+                    checks: { bosses: { '[The Collector]': checked } },
                 },
             },
             '[Tower of Love] #2': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        bosses: { '[The Collector]': { checked: true } },
-                    },
+                    checks: { bosses: { '[The Collector]': checked } },
                 },
             },
             '[Tower of Love] #3': {
                 reward: { grubs: 1 },
                 requires: {
-                    checks: {
-                        bosses: { '[The Collector]': { checked: true } },
-                    },
+                    checks: { bosses: { '[The Collector]': checked } },
                 },
             },
         },
@@ -1843,9 +1604,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[SIMPLE_KEY] [Simple Key] near [City Storerooms]': {
                 reward: { simpleKeys: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Crystal Heart]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Crystal Heart]': checked } },
                 },
             },
             '[SIMPLE_KEY] [Simple Key] in the [Ancient Basin]': {
@@ -1853,17 +1612,13 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     'In the [Mawlurk] area leading to [Broken Vessel].',
                 reward: { simpleKeys: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Crystal Heart]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Crystal Heart]': checked } },
                 },
             },
             '[SIMPLE_KEY] [Simple Key] behind [Pale Lurker]': {
                 reward: { simpleKeys: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[ELEGANT_KEY] [Elegant Key]': {
@@ -1873,9 +1628,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     geo: 800,
                     checks: {
                         items: {
-                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
-                                checked: true,
-                            },
+                            "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": checked,
                         },
                     },
                 },
@@ -1883,25 +1636,19 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[LOVE_KEY] [Love Key]': {
                 reward: {},
                 requires: {
-                    checks: {
-                        equipment: { "[Isma's Tear]": { checked: true } },
-                    },
+                    checks: { equipment: { "[Isma's Tear]": checked } },
                 },
             },
             "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
                 reward: {},
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[TRAM_PASS] [Tram Pass]': {
                 reward: {},
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[Lumafly Lantern]': {
@@ -1912,17 +1659,13 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[Delicate Flower]': {
                 reward: {},
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             '[PALE_ORE] [Pale Ore] in [Ancient Basin] below [Cloth]': {
                 reward: { paleOre: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[PALE_ORE] [Pale Ore] awarded by the [Seer]': {
@@ -1932,7 +1675,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                     checks: {
                         relics: {
                             '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by the [Seer]':
-                                { checked: true },
+                                checked,
                         },
                     },
                 },
@@ -1940,16 +1683,12 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             "[PALE_ORE] [Pale Ore] on the [Hallownest's Crown]": {
                 reward: { paleOre: 1 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[PALE_ORE] [Pale Ore] behind [Nosk]s lair': {
                 reward: { paleOre: 1 },
-                requires: {
-                    checks: { bosses: { '[Nosk]': { checked: true } } },
-                },
+                requires: { checks: { bosses: { '[Nosk]': checked } } },
             },
             '[PALE_ORE] [Pale Ore] awarded by [Grubfather]': {
                 reward: { paleOre: 1 },
@@ -1959,9 +1698,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { paleOre: 1 },
                 requires: {
                     checks: {
-                        colosseum: {
-                            '[Trial of the Conqueror]': { checked: true },
-                        },
+                        colosseum: { '[Trial of the Conqueror]': checked },
                     },
                 },
             },
@@ -1984,34 +1721,26 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             '[CHARM_NOTCH] [Charm Notch] in [Fog Canyon]': {
                 reward: {},
                 requires: {
-                    checks: {
-                        equipment: { "[Isma's Tear]": { checked: true } },
-                    },
+                    checks: { equipment: { "[Isma's Tear]": checked } },
                 },
             },
             '[CHARM_NOTCH] [Charm Notch] in [Fungal Wastes]': {
                 reward: {},
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[CHARM_NOTCH] [Charm Notch] from [Colosseum of Fools]': {
                 reward: {},
                 requires: {
                     checks: {
-                        colosseum: {
-                            '[Trial of the Warrior]': { checked: true },
-                        },
+                        colosseum: { '[Trial of the Warrior]': checked },
                     },
                 },
             },
             '[CHARM_NOTCH] [Charm Notch] from [Grimm]': {
                 reward: {},
-                requires: {
-                    checks: { bosses: { '[Grimm]': { checked: true } } },
-                },
+                requires: { checks: { bosses: { '[Grimm]': checked } } },
             },
         },
 
@@ -2026,9 +1755,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 {
                     reward: { geo: 200 },
                     requires: {
-                        checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
-                        },
+                        checks: { equipment: { '[Mantis Claw]': checked } },
                     },
                 },
             "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [City Storerooms]": {
@@ -2043,17 +1770,13 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Howling Cliffs]": {
                 reward: { geo: 200 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Crystal Peak]": {
                 reward: { geo: 200 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             "[WANDERER'S_JOURNAL] [Wanderer's Journal] in [Crypts](Resting Grounds#Crypts)":
@@ -2067,26 +1790,20 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 {
                     reward: { geo: 200 },
                     requires: {
-                        checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
-                        },
+                        checks: { equipment: { '[Mantis Claw]': checked } },
                     },
                 },
             "[WANDERER'S_JOURNAL] [Wanderer's Journal] next to the [Cast-Off Shell] [Bench]":
                 {
                     reward: { geo: 200 },
                     requires: {
-                        checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
-                        },
+                        checks: { equipment: { '[Mantis Claw]': checked } },
                     },
                 },
             "[WANDERER'S_JOURNAL] [Wanderer's Journal] near [Markoth]": {
                 reward: { geo: 200 },
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by [Grubfather]': {
@@ -2097,17 +1814,13 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 {
                     reward: { geo: 450 },
                     requires: {
-                        checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
-                        },
+                        checks: { equipment: { '[Mantis Claw]': checked } },
                     },
                 },
             '[HALLOWNEST_SEAL] [Hallownest Seal] near [Thorns of Agony]': {
                 reward: { geo: 450 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             "[HALLOWNEST_SEAL] [Hallownest Seal] near [Queen's Station]": {
@@ -2115,42 +1828,32 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             },
             '[HALLOWNEST_SEAL] [Hallownest Seal] in [Mantis Village]': {
                 reward: { geo: 450 },
-                requires: {
-                    checks: { bosses: { '[Mantis Lords]': { checked: true } } },
-                },
+                requires: { checks: { bosses: { '[Mantis Lords]': checked } } },
             },
             '[HALLOWNEST_SEAL] [Hallownest Seal] at the [Willoh]': {
                 reward: { geo: 450 },
                 requires: {
-                    checks: {
-                        equipment: { '[Monarch Wings]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Monarch Wings]': checked } },
                 },
             },
             '[HALLOWNEST_SEAL] [Hallownest Seal] near [Overgrown Mound]': {
                 reward: { geo: 450 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             '[HALLOWNEST_SEAL] [Hallownest Seal] in [Forgotten Crossroads] in [Fog Canyon] entrance':
                 {
                     reward: { geo: 450 },
                     requires: {
-                        checks: {
-                            equipment: { "[Isma's Tear]": { checked: true } },
-                        },
+                        checks: { equipment: { "[Isma's Tear]": checked } },
                     },
                 },
             '[HALLOWNEST_SEAL] [Hallownest Seal] in [Crypts](Resting Grounds#Crypts)':
                 {
                     reward: { geo: 450 },
                     requires: {
-                        checks: {
-                            spells: { '[Desolate Dive]': { checked: true } },
-                        },
+                        checks: { spells: { '[Desolate Dive]': checked } },
                     },
                 },
             '[HALLOWNEST_SEAL] [Hallownest Seal] awarded by the [Seer]': {
@@ -2164,50 +1867,38 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 {
                     reward: { geo: 450 },
                     requires: {
-                        checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
-                        },
+                        checks: { equipment: { '[Mantis Claw]': checked } },
                     },
                 },
             '[HALLOWNEST_SEAL] [Hallownest Seal] near [Soul Master]': {
                 reward: { geo: 450 },
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             '[HALLOWNEST_SEAL] [Hallownest Seal] behind [Watcher Knight]': {
                 reward: { geo: 450 },
                 requires: {
-                    checks: {
-                        bosses: { '[Watcher Knight]': { checked: true } },
-                    },
+                    checks: { bosses: { '[Watcher Knight]': checked } },
                 },
             },
             "[HALLOWNEST_SEAL] [Hallownest Seal] in [Beast's Den]": {
                 reward: { geo: 450 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[HALLOWNEST_SEAL] [Hallownest Seal] in [Deepnest] near [Mantis Lords]':
                 {
                     reward: { geo: 450 },
                     requires: {
-                        checks: {
-                            equipment: { '[Mantis Claw]': { checked: true } },
-                        },
+                        checks: { equipment: { '[Mantis Claw]': checked } },
                     },
                 },
             "[HALLOWNEST_SEAL] [Hallownest Seal] in [Queen's Gardens]": {
                 reward: { geo: 450 },
                 requires: {
-                    checks: {
-                        equipment: { '[Monarch Wings]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Monarch Wings]': checked } },
                 },
             },
             "[KING'S_IDOL] [King's Idol] awarded by [Grubfather]": {
@@ -2217,42 +1908,32 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             "[KING'S_IDOL] [King's Idol] in [Crystal Peak]": {
                 reward: { geo: 800 },
                 requires: {
-                    checks: {
-                        equipment: { '[Monarch Wings]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Monarch Wings]': checked } },
                 },
             },
             "[KING'S_IDOL] [King's Idol] in [Spirits' Glade]": {
                 reward: { geo: 800, essenceReq: [200] },
                 requires: {
                     essence: 200,
-                    checks: {
-                        equipment: { '[Mothwing Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             "[KING'S_IDOL] [King's Idol] in [Dung Defender]'s secret room": {
                 reward: { geo: 800 },
                 requires: {
-                    checks: {
-                        spells: { '[Desolate Dive]': { checked: true } },
-                    },
+                    checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             "[KING'S_IDOL] [King's Idol] in [Howling Cliffs]": {
                 reward: { geo: 800 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             "[KING'S_IDOL] [King's Idol] under [Colosseum of Fools]": {
                 reward: { geo: 800 },
                 requires: {
-                    checks: {
-                        equipment: { '[Mantis Claw]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Mantis Claw]': checked } },
                 },
             },
             "[KING'S_IDOL] [King's Idol] near [Pale Lurker]": {
@@ -2260,8 +1941,8 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            '[Mantis Claw]': { checked: true },
-                            "[Isma's Tear]": { checked: true },
+                            '[Mantis Claw]': checked,
+                            "[Isma's Tear]": checked,
                         },
                     },
                 },
@@ -2274,28 +1955,24 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: {
                     checks: {
                         equipment: {
-                            "[King's Brand]": { checked: true },
-                            '[Crystal Heart]': { checked: true },
+                            "[King's Brand]": checked,
+                            '[Crystal Heart]': checked,
                         },
-                        charms: { "[Joni's Blessing]": { checked: true } },
+                        charms: { "[Joni's Blessing]": checked },
                     },
                 },
             },
             '[ARCANE_EGG] [Arcane Egg] near [Shade Cloak]': {
                 reward: { geo: 1200 },
                 requires: {
-                    checks: {
-                        equipment: { '[Shade Cloak]': { checked: true } },
-                    },
+                    checks: { equipment: { '[Shade Cloak]': checked } },
                 },
             },
             '[ARCANE_EGG] [Arcane Egg] in [Birthplace]': {
                 reward: { geo: 1200 },
                 requires: {
                     checks: {
-                        charms: {
-                            '[Kingsoul] / [Void Heart]': { checked: true },
-                        },
+                        charms: { '[Kingsoul] / [Void Heart]': checked },
                     },
                 },
             },
@@ -2303,9 +1980,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { geo: 1200, essenceReq: [1200] },
                 requires: {
                     essence: 1200,
-                    checks: {
-                        vesselFragments: { '[Seer]': { checked: true } },
-                    },
+                    checks: { vesselFragments: { '[Seer]': checked } },
                 },
             },
         },
@@ -2315,122 +1990,96 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 reward: { essence: 42 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                        spells: { '[Vengeful Spirit]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
+                        spells: { '[Vengeful Spirit]': checked },
                     },
                 },
             },
             '[City of Tears]': {
                 reward: { essence: 28 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Crystal Peak]': {
                 reward: { essence: 21 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Deepnest]': {
                 reward: { essence: 45 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Forgotten Crossroads]': {
                 reward: { essence: 29 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Fungal Wastes] (near [Fog Canyon])': {
                 reward: { essence: 20 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Fungal Wastes] (above [Mantis Village])': {
                 reward: { essence: 18 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Greenpath]': {
                 reward: { essence: 44 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[The Hive]': {
                 reward: { essence: 20 },
                 requires: {
                     checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                        items: { '[TRAM_PASS] [Tram Pass]': { checked: true } },
+                        dreamNail: { '[Dream Nail]': checked },
+                        items: { '[TRAM_PASS] [Tram Pass]': checked },
                     },
                 },
             },
             '[Howling Cliffs]': {
                 reward: { essence: 46 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             "[Kingdom's Edge]": {
                 reward: { essence: 51 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             "[Queen's Gardens]": {
                 reward: { essence: 29 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Resting Grounds]': {
                 reward: { essence: 20 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             '[Royal Waterways]': {
                 reward: { essence: 35 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
             "[Spirits' Glade]": {
                 reward: { essence: 34 },
                 requires: {
-                    checks: {
-                        dreamNail: { '[Dream Nail]': { checked: true } },
-                    },
+                    checks: { dreamNail: { '[Dream Nail]': checked } },
                 },
             },
         },

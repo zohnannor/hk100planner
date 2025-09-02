@@ -303,9 +303,9 @@ impl Parser {
             ]);
 
             let dreamers = to_map(&[
-                ("[Herra the Beast]", pd.lurien_defeated),
-                ("[Lurien the Watcher]", pd.monomon_defeated),
-                ("[Monomon the Teacher]", pd.hegemol_defeated),
+                ("[Herra the Beast]", pd.hegemol_defeated),
+                ("[Lurien the Watcher]", pd.lurien_defeated),
+                ("[Monomon the Teacher]", pd.monomon_defeated),
             ]);
 
             #[allow(clippy::float_cmp)]
