@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useIntersectionObserver, useToggle } from 'usehooks-ts';
 
@@ -148,6 +148,18 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
 };
 
 const SectionColumns = <Game extends GameKey>({ game }: { game: Game }) => {
+    const setTooltipText = useUiStore(state => state.setTooltipText);
+    const openTooltip = useUiStore(state => state.openTooltip);
+
+    // TODO: remove this once Silksong part is done
+    useEffect(() => {
+        if (game === 'silksong') {
+            setTooltipText(`NOTE: THIS SECTION IS WIP
+            EXPECT MORE ITEMS TO BE ADDED, ALONGSIDE WITH SAVEFILE SUPPORT`);
+            openTooltip();
+        }
+    }, [game]);
+
     const checksValidation = useUiStore(state => state.checksValidation);
 
     const validateChecks = useChecklistStore(game)(
@@ -166,25 +178,21 @@ const SectionColumns = <Game extends GameKey>({ game }: { game: Game }) => {
     >;
     const sections = DISTRIBUTED_SECTIONS[game] as SectionNames<Game>[][];
 
-    return (
-        <>
-            {sections.map(sectionColumn => (
-                <SectionsColumn key={sectionColumn.toString()}>
-                    {sectionColumn.map(sectionName => {
-                        return (
-                            <Section<Game>
-                                game={game}
-                                key={sectionName}
-                                title={sectionTitles[sectionName]}
-                                sectionName={sectionName}
-                                errors={errors[game]}
-                            />
-                        );
-                    })}
-                </SectionsColumn>
-            ))}
-        </>
-    );
+    return sections.map(sectionColumn => (
+        <SectionsColumn key={sectionColumn.toString()}>
+            {sectionColumn.map(sectionName => {
+                return (
+                    <Section<Game>
+                        game={game}
+                        key={sectionName}
+                        title={sectionTitles[sectionName]}
+                        sectionName={sectionName}
+                        errors={errors[game]}
+                    />
+                );
+            })}
+        </SectionsColumn>
+    ));
 };
 
 const App = () => {
