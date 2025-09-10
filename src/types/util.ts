@@ -24,3 +24,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
     U[keyof U];
 
 export type ExactlyOne<T> = AtMostOne<T> & AtLeastOne<T>;
+
+export type ExtractNumberKeys<T> = {
+    [K in keyof T]: T[K] extends number ? K : never;
+}[keyof T];

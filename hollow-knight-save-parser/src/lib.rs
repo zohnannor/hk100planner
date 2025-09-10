@@ -94,6 +94,9 @@ impl Parser {
         let data: GameDeser =
             serde_json::from_slice(&v).map_err(|e| error(&format!("JSON parse error: {e}")))?;
 
+        let to_map =
+            |entries: &[(&str, bool)]| entries.iter().map(|&(k, v)| (k.to_owned(), v)).collect();
+
         if let GameDeser::HollowKnight(data) = data {
             let pd = &data.player_data;
 
@@ -109,10 +112,6 @@ impl Parser {
             let vessel_frag_collected = |name| scene_activated(name, "Vessel Fragment");
             let grub_freed = |name| scene_activated(name, "Grub Bottle");
             let whispering_root = |name| scene_activated(name, "Dream Plant");
-
-            let to_map = |entries: &[(&str, bool)]| {
-                entries.iter().map(|&(k, v)| (k.to_owned(), v)).collect()
-            };
 
             let bosses = to_map(&[
                 ("[Broken Vessel]", pd.killed_infected_knight),
@@ -817,7 +816,210 @@ impl Parser {
                 whispering_roots,
             });
         } else if let GameDeser::Silksong(data) = data {
-            unimplemented!("{data:#?}");
+            let pd = &data.player_data;
+
+            let scene_activated = |name, id| {
+                data.scene_data
+                    .persistent_bools
+                    .serialized_list
+                    .iter()
+                    .find(|x| x.scene_name == name && x.id == id)
+                    .is_some_and(|x| x.value)
+            };
+
+            let has_tool = |name| {
+                pd.tools
+                    .saved_data
+                    .iter()
+                    .find(|x| x.name == name)
+                    .is_some_and(|x| x.data.is_unlocked)
+            };
+
+            let mask_shard_collected = |name| scene_activated(name, "Heart Piece");
+            let silk_spool_collected = |name| scene_activated(name, "Silk Spool");
+
+            let bosses = to_map(&[("[Bell Beast]", pd.defeated_bell_beast)]);
+
+            let silk_skills = to_map(&[
+                ("[Silkspear]", pd.has_needle_throw),
+                ("[Thread Storm]", pd.has_thread_sphere),
+                ("[Cross Stitch]", pd.has_parry),
+                ("[Sharpdart]", pd.has_silk_charge),
+            ]);
+
+            let tools = to_map(&[
+                ("[Shard Pendant]", has_tool("Bone Necklace")),
+                ("[Compass]", has_tool("Compass")),
+                ("[Druid's Eye]", has_tool("Mosscreep Tool 1")),
+                ("[Straight Pin]", has_tool("Straight Pin")),
+                ("[Warding Bell]", has_tool("Bell Bind")),
+                ("[Treefold Pin]", has_tool("Tri Pin")),
+                ("[Flea Brew]", has_tool("Flea Brew")),
+                ("[Sting Shards]", has_tool("Sting Shard")),
+                ("[Longpin]", has_tool("Harpoon")),
+                ("[Pollip Pouch]", has_tool("Poison Pouch")),
+                ("[Weavelight]", has_tool("White Ring")),
+                ("[Dead Bug's Purse]", has_tool("Dead Mans Purse")),
+                ("[Plasmium Phial]", has_tool("Lifeblood Syringe")),
+                ("[Silkspeed Anklets]", has_tool("Sprintmaster")),
+                ("[Pimpilo]", has_tool("Pimpilo")), // Pimpillo?
+                ("[Barbed Bracelet]", has_tool("Barbed Wire")),
+                ("[Tack TODO]", has_tool("Tack")),
+                ("[Flintslate]", has_tool("Flintstone")),
+                ("[WebShot Forge TODO]", has_tool("WebShot Forge")),
+                ("[Screw Attack TODO]", has_tool("Screw Attack")),
+                ("[Quickbind TODO]", has_tool("Quickbind")),
+                ("[Cogwork Saw TODO]", has_tool("Cogwork Saw")),
+                ("[Scuttlebrace TODO]", has_tool("Scuttlebrace")),
+                ("[Revenge Crystal TODO]", has_tool("Revenge Crystal")),
+            ]);
+
+            let ancestral_arts = to_map(&[
+                ("[Swift Step]", pd.has_dash),
+                ("[Cling Grip]", pd.has_walljump),
+                ("[Needolin]", pd.has_needolin),
+                ("[Needolin]", pd.has_needolin),
+                ("[Clawline]", pd.has_harpoon_dash),
+            ]);
+
+            let nail_arts_todo = to_map(&[("[Charge Slash]", pd.has_charge_slash)]);
+
+            let crests = to_map(&[
+                ("[Reaper]", pd.completed_memory_reaper),
+                ("[Beast]", pd.completed_memory_beast),
+                ("[Wanderer]", pd.completed_memory_wanderer),
+            ]);
+
+            let mask_shards = to_map(&[
+                // TODO
+                ("[Mask Shard #1 Crawl_02]", mask_shard_collected("Crawl_02")),
+                ("[Mask Shard #2 Dock_08]", mask_shard_collected("Dock_08")),
+                (
+                    "[Mask Shard #3 Bone_East_20]",
+                    mask_shard_collected("Bone_East_20"),
+                ),
+                (
+                    "[Mask Shard #4 Shellwood_14]",
+                    mask_shard_collected("Shellwood_14"),
+                ),
+                (
+                    "[Mask Shard #5 Weave_05b]",
+                    mask_shard_collected("Weave_05b"),
+                ),
+                ("[Mask Shard #6 Song_09]", mask_shard_collected("Song_09")),
+                (
+                    "[Mask Shard #7 Bonebottom Shop]",
+                    pd.purchased_bonebottom_heart_piece,
+                ),
+                (
+                    "[Mask Shard #8 Songclave Shop]",
+                    pd.merchant_enclave_shell_fragment,
+                ),
+                ("[Mask Shard #9 Peak_04c]", mask_shard_collected("Peak_04c")),
+                (
+                    "[Mask Shard #10 Bone_East_LavaChallenge]",
+                    scene_activated("Bone_East_LavaChallenge", "Heart Piece (1)"),
+                ),
+                (
+                    "[Mask Shard #11 Coral_19b]",
+                    mask_shard_collected("Coral_19b"),
+                ),
+                (
+                    "[Mask Shard #12 Shadow_13]",
+                    mask_shard_collected("Shadow_13"),
+                ),
+            ]);
+
+            let needle = to_map(&[(
+                "[Sharpened Needle](Needle#Upgrades)",
+                pd.nail_upgrades > 0.0,
+            )]);
+
+            let silk_spool = to_map(&[
+                // TODO
+                (
+                    "[Silk Spool Part #1 Bone_East_13]",
+                    silk_spool_collected("Bone_East_13"),
+                ),
+                (
+                    "[Silk Spool Part #2 Greymoor_02]",
+                    silk_spool_collected("Greymoor_02"),
+                ),
+                (
+                    "[Silk Spool Part #3 Weave_11]",
+                    silk_spool_collected("Weave_11"),
+                ),
+                (
+                    "[Silk Spool Part #4 Peak_01]",
+                    silk_spool_collected("Peak_01"),
+                ),
+                (
+                    "[Silk Spool Part #5 Bellhart Shop]",
+                    pd.purchased_belltown_spool_segment,
+                ),
+                (
+                    "[Silk Spool Part #6 Song_19_entrance]",
+                    silk_spool_collected("Song_19_entrance"),
+                ),
+                (
+                    "[Silk Spool Part #7 Under_10]",
+                    silk_spool_collected("Under_10"),
+                ),
+                (
+                    "[Silk Spool Part #8 Cog_07]",
+                    silk_spool_collected("Cog_07"),
+                ),
+                (
+                    "[Silk Spool Part #9 Library_11b]",
+                    silk_spool_collected("Library_11b"),
+                ),
+                (
+                    "[Silk Spool Part #10 Ward_01]",
+                    silk_spool_collected("Ward_01"),
+                ),
+                (
+                    "[Silk Spool Part #11 Mooshka]",
+                    pd.met_caravan_troupe_leader_judge,
+                ),
+            ]);
+
+            let tool_pouch = to_map(&[
+                // TODO: add tool pouch upgrades
+                ("Tool Pouch TODO", true),
+                ("Tool Kit TODO", true),
+                ("Tool Kit TODO 2", pd.purchased_forge_tool_kit),
+                (
+                    "Tool Pouch Nuu",
+                    pd.quest_completion_data
+                        .saved_data
+                        .iter()
+                        .find(|x| x.name == "Journal")
+                        .is_some_and(|x| x.data.is_completed),
+                ),
+                (
+                    "[Tool Pouch Pilgrim's Rest]",
+                    pd.purchased_pilgrims_rest_tool_pouch,
+                ),
+            ]);
+
+            let items = to_map(&[
+                ("[Drifter's Cloak]", pd.has_brolly),
+                ("[Faydown Cloak]", pd.has_double_jump),
+            ]);
+
+            self.map = GameSer::Silksong(SilksongChecks {
+                bosses,
+                tools,
+                silk_skills,
+                ancestral_arts,
+                crests,
+                mask_shards,
+                needle,
+                silk_spool,
+                tool_pouch,
+                nail_arts_todo,
+                items,
+            });
         }
 
         Ok(())
@@ -841,30 +1043,19 @@ impl Parser {
 
 type Number = f64;
 
-#[allow(clippy::large_enum_variant)]
-#[derive(Deserialize, Debug)]
-#[serde(untagged)]
-enum GameDeser {
-    HollowKnight(SaveFile),
-    Silksong(SaveFile),
-}
+////////////////////////////////////////////////////////////////////////////////
+// Serialization////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
-#[allow(clippy::large_enum_variant)]
-#[derive(Serialize, Debug, Clone)]
+#[expect(clippy::large_enum_variant)]
+#[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum GameSer {
     HollowKnight(HollowKnightChecks),
     Silksong(SilksongChecks),
 }
 
-#[derive(Serialize, Debug, Default, Clone)]
-#[serde(rename_all = "camelCase")]
-pub struct SilksongChecks {
-    bosses: HashMap<String, bool>,
-    things: HashMap<String, bool>,
-}
-
-#[derive(Serialize, Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct HollowKnightChecks {
     bosses: HashMap<String, bool>,
@@ -888,17 +1079,45 @@ pub struct HollowKnightChecks {
     whispering_roots: HashMap<String, bool>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Default, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct SaveFile {
-    player_data: Box<PlayedData>,
+pub struct SilksongChecks {
+    bosses: HashMap<String, bool>,
+    tools: HashMap<String, bool>,
+    silk_skills: HashMap<String, bool>,
+    ancestral_arts: HashMap<String, bool>,
+    crests: HashMap<String, bool>,
+    mask_shards: HashMap<String, bool>,
+    needle: HashMap<String, bool>,
+    silk_spool: HashMap<String, bool>,
+    tool_pouch: HashMap<String, bool>,
+    nail_arts_todo: HashMap<String, bool>,
+    items: HashMap<String, bool>,
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Deserialization /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+#[allow(clippy::large_enum_variant)]
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+enum GameDeser {
+    HollowKnight(SaveFile<HollowKnightPlayerData, HollowKnightSceneData>),
+    Silksong(SaveFile<SilksongPlayerData, SilksongSceneData>),
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SaveFile<GameData, SceneData> {
+    player_data: Box<GameData>,
     scene_data: SceneData,
 }
 
-#[allow(clippy::struct_excessive_bools)]
-#[derive(Deserialize, Debug)]
+#[expect(clippy::struct_excessive_bools)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct PlayedData {
+pub struct HollowKnightPlayerData {
     fireball_level: Number,
     quake_level: Number,
     scream_level: Number,
@@ -1091,16 +1310,108 @@ pub struct BossDoorStateTier {
     completed: bool,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct SceneData {
-    persistent_bool_items: Vec<SceneObjectBool>,
+pub struct HollowKnightSceneData {
+    persistent_bool_items: Vec<HollowKnightSceneObjectBool>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct SceneObjectBool {
+pub struct SilksongSceneData {
+    persistent_bools: PersistentBools,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PersistentBools {
+    serialized_list: Vec<SilksongSceneObjectBool>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+struct SilksongSceneObjectBool {
+    #[serde(rename = "ID")]
+    id: String,
+    scene_name: String,
+    value: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct HollowKnightSceneObjectBool {
     id: String,
     scene_name: String,
     activated: bool,
+}
+
+#[expect(clippy::struct_excessive_bools)]
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SilksongPlayerData {
+    has_brolly: bool,
+    has_double_jump: bool,
+    has_needle_throw: bool,
+    has_thread_sphere: bool,
+    has_dash: bool,
+    has_walljump: bool,
+    has_needolin: bool,
+    has_charge_slash: bool,
+    has_parry: bool,
+    has_harpoon_dash: bool,
+    has_silk_charge: bool,
+    nail_upgrades: Number,
+    silk_spool_parts: Number,
+    defeated_bell_beast: bool,
+    #[serde(rename = "PurchasedBonebottomHeartPiece")]
+    purchased_bonebottom_heart_piece: bool,
+    #[serde(rename = "MerchantEnclaveShellFragment")]
+    merchant_enclave_shell_fragment: bool,
+    #[serde(rename = "PurchasedBelltownSpoolSegment")]
+    purchased_belltown_spool_segment: bool,
+    #[serde(rename = "MetCaravanTroupeLeaderJudge")]
+    met_caravan_troupe_leader_judge: bool,
+    #[serde(rename = "PurchasedForgeToolKit")]
+    purchased_forge_tool_kit: bool,
+    #[serde(rename = "PurchasedPilgrimsRestToolPouch")]
+    purchased_pilgrims_rest_tool_pouch: bool,
+    #[serde(rename = "Tools")]
+    tools: SavedData<ToolsData>,
+    #[serde(rename = "QuestCompletionData")]
+    quest_completion_data: SavedData<QuestsData>,
+    #[serde(rename = "completedMemory_reaper")]
+    completed_memory_reaper: bool,
+    #[serde(rename = "completedMemory_beast")]
+    completed_memory_beast: bool,
+    #[serde(rename = "completedMemory_wanderer")]
+    completed_memory_wanderer: bool,
+    #[serde(rename = "ToolPouchUpgrades")]
+    tool_pouch_upgrades: Number,
+    #[serde(rename = "ToolKitUpgrades")]
+    tool_kit_upgrades: Number,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SavedData<Data> {
+    saved_data: Vec<SavedDataData<Data>>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+pub struct SavedDataData<Data> {
+    data: Data,
+    name: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+pub struct ToolsData {
+    is_unlocked: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+pub struct QuestsData {
+    is_completed: bool,
 }

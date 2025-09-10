@@ -325,7 +325,79 @@ type HollowKnightChecksKeys = {
 
 /** Silksong specific check keys */
 type SilksongChecksKeys = {
-    bosses: '[Lace]'; // TODO
+    // TODO: perhaps Silk Heart added a %?
+    bosses: '[Bell Beast]';
+    tools:
+        | '[Shard Pendant]'
+        | '[Compass]'
+        | "[Druid's Eye]"
+        | '[Straight Pin]'
+        | '[Warding Bell]'
+        | '[Treefold Pin]'
+        | '[Flea Brew]'
+        | '[Sting Shards]'
+        | '[Longpin]'
+        | '[Pollip Pouch]'
+        | '[Weavelight]'
+        | "[Dead Bug's Purse]"
+        | '[Plasmium Phial]'
+        | '[Silkspeed Anklets]'
+        | '[Pimpilo]'
+        | '[Barbed Bracelet]'
+        | '[Tack TODO]'
+        | '[Flintslate]'
+        | '[WebShot Forge TODO]'
+        | '[Screw Attack TODO]'
+        | '[Quickbind TODO]'
+        | '[Cogwork Saw TODO]'
+        | '[Scuttlebrace TODO]'
+        | '[Revenge Crystal TODO]';
+    silkSkills:
+        | '[Silkspear]'
+        | '[Thread Storm]'
+        | '[Cross Stitch]'
+        | '[Sharpdart]';
+    ancestralArts:
+        | '[Swift Step]'
+        | '[Cling Grip]'
+        | '[Needolin]'
+        | '[Clawline]';
+    crests: '[Reaper]' | '[Beast]' | '[Wanderer]';
+    maskShards:
+        | '[Mask Shard #1 Crawl_02]'
+        | '[Mask Shard #2 Dock_08]'
+        | '[Mask Shard #3 Bone_East_20]'
+        | '[Mask Shard #4 Shellwood_14]'
+        | '[Mask Shard #5 Weave_05b]'
+        | '[Mask Shard #6 Song_09]'
+        | '[Mask Shard #7 Bonebottom Shop]'
+        | '[Mask Shard #8 Songclave Shop]'
+        | '[Mask Shard #9 Peak_04c]'
+        | '[Mask Shard #10 Bone_East_LavaChallenge]'
+        | '[Mask Shard #11 Coral_19b]'
+        | '[Mask Shard #12 Shadow_13]';
+    needle: '[Sharpened Needle](Needle#Upgrades)';
+    // Spool Fragment?
+    silkSpool:
+        | '[Silk Spool Part #1 Bone_East_13]'
+        | '[Silk Spool Part #2 Greymoor_02]'
+        | '[Silk Spool Part #3 Weave_11]'
+        | '[Silk Spool Part #4 Peak_01]'
+        | '[Silk Spool Part #5 Bellhart Shop]'
+        | '[Silk Spool Part #6 Song_19_entrance]'
+        | '[Silk Spool Part #7 Under_10]'
+        | '[Silk Spool Part #8 Cog_07]'
+        | '[Silk Spool Part #9 Library_11b]'
+        | '[Silk Spool Part #10 Ward_01]'
+        | '[Silk Spool Part #11 Mooshka]';
+    toolPouch:
+        | 'Tool Pouch TODO'
+        | 'Tool Kit TODO'
+        | 'Tool Kit TODO 2'
+        | 'Tool Pouch Nuu'
+        | "[Tool Pouch Pilgrim's Rest]";
+    nailArtsTodo: '[Charge Slash]';
+    items: "[Drifter's Cloak]" | '[Faydown Cloak]';
 };
 
 /** Union type for all possible check keys */
@@ -369,6 +441,8 @@ type CommonChecklistState<Game extends GameKey> = {
     percent: number;
     /** The checks that make up the checklist. */
     checks: Checks<Game>;
+    /** The amount of mask shards collected. */
+    maskShards: number;
 };
 
 /** Hollow Knight specific state properties. */
@@ -384,8 +458,6 @@ export type HollowKnightChecklistState =
         charms: number;
         /** The amount of grubs collected. */
         grubs: number;
-        /** The amount of mask shards collected. */
-        maskShards: number;
         /** The amount of vessel fragments collected. */
         vesselFragments: number;
         /** The amount of simple keys collected. */
@@ -406,6 +478,8 @@ export type SilksongChecklistState = CommonChecklistState<'silksong'> & {
     rosaries: number;
     /** The required amount of rosaries. */
     rosariesReq: number;
+    /** The amount of silk spool parts collected. */
+    silkSpoolParts: number;
 };
 
 /** Represents the state of the checklist, including progress and requirements. */

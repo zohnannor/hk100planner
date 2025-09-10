@@ -2089,14 +2089,129 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
 const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
     game: 'silksong',
     percent: 0,
+
     rosaries: 0,
+
+    maskShards: 0,
+    silkSpoolParts: 0,
+
     rosariesReq: 0,
 
     checks: {
         bosses: {
-            '[Lace]': {
-                reward: {},
+            '[Bell Beast]': { reward: { percent: 1 } },
+        },
+
+        /* todo: wrong links? */
+        tools: {
+            '[Shard Pendant]': { reward: { percent: 1 } },
+            '[Compass]': { reward: { percent: 1 } },
+            "[Druid's Eye]": { reward: { percent: 1 } },
+            '[Straight Pin]': { reward: { percent: 1 } },
+            '[Warding Bell]': { reward: { percent: 1 } },
+            '[Treefold Pin]': { reward: { percent: 1 } },
+            '[Flea Brew]': { reward: { percent: 1 } },
+            '[Sting Shards]': { reward: { percent: 1 } },
+            '[Longpin]': { reward: { percent: 1 } },
+            '[Pollip Pouch]': { reward: { percent: 1 } },
+            '[Weavelight]': { reward: { percent: 1 } },
+            "[Dead Bug's Purse]": { reward: { percent: 1 } },
+            '[Plasmium Phial]': { reward: { percent: 1 } },
+            '[Silkspeed Anklets]': { reward: { percent: 1 } },
+            '[Pimpilo]': { reward: { percent: 1 } },
+            '[Barbed Bracelet]': { reward: { percent: 1 } },
+            '[Tack TODO]': { reward: { percent: 1 } },
+            '[Flintslate]': { reward: { percent: 1 } },
+            '[WebShot Forge TODO]': { reward: { percent: 1 } },
+            '[Screw Attack TODO]': { reward: { percent: 1 } },
+            '[Quickbind TODO]': { reward: { percent: 1 } },
+            '[Cogwork Saw TODO]': { reward: { percent: 1 } },
+            '[Scuttlebrace TODO]': { reward: { percent: 1 } },
+            '[Revenge Crystal TODO]': { reward: { percent: 1 } },
+        },
+
+        silkSkills: {
+            '[Silkspear]': { reward: { percent: 1 } },
+            '[Thread Storm]': { reward: { percent: 1 } },
+            '[Cross Stitch]': { reward: { percent: 1 } },
+            '[Sharpdart]': { reward: { percent: 1 } },
+        },
+
+        ancestralArts: {
+            '[Swift Step]': { reward: { percent: 1 } },
+            '[Cling Grip]': { reward: { percent: 1 } },
+            '[Needolin]': { reward: { percent: 1 } },
+            '[Clawline]': { reward: { percent: 1 } },
+        },
+
+        crests: {
+            '[Reaper]': { reward: { percent: 1 } },
+            '[Beast]': { reward: { percent: 1 } },
+            '[Wanderer]': { reward: { percent: 1 } },
+        },
+
+        maskShards: {
+            '[Mask Shard #1 Crawl_02]': { reward: { maskShards: 1 } },
+            '[Mask Shard #2 Dock_08]': { reward: { maskShards: 1 } },
+            '[Mask Shard #3 Bone_East_20]': { reward: { maskShards: 1 } },
+            '[Mask Shard #4 Shellwood_14]': { reward: { maskShards: 1 } },
+            '[Mask Shard #5 Weave_05b]': { reward: { maskShards: 1 } },
+            '[Mask Shard #6 Song_09]': { reward: { maskShards: 1 } },
+            '[Mask Shard #7 Bonebottom Shop]': { reward: { maskShards: 1 } },
+            '[Mask Shard #8 Songclave Shop]': { reward: { maskShards: 1 } },
+            '[Mask Shard #9 Peak_04c]': { reward: { maskShards: 1 } },
+            '[Mask Shard #10 Bone_East_LavaChallenge]': {
+                reward: { maskShards: 1 },
             },
+            '[Mask Shard #11 Coral_19b]': { reward: { maskShards: 1 } },
+            '[Mask Shard #12 Shadow_13]': { reward: { maskShards: 1 } },
+        },
+
+        needle: {
+            '[Sharpened Needle](Needle#Upgrades)': {
+                reward: { percent: 1 },
+            },
+        },
+
+        silkSpool: {
+            '[Silk Spool Part #1 Bone_East_13]': {
+                reward: { silkSpoolParts: 1 },
+            },
+            '[Silk Spool Part #2 Greymoor_02]': {
+                reward: { silkSpoolParts: 1 },
+            },
+            '[Silk Spool Part #3 Weave_11]': { reward: { silkSpoolParts: 1 } },
+            '[Silk Spool Part #4 Peak_01]': { reward: { silkSpoolParts: 1 } },
+            '[Silk Spool Part #5 Bellhart Shop]': {
+                reward: { silkSpoolParts: 1 },
+            },
+            '[Silk Spool Part #6 Song_19_entrance]': {
+                reward: { silkSpoolParts: 1 },
+            },
+            '[Silk Spool Part #7 Under_10]': { reward: { silkSpoolParts: 1 } },
+            '[Silk Spool Part #8 Cog_07]': { reward: { silkSpoolParts: 1 } },
+            '[Silk Spool Part #9 Library_11b]': {
+                reward: { silkSpoolParts: 1 },
+            },
+            '[Silk Spool Part #10 Ward_01]': { reward: { silkSpoolParts: 1 } },
+            '[Silk Spool Part #11 Mooshka]': { reward: { silkSpoolParts: 1 } },
+        },
+
+        toolPouch: {
+            'Tool Pouch TODO': { reward: { percent: 1 } },
+            'Tool Kit TODO': { reward: { percent: 1 } },
+            'Tool Kit TODO 2': { reward: { percent: 1 } },
+            'Tool Pouch Nuu': { reward: { percent: 1 } },
+            "[Tool Pouch Pilgrim's Rest]": { reward: { percent: 1 } },
+        },
+
+        nailArtsTodo: {
+            '[Charge Slash]': { reward: { percent: 1 } },
+        },
+
+        items: {
+            "[Drifter's Cloak]": { reward: {} },
+            '[Faydown Cloak]': { reward: {} },
         },
     },
 };

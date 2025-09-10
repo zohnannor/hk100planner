@@ -49,6 +49,16 @@ const HOLLOW_KNIGHT_SECTION_TITLES: Record<
 
 const SILKSONG_SECTION_TITLES: Record<SectionNames<'silksong'>, string> = {
     bosses: '[Bosses](Bosses (Silksong))',
+    tools: '[Tools]',
+    silkSkills: '[Silk Skills]',
+    ancestralArts: '[Ancestral Arts]',
+    crests: '[Crests]',
+    maskShards: '[Mask Shards](Mask Shard (Silksong))',
+    needle: '[Needle]',
+    silkSpool: '[Silk Spool]',
+    toolPouch: '[Tool Pouch]',
+    nailArtsTodo: '[Nail Arts TODO]',
+    items: '[Items](Items (Silksong)) (no percents)',
 };
 
 export const SECTION_TITLES = {
@@ -84,8 +94,15 @@ export const HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS = [
 ] as const satisfies SectionNames<'hollow-knight'>[][];
 
 export const SILKSONG_DISTRIBUTED_SECTIONS = [
-    ['bosses'],
-    [],
+    ['bosses', 'silkSkills', 'ancestralArts', 'tools', 'items'],
+    [
+        'needle',
+        'crests',
+        'maskShards',
+        'silkSpool',
+        'toolPouch',
+        'nailArtsTodo',
+    ],
 ] as const satisfies SectionNames<'silksong'>[][];
 
 type MissingSectionNames<Game extends GameKey> = UnionToArray<
