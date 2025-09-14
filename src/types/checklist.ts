@@ -325,8 +325,7 @@ type HollowKnightChecksKeys = {
 
 /** Silksong specific check keys */
 type SilksongChecksKeys = {
-    // TODO: perhaps Silk Heart added a %?
-    bosses: '[Bell Beast]';
+    silkHearts: '[Bell Beast]' | '[Lace Tower]' | '[The Unravelled]';
     tools:
         | '[Shard Pendant]'
         | '[Compass]'
@@ -335,69 +334,127 @@ type SilksongChecksKeys = {
         | '[Warding Bell]'
         | '[Treefold Pin]'
         | '[Flea Brew]'
-        | '[Sting Shards]'
+        | '[Sting Shard]'
         | '[Longpin]'
         | '[Pollip Pouch]'
         | '[Weavelight]'
-        | "[Dead Bug's Purse]"
+        | "[Dead Bug's Purse] / [Shell Satchel]"
         | '[Plasmium Phial]'
         | '[Silkspeed Anklets]'
-        | '[Pimpilo]'
+        | '[Pimpillo]'
         | '[Barbed Bracelet]'
-        | '[Tack TODO]'
+        | '[Tacks]'
         | '[Flintslate]'
-        | '[WebShot Forge TODO]'
-        | '[Screw Attack TODO]'
-        | '[Quickbind TODO]'
-        | '[Cogwork Saw TODO]'
-        | '[Scuttlebrace TODO]'
-        | '[Revenge Crystal TODO]';
+        | '[Silkshot]'
+        | "[Delver's Drill]"
+        | '[Injector Band]'
+        | '[Cogwork Wheel]'
+        | '[Scuttlebrace]'
+        | '[Memory Crystal]'
+        | '[Multibinder]'
+        | '[Voltvessels]'
+        | '[Wreath of Purity]'
+        | '[Longclaw]'
+        | '[Conchcutter]'
+        | "[Thief's Mark]"
+        | '[Throwing ring]'
+        | '[Magnetite Brooch]'
+        | '[Magma Bell]'
+        | '[Claw Mirror]'
+        | '[Spider Strings]'
+        | '[Rosary Cannon]'
+        | '[Wispfire Lantern]'
+        | '[Magnetite Dice]'
+        | '[Volt Filament]'
+        | '[Weighted Belt]'
+        | '[Egg of Flealia]'
+        | '[Fractured Mask]'
+        | '[Curveclaw] / [Curvesickle]'
+        | '[Quick Sling]'
+        | '[Cogfly]'
+        | '[Reserve Bind]'
+        | '[Pin Badge]'
+        | '[Sawtooth Circlet]'
+        | '[Spool Extender]'
+        | "[Ascendant's Grip]"
+        | '[Snitch Pick]';
     silkSkills:
         | '[Silkspear]'
         | '[Thread Storm]'
         | '[Cross Stitch]'
-        | '[Sharpdart]';
+        | '[Sharpdart]'
+        | '[Rune Rage]'
+        | '[Pale Nails]';
     ancestralArts:
         | '[Swift Step]'
         | '[Cling Grip]'
         | '[Needolin]'
-        | '[Clawline]';
-    crests: '[Reaper]' | '[Beast]' | '[Wanderer]';
+        | '[Clawline]'
+        | '[Needle Strike]'
+        | '[Silk Soar]'
+        | '[Sylphsong]';
+    crests:
+        | '[Reaper Crest]'
+        | '[Beast Crest]'
+        | '[Wanderer Crest]'
+        | '[Architect Crest]'
+        | '[Witch Crest]'
+        | '[Shaman Crest]';
     maskShards:
-        | '[Mask Shard #1 Crawl_02]'
-        | '[Mask Shard #2 Dock_08]'
-        | '[Mask Shard #3 Bone_East_20]'
-        | '[Mask Shard #4 Shellwood_14]'
-        | '[Mask Shard #5 Weave_05b]'
-        | '[Mask Shard #6 Song_09]'
-        | '[Mask Shard #7 Bonebottom Shop]'
-        | '[Mask Shard #8 Songclave Shop]'
-        | '[Mask Shard #9 Peak_04c]'
-        | '[Mask Shard #10 Bone_East_LavaChallenge]'
-        | '[Mask Shard #11 Coral_19b]'
-        | '[Mask Shard #12 Shadow_13]';
-    needle: '[Sharpened Needle](Needle#Upgrades)';
-    // Spool Fragment?
-    silkSpool:
-        | '[Silk Spool Part #1 Bone_East_13]'
-        | '[Silk Spool Part #2 Greymoor_02]'
-        | '[Silk Spool Part #3 Weave_11]'
-        | '[Silk Spool Part #4 Peak_01]'
-        | '[Silk Spool Part #5 Bellhart Shop]'
-        | '[Silk Spool Part #6 Song_19_entrance]'
-        | '[Silk Spool Part #7 Under_10]'
-        | '[Silk Spool Part #8 Cog_07]'
-        | '[Silk Spool Part #9 Library_11b]'
-        | '[Silk Spool Part #10 Ward_01]'
-        | '[Silk Spool Part #11 Mooshka]';
+        | '[Mask Shard Crawl_02]'
+        | '[Mask Shard Dock_08]'
+        | '[Mask Shard Bone_East_20]'
+        | '[Mask Shard Shellwood_14]'
+        | '[Mask Shard Weave_05b]'
+        | '[Mask Shard Song_09]'
+        | '[Mask Shard Bonebottom Shop]'
+        | '[Mask Shard Songclave Shop]'
+        | '[Mask Shard Peak_04c]'
+        | '[Mask Shard Bone_East_LavaChallenge]'
+        | '[Mask Shard Savage Beastfly Hunt]'
+        | '[Mask Shard Coral_19b]'
+        | '[Mask Shard Shadow_13]'
+        | '[Mask Shard Slab_17]'
+        | '[Mask Shard Library_05]'
+        | '[Mask Shard Wisp_07]'
+        | '[Mask Shard Sprintmaster Race]'
+        | '[Mask Shard Peak_06]'
+        | '[Mask Shard Destroy Thread Cores]';
+    needle:
+        | '[Sharpened Needle](Needle#Upgrades)'
+        | '[Shining Needle](Needle#Upgrades)'
+        | '[Hivesteel Needle](Needle#Upgrades)'
+        | '[Palesteel Needle](Needle#Upgrades)';
+    spoolFragments:
+        | '[Spool Fragment Bone_East_13]'
+        | '[Spool Fragment Greymoor_02]'
+        | '[Spool Fragment Weave_11]'
+        | '[Spool Fragment Peak_01]'
+        | '[Spool Fragment Bellhart Shop]'
+        | '[Spool Fragment Song_19_entrance]'
+        | '[Spool Fragment Under_10]'
+        | '[Spool Fragment Cog_07]'
+        | '[Spool Fragment Library_11b]'
+        | '[Spool Fragment Ward_01]'
+        | '[Spool Fragment Mooshka]'
+        | '[Spool Fragment Arborium_09]'
+        | '[Spool Fragment Dock_03c]'
+        | '[Spool Fragment Hang_03_top]'
+        | '[Spool Fragment Songclave Shop]'
+        | '[Spool Fragment Sherma]'
+        | '[Spool Fragment Grindle]'
+        | '[Spool Fragment Bone_11b]';
     toolPouch:
         | 'Tool Pouch TODO'
         | 'Tool Kit TODO'
         | 'Tool Kit TODO 2'
         | 'Tool Pouch Nuu'
-        | "[Tool Pouch Pilgrim's Rest]";
-    nailArtsTodo: '[Charge Slash]';
+        | "Tool Pouch Pilgrim's Rest"
+        | 'Tool Pouch Mooshka'
+        | 'Tool Kit Grindle'
+        | 'Tool Kit Architect';
     items: "[Drifter's Cloak]" | '[Faydown Cloak]';
+    everbloom: '[Everbloom]';
 };
 
 /** Union type for all possible check keys */
@@ -478,8 +535,8 @@ export type SilksongChecklistState = CommonChecklistState<'silksong'> & {
     rosaries: number;
     /** The required amount of rosaries. */
     rosariesReq: number;
-    /** The amount of silk spool parts collected. */
-    silkSpoolParts: number;
+    /** The amount of Spool Fragments collected. */
+    spoolFragments: number;
 };
 
 /** Represents the state of the checklist, including progress and requirements. */
@@ -544,7 +601,9 @@ export type RequirementCheckErrors = {
 export type AnyObject = Record<string, unknown>;
 
 export type SaveFileData<Game extends GameKey> = {
-    [Section in SectionNames<Game>]: Map<CheckNames<Game, Section>, boolean>;
+    [Section in SectionNames<Game> | string]: Section extends SectionNames<Game>
+        ? Map<CheckNames<Game, Section>, boolean>
+        : Map<string, boolean>;
 };
 
 /** A save file serialized by webasm savefile parser. */

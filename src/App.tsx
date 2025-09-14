@@ -155,7 +155,7 @@ const SectionColumns = <Game extends GameKey>({ game }: { game: Game }) => {
     useEffect(() => {
         if (game === 'silksong') {
             setTooltipText(`NOTE: THIS SECTION IS WIP
-            EXPECT MORE ITEMS TO BE ADDED, ALONGSIDE WITH SAVEFILE SUPPORT`);
+            Some requirements are not yet implemented.`);
             openTooltip();
         }
     }, [game]);

@@ -23,11 +23,11 @@ import {
     SaveFileData,
     SectionNames,
 } from '../types/checklist';
+import { ExtractNumberKeys } from '../types/util';
 import partialDeepEqual, { Comparable } from '../util/partialDeepEqual';
 import { typedEntries, typedKeys, typedValues } from '../util/typedObject';
 import INITIAL_CHECKLIST_STATE from './INITIAL_CHECKLIST_STATE';
 import useUiStore from './uiStore';
-import { ExtractNumberKeys } from '../types/util';
 
 /**
  * Recursively updates the state object based on the provided updates and operation.
@@ -260,7 +260,8 @@ const handleCheck = <Game extends GameKey>(
 
     if (state.game === 'hollow-knight') {
         const hkState = state as State<'hollow-knight'>;
-        if (sectionName === 'grubs') {
+        const typedSectionName = sectionName as SectionNames<'hollow-knight'>;
+        if (typedSectionName === 'grubs') {
             applyPartialReward(
                 hkState,
                 'grubs',
@@ -268,7 +269,7 @@ const handleCheck = <Game extends GameKey>(
                 'geo',
                 willCheck
             );
-        } else if (sectionName === 'vesselFragments') {
+        } else if (typedSectionName === 'vesselFragments') {
             applyPartialReward(
                 hkState,
                 'vesselFragments',
@@ -278,10 +279,11 @@ const handleCheck = <Game extends GameKey>(
             );
         }
     } else if (state.game === 'silksong') {
-        if (sectionName === 'silkSpool') {
+        const typedSectionName = sectionName as SectionNames<'silksong'>;
+        if (typedSectionName === 'spoolFragments') {
             applyPartialReward(
                 state as State<'silksong'>,
-                'silkSpoolParts',
+                'spoolFragments',
                 SILK_SPOOL_PART_REWARDS,
                 'percent',
                 willCheck
@@ -305,40 +307,6 @@ const createChecklistStore = <Game extends GameKey>(
             temporal(
                 immer(set => ({
                     ...initialState,
-
-                    setFromSaveFile: <Game extends GameKey>(
-                        savefile: SaveFile
-                    ) => {
-                        const game = typedKeys(savefile)[0]! as Game;
-                        const save = savefile[game]! as SaveFileData<Game>;
-
-                        useChecklistStore(game).setState(state => {
-                            typedEntries(save).forEach(
-                                ([sectionName, section]) => {
-                                    Array.from(section.entries()).forEach(
-                                        ([checkName, checked]) => {
-                                            const section = (
-                                                state.checks as Checks<Game>
-                                            )[sectionName] as ChecksSection<
-                                                Game,
-                                                SectionNames<Game>
-                                            >;
-                                            const check = section[checkName];
-
-                                            handleCheck(
-                                                state,
-                                                sectionName,
-                                                check,
-                                                checked
-                                            );
-                                        }
-                                    );
-                                }
-                            );
-                        });
-
-                        useUiStore.getState().setCurrentTab(game);
-                    },
 
                     reset: (sectionName?: Section) => {
                         if (sectionName) {
@@ -410,6 +378,69 @@ const createChecklistStore = <Game extends GameKey>(
                     validateCheck,
 
                     validateChecks,
+
+                    setFromSaveFile: <Game extends GameKey>(
+                        savefile: SaveFile
+                    ) => {
+                        const game = typedKeys(savefile)[0]! as Game;
+                        const save = savefile[game]! as SaveFileData<Game>;
+
+                        useChecklistStore(game).setState(state => {
+                            typedEntries(save).forEach(
+                                ([sectionName, section]) => {
+                                    Array.from(section.entries()).forEach(
+                                        ([checkName, checked]) => {
+                                            if (
+                                                !(sectionName in state.checks)
+                                            ) {
+                                                console.error(sectionName);
+                                                throw new Error(
+                                                    `Section \`${sectionName}\` not found`
+                                                );
+                                            }
+
+                                            const existingSectionName =
+                                                sectionName as SectionNames<Game>;
+
+                                            const section = (
+                                                state.checks as Checks<Game>
+                                            )[
+                                                existingSectionName
+                                            ] as ChecksSection<
+                                                Game,
+                                                SectionNames<Game>
+                                            >;
+
+                                            if (!(checkName in section)) {
+                                                console.error(checkName);
+                                                throw new Error(
+                                                    `Check \`${checkName}\` not found in section \`${existingSectionName}\``
+                                                );
+                                            }
+
+                                            const existingCheckName =
+                                                checkName as CheckNames<
+                                                    Game,
+                                                    SectionNames<Game>
+                                                >;
+
+                                            const check =
+                                                section[existingCheckName];
+
+                                            handleCheck(
+                                                state,
+                                                existingSectionName,
+                                                check,
+                                                checked
+                                            );
+                                        }
+                                    );
+                                }
+                            );
+                        });
+
+                        useUiStore.getState().setCurrentTab(game);
+                    },
                 }))
             ),
             {

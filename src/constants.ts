@@ -26,13 +26,13 @@ const HOLLOW_KNIGHT_SECTION_TITLES: Record<
 > = {
     bosses: '[Bosses](Bosses (Hollow Knight))',
     optionalBosses: '[Bosses](Bosses (Hollow Knight)) (no percents)',
-    equipment: '[Equipment](Abilities)',
+    equipment: '[Equipment](Abilities (Hollow Knight))',
     spells: '[Spells]',
     nail: '[Nail]',
     dreamNail: '[Dream Nail]',
     nailArts: '[Nail Arts]',
     charms: '[Charms]',
-    maskShards: '[Mask Shards]',
+    maskShards: '[Mask Shards](Mask Shard (Hollow Knight))',
     vesselFragments: '[Vessel Fragments]',
     colosseum: '[Colosseum of Fools]',
     dreamers: '[Dreamers]',
@@ -41,24 +41,24 @@ const HOLLOW_KNIGHT_SECTION_TITLES: Record<
         '[Dream Bosses](Bosses (Hollow Knight)#Boss_Variants) (no percents)',
     godhome: '[Godhome]',
     grubs: '[Grubs](Grub#Rewards_and_locations) (no percents)',
-    items: '[Items](Items (Hollow_Knight)) (no percents)',
-    relics: '[Relics](Items (Hollow_Knight)#Tradables) (no percents)',
+    items: '[Items](Items (Hollow Knight)) (no percents)',
+    relics: '[Relics](Items (Hollow Knight)#Tradables) (no percents)',
     whisperingRoots: '[Whispering Roots](Whispering Root) (no percents)',
     // endings: '[Endings](Endings (Hollow Knight))',
 };
 
 const SILKSONG_SECTION_TITLES: Record<SectionNames<'silksong'>, string> = {
-    bosses: '[Bosses](Bosses (Silksong))',
+    silkHearts: '[Silk Hearts]',
     tools: '[Tools]',
-    silkSkills: '[Silk Skills]',
+    silkSkills: '[Silk Skills](Crests#List_of_Skills)',
     ancestralArts: '[Ancestral Arts]',
     crests: '[Crests]',
     maskShards: '[Mask Shards](Mask Shard (Silksong))',
     needle: '[Needle]',
-    silkSpool: '[Silk Spool]',
-    toolPouch: '[Tool Pouch]',
-    nailArtsTodo: '[Nail Arts TODO]',
+    spoolFragments: '[Spool Fragment]',
+    toolPouch: '[Tool Pouch] and [Crafting Kit]',
     items: '[Items](Items (Silksong)) (no percents)',
+    everbloom: '[Everbloom]',
 };
 
 export const SECTION_TITLES = {
@@ -94,14 +94,14 @@ export const HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS = [
 ] as const satisfies SectionNames<'hollow-knight'>[][];
 
 export const SILKSONG_DISTRIBUTED_SECTIONS = [
-    ['bosses', 'silkSkills', 'ancestralArts', 'tools', 'items'],
+    ['silkHearts', 'ancestralArts', 'silkSkills', 'tools', 'items'],
     [
         'needle',
         'crests',
         'maskShards',
-        'silkSpool',
+        'spoolFragments',
         'toolPouch',
-        'nailArtsTodo',
+        'everbloom',
     ],
 ] as const satisfies SectionNames<'silksong'>[][];
 

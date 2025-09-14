@@ -835,16 +835,41 @@ impl Parser {
                     .is_some_and(|x| x.data.is_unlocked)
             };
 
+            let quest_completed = |name| {
+                pd.quest_completion_data
+                    .saved_data
+                    .iter()
+                    .find(|x| x.name == name)
+                    .is_some_and(|x| x.data.is_completed)
+            };
+
             let mask_shard_collected = |name| scene_activated(name, "Heart Piece");
             let silk_spool_collected = |name| scene_activated(name, "Silk Spool");
+            let silk_heart_collected = |name| scene_activated(name, "glow_rim_Remasker");
 
-            let bosses = to_map(&[("[Bell Beast]", pd.defeated_bell_beast)]);
+            let silk_hearts = to_map(&[
+                (
+                    "[Bell Beast]",
+                    silk_heart_collected("Memory_Silk_Heart_BellBeast"),
+                ),
+                (
+                    "[Lace Tower]",
+                    silk_heart_collected("Memory_Silk_Heart_LaceTower"),
+                ),
+                (
+                    "[The Unravelled]",
+                    silk_heart_collected("Memory_Silk_Heart_WardBoss"),
+                ),
+            ]);
 
             let silk_skills = to_map(&[
                 ("[Silkspear]", pd.has_needle_throw),
                 ("[Thread Storm]", pd.has_thread_sphere),
                 ("[Cross Stitch]", pd.has_parry),
                 ("[Sharpdart]", pd.has_silk_charge),
+                ("[Rune Rage]", pd.has_silk_bomb),
+                ("[Needle Strike]", pd.has_charge_slash),
+                ("[Pale Nails]", pd.has_silk_boss_needle),
             ]);
 
             let tools = to_map(&[
@@ -855,131 +880,199 @@ impl Parser {
                 ("[Warding Bell]", has_tool("Bell Bind")),
                 ("[Treefold Pin]", has_tool("Tri Pin")),
                 ("[Flea Brew]", has_tool("Flea Brew")),
-                ("[Sting Shards]", has_tool("Sting Shard")),
+                ("[Sting Shard]", has_tool("Sting Shard")),
                 ("[Longpin]", has_tool("Harpoon")),
                 ("[Pollip Pouch]", has_tool("Poison Pouch")),
                 ("[Weavelight]", has_tool("White Ring")),
-                ("[Dead Bug's Purse]", has_tool("Dead Mans Purse")),
+                (
+                    "[Dead Bug's Purse] / [Shell Satchel]",
+                    // TODO: get it in Steel Soul
+                    has_tool("Dead Mans Purse") | false,
+                ),
                 ("[Plasmium Phial]", has_tool("Lifeblood Syringe")),
                 ("[Silkspeed Anklets]", has_tool("Sprintmaster")),
-                ("[Pimpilo]", has_tool("Pimpilo")), // Pimpillo?
+                ("[Pimpillo]", has_tool("Pimpilo")),
                 ("[Barbed Bracelet]", has_tool("Barbed Wire")),
-                ("[Tack TODO]", has_tool("Tack")),
+                ("[Tacks]", has_tool("Tack")),
                 ("[Flintslate]", has_tool("Flintstone")),
-                ("[WebShot Forge TODO]", has_tool("WebShot Forge")),
-                ("[Screw Attack TODO]", has_tool("Screw Attack")),
-                ("[Quickbind TODO]", has_tool("Quickbind")),
-                ("[Cogwork Saw TODO]", has_tool("Cogwork Saw")),
-                ("[Scuttlebrace TODO]", has_tool("Scuttlebrace")),
-                ("[Revenge Crystal TODO]", has_tool("Revenge Crystal")),
+                ("[Silkshot]", has_tool("WebShot Forge")),
+                ("[Delver's Drill]", has_tool("Screw Attack")),
+                ("[Injector Band]", has_tool("Quickbind")),
+                ("[Cogwork Wheel]", has_tool("Cogwork Saw")),
+                ("[Scuttlebrace]", has_tool("Scuttlebrace")),
+                ("[Memory Crystal]", has_tool("Revenge Crystal")),
+                ("[Multibinder]", has_tool("Multibind")),
+                ("[Voltvessels]", has_tool("Lightning Rod")),
+                ("[Wreath of Purity]", has_tool("Maggot Charm")),
+                ("[Longclaw]", has_tool("Longneedle")),
+                ("[Conchcutter]", has_tool("Conch Drill")),
+                ("[Thief's Mark]", has_tool("Thief Charm")),
+                ("[Throwing ring]", has_tool("Shakra Ring")),
+                ("[Magnetite Brooch]", has_tool("Rosary Magnet")),
+                ("[Magma Bell]", has_tool("Lava Charm")),
+                ("[Claw Mirror]", has_tool("Dazzle Bind")),
+                ("[Spider Strings]", has_tool("Musician Charm")),
+                ("[Rosary Cannon]", has_tool("Rosary Cannon")),
+                ("[Wispfire Lantern]", has_tool("Wisp Lantern")),
+                ("[Magnetite Dice]", has_tool("Magnetite Dice")),
+                ("[Volt Filament]", has_tool("Zap Imbuement")),
+                ("[Weighted Belt]", has_tool("Weighted Anklet")),
+                ("[Egg of Flealia]", has_tool("Flea Charm")),
+                ("[Fractured Mask]", has_tool("Fractured Mask")),
+                (
+                    "[Curveclaw] / [Curvesickle]",
+                    has_tool("Curve Claws") | has_tool("Curve Claws Upgraded"),
+                ),
+                ("[Quick Sling]", has_tool("Quick Sling")),
+                ("[Cogfly]", has_tool("Cogwork Flier")),
+                ("[Reserve Bind]", has_tool("Reserve Bind")),
+                ("[Pin Badge]", has_tool("Pinstress Tool")),
+                ("[Sawtooth Circlet]", has_tool("Brolly Spike")),
+                ("[Spool Extender]", has_tool("Spool Extender")),
+                ("[Ascendant's Grip]", has_tool("Wallcling")),
+                ("[Snitch Pick]", has_tool("Thief Claw")),
             ]);
 
             let ancestral_arts = to_map(&[
                 ("[Swift Step]", pd.has_dash),
                 ("[Cling Grip]", pd.has_walljump),
                 ("[Needolin]", pd.has_needolin),
-                ("[Needolin]", pd.has_needolin),
                 ("[Clawline]", pd.has_harpoon_dash),
+                ("[Silk Soar]", pd.has_super_jump),
+                ("[Sylphsong]", pd.has_bound_crest_upgrader),
             ]);
 
-            let nail_arts_todo = to_map(&[("[Charge Slash]", pd.has_charge_slash)]);
-
             let crests = to_map(&[
-                ("[Reaper]", pd.completed_memory_reaper),
-                ("[Beast]", pd.completed_memory_beast),
-                ("[Wanderer]", pd.completed_memory_wanderer),
+                ("[Reaper Crest]", pd.completed_memory_reaper),
+                ("[Beast Crest]", pd.completed_memory_beast),
+                ("[Wanderer Crest]", pd.completed_memory_wanderer),
+                ("[Architect Crest]", pd.completed_memory_toolmaster),
+                // completedMemory_witch does NOT give you %, only the crest
+                ("[Witch Crest]", quest_completed("Doctor Curse Cure")),
+                ("[Shaman Crest]", pd.completed_memory_shaman),
             ]);
 
             let mask_shards = to_map(&[
                 // TODO
-                ("[Mask Shard #1 Crawl_02]", mask_shard_collected("Crawl_02")),
-                ("[Mask Shard #2 Dock_08]", mask_shard_collected("Dock_08")),
+                ("[Mask Shard Crawl_02]", mask_shard_collected("Crawl_02")),
+                ("[Mask Shard Dock_08]", mask_shard_collected("Dock_08")),
                 (
-                    "[Mask Shard #3 Bone_East_20]",
+                    "[Mask Shard Bone_East_20]",
                     mask_shard_collected("Bone_East_20"),
                 ),
                 (
-                    "[Mask Shard #4 Shellwood_14]",
+                    "[Mask Shard Shellwood_14]",
                     mask_shard_collected("Shellwood_14"),
                 ),
+                ("[Mask Shard Weave_05b]", mask_shard_collected("Weave_05b")),
+                ("[Mask Shard Song_09]", mask_shard_collected("Song_09")),
                 (
-                    "[Mask Shard #5 Weave_05b]",
-                    mask_shard_collected("Weave_05b"),
-                ),
-                ("[Mask Shard #6 Song_09]", mask_shard_collected("Song_09")),
-                (
-                    "[Mask Shard #7 Bonebottom Shop]",
+                    "[Mask Shard Bonebottom Shop]",
                     pd.purchased_bonebottom_heart_piece,
                 ),
                 (
-                    "[Mask Shard #8 Songclave Shop]",
+                    "[Mask Shard Songclave Shop]",
                     pd.merchant_enclave_shell_fragment,
                 ),
-                ("[Mask Shard #9 Peak_04c]", mask_shard_collected("Peak_04c")),
+                ("[Mask Shard Peak_04c]", mask_shard_collected("Peak_04c")),
                 (
-                    "[Mask Shard #10 Bone_East_LavaChallenge]",
+                    "[Mask Shard Bone_East_LavaChallenge]",
                     scene_activated("Bone_East_LavaChallenge", "Heart Piece (1)"),
                 ),
                 (
-                    "[Mask Shard #11 Coral_19b]",
-                    mask_shard_collected("Coral_19b"),
+                    "[Mask Shard Savage Beastfly Hunt]",
+                    quest_completed("Beastfly Hunt"),
                 ),
+                ("[Mask Shard Coral_19b]", mask_shard_collected("Coral_19b")),
+                ("[Mask Shard Shadow_13]", mask_shard_collected("Shadow_13")),
+                ("[Mask Shard Slab_17]", mask_shard_collected("Slab_17")),
                 (
-                    "[Mask Shard #12 Shadow_13]",
-                    mask_shard_collected("Shadow_13"),
+                    "[Mask Shard Library_05]",
+                    mask_shard_collected("Library_05"),
+                ),
+                ("[Mask Shard Wisp_07]", mask_shard_collected("Wisp_07")),
+                (
+                    "[Mask Shard Sprintmaster Race]",
+                    quest_completed("Sprintmaster Race"),
+                ),
+                ("[Mask Shard Peak_06]", mask_shard_collected("Peak_06")),
+                (
+                    "[Mask Shard Destroy Thread Cores]",
+                    quest_completed("Destroy Thread Cores"),
                 ),
             ]);
 
-            let needle = to_map(&[(
-                "[Sharpened Needle](Needle#Upgrades)",
-                pd.nail_upgrades > 0.0,
-            )]);
+            let needle = to_map(&[
+                (
+                    "[Sharpened Needle](Needle#Upgrades)",
+                    pd.nail_upgrades > 0.0,
+                ),
+                ("[Shining Needle](Needle#Upgrades)", pd.nail_upgrades > 1.0),
+                (
+                    "[Hivesteel Needle](Needle#Upgrades)",
+                    pd.nail_upgrades > 2.0,
+                ),
+                (
+                    "[Palesteel Needle](Needle#Upgrades)",
+                    pd.nail_upgrades > 3.0,
+                ),
+            ]);
 
-            let silk_spool = to_map(&[
+            let spool_fragments = to_map(&[
                 // TODO
                 (
-                    "[Silk Spool Part #1 Bone_East_13]",
+                    "[Spool Fragment Bone_East_13]",
                     silk_spool_collected("Bone_East_13"),
                 ),
                 (
-                    "[Silk Spool Part #2 Greymoor_02]",
+                    "[Spool Fragment Greymoor_02]",
                     silk_spool_collected("Greymoor_02"),
                 ),
                 (
-                    "[Silk Spool Part #3 Weave_11]",
+                    "[Spool Fragment Weave_11]",
                     silk_spool_collected("Weave_11"),
                 ),
+                ("[Spool Fragment Peak_01]", silk_spool_collected("Peak_01")),
                 (
-                    "[Silk Spool Part #4 Peak_01]",
-                    silk_spool_collected("Peak_01"),
-                ),
-                (
-                    "[Silk Spool Part #5 Bellhart Shop]",
+                    "[Spool Fragment Bellhart Shop]",
                     pd.purchased_belltown_spool_segment,
                 ),
                 (
-                    "[Silk Spool Part #6 Song_19_entrance]",
+                    "[Spool Fragment Song_19_entrance]",
                     silk_spool_collected("Song_19_entrance"),
                 ),
                 (
-                    "[Silk Spool Part #7 Under_10]",
+                    "[Spool Fragment Under_10]",
                     silk_spool_collected("Under_10"),
                 ),
+                ("[Spool Fragment Cog_07]", silk_spool_collected("Cog_07")),
                 (
-                    "[Silk Spool Part #8 Cog_07]",
-                    silk_spool_collected("Cog_07"),
-                ),
-                (
-                    "[Silk Spool Part #9 Library_11b]",
+                    "[Spool Fragment Library_11b]",
                     silk_spool_collected("Library_11b"),
                 ),
+                ("[Spool Fragment Ward_01]", silk_spool_collected("Ward_01")),
+                ("[Spool Fragment Mooshka]", pd.caravan_troupe_location > 1.0),
                 (
-                    "[Silk Spool Part #10 Ward_01]",
-                    silk_spool_collected("Ward_01"),
+                    "[Spool Fragment Arborium_09]",
+                    silk_spool_collected("Arborium_09"),
                 ),
                 (
-                    "[Silk Spool Part #11 Mooshka]",
-                    pd.met_caravan_troupe_leader_judge,
+                    "[Spool Fragment Dock_03c]",
+                    silk_spool_collected("Dock_03c"),
+                ),
+                (
+                    "[Spool Fragment Hang_03_top]",
+                    silk_spool_collected("Hang_03_top"),
+                ),
+                (
+                    "[Spool Fragment Songclave Shop]",
+                    pd.merchant_enclave_spool_piece,
+                ),
+                ("[Spool Fragment Sherma]", quest_completed("Save Sherma")),
+                ("[Spool Fragment Grindle]", pd.purchased_grindle_spool_piece),
+                (
+                    "[Spool Fragment Bone_11b]",
+                    silk_spool_collected("Bone_11b"),
                 ),
             ]);
 
@@ -988,18 +1081,14 @@ impl Parser {
                 ("Tool Pouch TODO", true),
                 ("Tool Kit TODO", true),
                 ("Tool Kit TODO 2", pd.purchased_forge_tool_kit),
+                ("Tool Pouch Nuu", quest_completed("Journal")),
                 (
-                    "Tool Pouch Nuu",
-                    pd.quest_completion_data
-                        .saved_data
-                        .iter()
-                        .find(|x| x.name == "Journal")
-                        .is_some_and(|x| x.data.is_completed),
-                ),
-                (
-                    "[Tool Pouch Pilgrim's Rest]",
+                    "Tool Pouch Pilgrim's Rest",
                     pd.purchased_pilgrims_rest_tool_pouch,
                 ),
+                ("Tool Pouch Mooshka", pd.caravan_troupe_location > 2.0),
+                ("Tool Kit Grindle", pd.purchased_grindle_tool_kit),
+                ("Tool Kit Architect", pd.purchased_architect_tool_kit),
             ]);
 
             let items = to_map(&[
@@ -1007,18 +1096,30 @@ impl Parser {
                 ("[Faydown Cloak]", pd.has_double_jump),
             ]);
 
+            #[expect(clippy::float_cmp)]
+            let everbloom = to_map(&[(
+                "[Everbloom]",
+                pd.completed_red_memory
+                    && pd
+                        .collectables
+                        .saved_data
+                        .iter()
+                        .find(|x| x.name == "White Flower")
+                        .is_some_and(|x| x.data.amount == 1.0),
+            )]);
+
             self.map = GameSer::Silksong(SilksongChecks {
-                bosses,
+                silk_hearts,
                 tools,
                 silk_skills,
                 ancestral_arts,
                 crests,
                 mask_shards,
                 needle,
-                silk_spool,
+                spool_fragments,
                 tool_pouch,
-                nail_arts_todo,
                 items,
+                everbloom,
             });
         }
 
@@ -1082,17 +1183,17 @@ pub struct HollowKnightChecks {
 #[derive(Debug, Default, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SilksongChecks {
-    bosses: HashMap<String, bool>,
+    silk_hearts: HashMap<String, bool>,
     tools: HashMap<String, bool>,
     silk_skills: HashMap<String, bool>,
     ancestral_arts: HashMap<String, bool>,
     crests: HashMap<String, bool>,
     mask_shards: HashMap<String, bool>,
     needle: HashMap<String, bool>,
-    silk_spool: HashMap<String, bool>,
+    spool_fragments: HashMap<String, bool>,
     tool_pouch: HashMap<String, bool>,
-    nail_arts_todo: HashMap<String, bool>,
     items: HashMap<String, bool>,
+    everbloom: HashMap<String, bool>,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1357,24 +1458,31 @@ pub struct SilksongPlayerData {
     has_walljump: bool,
     has_needolin: bool,
     has_charge_slash: bool,
+    has_silk_boss_needle: bool,
     has_parry: bool,
     has_harpoon_dash: bool,
     has_silk_charge: bool,
+    has_silk_bomb: bool,
+    has_super_jump: bool,
+    #[serde(rename = "HasBoundCrestUpgrader")]
+    has_bound_crest_upgrader: bool,
     nail_upgrades: Number,
-    silk_spool_parts: Number,
-    defeated_bell_beast: bool,
     #[serde(rename = "PurchasedBonebottomHeartPiece")]
     purchased_bonebottom_heart_piece: bool,
     #[serde(rename = "MerchantEnclaveShellFragment")]
     merchant_enclave_shell_fragment: bool,
+    #[serde(rename = "MerchantEnclaveSpoolPiece")]
+    merchant_enclave_spool_piece: bool,
     #[serde(rename = "PurchasedBelltownSpoolSegment")]
     purchased_belltown_spool_segment: bool,
-    #[serde(rename = "MetCaravanTroupeLeaderJudge")]
-    met_caravan_troupe_leader_judge: bool,
+    purchased_grindle_spool_piece: bool,
     #[serde(rename = "PurchasedForgeToolKit")]
     purchased_forge_tool_kit: bool,
     #[serde(rename = "PurchasedPilgrimsRestToolPouch")]
     purchased_pilgrims_rest_tool_pouch: bool,
+    purchased_grindle_tool_kit: bool,
+    #[serde(rename = "PurchasedArchitectToolKit")]
+    purchased_architect_tool_kit: bool,
     #[serde(rename = "Tools")]
     tools: SavedData<ToolsData>,
     #[serde(rename = "QuestCompletionData")]
@@ -1385,10 +1493,16 @@ pub struct SilksongPlayerData {
     completed_memory_beast: bool,
     #[serde(rename = "completedMemory_wanderer")]
     completed_memory_wanderer: bool,
-    #[serde(rename = "ToolPouchUpgrades")]
-    tool_pouch_upgrades: Number,
-    #[serde(rename = "ToolKitUpgrades")]
-    tool_kit_upgrades: Number,
+    #[serde(rename = "completedMemory_toolmaster")]
+    completed_memory_toolmaster: bool,
+    #[serde(rename = "completedMemory_shaman")]
+    completed_memory_shaman: bool,
+    #[serde(rename = "CaravanTroupeLocation")]
+    caravan_troupe_location: Number,
+    #[serde(rename = "CompletedRedMemory")]
+    completed_red_memory: bool,
+    #[serde(rename = "Collectables")]
+    collectables: SavedData<CollectablesData>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -1414,4 +1528,10 @@ pub struct ToolsData {
 #[serde(rename_all = "PascalCase")]
 pub struct QuestsData {
     is_completed: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+pub struct CollectablesData {
+    amount: Number,
 }
