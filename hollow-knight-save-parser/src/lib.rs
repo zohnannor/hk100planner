@@ -868,14 +868,16 @@ impl Parser {
                 ("[Cross Stitch]", pd.has_parry),
                 ("[Sharpdart]", pd.has_silk_charge),
                 ("[Rune Rage]", pd.has_silk_bomb),
-                ("[Needle Strike]", pd.has_charge_slash),
                 ("[Pale Nails]", pd.has_silk_boss_needle),
             ]);
 
             let tools = to_map(&[
                 ("[Shard Pendant]", has_tool("Bone Necklace")),
                 ("[Compass]", has_tool("Compass")),
-                ("[Druid's Eye]", has_tool("Mosscreep Tool 1")),
+                (
+                    "[Druid's Eye] / [Druid's Eyes]",
+                    has_tool("Mosscreep Tool 1") | has_tool("Mosscreep Tool 2"),
+                ),
                 ("[Straight Pin]", has_tool("Straight Pin")),
                 ("[Warding Bell]", has_tool("Bell Bind")),
                 ("[Treefold Pin]", has_tool("Tri Pin")),
@@ -886,8 +888,7 @@ impl Parser {
                 ("[Weavelight]", has_tool("White Ring")),
                 (
                     "[Dead Bug's Purse] / [Shell Satchel]",
-                    // TODO: get it in Steel Soul
-                    has_tool("Dead Mans Purse") | false,
+                    has_tool("Dead Mans Purse") | has_tool("Shell Satchel"),
                 ),
                 ("[Plasmium Phial]", has_tool("Lifeblood Syringe")),
                 ("[Silkspeed Anklets]", has_tool("Sprintmaster")),
@@ -895,7 +896,12 @@ impl Parser {
                 ("[Barbed Bracelet]", has_tool("Barbed Wire")),
                 ("[Tacks]", has_tool("Tack")),
                 ("[Flintslate]", has_tool("Flintstone")),
-                ("[Silkshot]", has_tool("WebShot Forge")),
+                (
+                    "[Silkshot]",
+                    has_tool("WebShot Forge")
+                        | has_tool("WebShot Weaver")
+                        | has_tool("WebShot Architect"),
+                ),
                 ("[Delver's Drill]", has_tool("Screw Attack")),
                 ("[Injector Band]", has_tool("Quickbind")),
                 ("[Cogwork Wheel]", has_tool("Cogwork Saw")),
@@ -910,7 +916,10 @@ impl Parser {
                 ("[Throwing ring]", has_tool("Shakra Ring")),
                 ("[Magnetite Brooch]", has_tool("Rosary Magnet")),
                 ("[Magma Bell]", has_tool("Lava Charm")),
-                ("[Claw Mirror]", has_tool("Dazzle Bind")),
+                (
+                    "[Claw Mirror]",
+                    has_tool("Dazzle Bind") | has_tool("Dazzle Bind Upgraded"),
+                ),
                 ("[Spider Strings]", has_tool("Musician Charm")),
                 ("[Rosary Cannon]", has_tool("Rosary Cannon")),
                 ("[Wispfire Lantern]", has_tool("Wisp Lantern")),
@@ -938,6 +947,7 @@ impl Parser {
                 ("[Cling Grip]", pd.has_walljump),
                 ("[Needolin]", pd.has_needolin),
                 ("[Clawline]", pd.has_harpoon_dash),
+                ("[Needle Strike]", pd.has_charge_slash),
                 ("[Silk Soar]", pd.has_super_jump),
                 ("[Sylphsong]", pd.has_bound_crest_upgrader),
             ]);
@@ -947,13 +957,14 @@ impl Parser {
                 ("[Beast Crest]", pd.completed_memory_beast),
                 ("[Wanderer Crest]", pd.completed_memory_wanderer),
                 ("[Architect Crest]", pd.completed_memory_toolmaster),
-                // completedMemory_witch does NOT give you %, only the crest
+                // completedMemory_witch does NOT give you %, only the crest,
+                // which is Cursed, and you get Witch crest and % from the quest
                 ("[Witch Crest]", quest_completed("Doctor Curse Cure")),
                 ("[Shaman Crest]", pd.completed_memory_shaman),
             ]);
 
             let mask_shards = to_map(&[
-                // TODO
+                // TODO: names
                 ("[Mask Shard Crawl_02]", mask_shard_collected("Crawl_02")),
                 ("[Mask Shard Dock_08]", mask_shard_collected("Dock_08")),
                 (
@@ -996,6 +1007,7 @@ impl Parser {
                     quest_completed("Sprintmaster Race"),
                 ),
                 ("[Mask Shard Peak_06]", mask_shard_collected("Peak_06")),
+                ("[Mask Shard Ant Trapper]", quest_completed("Ant Trapper")),
                 (
                     "[Mask Shard Destroy Thread Cores]",
                     quest_completed("Destroy Thread Cores"),
@@ -1019,7 +1031,7 @@ impl Parser {
             ]);
 
             let spool_fragments = to_map(&[
-                // TODO
+                // TODO: names
                 (
                     "[Spool Fragment Bone_East_13]",
                     silk_spool_collected("Bone_East_13"),
@@ -1078,9 +1090,12 @@ impl Parser {
 
             let tool_pouch = to_map(&[
                 // TODO: add tool pouch upgrades
-                ("Tool Pouch TODO", true),
-                ("Tool Kit TODO", true),
-                ("Tool Kit TODO 2", pd.purchased_forge_tool_kit),
+                (
+                    "Tool Pouch Pin Challenge",
+                    pd.pin_galleries_completed >= 2.0,
+                ),
+                ("Tool Kit Crow Feathers", quest_completed("Crow Feathers")),
+                ("Tool Kit Forge Daughter", pd.purchased_forge_tool_kit),
                 ("Tool Pouch Nuu", quest_completed("Journal")),
                 (
                     "Tool Pouch Pilgrim's Rest",
@@ -1476,6 +1491,7 @@ pub struct SilksongPlayerData {
     #[serde(rename = "PurchasedBelltownSpoolSegment")]
     purchased_belltown_spool_segment: bool,
     purchased_grindle_spool_piece: bool,
+    pin_galleries_completed: Number,
     #[serde(rename = "PurchasedForgeToolKit")]
     purchased_forge_tool_kit: bool,
     #[serde(rename = "PurchasedPilgrimsRestToolPouch")]

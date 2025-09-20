@@ -119,8 +119,8 @@ const validateCheck = <Game extends GameKey>(
     const hkRequires =
         check.requires as PartialDeep<HollowKnightChecklistState>;
 
-    /// special case for "consumable items", we don't want to just check if the
-    /// value is greater, we wanna know that we have enough of it
+    // special case for "consumable items", we don't want to just check if the
+    // value is greater, we wanna know that we have enough of it
     const reqs: Record<
         'paleOre' | 'geo' | 'simpleKeys',
         [number, number, number]
@@ -207,7 +207,7 @@ const applyReward = <Game extends GameKey>(
 };
 
 const MASK_SHARD_REWARDS = [
-    0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1,
+    0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1,
 ] as const;
 const VESSEL_FRAGMENT_REWARDS = [0, 0, 1, 0, 0, 1, 0, 0, 1] as const;
 const SILK_SPOOL_PART_REWARDS = [

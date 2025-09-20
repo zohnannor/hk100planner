@@ -2097,7 +2097,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         tools: {
             '[Shard Pendant]': { reward: { percent } },
             '[Compass]': { reward: { percent } },
-            "[Druid's Eye]": { reward: { percent } },
+            "[Druid's Eye] / [Druid's Eyes]": { reward: { percent } },
             '[Straight Pin]': { reward: { percent } },
             '[Warding Bell]': { reward: { percent } },
             '[Treefold Pin]': { reward: { percent } },
@@ -2195,6 +2195,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
             '[Mask Shard Wisp_07]': { reward: { maskShards } },
             '[Mask Shard Sprintmaster Race]': { reward: { maskShards } },
             '[Mask Shard Peak_06]': { reward: { maskShards } },
+            '[Mask Shard Ant Trapper]': { reward: { maskShards } },
             '[Mask Shard Destroy Thread Cores]': { reward: { maskShards } },
         },
 
@@ -2227,9 +2228,9 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         toolPouch: {
-            'Tool Pouch TODO': { reward: { percent } },
-            'Tool Kit TODO': { reward: { percent } },
-            'Tool Kit TODO 2': { reward: { percent } },
+            'Tool Pouch Pin Challenge': { reward: { percent } },
+            'Tool Kit Crow Feathers': { reward: { percent } },
+            'Tool Kit Forge Daughter': { reward: { percent } },
             'Tool Pouch Nuu': { reward: { percent } },
             "Tool Pouch Pilgrim's Rest": { reward: { percent } },
             'Tool Pouch Mooshka': { reward: { percent } },

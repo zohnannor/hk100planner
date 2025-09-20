@@ -329,7 +329,7 @@ type SilksongChecksKeys = {
     tools:
         | '[Shard Pendant]'
         | '[Compass]'
-        | "[Druid's Eye]"
+        | "[Druid's Eye] / [Druid's Eyes]"
         | '[Straight Pin]'
         | '[Warding Bell]'
         | '[Treefold Pin]'
@@ -419,6 +419,7 @@ type SilksongChecksKeys = {
         | '[Mask Shard Wisp_07]'
         | '[Mask Shard Sprintmaster Race]'
         | '[Mask Shard Peak_06]'
+        | '[Mask Shard Ant Trapper]'
         | '[Mask Shard Destroy Thread Cores]';
     needle:
         | '[Sharpened Needle](Needle#Upgrades)'
@@ -445,9 +446,9 @@ type SilksongChecksKeys = {
         | '[Spool Fragment Grindle]'
         | '[Spool Fragment Bone_11b]';
     toolPouch:
-        | 'Tool Pouch TODO'
-        | 'Tool Kit TODO'
-        | 'Tool Kit TODO 2'
+        | 'Tool Pouch Pin Challenge'
+        | 'Tool Kit Crow Feathers'
+        | 'Tool Kit Forge Daughter'
         | 'Tool Pouch Nuu'
         | "Tool Pouch Pilgrim's Rest"
         | 'Tool Pouch Mooshka'
