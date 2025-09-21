@@ -2420,7 +2420,10 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         everbloom: { '[Everbloom]': { reward: { percent } } },
 
         wishes: {
-            '[The Wandering Merchant]': { reward: nothing },
+            '[The Wandering Merchant]': {
+                reward: nothing,
+                requires: { acts: 2 },
+            },
             '[Savage Beastfly](Wishes#Grand_Hunt_Wishes)': {
                 reward: nothing,
                 requires: {

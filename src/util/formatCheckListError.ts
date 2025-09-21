@@ -36,18 +36,20 @@ const formatCheckListError = <Game extends GameKey>(
                 switch (typedRequirement) {
                     case 'geo':
                         return `[GEO] ${error}`;
+                    case 'rosaries':
+                        return `[ROSARY] ${error}`;
                     case 'essence':
                         return `[ESSENCE] ${error}`;
                     case 'paleOre':
                         return `[PALE_ORE] ${error}`;
                     case 'grubs':
-                        return `${error} grubs rescued`;
+                        return `${error} [grubs] rescued`;
                     case 'simpleKeys':
-                        return `${error} simple key(s) collected`;
+                        return `${error} [Simple Key](Simple Key)(s) collected`;
                     case 'maskShards':
-                        return `${error} mask shard(s) collected`;
+                        return `${error} [Mask Shard](Mask Shard)(s) collected`;
                     case 'charms':
-                        return `${error} charms collected`;
+                        return `${error} [Charms] collected`;
                     case 'vesselFragments':
                     case 'geoReq':
                     case 'essenceReq':
@@ -58,6 +60,8 @@ const formatCheckListError = <Game extends GameKey>(
                         throw new Error(
                             `Nothing should require ${typedRequirement}`
                         );
+                    case 'acts':
+                        return `[Act ${error}] being started`;
                     case 'checks': {
                         return typedEntries(error as Checks<Game>)
                             .map(([section, sectionErrors]) => {
@@ -126,10 +130,12 @@ const requirementTextForSection = <Game extends GameKey>(
             break;
         }
         case 'equipment':
+
         case 'charms':
         case 'items':
         case 'vesselFragments':
-        case 'maskShards': {
+        case 'maskShards':
+        case 'ancestralArts': {
             joined += 'acquired';
             break;
         }
@@ -152,7 +158,8 @@ const requirementTextForSection = <Game extends GameKey>(
             break;
         }
         case 'colosseum':
-        case 'godhome': {
+        case 'godhome':
+        case 'wishes': {
             joined += 'completed';
             break;
         }
