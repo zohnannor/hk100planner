@@ -48,6 +48,7 @@ const HOLLOW_KNIGHT_SECTION_TITLES: Record<
 };
 
 const SILKSONG_SECTION_TITLES: Record<SectionNames<'silksong'>, string> = {
+    bosses: '[Bosses](Bosses (Silksong))',
     silkHearts: '[Silk Hearts]',
     tools: '[Tools]',
     silkSkills: '[Silk Skills](Crests#List_of_Skills)',
@@ -59,6 +60,7 @@ const SILKSONG_SECTION_TITLES: Record<SectionNames<'silksong'>, string> = {
     toolPouch: '[Tool Pouch] and [Crafting Kit]',
     items: '[Items](Items (Silksong)) (no percents)',
     everbloom: '[Everbloom]',
+    wishes: '[Wishes]',
 };
 
 export const SECTION_TITLES = {
@@ -102,6 +104,8 @@ export const SILKSONG_DISTRIBUTED_SECTIONS = [
         'spoolFragments',
         'toolPouch',
         'everbloom',
+        'bosses',
+        'wishes',
     ],
 ] as const satisfies SectionNames<'silksong'>[][];
 

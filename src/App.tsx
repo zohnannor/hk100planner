@@ -111,8 +111,11 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
             ['[SIMPLE_KEY]', simpleKeys, simpleKeysReq],
         ] as const;
     } else {
-        const { rosaries, rosariesReq } = useChecklistStore(game)();
-        info = [['[ROSARIES]', rosaries, rosariesReq]] as const;
+        const { rosaries, rosariesReq, acts } = useChecklistStore(game)();
+        info = [
+            ['[ROSARY]', rosaries, rosariesReq],
+            ['[Act](Acts)', acts, acts],
+        ] as const;
     }
 
     return (
@@ -124,7 +127,7 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
                 if (sidebar) {
                     return (
                         <FText color={decide(val, req)} key={it}>
-                            {it} {val} / {req}
+                            {it} {val} {it !== '[Act](Acts)' ? `/ ${req}` : ''}
                         </FText>
                     );
                 }
@@ -138,7 +141,10 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
 
                 return (
                     <FText color={decide(val, req)} key={it}>
-                        {it} {val} collected / {req} required
+                        {it} {val}
+                        {it !== '[Act](Acts)'
+                            ? `collected / ${req} required`
+                            : ''}
                         {paren}
                     </FText>
                 );

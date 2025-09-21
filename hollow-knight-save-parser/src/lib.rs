@@ -847,6 +847,15 @@ impl Parser {
             let silk_spool_collected = |name| scene_activated(name, "Silk Spool");
             let silk_heart_collected = |name| scene_activated(name, "glow_rim_Remasker");
 
+            let bosses = to_map(&[
+                ("[Moss Mother]", false),
+                ("[Fourth Chorus]", false),
+                ("[Savage Beastfly]", false),
+                ("[Last Judge] / [Phantom]", false),
+                ("[Savage Beastfly 2](Savage Beastfly#Far_Fields)", false),
+                ("[Cogwork Dancers]", false),
+            ]);
+
             let silk_hearts = to_map(&[
                 (
                     "[Bell Beast]",
@@ -964,54 +973,44 @@ impl Parser {
             ]);
 
             let mask_shards = to_map(&[
-                // TODO: names
-                ("[Mask Shard Crawl_02]", mask_shard_collected("Crawl_02")),
-                ("[Mask Shard Dock_08]", mask_shard_collected("Dock_08")),
                 (
-                    "[Mask Shard Bone_East_20]",
-                    mask_shard_collected("Bone_East_20"),
-                ),
-                (
-                    "[Mask Shard Shellwood_14]",
-                    mask_shard_collected("Shellwood_14"),
-                ),
-                ("[Mask Shard Weave_05b]", mask_shard_collected("Weave_05b")),
-                ("[Mask Shard Song_09]", mask_shard_collected("Song_09")),
-                (
-                    "[Mask Shard Bonebottom Shop]",
+                    "[Pebb] from [Bone Bottom] for [ROSARY] 300",
                     pd.purchased_bonebottom_heart_piece,
                 ),
+                ("[Wormways]", mask_shard_collected("Crawl_02")),
+                ("[Deep Docks] entrance", mask_shard_collected("Dock_08")),
                 (
-                    "[Mask Shard Songclave Shop]",
+                    "[Far Fields] [Seamstress]",
+                    mask_shard_collected("Bone_East_20"),
+                ),
+                ("[Shellwood]", mask_shard_collected("Shellwood_14")),
+                ("[Weavenest Alta]", mask_shard_collected("Weave_05b")),
+                (
+                    "[Jubilana] from [Songclave] for [ROSARY] 750",
                     pd.merchant_enclave_shell_fragment,
                 ),
-                ("[Mask Shard Peak_04c]", mask_shard_collected("Peak_04c")),
+                ("West [Cogwork Core]", mask_shard_collected("Song_09")),
+                ("[Whispering Vaults]", mask_shard_collected("Library_05")),
+                ("[Savage Beastfly] [Wish]", quest_completed("Beastfly Hunt")),
                 (
-                    "[Mask Shard Bone_East_LavaChallenge]",
+                    "[Far Fields] rising lava escape sequence",
                     scene_activated("Bone_East_LavaChallenge", "Heart Piece (1)"),
                 ),
+                ("West [Mount Fay]", mask_shard_collected("Peak_04c")),
+                ("[Slab]", mask_shard_collected("Slab_17")),
+                ("[Bilewater]", mask_shard_collected("Shadow_13")),
+                ("[Wisp Thicket]", mask_shard_collected("Wisp_07")),
+                ("[Blasted Steps]", mask_shard_collected("Coral_19b")),
+                ("[Mount Fay] [Brightvein]", mask_shard_collected("Peak_06")),
                 (
-                    "[Mask Shard Savage Beastfly Hunt]",
-                    quest_completed("Beastfly Hunt"),
-                ),
-                ("[Mask Shard Coral_19b]", mask_shard_collected("Coral_19b")),
-                ("[Mask Shard Shadow_13]", mask_shard_collected("Shadow_13")),
-                ("[Mask Shard Slab_17]", mask_shard_collected("Slab_17")),
-                (
-                    "[Mask Shard Library_05]",
-                    mask_shard_collected("Library_05"),
-                ),
-                ("[Mask Shard Wisp_07]", mask_shard_collected("Wisp_07")),
-                (
-                    "[Mask Shard Sprintmaster Race]",
+                    "[Fastest in Pharloom] [Wish]",
                     quest_completed("Sprintmaster Race"),
                 ),
-                ("[Mask Shard Peak_06]", mask_shard_collected("Peak_06")),
-                ("[Mask Shard Ant Trapper]", quest_completed("Ant Trapper")),
                 (
-                    "[Mask Shard Destroy Thread Cores]",
+                    "[Dark Hearts] [Wish]",
                     quest_completed("Destroy Thread Cores"),
                 ),
+                ("[The Hidden Hunter] [Wish]", quest_completed("Ant Trapper")),
             ]);
 
             let needle = to_map(&[
@@ -1109,6 +1108,7 @@ impl Parser {
             let items = to_map(&[
                 ("[Drifter's Cloak]", pd.has_brolly),
                 ("[Faydown Cloak]", pd.has_double_jump),
+                ("[Key of Apostate]", false),
             ]);
 
             #[expect(clippy::float_cmp)]
@@ -1123,7 +1123,16 @@ impl Parser {
                         .is_some_and(|x| x.data.amount == 1.0),
             )]);
 
+            let wishes = to_map(&[
+                ("[The Wandering Merchant]", false),
+                ("[Savage Beastfly](Wishes#Grand_Hunt_Wishes)", false),
+                ("[Fastest in Pharloom]", false),
+                ("[Dark Hearts]", false),
+                ("[The Hidden Hunter]", false),
+            ]);
+
             self.map = GameSer::Silksong(SilksongChecks {
+                bosses,
                 silk_hearts,
                 tools,
                 silk_skills,
@@ -1135,6 +1144,7 @@ impl Parser {
                 tool_pouch,
                 items,
                 everbloom,
+                wishes,
             });
         }
 
@@ -1198,6 +1208,7 @@ pub struct HollowKnightChecks {
 #[derive(Debug, Default, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SilksongChecks {
+    bosses: HashMap<String, bool>,
     silk_hearts: HashMap<String, bool>,
     tools: HashMap<String, bool>,
     silk_skills: HashMap<String, bool>,
@@ -1209,6 +1220,7 @@ pub struct SilksongChecks {
     tool_pouch: HashMap<String, bool>,
     items: HashMap<String, bool>,
     everbloom: HashMap<String, bool>,
+    wishes: HashMap<String, bool>,
 }
 
 ////////////////////////////////////////////////////////////////////////////////

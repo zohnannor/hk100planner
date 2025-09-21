@@ -17,7 +17,7 @@ export { default as LOGO } from './logo.png';
 export { default as LOVE_KEY } from './lovekey.png';
 export { default as PALE_ORE } from './paleore.png';
 export { QuestionMark } from './questionmark';
-export { default as ROSARIES } from './rosaries.png';
+export { default as ROSARY } from './rosary.png';
 export { default as SLY_KEY } from './shopkeeperskey.png';
 export { default as SILKSONG } from './silksong.png';
 export { default as SILKSONG_BACKGROUND } from './silksongplaceholderbg.png';

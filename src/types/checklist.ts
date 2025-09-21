@@ -325,6 +325,13 @@ type HollowKnightChecksKeys = {
 
 /** Silksong specific check keys */
 type SilksongChecksKeys = {
+    bosses:
+        | '[Moss Mother]'
+        | '[Fourth Chorus]'
+        | '[Savage Beastfly]'
+        | '[Last Judge] / [Phantom]'
+        | '[Savage Beastfly 2](Savage Beastfly#Far_Fields)'
+        | '[Cogwork Dancers]';
     silkHearts: '[Bell Beast]' | '[Lace Tower]' | '[The Unravelled]';
     tools:
         | '[Shard Pendant]'
@@ -401,26 +408,26 @@ type SilksongChecksKeys = {
         | '[Witch Crest]'
         | '[Shaman Crest]';
     maskShards:
-        | '[Mask Shard Crawl_02]'
-        | '[Mask Shard Dock_08]'
-        | '[Mask Shard Bone_East_20]'
-        | '[Mask Shard Shellwood_14]'
-        | '[Mask Shard Weave_05b]'
-        | '[Mask Shard Song_09]'
-        | '[Mask Shard Bonebottom Shop]'
-        | '[Mask Shard Songclave Shop]'
-        | '[Mask Shard Peak_04c]'
-        | '[Mask Shard Bone_East_LavaChallenge]'
-        | '[Mask Shard Savage Beastfly Hunt]'
-        | '[Mask Shard Coral_19b]'
-        | '[Mask Shard Shadow_13]'
-        | '[Mask Shard Slab_17]'
-        | '[Mask Shard Library_05]'
-        | '[Mask Shard Wisp_07]'
-        | '[Mask Shard Sprintmaster Race]'
-        | '[Mask Shard Peak_06]'
-        | '[Mask Shard Ant Trapper]'
-        | '[Mask Shard Destroy Thread Cores]';
+        | '[Pebb] from [Bone Bottom] for [ROSARY] 300'
+        | '[Wormways]'
+        | '[Deep Docks] entrance'
+        | '[Far Fields] [Seamstress]'
+        | '[Shellwood]'
+        | '[Weavenest Alta]'
+        | '[Jubilana] from [Songclave] for [ROSARY] 750'
+        | 'West [Cogwork Core]'
+        | '[Whispering Vaults]'
+        | '[Savage Beastfly] [Wish]'
+        | '[Far Fields] rising lava escape sequence'
+        | 'West [Mount Fay]'
+        | '[Slab]'
+        | '[Bilewater]'
+        | '[Wisp Thicket]'
+        | '[Blasted Steps]'
+        | '[Mount Fay] [Brightvein]'
+        | '[Fastest in Pharloom] [Wish]'
+        | '[Dark Hearts] [Wish]'
+        | '[The Hidden Hunter] [Wish]';
     needle:
         | '[Sharpened Needle](Needle#Upgrades)'
         | '[Shining Needle](Needle#Upgrades)'
@@ -454,8 +461,14 @@ type SilksongChecksKeys = {
         | 'Tool Pouch Mooshka'
         | 'Tool Kit Grindle'
         | 'Tool Kit Architect';
-    items: "[Drifter's Cloak]" | '[Faydown Cloak]';
+    items: "[Drifter's Cloak]" | '[Faydown Cloak]' | '[Key of Apostate]';
     everbloom: '[Everbloom]';
+    wishes:
+        | '[The Wandering Merchant]'
+        | '[Savage Beastfly](Wishes#Grand_Hunt_Wishes)'
+        | '[Fastest in Pharloom]'
+        | '[Dark Hearts]'
+        | '[The Hidden Hunter]';
 };
 
 /** Union type for all possible check keys */
@@ -538,6 +551,8 @@ export type SilksongChecklistState = CommonChecklistState<'silksong'> & {
     rosariesReq: number;
     /** The amount of Spool Fragments collected. */
     spoolFragments: number;
+    /** The amount of Acts started. */
+    acts: number;
 };
 
 /** Represents the state of the checklist, including progress and requirements. */

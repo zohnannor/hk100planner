@@ -3,6 +3,7 @@ import {
     SilksongChecklistState,
 } from '../types/checklist';
 
+const nothing = {} as const;
 const checked = { checked: true } as const;
 const charms = 1 as const;
 const grubs = { grubs: 1 } as const;
@@ -125,7 +126,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
 
         optionalBosses: {
             '[Absolute Radiance]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         godhome: {
@@ -136,7 +137,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[Brothers Oro & Mato]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         godhome: { '[Pantheon of the Master]': checked },
@@ -159,25 +160,25 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[Flukemarm]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: { spells: { '[Desolate Dive]': checked } },
                 },
             },
             '[God Tamer]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: { colosseum: { '[Trial of the Fool]': checked } },
                 },
             },
             '[Great Nailsage Sly]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: { godhome: { '[Pantheon of the Sage]': checked } },
                 },
             },
             '[Hollow Knight]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         dreamers: {
@@ -195,7 +196,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[Oblobbles]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         colosseum: { '[Trial of the Conqueror]': checked },
@@ -203,7 +204,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[Paintmaster Sheo]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         godhome: { '[Pantheon of the Artist]': checked },
@@ -211,7 +212,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[Pure Vessel]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         godhome: { '[Pantheon of the Knight]': checked },
@@ -219,7 +220,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[Radiance]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         charms: { '[Kingsoul] / [Void Heart]': checked },
@@ -229,7 +230,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[Sisters of Battle]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         godhome: {
@@ -247,7 +248,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[Winged Nosk]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         godhome: {
@@ -258,7 +259,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[Zote]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         colosseum: { '[Trial of the Warrior]': checked },
@@ -643,7 +644,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
             },
             '[Glowing Womb]': {
                 description:
-                    'Found in the [Aspid Nest](Forgotten Crossroads#Aspid Nest) after completing [Aspid] arena.',
+                    'Found in the [Aspid Nest](Forgotten Crossroads#Aspid_Nest) after completing [Aspid] arena.',
                 reward: { percent, charms },
                 requires: {
                     checks: { equipment: { '[Crystal Heart]': checked } },
@@ -1262,7 +1263,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[Pantheon of the Hallownest] (no percent)': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         godhome: { '[Pantheon of the Knight]': checked },
@@ -1628,19 +1629,19 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[LOVE_KEY] [Love Key]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: { equipment: { "[Isma's Tear]": checked } },
                 },
             },
             "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]": {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[TRAM_PASS] [Tram Pass]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: { equipment: { '[Mantis Claw]': checked } },
                 },
@@ -1651,7 +1652,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 requires: { geo: 1800 },
             },
             '[Delicate Flower]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: { spells: { '[Desolate Dive]': checked } },
                 },
@@ -1697,35 +1698,35 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[CHARM_NOTCH] [Charm Notch] from [Salubra] #1': {
-                reward: {},
+                reward: nothing,
                 requires: { charms: 5 },
             },
             '[CHARM_NOTCH] [Charm Notch] from [Salubra] #2': {
-                reward: {},
+                reward: nothing,
                 requires: { charms: 10 },
             },
             '[CHARM_NOTCH] [Charm Notch] from [Salubra] #3': {
-                reward: {},
+                reward: nothing,
                 requires: { charms: 18 },
             },
             '[CHARM_NOTCH] [Charm Notch] from [Salubra] #4': {
-                reward: {},
+                reward: nothing,
                 requires: { charms: 25 },
             },
             '[CHARM_NOTCH] [Charm Notch] in [Fog Canyon]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: { equipment: { "[Isma's Tear]": checked } },
                 },
             },
             '[CHARM_NOTCH] [Charm Notch] in [Fungal Wastes]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: { equipment: { '[Mothwing Cloak]': checked } },
                 },
             },
             '[CHARM_NOTCH] [Charm Notch] from [Colosseum of Fools]': {
-                reward: {},
+                reward: nothing,
                 requires: {
                     checks: {
                         colosseum: { '[Trial of the Warrior]': checked },
@@ -1733,7 +1734,7 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
                 },
             },
             '[CHARM_NOTCH] [Charm Notch] from [Grimm]': {
-                reward: {},
+                reward: nothing,
                 requires: { checks: { bosses: { '[Grimm]': checked } } },
             },
         },
@@ -2083,11 +2084,26 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
 const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
     game: 'silksong',
     percent: 0,
+
     rosaries: 0,
     maskShards: 0,
     spoolFragments: 0,
+    acts: 1,
+
     rosariesReq: 0,
+
     checks: {
+        bosses: {
+            '[Moss Mother]': { reward: nothing },
+            '[Fourth Chorus]': { reward: nothing },
+            '[Savage Beastfly]': { reward: nothing },
+            '[Last Judge] / [Phantom]': { reward: { acts: 1 } },
+            '[Savage Beastfly 2](Savage Beastfly#Far_Fields)': {
+                reward: nothing,
+            },
+            '[Cogwork Dancers]': { reward: nothing },
+        },
+
         silkHearts: {
             '[Bell Beast]': { reward: { percent } },
             '[Lace Tower]': { reward: { percent } },
@@ -2177,26 +2193,183 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         maskShards: {
-            '[Mask Shard Crawl_02]': { reward: { maskShards } },
-            '[Mask Shard Dock_08]': { reward: { maskShards } },
-            '[Mask Shard Bone_East_20]': { reward: { maskShards } },
-            '[Mask Shard Shellwood_14]': { reward: { maskShards } },
-            '[Mask Shard Weave_05b]': { reward: { maskShards } },
-            '[Mask Shard Song_09]': { reward: { maskShards } },
-            '[Mask Shard Bonebottom Shop]': { reward: { maskShards } },
-            '[Mask Shard Songclave Shop]': { reward: { maskShards } },
-            '[Mask Shard Peak_04c]': { reward: { maskShards } },
-            '[Mask Shard Bone_East_LavaChallenge]': { reward: { maskShards } },
-            '[Mask Shard Savage Beastfly Hunt]': { reward: { maskShards } },
-            '[Mask Shard Coral_19b]': { reward: { maskShards } },
-            '[Mask Shard Shadow_13]': { reward: { maskShards } },
-            '[Mask Shard Slab_17]': { reward: { maskShards } },
-            '[Mask Shard Library_05]': { reward: { maskShards } },
-            '[Mask Shard Wisp_07]': { reward: { maskShards } },
-            '[Mask Shard Sprintmaster Race]': { reward: { maskShards } },
-            '[Mask Shard Peak_06]': { reward: { maskShards } },
-            '[Mask Shard Ant Trapper]': { reward: { maskShards } },
-            '[Mask Shard Destroy Thread Cores]': { reward: { maskShards } },
+            '[Pebb] from [Bone Bottom] for [ROSARY] 300': {
+                description:
+                    'Bought from [Pebb] in [Bone Bottom] for [ROSARY] 300 in [Acts] 1/2 or from [Grindle] in [Blasted Steps] for [ROSARY] 320 in [Act 3], also requiring [Faydown Cloak].',
+                reward: { maskShards, rosariesReq: 300 },
+                requires: {
+                    rosaries: 300,
+                    checks: { bosses: { '[Moss Mother]': checked } },
+                },
+            },
+            '[Wormways]': {
+                description:
+                    'Breakable wall just before the door requiring [Simple Key], after a room with [Craggler], accessed from [Mosshome].',
+                reward: { maskShards },
+            },
+            '[Deep Docks] entrance': {
+                description: 'A top passageway accessed from [The Marrow].',
+                reward: { maskShards },
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                },
+            },
+            '[Far Fields] [Seamstress]': {
+                reward: { maskShards },
+                requires: {
+                    checks: { items: { "[Drifter's Cloak]": checked } },
+                },
+            },
+            '[Shellwood]': { reward: { maskShards } },
+            '[Weavenest Alta]': {
+                description: 'Platforming challenge to the right of [Eva].',
+                reward: { maskShards },
+                requires: {
+                    checks: {
+                        ancestralArts: {
+                            '[Needolin]': checked,
+                            '[Cling Grip]': checked,
+                        },
+                    },
+                },
+            },
+            '[Jubilana] from [Songclave] for [ROSARY] 750': {
+                reward: { maskShards, rosariesReq: 750 },
+                requires: {
+                    rosaries: 750,
+                    acts: 2,
+                },
+            },
+            'West [Cogwork Core]': {
+                reward: { maskShards },
+                requires: {
+                    checks: { bosses: { '[Cogwork Dancers]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Whispering Vaults]': {
+                reward: { maskShards },
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Savage Beastfly] [Wish]': {
+                reward: { maskShards },
+                requires: {
+                    checks: {
+                        wishes: {
+                            '[Savage Beastfly](Wishes#Grand_Hunt_Wishes)':
+                                checked,
+                        },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Far Fields] rising lava escape sequence': {
+                reward: { maskShards },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Clawline]': checked },
+                        items: { "[Drifter's Cloak]": checked },
+                    },
+                    acts: 2,
+                },
+            },
+            'West [Mount Fay]': {
+                reward: { maskShards },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Slab]': {
+                description:
+                    'Northeast part of [The Slab], inaccessible when first captured.',
+                reward: { maskShards },
+                requires: {
+                    checks: {
+                        items: {
+                            '[Faydown Cloak]': checked,
+                            '[Key of Apostate]': checked,
+                        },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Bilewater]': {
+                description:
+                    'At the end of a hallway filled with [Slubberlugs].',
+                reward: { maskShards },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Wisp Thicket]': {
+                reward: { maskShards },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Blasted Steps]': {
+                description: 'Above the entrance to [Pharloom].',
+                reward: { maskShards },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Clawline]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Mount Fay] [Brightvein]': {
+                reward: { maskShards },
+                requires: {
+                    checks: {
+                        ancestralArts: {
+                            '[Clawline]': checked,
+                            '[Silk Soar]': checked,
+                        },
+                    },
+                    acts: 3,
+                },
+            },
+            '[Fastest in Pharloom] [Wish]': {
+                reward: { maskShards },
+                requires: {
+                    checks: {
+                        wishes: {
+                            '[Fastest in Pharloom]': checked,
+                        },
+                    },
+                    acts: 3,
+                },
+            },
+            '[Dark Hearts] [Wish]': {
+                reward: { maskShards },
+                requires: {
+                    checks: { wishes: { '[Dark Hearts]': checked } },
+                    acts: 3,
+                },
+            },
+            '[The Hidden Hunter] [Wish]': {
+                reward: { maskShards },
+                requires: {
+                    checks: { wishes: { '[The Hidden Hunter]': checked } },
+                    acts: 3,
+                },
+            },
         },
 
         needle: {
@@ -2239,11 +2412,39 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         items: {
-            "[Drifter's Cloak]": { reward: {} },
-            '[Faydown Cloak]': { reward: {} },
+            "[Drifter's Cloak]": { reward: nothing },
+            '[Faydown Cloak]': { reward: nothing },
+            '[Key of Apostate]': { reward: nothing },
         },
 
         everbloom: { '[Everbloom]': { reward: { percent } } },
+
+        wishes: {
+            '[The Wandering Merchant]': { reward: nothing },
+            '[Savage Beastfly](Wishes#Grand_Hunt_Wishes)': {
+                reward: nothing,
+                requires: {
+                    checks: {
+                        bosses: {
+                            '[Fourth Chorus]': checked,
+                            '[Savage Beastfly]': checked,
+                            '[Savage Beastfly 2](Savage Beastfly#Far_Fields)':
+                                checked,
+                        },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Fastest in Pharloom]': {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Silk Soar]': checked } },
+                    acts: 3,
+                },
+            },
+            '[Dark Hearts]': { reward: nothing, requires: { acts: 3 } },
+            '[The Hidden Hunter]': { reward: nothing, requires: { acts: 3 } },
+        },
     },
 };
 
