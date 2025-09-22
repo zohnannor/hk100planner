@@ -81,18 +81,20 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 reward: { percent },
                 requires: { checks: { bosses: { '[Bell Beast]': checked } } },
             },
-            '[Lace Tower]': {
+            '[Lace 2](Lace#The_Cradle)': {
                 reward: { percent },
                 requires: {
                     checks: {
                         bosses: { '[Lace 2](Lace#The_Cradle)': checked },
                     },
+                    acts: 2,
                 },
             },
             '[The Unravelled]': {
                 reward: { percent },
                 requires: {
                     checks: { bosses: { '[The Unravelled]': checked } },
+                    acts: 2,
                 },
             },
         },
@@ -179,11 +181,15 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                         ancestralArts: { '[Needolin]': checked },
                         items: { '[Faydown Cloak]': checked },
                     },
+                    acts: 2,
                 },
             },
             '[Rune Rage]': {
                 reward: { percent },
-                requires: { checks: { bosses: { '[First Sinner]': checked } } },
+                requires: {
+                    checks: { bosses: { '[First Sinner]': checked } },
+                    acts: 2,
+                },
             },
             '[Pale Nails]': {
                 reward: { percent },
@@ -192,6 +198,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                         bosses: { '[Grand Mother Silk]': checked },
                         ancestralArts: { '[Silk Soar]': checked },
                     },
+                    acts: 2,
                 },
             },
         },

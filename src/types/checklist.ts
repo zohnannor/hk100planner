@@ -342,7 +342,10 @@ type SilksongChecksKeys = {
         | "[Conductor's Melody]"
         | "[Architect's Melody]"
         | "[Vaultkeeper's Melody]";
-    silkHearts: '[Bell Beast]' | '[Lace Tower]' | '[The Unravelled]';
+    silkHearts:
+        | '[Bell Beast]'
+        | '[Lace 2](Lace#The_Cradle)'
+        | '[The Unravelled]';
     tools:
         | '[Shard Pendant]'
         | '[Compass]'

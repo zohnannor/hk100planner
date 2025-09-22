@@ -49,6 +49,7 @@ const HOLLOW_KNIGHT_SECTION_TITLES: Record<
 
 const SILKSONG_SECTION_TITLES: Record<SectionNames<'silksong'>, string> = {
     bosses: '[Bosses](Bosses (Silksong)) (no percents)',
+    melodies: '[Threefold Melody](The Cradle#How_to_Access)',
     silkHearts: '[Silk Hearts]',
     tools: '[Tools]',
     silkSkills: '[Silk Skills](Crests#List_of_Skills)',
@@ -107,6 +108,7 @@ export const SILKSONG_DISTRIBUTED_SECTIONS = [
         'toolPouch',
         'everbloom',
         'bosses',
+        'melodies',
         'fleas',
         'wishes',
     ],

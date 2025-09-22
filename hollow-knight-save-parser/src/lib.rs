@@ -866,7 +866,7 @@ impl Parser {
                     silk_heart_collected("Memory_Silk_Heart_BellBeast"),
                 ),
                 (
-                    "[Lace Tower]",
+                    "[Lace 2](Lace#The_Cradle)",
                     silk_heart_collected("Memory_Silk_Heart_LaceTower"),
                 ),
                 (

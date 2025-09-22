@@ -247,6 +247,10 @@ const requirementTextForSection = <Game extends GameKey>(
                 joined += 'granted';
                 break;
             }
+            case 'melodies': {
+                joined += 'learned';
+                break;
+            }
             default:
                 throw new Error(
                     `Unimplemented requirement for '${
