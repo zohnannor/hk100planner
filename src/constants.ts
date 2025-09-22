@@ -61,6 +61,8 @@ const SILKSONG_SECTION_TITLES: Record<SectionNames<'silksong'>, string> = {
     items: '[Items](Items (Silksong)) (no percents)',
     everbloom: '[Everbloom]',
     wishes: '[Wishes] (no percents)',
+    fleas: '[Fleas] (no percents)',
+    relics: '[Relics](Items (Silksong)#Tradables) (no percents)',
 };
 
 export const SECTION_TITLES = {
@@ -96,7 +98,7 @@ export const HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS = [
 ] as const satisfies SectionNames<'hollow-knight'>[][];
 
 export const SILKSONG_DISTRIBUTED_SECTIONS = [
-    ['silkHearts', 'ancestralArts', 'silkSkills', 'tools', 'items'],
+    ['silkHearts', 'ancestralArts', 'silkSkills', 'tools', 'items', 'relics'],
     [
         'needle',
         'crests',
@@ -105,6 +107,7 @@ export const SILKSONG_DISTRIBUTED_SECTIONS = [
         'toolPouch',
         'everbloom',
         'bosses',
+        'fleas',
         'wishes',
     ],
 ] as const satisfies SectionNames<'silksong'>[][];

@@ -851,6 +851,7 @@ impl Parser {
                 ("[Moss Mother]", false),
                 ("[Fourth Chorus]", false),
                 ("[Savage Beastfly]", false),
+                ("[Widow]", false),
                 ("[Last Judge] / [Phantom]", false),
                 ("[Savage Beastfly 2](Savage Beastfly#Far_Fields)", false),
                 ("[Cogwork Dancers]", false),
@@ -1030,61 +1031,45 @@ impl Parser {
             ]);
 
             let spool_fragments = to_map(&[
-                // TODO: names
+                ("[Bone Bottom]", silk_spool_collected("Bone_11b")),
                 (
-                    "[Spool Fragment Bone_East_13]",
+                    "[Deep Docks] hot floor",
                     silk_spool_collected("Bone_East_13"),
                 ),
+                ("[Weavenest Alta]", silk_spool_collected("Weave_11")),
+                ("[Greymoor]", silk_spool_collected("Greymoor_02")),
+                ("[Slab]", silk_spool_collected("Peak_01")),
                 (
-                    "[Spool Fragment Greymoor_02]",
-                    silk_spool_collected("Greymoor_02"),
-                ),
-                (
-                    "[Spool Fragment Weave_11]",
-                    silk_spool_collected("Weave_11"),
-                ),
-                ("[Spool Fragment Peak_01]", silk_spool_collected("Peak_01")),
-                (
-                    "[Spool Fragment Bellhart Shop]",
+                    "[Frey] from [Bellhart] for [ROSARY] 270",
                     pd.purchased_belltown_spool_segment,
                 ),
+                ("[Grand Gate]", silk_spool_collected("Song_19_entrance")),
+                ("[Underworks]", silk_spool_collected("Under_10")),
                 (
-                    "[Spool Fragment Song_19_entrance]",
-                    silk_spool_collected("Song_19_entrance"),
+                    "From [Mooshka] at [Grand Gate]",
+                    pd.caravan_troupe_location > 1.0,
                 ),
+                ("[Whiteward]", silk_spool_collected("Ward_01")),
+                ("[Cogwork Core]", silk_spool_collected("Cog_07")),
                 (
-                    "[Spool Fragment Under_10]",
-                    silk_spool_collected("Under_10"),
-                ),
-                ("[Spool Fragment Cog_07]", silk_spool_collected("Cog_07")),
-                (
-                    "[Spool Fragment Library_11b]",
+                    "[Underworks] near [The Cauldron]",
                     silk_spool_collected("Library_11b"),
                 ),
-                ("[Spool Fragment Ward_01]", silk_spool_collected("Ward_01")),
-                ("[Spool Fragment Mooshka]", pd.caravan_troupe_location > 1.0),
                 (
-                    "[Spool Fragment Arborium_09]",
-                    silk_spool_collected("Arborium_09"),
+                    "[Balm for the Wounded] [Wish]",
+                    quest_completed("Save Sherma"),
                 ),
                 (
-                    "[Spool Fragment Dock_03c]",
-                    silk_spool_collected("Dock_03c"),
-                ),
-                (
-                    "[Spool Fragment Hang_03_top]",
-                    silk_spool_collected("Hang_03_top"),
-                ),
-                (
-                    "[Spool Fragment Songclave Shop]",
+                    "[Jubilana] from [Songclave] for [ROSARY] 500",
                     pd.merchant_enclave_spool_piece,
                 ),
-                ("[Spool Fragment Sherma]", quest_completed("Save Sherma")),
-                ("[Spool Fragment Grindle]", pd.purchased_grindle_spool_piece),
                 (
-                    "[Spool Fragment Bone_11b]",
-                    silk_spool_collected("Bone_11b"),
+                    "[Deep Docks] behind [Simple Key]",
+                    silk_spool_collected("Dock_03c"),
                 ),
+                ("[High Halls]", silk_spool_collected("Hang_03_top")),
+                ("[Memorium]", silk_spool_collected("Arborium_09")),
+                ("[Spool Fragment Grindle]", pd.purchased_grindle_spool_piece),
             ]);
 
             let tool_pouch = to_map(&[
@@ -1108,6 +1093,7 @@ impl Parser {
             let items = to_map(&[
                 ("[Drifter's Cloak]", pd.has_brolly),
                 ("[Faydown Cloak]", pd.has_double_jump),
+                ("[White Key]", false),
                 ("[Key of Apostate]", false),
             ]);
 
@@ -1131,6 +1117,10 @@ impl Parser {
                 ("[The Hidden Hunter]", false),
             ]);
 
+            let relics = to_map(&[]);
+
+            let fleas = to_map(&[]);
+
             self.map = GameSer::Silksong(SilksongChecks {
                 bosses,
                 silk_hearts,
@@ -1145,6 +1135,8 @@ impl Parser {
                 items,
                 everbloom,
                 wishes,
+                relics,
+                fleas,
             });
         }
 
@@ -1221,6 +1213,8 @@ pub struct SilksongChecks {
     items: HashMap<String, bool>,
     everbloom: HashMap<String, bool>,
     wishes: HashMap<String, bool>,
+    relics: HashMap<String, bool>,
+    fleas: HashMap<String, bool>,
 }
 
 ////////////////////////////////////////////////////////////////////////////////

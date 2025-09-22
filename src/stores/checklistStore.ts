@@ -119,6 +119,8 @@ const validateCheck = <Game extends GameKey>(
     const hkRequires =
         check.requires as PartialDeep<HollowKnightChecklistState>;
 
+    // TODO: silksong
+
     // special case for "consumable items", we don't want to just check if the
     // value is greater, we wanna know that we have enough of it
     const reqs: Record<

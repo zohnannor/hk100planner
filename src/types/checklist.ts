@@ -329,6 +329,7 @@ type SilksongChecksKeys = {
         | '[Moss Mother]'
         | '[Fourth Chorus]'
         | '[Savage Beastfly]'
+        | '[Widow]'
         | '[Last Judge] / [Phantom]'
         | '[Savage Beastfly 2](Savage Beastfly#Far_Fields)'
         | '[Cogwork Dancers]';
@@ -434,24 +435,24 @@ type SilksongChecksKeys = {
         | '[Hivesteel Needle](Needle#Upgrades)'
         | '[Palesteel Needle](Needle#Upgrades)';
     spoolFragments:
-        | '[Spool Fragment Bone_East_13]'
-        | '[Spool Fragment Greymoor_02]'
-        | '[Spool Fragment Weave_11]'
-        | '[Spool Fragment Peak_01]'
-        | '[Spool Fragment Bellhart Shop]'
-        | '[Spool Fragment Song_19_entrance]'
-        | '[Spool Fragment Under_10]'
-        | '[Spool Fragment Cog_07]'
-        | '[Spool Fragment Library_11b]'
-        | '[Spool Fragment Ward_01]'
-        | '[Spool Fragment Mooshka]'
-        | '[Spool Fragment Arborium_09]'
-        | '[Spool Fragment Dock_03c]'
-        | '[Spool Fragment Hang_03_top]'
-        | '[Spool Fragment Songclave Shop]'
-        | '[Spool Fragment Sherma]'
-        | '[Spool Fragment Grindle]'
-        | '[Spool Fragment Bone_11b]';
+        | '[Bone Bottom]'
+        | '[Deep Docks] hot floor'
+        | '[Weavenest Alta]'
+        | '[Greymoor]'
+        | '[Slab]'
+        | '[Frey] from [Bellhart] for [ROSARY] 270'
+        | '[Grand Gate]'
+        | '[Underworks]'
+        | 'From [Mooshka] at [Grand Gate]'
+        | '[Whiteward]'
+        | '[Cogwork Core]'
+        | '[Underworks] near [The Cauldron]'
+        | '[Balm for the Wounded] [Wish]'
+        | '[Jubilana] from [Songclave] for [ROSARY] 500'
+        | '[Deep Docks] behind [Simple Key]'
+        | '[High Halls]'
+        | '[Memorium]'
+        | '[Spool Fragment Grindle]';
     toolPouch:
         | 'Tool Pouch Pin Challenge'
         | 'Tool Kit Crow Feathers'
@@ -461,14 +462,27 @@ type SilksongChecksKeys = {
         | 'Tool Pouch Mooshka'
         | 'Tool Kit Grindle'
         | 'Tool Kit Architect';
-    items: "[Drifter's Cloak]" | '[Faydown Cloak]' | '[Key of Apostate]';
+    items:
+        | "[Drifter's Cloak]"
+        | '[Faydown Cloak]'
+        | '[White Key]'
+        | '[Key of Apostate]';
     everbloom: '[Everbloom]';
     wishes:
+        | '[My Missing Courier]'
         | '[The Wandering Merchant]'
         | '[Savage Beastfly](Wishes#Grand_Hunt_Wishes)'
+        | '[Fine Pins]'
+        | '[Balm for the Wounded]'
+        | '[Building Up Songclave]'
+        | '[Cloaks of the Choir]'
+        | '[Strengthening Songclave]'
+        | '[The Lost Merchant]'
         | '[Fastest in Pharloom]'
         | '[Dark Hearts]'
         | '[The Hidden Hunter]';
+    fleas: never;
+    relics: never;
 };
 
 /** Union type for all possible check keys */
@@ -514,6 +528,10 @@ type CommonChecklistState<Game extends GameKey> = {
     checks: Checks<Game>;
     /** The amount of mask shards collected. */
     maskShards: number;
+    /** The amount of simple keys collected. */
+    simpleKeys: number;
+    /** The required amount of simple keys. */
+    simpleKeysReq: number;
 };
 
 /** Hollow Knight specific state properties. */
@@ -527,20 +545,16 @@ export type HollowKnightChecklistState =
         paleOre: number;
         /** The amount of charms collected. */
         charms: number;
-        /** The amount of grubs collected. */
+        /** The amount of grubs freed. */
         grubs: number;
         /** The amount of vessel fragments collected. */
         vesselFragments: number;
-        /** The amount of simple keys collected. */
-        simpleKeys: number;
         /** The required amount of geo. */
         geoReq: number;
         /** The required amount of essence (array to track history and compute max). */
         essenceReq: [number];
         /** The required amount of pale ore. */
         paleOreReq: number;
-        /** The required amount of simple keys. */
-        simpleKeysReq: number;
     };
 
 /** Silksong specific state properties. */
@@ -553,6 +567,8 @@ export type SilksongChecklistState = CommonChecklistState<'silksong'> & {
     spoolFragments: number;
     /** The amount of Acts started. */
     acts: number;
+    /** The amount of fleas found. */
+    fleas: number;
 };
 
 /** Represents the state of the checklist, including progress and requirements. */
