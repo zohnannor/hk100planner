@@ -20,7 +20,7 @@ export { QuestionMark } from './questionmark';
 export { default as ROSARY } from './rosary.png';
 export { default as SLY_KEY } from './shopkeeperskey.png';
 export { default as SILKSONG } from './silksong.png';
-export { default as SILKSONG_BACKGROUND } from './silksongplaceholderbg.png';
+export { default as SILKSONG_BACKGROUND } from './silksongbg.png';
 export { default as SIMPLE_KEY } from './simplekey.png';
 export { default as TRAM_PASS } from './trampass.png';
 export { default as HOLLOW_KNIGHT_BACKGROUD } from './voidheart.png';

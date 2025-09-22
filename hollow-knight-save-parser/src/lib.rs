@@ -849,12 +849,15 @@ impl Parser {
 
             let bosses = to_map(&[
                 ("[Moss Mother]", false),
+                ("[Bell Beast]", false),
                 ("[Fourth Chorus]", false),
                 ("[Savage Beastfly]", false),
                 ("[Widow]", false),
                 ("[Last Judge] / [Phantom]", false),
                 ("[Savage Beastfly 2](Savage Beastfly#Far_Fields)", false),
                 ("[Cogwork Dancers]", false),
+                ("[The Unravelled]", false),
+                ("[Lace 2](Lace#The_Cradle)", false),
             ]);
 
             let silk_hearts = to_map(&[
@@ -1121,7 +1124,7 @@ impl Parser {
                 ("[The Lost Merchant]", false),
                 ("[Fastest in Pharloom]", false),
                 ("[Dark Hearts]", false),
-                ("[The Hidden Hunter]'", false),
+                ("[The Hidden Hunter]", false),
             ]);
 
             let relics = to_map(&[]);
@@ -1172,7 +1175,6 @@ type Number = f64;
 // Serialization////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-#[expect(clippy::large_enum_variant)]
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum GameSer {

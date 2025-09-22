@@ -1950,8 +1950,8 @@ __metadata:
 
 "hollow-knight-save-parser@file:./pkg::locator=hk100planner%40workspace%3A.":
   version: 0.0.0
-  resolution: "hollow-knight-save-parser@file:./pkg#./pkg::hash=b9e246&locator=hk100planner%40workspace%3A."
-  checksum: 10c0/722f9adc974aac58664071933867444a2119e21fc4050c8430d417add1d6a34161f1229f4d008faf8e97c789472a9f6019c9ae13e7ff4cd70a5e70a5c6635d29
+  resolution: "hollow-knight-save-parser@file:./pkg#./pkg::hash=aefc39&locator=hk100planner%40workspace%3A."
+  checksum: 10c0/a34d1c179e3f618a352b8a6f57252959cc5a4b0ac93794a127fd1b1316959a6ac4b98ebb679d5af29f2a2dd45ecb7909a9c4ba3b1da5829b734d0157c6a627f5
   languageName: node
   linkType: hard
 

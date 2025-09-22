@@ -27,20 +27,65 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
     checks: {
         bosses: {
             '[Moss Mother]': { reward: nothing },
+            '[Bell Beast]': { reward: nothing },
             '[Fourth Chorus]': { reward: nothing },
             '[Savage Beastfly]': { reward: nothing },
             '[Widow]': { reward: nothing },
             '[Last Judge] / [Phantom]': { reward: { acts: 1 } },
             '[Savage Beastfly 2](Savage Beastfly#Far_Fields)': {
                 reward: nothing,
+                requires: { acts: 2 },
             },
-            '[Cogwork Dancers]': { reward: nothing },
+            '[Cogwork Dancers]': { reward: nothing, requires: { acts: 2 } },
+            '[The Unravelled]': { reward: nothing, requires: { acts: 2 } },
+            '[First Sinner]': {
+                reward: nothing,
+                requires: {
+                    checks: { items: { '[Key of Apostate]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Lace 2](Lace#The_Cradle)': {
+                reward: nothing,
+                requires: { acts: 2 },
+            },
+            '[Grand Mother Silk]': {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                    acts: 2,
+                },
+            },
+        },
+
+        melodies: {
+            "[Conductor's Melody]": { reward: nothing, requires: { acts: 2 } },
+            "[Architect's Melody]": { reward: nothing, requires: { acts: 2 } },
+            "[Vaultkeeper's Melody]": {
+                reward: nothing,
+                requires: { acts: 2 },
+            },
         },
 
         silkHearts: {
-            '[Bell Beast]': { reward: { percent } },
-            '[Lace Tower]': { reward: { percent } },
-            '[The Unravelled]': { reward: { percent } },
+            '[Bell Beast]': {
+                reward: { percent },
+                requires: { checks: { bosses: { '[Bell Beast]': checked } } },
+            },
+            '[Lace Tower]': {
+                reward: { percent },
+                requires: {
+                    checks: {
+                        bosses: { '[Lace 2](Lace#The_Cradle)': checked },
+                    },
+                },
+            },
+            '[The Unravelled]': {
+                reward: { percent },
+                requires: {
+                    checks: { bosses: { '[The Unravelled]': checked } },
+                },
+            },
         },
 
         tools: {
@@ -98,12 +143,48 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         silkSkills: {
-            '[Silkspear]': { reward: { percent } },
-            '[Thread Storm]': { reward: { percent } },
-            '[Cross Stitch]': { reward: { percent } },
-            '[Sharpdart]': { reward: { percent } },
-            '[Rune Rage]': { reward: { percent } },
-            '[Pale Nails]': { reward: { percent } },
+            '[Silkspear]': {
+                reward: { percent },
+                requires: { checks: { bosses: { '[Moss Mother]': checked } } },
+            },
+            '[Thread Storm]': {
+                reward: { percent },
+                requires: {
+                    checks: { items: { "[Drifter's Cloak]": checked } },
+                },
+            },
+            '[Cross Stitch]': {
+                description: 'Of the two, requires [Phantom] to be defeated.',
+                reward: { percent },
+                requires: {
+                    checks: {
+                        bosses: { '[Last Judge] / [Phantom]': checked },
+                        ancestralArts: { '[Cling Grip]': checked },
+                    },
+                },
+            },
+            '[Sharpdart]': {
+                reward: { percent },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Needolin]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                },
+            },
+            '[Rune Rage]': {
+                reward: { percent },
+                requires: { checks: { bosses: { '[First Sinner]': checked } } },
+            },
+            '[Pale Nails]': {
+                reward: { percent },
+                requires: {
+                    checks: {
+                        bosses: { '[Grand Mother Silk]': checked },
+                        ancestralArts: { '[Silk Soar]': checked },
+                    },
+                },
+            },
         },
 
         ancestralArts: {

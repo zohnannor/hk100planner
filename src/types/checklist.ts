@@ -327,12 +327,21 @@ type HollowKnightChecksKeys = {
 type SilksongChecksKeys = {
     bosses:
         | '[Moss Mother]'
+        | '[Bell Beast]'
         | '[Fourth Chorus]'
         | '[Savage Beastfly]'
         | '[Widow]'
         | '[Last Judge] / [Phantom]'
         | '[Savage Beastfly 2](Savage Beastfly#Far_Fields)'
-        | '[Cogwork Dancers]';
+        | '[Cogwork Dancers]'
+        | '[The Unravelled]'
+        | '[First Sinner]'
+        | '[Lace 2](Lace#The_Cradle)'
+        | '[Grand Mother Silk]';
+    melodies:
+        | "[Conductor's Melody]"
+        | "[Architect's Melody]"
+        | "[Vaultkeeper's Melody]";
     silkHearts: '[Bell Beast]' | '[Lace Tower]' | '[The Unravelled]';
     tools:
         | '[Shard Pendant]'
