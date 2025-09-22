@@ -1110,11 +1110,18 @@ impl Parser {
             )]);
 
             let wishes = to_map(&[
+                ("[My Missing Courier]", false),
                 ("[The Wandering Merchant]", false),
                 ("[Savage Beastfly](Wishes#Grand_Hunt_Wishes)", false),
+                ("[Fine Pins]", false),
+                ("[Balm for the Wounded]", false),
+                ("[Building Up Songclave]", false),
+                ("[Cloaks of the Choir]", false),
+                ("[Strengthening Songclave]", false),
+                ("[The Lost Merchant]", false),
                 ("[Fastest in Pharloom]", false),
                 ("[Dark Hearts]", false),
-                ("[The Hidden Hunter]", false),
+                ("[The Hidden Hunter]'", false),
             ]);
 
             let relics = to_map(&[]);

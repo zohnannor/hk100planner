@@ -244,7 +244,7 @@ const requirementTextForSection = <Game extends GameKey>(
                 break;
             }
             case 'wishes': {
-                joined += 'completed';
+                joined += 'granted';
                 break;
             }
             default:
