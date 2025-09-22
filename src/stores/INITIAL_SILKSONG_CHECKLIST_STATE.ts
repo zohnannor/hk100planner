@@ -47,7 +47,16 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
             },
             '[Lace 2](Lace#The_Cradle)': {
                 reward: nothing,
-                requires: { acts: 2 },
+                requires: {
+                    checks: {
+                        melodies: {
+                            "[Conductor's Melody]": checked,
+                            "[Architect's Melody]": checked,
+                            "[Vaultkeeper's Melody]": checked,
+                        },
+                    },
+                    acts: 2,
+                },
             },
             '[Grand Mother Silk]': {
                 reward: nothing,
