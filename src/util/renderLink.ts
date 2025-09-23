@@ -7,10 +7,13 @@ import {
     JOURNAL,
     KINGS_IDOL,
     LOVE_KEY,
+    MEMORY_LOCKET,
+    PALE_OIL,
     PALE_ORE,
     ROSARY,
     SEAL,
-    SIMPLE_KEY,
+    SIMPLE_KEY_HK,
+    SIMPLE_KEY_SS,
     SLY_KEY,
     TRAM_PASS,
 } from '../assets';
@@ -18,21 +21,24 @@ import {
 const WIKI_URL_BASE = 'https://hollowknight.wiki/w/';
 
 const ICONS: Record<string, string> = {
-    GEO: GEO,
-    ESSENCE: ESSENCE,
-    PALE_ORE: PALE_ORE,
-    CHARM_NOTCH: CHARM_NOTCH,
-    TRAM_PASS: TRAM_PASS,
+    GEO,
+    ESSENCE,
+    PALE_ORE,
+    CHARM_NOTCH,
+    TRAM_PASS,
     "WANDERER'S_JOURNAL": JOURNAL,
     HALLOWNEST_SEAL: SEAL,
     "KING'S_IDOL": KINGS_IDOL,
-    ARCANE_EGG: ARCANE_EGG,
-    LOVE_KEY: LOVE_KEY,
-    SIMPLE_KEY: SIMPLE_KEY,
-    ELEGANT_KEY: ELEGANT_KEY,
+    ARCANE_EGG,
+    LOVE_KEY,
+    'SIMPLE_KEY_(HOLLOW_KNIGHT)': SIMPLE_KEY_HK,
+    ELEGANT_KEY,
     "SHOPKEEPER'S_KEY": SLY_KEY,
 
-    ROSARY: ROSARY,
+    ROSARY,
+    MEMORY_LOCKET,
+    PALE_OIL,
+    'SIMPLE_KEY_(SILKSONG)': SIMPLE_KEY_SS,
 };
 
 type ParsedItemType = 'link' | 'text' | 'icon' | 'monospace';
@@ -44,7 +50,7 @@ interface ParsedItem {
 }
 
 const toTitleCase = (s: string) =>
-    s.replace(/^_*(.)|_+(.)/g, (_, c, d) =>
+    s.replace(/^(.)|_+(\(?.)/g, (_, c, d) =>
         c ? c.toUpperCase() : ' ' + d.toUpperCase()
     );
 

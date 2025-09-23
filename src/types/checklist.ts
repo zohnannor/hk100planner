@@ -231,10 +231,10 @@ type HollowKnightChecksKeys = {
         | '[Tower of Love] #2'
         | '[Tower of Love] #3';
     items:
-        | '[SIMPLE_KEY] [Simple Key] from [Sly]'
-        | '[SIMPLE_KEY] [Simple Key] near [City Storerooms]'
-        | '[SIMPLE_KEY] [Simple Key] in the [Ancient Basin]'
-        | '[SIMPLE_KEY] [Simple Key] behind [Pale Lurker]'
+        | '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] from [Sly]'
+        | '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] near [City Storerooms]'
+        | '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] in the [Ancient Basin]'
+        | '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] behind [Pale Lurker]'
         | '[ELEGANT_KEY] [Elegant Key]'
         | '[LOVE_KEY] [Love Key]'
         | "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]"
@@ -329,11 +329,13 @@ type SilksongChecksKeys = {
         | '[Moss Mother]'
         | '[Bell Beast]'
         | '[Fourth Chorus]'
+        | '[Sister Splinter]'
         | '[Savage Beastfly]'
         | '[Widow]'
         | '[Last Judge] / [Phantom]'
         | '[Savage Beastfly 2](Savage Beastfly#Far_Fields)'
         | '[Cogwork Dancers]'
+        | '[Trobbio]'
         | '[The Unravelled]'
         | '[First Sinner]'
         | '[Lace 2](Lace#The_Cradle)'
@@ -410,16 +412,21 @@ type SilksongChecksKeys = {
         | '[Cling Grip]'
         | '[Needolin]'
         | '[Clawline]'
-        | '[Needle Strike]'
         | '[Silk Soar]'
+        | '[Needle Strike]'
         | '[Sylphsong]';
     crests:
         | '[Reaper Crest]'
-        | '[Beast Crest]'
         | '[Wanderer Crest]'
-        | '[Architect Crest]'
+        | '[Beast Crest]'
         | '[Witch Crest]'
+        | '[Architect Crest]'
         | '[Shaman Crest]';
+    eva:
+        | 'Evolved [Hunter Crest]'
+        | '[Vesticrest] yellow slot'
+        | '[Vesticrest] blue slot'
+        | 'Further evolved [Hunter Crest]';
     maskShards:
         | '[Pebb] from [Bone Bottom] for [ROSARY] 300'
         | '[Wormways]'
@@ -478,10 +485,31 @@ type SilksongChecksKeys = {
         | "[Drifter's Cloak]"
         | '[Faydown Cloak]'
         | '[White Key]'
-        | '[Key of Apostate]';
+        | '[Key of Apostate]'
+        | '[MEMORY_LOCKET] [Memory Locket] for [Volatile Flintbeetles] [Wish]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [The Marrow]'
+        | "[MEMORY_LOCKET] [Memory Locket] in [Hunter's March]"
+        | '[MEMORY_LOCKET] [Memory Locket] in [Deep Docks] behind [Simple Key]'
+        | '[MEMORY_LOCKET] [Memory Locket] from [Mort] in [Far Fields] for [ROSARY] 150'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Far Fields] near [Skarrsinger Karmelita]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Greymoor] near [Bellway]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Greymoor] inside [Halfway Home]'
+        | '[MEMORY_LOCKET] [Memory Locket] from [Frey] in [Bellhart] for [ROSARY] 330'
+        | "[MEMORY_LOCKET] [Memory Locket] in [Bellhart]'s ceiling"
+        | '[MEMORY_LOCKET] [Memory Locket] in [Blasted Steps]'
+        | '[MEMORY_LOCKET] [Memory Locket] in the [Sands of Karak]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Wormways]'
+        | '[MEMORY_LOCKET] [Memory Locket] in the [Underworks]'
+        | '[MEMORY_LOCKET] [Memory Locket] at [Grand Bellway]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Memorium]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [The Slab]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Whispering Vaults]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Bilewater] secret room'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Bilewater] near the bench shortcut';
     everbloom: '[Everbloom]';
     wishes:
         | '[My Missing Courier]'
+        | '[Volatile Flintbeetles]'
         | '[The Wandering Merchant]'
         | '[Savage Beastfly](Wishes#Grand_Hunt_Wishes)'
         | '[Fine Pins]'
@@ -564,7 +592,7 @@ export type HollowKnightChecklistState =
         /** The required amount of geo. */
         geoReq: number;
         /** The required amount of essence (array to track history and compute max). */
-        essenceReq: [number];
+        essenceReq: number[];
         /** The required amount of pale ore. */
         paleOreReq: number;
     };
@@ -581,6 +609,14 @@ export type SilksongChecklistState = CommonChecklistState<'silksong'> & {
     acts: number;
     /** The amount of fleas found. */
     fleas: number;
+    /** The amount of pail oil collected. */
+    paleOil: number;
+    /** The amount of memory lockets collected and used. */
+    memoryLockets: number;
+    /** The required amount of memory lockets. */
+    memoryLocketsReq: number[];
+    /** The required amount of pail oil. */
+    paleOilReq: number;
 };
 
 /** Represents the state of the checklist, including progress and requirements. */

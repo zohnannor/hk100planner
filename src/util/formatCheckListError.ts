@@ -65,7 +65,7 @@ const formatCheckListError = <Game extends GameKey>(
                         case 'grubs':
                             return `${error} [grubs] rescued`;
                         case 'simpleKeys':
-                            return `${error} [Simple Key](Simple Key (Hollow Knight))(s) collected`;
+                            return `${error} [SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key](Simple Key (Hollow Knight))(s) collected`;
                         case 'maskShards':
                             return `${error} [Mask Shard](Mask Shard (Hollow Knight))(s) collected`;
                         case 'charms':
@@ -102,12 +102,18 @@ const formatCheckListError = <Game extends GameKey>(
                         case 'fleas':
                             return `${error} [fleas] rescued`;
                         case 'simpleKeys':
-                            return `${error} [Simple Key](Simple Key (Silksong))(s) collected`;
+                            return `${error} [SIMPLE_KEY_(SILKSONG)] [Simple Key](Simple Key (Silksong))(s) collected`;
                         case 'maskShards':
                             return `${error} [Mask Shard](Mask Shard (Silksong))(s) collected`;
+                        case 'memoryLockets':
+                            return `${error} [MEMORY_LOCKET] [Memory Locket](Memory Locket (Silksong))(s) collected`;
+                        case 'paleOil':
+                            return `[PALE_OIL] ${error}`;
                         case 'spoolFragments':
                         case 'rosariesReq':
                         case 'simpleKeysReq':
+                        case 'memoryLocketsReq':
+                        case 'paleOilReq':
                         case 'game':
                         case 'percent':
                             throw new Error(
@@ -235,7 +241,8 @@ const requirementTextForSection = <Game extends GameKey>(
                 joined += 'bound';
                 break;
             }
-            case 'needle': {
+            case 'needle':
+            case 'eva': {
                 joined += 'obtained';
                 break;
             }

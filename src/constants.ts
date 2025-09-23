@@ -49,15 +49,16 @@ const HOLLOW_KNIGHT_SECTION_TITLES: Record<
 
 const SILKSONG_SECTION_TITLES: Record<SectionNames<'silksong'>, string> = {
     bosses: '[Bosses](Bosses (Silksong)) (no percents)',
-    melodies: '[Threefold Melody](The Cradle#How_to_Access)',
+    melodies: '[Threefold Melody](The Cradle#How_to_Access) (no percents)',
     silkHearts: '[Silk Hearts]',
     tools: '[Tools]',
     silkSkills: '[Silk Skills](Crests#List_of_Skills)',
     ancestralArts: '[Ancestral Arts]',
     crests: '[Crests]',
+    eva: '[Eva]',
     maskShards: '[Mask Shards](Mask Shard (Silksong))',
     needle: '[Needle]',
-    spoolFragments: '[Spool Fragment]',
+    spoolFragments: '[Spool Fragments]',
     toolPouch: '[Tool Pouch] and [Crafting Kit]',
     items: '[Items](Items (Silksong)) (no percents)',
     everbloom: '[Everbloom]',
@@ -103,6 +104,7 @@ export const SILKSONG_DISTRIBUTED_SECTIONS = [
     [
         'needle',
         'crests',
+        'eva',
         'maskShards',
         'spoolFragments',
         'toolPouch',

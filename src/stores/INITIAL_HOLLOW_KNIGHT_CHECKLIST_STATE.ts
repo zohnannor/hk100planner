@@ -1617,26 +1617,28 @@ const INITIAL_HOLLOW_KNIGHT_CHECKLIST_STATE: HollowKnightChecklistState = {
         },
 
         items: {
-            '[SIMPLE_KEY] [Simple Key] from [Sly]': {
+            '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] from [Sly]': {
                 description: 'Bought from [Sly] in [Dirtmouth] for [GEO] 950.',
                 reward: { simpleKeys, geoReq: 950 },
                 requires: { geo: 950 },
             },
-            '[SIMPLE_KEY] [Simple Key] near [City Storerooms]': {
-                reward: { simpleKeys },
-                requires: {
-                    checks: { equipment: { '[Crystal Heart]': checked } },
+            '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] near [City Storerooms]':
+                {
+                    reward: { simpleKeys },
+                    requires: {
+                        checks: { equipment: { '[Crystal Heart]': checked } },
+                    },
                 },
-            },
-            '[SIMPLE_KEY] [Simple Key] in the [Ancient Basin]': {
-                description:
-                    'In the [Mawlurk] area leading to [Broken Vessel].',
-                reward: { simpleKeys },
-                requires: {
-                    checks: { equipment: { '[Crystal Heart]': checked } },
+            '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] in the [Ancient Basin]':
+                {
+                    description:
+                        'In the [Mawlurk] area leading to [Broken Vessel].',
+                    reward: { simpleKeys },
+                    requires: {
+                        checks: { equipment: { '[Crystal Heart]': checked } },
+                    },
                 },
-            },
-            '[SIMPLE_KEY] [Simple Key] behind [Pale Lurker]': {
+            '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] behind [Pale Lurker]': {
                 reward: { simpleKeys },
                 requires: {
                     checks: { equipment: { '[Mantis Claw]': checked } },

@@ -8,6 +8,14 @@ const percent = 1 as const;
 const simpleKeys = 1 as const;
 const simpleKeysReq = 1 as const;
 const spoolFragments = 1 as const;
+const memoryLockets = 1 as const;
+
+const REAPER_BASE_SLOTS = 4;
+const WANDERER_BASE_SLOTS = 4;
+const BEAST_BASE_SLOTS = 3;
+const WITCH_CREST_BASE_SLOTS = 3;
+const ARCHITECT_CREST_BASE_SLOTS = 3;
+// const SHAMAN_CREST_BASE_SLOTS = 3;
 
 const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
     game: 'silksong',
@@ -15,6 +23,8 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
 
     rosaries: 0,
     simpleKeys: 0,
+    memoryLockets: 0,
+    paleOil: 0,
 
     fleas: 0,
     maskShards: 0,
@@ -23,12 +33,15 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
 
     rosariesReq: 0,
     simpleKeysReq: 0,
+    paleOilReq: 0,
+    memoryLocketsReq: [0],
 
     checks: {
         bosses: {
             '[Moss Mother]': { reward: nothing },
             '[Bell Beast]': { reward: nothing },
             '[Fourth Chorus]': { reward: nothing },
+            '[Sister Splinter]': { reward: nothing },
             '[Savage Beastfly]': { reward: nothing },
             '[Widow]': { reward: nothing },
             '[Last Judge] / [Phantom]': { reward: { acts: 1 } },
@@ -37,6 +50,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 requires: { acts: 2 },
             },
             '[Cogwork Dancers]': { reward: nothing, requires: { acts: 2 } },
+            '[Trobbio]': { reward: nothing, requires: { acts: 2 } },
             '[The Unravelled]': { reward: nothing, requires: { acts: 2 } },
             '[First Sinner]': {
                 reward: nothing,
@@ -198,28 +212,197 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                         bosses: { '[Grand Mother Silk]': checked },
                         ancestralArts: { '[Silk Soar]': checked },
                     },
-                    acts: 2,
+                    acts: 3,
                 },
             },
         },
 
         ancestralArts: {
-            '[Swift Step]': { reward: { percent } },
-            '[Cling Grip]': { reward: { percent } },
-            '[Needolin]': { reward: { percent } },
-            '[Clawline]': { reward: { percent } },
-            '[Needle Strike]': { reward: { percent } },
-            '[Silk Soar]': { reward: { percent } },
-            '[Sylphsong]': { reward: { percent } },
+            '[Swift Step]': {
+                reward: { percent },
+                requires: { checks: { bosses: { '[Moss Mother]': checked } } },
+            },
+            '[Cling Grip]': {
+                reward: { percent },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Swift Step]': checked },
+                        bosses: { '[Sister Splinter]': checked },
+                    },
+                },
+            },
+            '[Needolin]': {
+                reward: { percent },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        bosses: { '[Widow]': checked },
+                    },
+                },
+            },
+            '[Clawline]': {
+                description:
+                    'Alternatively, there is a path in [Whiteward]. At the end of the day, both are required.',
+                reward: { percent },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        bosses: { '[Trobbio]': checked },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Silk Soar]': {
+                reward: { percent },
+                requires: {
+                    checks: {
+                        ancestralArts: {
+                            '[Swift Step]': checked,
+                            '[Cling Grip]': checked,
+                        },
+                    },
+                    acts: 3,
+                },
+            },
+            '[Needle Strike]': {
+                reward: { percent },
+                requires: {
+                    checks: {
+                        ancestralArts: {
+                            '[Swift Step]': checked,
+                            '[Cling Grip]': checked,
+                        },
+                    },
+                },
+            },
+            '[Sylphsong]': {
+                description:
+                    'Actually needs 32 [Crest] slots to be unlocked, but you need all the [Crests] at some point anyway.',
+                reward: {
+                    percent,
+                    memoryLocketsReq: [
+                        32 -
+                            REAPER_BASE_SLOTS -
+                            WANDERER_BASE_SLOTS -
+                            BEAST_BASE_SLOTS -
+                            WITCH_CREST_BASE_SLOTS -
+                            ARCHITECT_CREST_BASE_SLOTS,
+                    ],
+                },
+                requires: {
+                    memoryLockets:
+                        32 -
+                        REAPER_BASE_SLOTS -
+                        WANDERER_BASE_SLOTS -
+                        BEAST_BASE_SLOTS -
+                        WITCH_CREST_BASE_SLOTS -
+                        ARCHITECT_CREST_BASE_SLOTS,
+                    checks: {
+                        crests: {
+                            '[Reaper Crest]': checked,
+                            '[Wanderer Crest]': checked,
+                            '[Beast Crest]': checked,
+                            '[Witch Crest]': checked,
+                            '[Architect Crest]': checked,
+                        },
+                        eva: { 'Further evolved [Hunter Crest]': checked },
+                    },
+                },
+            },
         },
 
         crests: {
             '[Reaper Crest]': { reward: { percent } },
-            '[Beast Crest]': { reward: { percent } },
             '[Wanderer Crest]': { reward: { percent } },
-            '[Architect Crest]': { reward: { percent } },
+            '[Beast Crest]': { reward: { percent } },
             '[Witch Crest]': { reward: { percent } },
+            '[Architect Crest]': { reward: { percent } },
             '[Shaman Crest]': { reward: { percent } },
+        },
+
+        eva: {
+            'Evolved [Hunter Crest]': {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Needolin]': checked } },
+                },
+            },
+            '[Vesticrest] yellow slot': {
+                description:
+                    'Requires [Crest] slots. [Reaper Crest] and [Wanderer Crest] are not required, but having them minimizes the number of [Memory Locket]s required.',
+                reward: {
+                    memoryLocketsReq: [
+                        12 - REAPER_BASE_SLOTS - WANDERER_BASE_SLOTS,
+                    ],
+                },
+                requires: {
+                    checks: {
+                        crests: {
+                            '[Reaper Crest]': checked,
+                            '[Wanderer Crest]': checked,
+                        },
+                        eva: { 'Evolved [Hunter Crest]': checked },
+                    },
+                    memoryLockets: 12 - REAPER_BASE_SLOTS - WANDERER_BASE_SLOTS,
+                },
+            },
+            '[Vesticrest] blue slot': {
+                description:
+                    'Requires [Crest] slots. [Reaper Crest], [Wanderer Crest], [Beast Crest] and [Witch Crest] are not required, but having them minimizes the number of [Memory Locket]s required.',
+                reward: {
+                    memoryLocketsReq: [
+                        20 -
+                            REAPER_BASE_SLOTS -
+                            WANDERER_BASE_SLOTS -
+                            BEAST_BASE_SLOTS -
+                            WITCH_CREST_BASE_SLOTS,
+                    ],
+                },
+                requires: {
+                    checks: {
+                        crests: {
+                            '[Reaper Crest]': checked,
+                            '[Wanderer Crest]': checked,
+                            '[Beast Crest]': checked,
+                            '[Witch Crest]': checked,
+                        },
+                        eva: { '[Vesticrest] yellow slot': checked },
+                    },
+                    memoryLockets:
+                        20 -
+                        REAPER_BASE_SLOTS -
+                        WANDERER_BASE_SLOTS -
+                        BEAST_BASE_SLOTS -
+                        WITCH_CREST_BASE_SLOTS,
+                },
+            },
+            'Further evolved [Hunter Crest]': {
+                description:
+                    'Requires [Crest] slots. [Reaper Crest], [Wanderer Crest] and [Beast Crest] are not required, but having them minimizes the number of [Memory Locket]s required.',
+                reward: {
+                    memoryLocketsReq: [
+                        27 -
+                            REAPER_BASE_SLOTS -
+                            WANDERER_BASE_SLOTS -
+                            BEAST_BASE_SLOTS,
+                    ],
+                },
+                requires: {
+                    checks: {
+                        crests: {
+                            '[Reaper Crest]': checked,
+                            '[Wanderer Crest]': checked,
+                            '[Beast Crest]': checked,
+                        },
+                        eva: { '[Vesticrest] blue slot': checked },
+                    },
+                    memoryLockets:
+                        27 -
+                        REAPER_BASE_SLOTS -
+                        WANDERER_BASE_SLOTS -
+                        BEAST_BASE_SLOTS,
+                },
+            },
         },
 
         maskShards: {
@@ -565,6 +748,124 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 reward: nothing,
             },
             '[Key of Apostate]': { reward: nothing },
+            '[MEMORY_LOCKET] [Memory Locket] for [Volatile Flintbeetles] [Wish]':
+                {
+                    reward: { memoryLockets },
+                    requires: {
+                        checks: {
+                            wishes: { '[Volatile Flintbeetles]': checked },
+                        },
+                    },
+                },
+            '[MEMORY_LOCKET] [Memory Locket] in [The Marrow]': {
+                reward: { memoryLockets },
+            },
+            "[MEMORY_LOCKET] [Memory Locket] in [Hunter's March]": {
+                reward: { memoryLockets },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in [Deep Docks] behind [Simple Key]':
+                {
+                    reward: { memoryLockets, simpleKeysReq },
+                    requires: {
+                        simpleKeys,
+                        checks: { ancestralArts: { '[Clawline]': checked } },
+                    },
+                },
+            '[MEMORY_LOCKET] [Memory Locket] from [Mort] in [Far Fields] for [ROSARY] 150':
+                {
+                    description:
+                        'Bought from [Mort] in [Far Fields] for [ROSARY] 150 in [Acts] 1/2 or from [Grindle] in [Blasted Steps] for [ROSARY] 250 in [Act 3], also requiring [Faydown Cloak].',
+                    reward: { memoryLockets, rosariesReq: 150 },
+                    requires: { rosaries: 150 },
+                },
+            '[MEMORY_LOCKET] [Memory Locket] in [Far Fields] near [Skarrsinger Karmelita]':
+                {
+                    reward: { memoryLockets },
+                    requires: {
+                        checks: { ancestralArts: { '[Silk Soar]': checked } },
+                        acts: 3,
+                    },
+                },
+            '[MEMORY_LOCKET] [Memory Locket] in [Greymoor] near [Bellway]': {
+                reward: { memoryLockets },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in [Greymoor] inside [Halfway Home]':
+                {
+                    reward: { memoryLockets },
+                    requires: {
+                        checks: { items: { '[Faydown Cloak]': checked } },
+                    },
+                },
+            '[MEMORY_LOCKET] [Memory Locket] from [Frey] in [Bellhart] for [ROSARY] 330':
+                {
+                    reward: { memoryLockets, rosariesReq: 330 },
+                    requires: {
+                        rosaries: 330,
+                        checks: {
+                            bosses: { '[Widow]': checked },
+                        },
+                    },
+                },
+            "[MEMORY_LOCKET] [Memory Locket] in [Bellhart]'s ceiling": {
+                reward: { memoryLockets },
+                requires: {
+                    checks: { ancestralArts: { '[Silk Soar]': checked } },
+                    acts: 3,
+                },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in [Blasted Steps]': {
+                reward: { memoryLockets },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in the [Sands of Karak]': {
+                reward: { memoryLockets },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in [Wormways]': {
+                reward: { memoryLockets, simpleKeysReq },
+                requires: { simpleKeys },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in the [Underworks]': {
+                reward: { memoryLockets },
+                requires: { acts: 2 },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] at [Grand Bellway]': {
+                reward: { memoryLockets },
+                requires: { acts: 2 },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in [Memorium]': {
+                reward: { memoryLockets },
+                requires: {
+                    checks: { items: { '[Faydown Cloak]': checked } },
+                },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in [The Slab]': {
+                reward: { memoryLockets },
+                requires: {
+                    checks: { items: { '[Faydown Cloak]': checked } },
+                },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in [Whispering Vaults]': {
+                reward: { memoryLockets },
+                requires: { acts: 2 },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in [Bilewater] secret room': {
+                reward: { memoryLockets },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                },
+            },
+            '[MEMORY_LOCKET] [Memory Locket] in [Bilewater] near the bench shortcut':
+                {
+                    reward: { memoryLockets },
+                    requires: {
+                        checks: {
+                            ancestralArts: { '[Cling Grip]': checked },
+                            items: { '[Faydown Cloak]': checked },
+                        },
+                    },
+                },
         },
 
         everbloom: { '[Everbloom]': { reward: { percent } } },
@@ -573,6 +874,14 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
             '[My Missing Courier]': {
                 reward: nothing,
                 requires: { checks: { bosses: { '[Widow]': checked } } },
+            },
+            '[Volatile Flintbeetles]': {
+                description:
+                    'The actual requirement is discovering [Shellwood] after [Greymoor].',
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                },
             },
             '[The Wandering Merchant]': {
                 reward: nothing,

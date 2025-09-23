@@ -509,17 +509,20 @@ impl Parser {
             ]);
 
             let items = to_map(&[
-                ("[SIMPLE_KEY] [Simple Key] from [Sly]", pd.sly_simple_key),
                 (
-                    "[SIMPLE_KEY] [Simple Key] near [City Storerooms]",
+                    "[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] from [Sly]",
+                    pd.sly_simple_key,
+                ),
+                (
+                    "[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] near [City Storerooms]",
                     scene_activated("Ruins1_17", "Shiny Item"),
                 ),
                 (
-                    "[SIMPLE_KEY] [Simple Key] in the [Ancient Basin]",
+                    "[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] in the [Ancient Basin]",
                     scene_activated("Abyss_20", "Shiny Item Stand"),
                 ),
                 (
-                    "[SIMPLE_KEY] [Simple Key] behind [Pale Lurker]",
+                    "[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] behind [Pale Lurker]",
                     pd.got_lurker_key,
                 ),
                 ("[ELEGANT_KEY] [Elegant Key]", pd.has_white_key),
@@ -856,6 +859,7 @@ impl Parser {
                 ("[Last Judge] / [Phantom]", false),
                 ("[Savage Beastfly 2](Savage Beastfly#Far_Fields)", false),
                 ("[Cogwork Dancers]", false),
+                ("[Trobbio]", false),
                 ("[The Unravelled]", false),
                 ("[Lace 2](Lace#The_Cradle)", false),
             ]);
@@ -960,20 +964,27 @@ impl Parser {
                 ("[Cling Grip]", pd.has_walljump),
                 ("[Needolin]", pd.has_needolin),
                 ("[Clawline]", pd.has_harpoon_dash),
-                ("[Needle Strike]", pd.has_charge_slash),
                 ("[Silk Soar]", pd.has_super_jump),
+                ("[Needle Strike]", pd.has_charge_slash),
                 ("[Sylphsong]", pd.has_bound_crest_upgrader),
             ]);
 
             let crests = to_map(&[
                 ("[Reaper Crest]", pd.completed_memory_reaper),
-                ("[Beast Crest]", pd.completed_memory_beast),
                 ("[Wanderer Crest]", pd.completed_memory_wanderer),
-                ("[Architect Crest]", pd.completed_memory_toolmaster),
+                ("[Beast Crest]", pd.completed_memory_beast),
                 // completedMemory_witch does NOT give you %, only the crest,
                 // which is Cursed, and you get Witch crest and % from the quest
                 ("[Witch Crest]", quest_completed("Doctor Curse Cure")),
+                ("[Architect Crest]", pd.completed_memory_toolmaster),
                 ("[Shaman Crest]", pd.completed_memory_shaman),
+            ]);
+
+            let eva = to_map(&[
+                ("Evolved [Hunter Crest]", false),
+                ("[Vesticrest] yellow slot", false),
+                ("[Vesticrest] blue slot", false),
+                ("Further evolved [Hunter Crest]", false),
             ]);
 
             let mask_shards = to_map(&[
@@ -1098,6 +1109,62 @@ impl Parser {
                 ("[Faydown Cloak]", pd.has_double_jump),
                 ("[White Key]", false),
                 ("[Key of Apostate]", false),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] for [Volatile Flintbeetles] [Wish]",
+                    false,
+                ),
+                ("[MEMORY_LOCKET] [Memory Locket] in [The Marrow]", false),
+                ("[MEMORY_LOCKET] [Memory Locket] in [Hunter's March]", false),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Deep Docks] behind [Simple Key]",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] from [Mort] in [Far Fields] for [ROSARY] 150",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Far Fields] near [Skarrsinger Karmelita]",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Greymoor] near [Bellway]",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Greymoor] inside [Halfway Home]",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] from [Frey] in [Bellhart] for [ROSARY] 330",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Bellhart]'s ceiling",
+                    false,
+                ),
+                ("[MEMORY_LOCKET] [Memory Locket] in [Blasted Steps]", false),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in the [Sands of Karak]",
+                    false,
+                ),
+                ("[MEMORY_LOCKET] [Memory Locket] in [Wormways]", false),
+                ("[MEMORY_LOCKET] [Memory Locket] in the [Underworks]", false),
+                ("[MEMORY_LOCKET] [Memory Locket] at [Grand Bellway]", false),
+                ("[MEMORY_LOCKET] [Memory Locket] in [Memorium]", false),
+                ("[MEMORY_LOCKET] [Memory Locket] in [The Slab]", false),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Whispering Vaults]",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Bilewater] secret room",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Bilewater] near the bench shortcut",
+                    false,
+                ),
             ]);
 
             #[expect(clippy::float_cmp)]
@@ -1114,6 +1181,7 @@ impl Parser {
 
             let wishes = to_map(&[
                 ("[My Missing Courier]", false),
+                ("[Volatile Flintbeetles]", false),
                 ("[The Wandering Merchant]", false),
                 ("[Savage Beastfly](Wishes#Grand_Hunt_Wishes)", false),
                 ("[Fine Pins]", false),
@@ -1138,6 +1206,7 @@ impl Parser {
                 silk_skills,
                 ancestral_arts,
                 crests,
+                eva,
                 mask_shards,
                 needle,
                 spool_fragments,
@@ -1215,6 +1284,7 @@ pub struct SilksongChecks {
     silk_skills: HashMap<String, bool>,
     ancestral_arts: HashMap<String, bool>,
     crests: HashMap<String, bool>,
+    eva: HashMap<String, bool>,
     mask_shards: HashMap<String, bool>,
     needle: HashMap<String, bool>,
     spool_fragments: HashMap<String, bool>,

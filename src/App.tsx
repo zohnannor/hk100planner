@@ -108,12 +108,25 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
             ['[GEO]', geo, geoReq],
             ['[ESSENCE]', essence, Math.max(...essenceReq)],
             ['[PALE_ORE]', paleOre, paleOreReq],
-            ['[SIMPLE_KEY]', simpleKeys, simpleKeysReq],
+            ['[SIMPLE_KEY_(HOLLOW_KNIGHT)]', simpleKeys, simpleKeysReq],
         ] as const;
     } else {
-        const { rosaries, rosariesReq, acts } = useChecklistStore(game)();
+        const {
+            rosaries,
+            rosariesReq,
+            paleOil,
+            paleOilReq,
+            simpleKeys,
+            simpleKeysReq,
+            memoryLockets,
+            memoryLocketsReq,
+            acts,
+        } = useChecklistStore(game)();
         info = [
             ['[ROSARY]', rosaries, rosariesReq],
+            ['[PALE_OIL]', paleOil, paleOilReq],
+            ['[SIMPLE_KEY_(SILKSONG)]', simpleKeys, simpleKeysReq],
+            ['[MEMORY_LOCKET]', memoryLockets, Math.max(...memoryLocketsReq)],
             ['[Act](Acts)', acts, acts],
         ] as const;
     }
