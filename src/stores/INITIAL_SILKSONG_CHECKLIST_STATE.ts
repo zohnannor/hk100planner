@@ -6,9 +6,11 @@ export const grubs = { grubs: 1 } as const;
 const maskShards = 1 as const;
 const percent = 1 as const;
 const simpleKeys = 1 as const;
-const simpleKeysReq = 1 as const;
 const spoolFragments = 1 as const;
 const memoryLockets = 1 as const;
+const paleOil = 1 as const;
+const simpleKeysReq = 1 as const;
+const paleOilReq = 1 as const;
 
 const REAPER_BASE_SLOTS = 4;
 const WANDERER_BASE_SLOTS = 4;
@@ -586,10 +588,45 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         needle: {
-            '[Sharpened Needle](Needle#Upgrades)': { reward: { percent } },
-            '[Shining Needle](Needle#Upgrades)': { reward: { percent } },
-            '[Hivesteel Needle](Needle#Upgrades)': { reward: { percent } },
-            '[Palesteel Needle](Needle#Upgrades)': { reward: { percent } },
+            '[Sharpened Needle](Needle#Upgrades)': {
+                reward: { percent },
+                requires: { checks: { bosses: { '[Widow]': checked } } },
+            },
+            '[Shining Needle](Needle#Upgrades)': {
+                reward: { percent, paleOilReq },
+                requires: {
+                    paleOil,
+                    checks: {
+                        needle: {
+                            '[Sharpened Needle](Needle#Upgrades)': checked,
+                        },
+                    },
+                },
+            },
+            '[Hivesteel Needle](Needle#Upgrades)': {
+                reward: { percent, paleOilReq, rosariesReq: 450 },
+                requires: {
+                    paleOil,
+                    rosaries: 450,
+                    checks: {
+                        needle: {
+                            '[Shining Needle](Needle#Upgrades)': checked,
+                        },
+                    },
+                },
+            },
+            '[Palesteel Needle](Needle#Upgrades)': {
+                reward: { percent, paleOilReq, rosariesReq: 680 },
+                requires: {
+                    paleOil,
+                    rosaries: 680,
+                    checks: {
+                        needle: {
+                            '[Hivesteel Needle](Needle#Upgrades)': checked,
+                        },
+                    },
+                },
+            },
         },
 
         spoolFragments: {
