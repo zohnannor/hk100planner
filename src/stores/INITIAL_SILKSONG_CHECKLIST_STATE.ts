@@ -7,6 +7,7 @@ const maskShards = 1 as const;
 const percent = 1 as const;
 const simpleKeys = 1 as const;
 const spoolFragments = 1 as const;
+const tools = 1 as const;
 const memoryLockets = 1 as const;
 const paleOil = 1 as const;
 const simpleKeysReq = 1 as const;
@@ -17,7 +18,7 @@ const WANDERER_BASE_SLOTS = 4;
 const BEAST_BASE_SLOTS = 3;
 const WITCH_CREST_BASE_SLOTS = 3;
 const ARCHITECT_CREST_BASE_SLOTS = 3;
-// const SHAMAN_CREST_BASE_SLOTS = 3;
+const SHAMAN_CREST_BASE_SLOTS = 3;
 
 const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
     game: 'silksong',
@@ -28,6 +29,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
     memoryLockets: 0,
     paleOil: 0,
 
+    tools: 0,
     fleas: 0,
     maskShards: 0,
     spoolFragments: 0,
@@ -35,8 +37,8 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
 
     rosariesReq: 0,
     simpleKeysReq: 0,
-    paleOilReq: 0,
     memoryLocketsReq: [0],
+    paleOilReq: 0,
 
     checks: {
         bosses: {
@@ -46,7 +48,12 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
             '[Sister Splinter]': { reward: nothing },
             '[Savage Beastfly]': { reward: nothing },
             '[Widow]': { reward: nothing },
-            '[Last Judge] / [Phantom]': { reward: { acts: 1 } },
+            '[Last Judge] / [Phantom]': {
+                reward: { acts: 1 },
+                requires: {
+                    checks: { ancestralArts: { '[Needolin]': checked } },
+                },
+            },
             '[Savage Beastfly 2](Savage Beastfly#Far_Fields)': {
                 reward: nothing,
                 requires: { acts: 2 },
@@ -84,11 +91,26 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         melodies: {
-            "[Conductor's Melody]": { reward: nothing, requires: { acts: 2 } },
-            "[Architect's Melody]": { reward: nothing, requires: { acts: 2 } },
+            "[Conductor's Melody]": {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Clawline]': checked } },
+                    acts: 2,
+                },
+            },
+            "[Architect's Melody]": {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Clawline]': checked } },
+                    acts: 2,
+                },
+            },
             "[Vaultkeeper's Melody]": {
                 reward: nothing,
-                requires: { acts: 2 },
+                requires: {
+                    checks: { items: { '[Sacred Cylinder]': checked } },
+                    acts: 2,
+                },
             },
         },
 
@@ -116,57 +138,59 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         tools: {
-            '[Shard Pendant]': { reward: { percent } },
-            '[Compass]': { reward: { percent } },
-            "[Druid's Eye] / [Druid's Eyes]": { reward: { percent } },
-            '[Straight Pin]': { reward: { percent } },
-            '[Warding Bell]': { reward: { percent } },
-            '[Treefold Pin]': { reward: { percent } },
-            '[Flea Brew]': { reward: { percent } },
-            '[Sting Shard]': { reward: { percent } },
-            '[Longpin]': { reward: { percent } },
-            '[Pollip Pouch]': { reward: { percent } },
-            '[Weavelight]': { reward: { percent } },
-            "[Dead Bug's Purse] / [Shell Satchel]": { reward: { percent } },
-            '[Plasmium Phial]': { reward: { percent } },
-            '[Silkspeed Anklets]': { reward: { percent } },
-            '[Pimpillo]': { reward: { percent } },
-            '[Barbed Bracelet]': { reward: { percent } },
-            '[Tacks]': { reward: { percent } },
-            '[Flintslate]': { reward: { percent } },
-            '[Silkshot]': { reward: { percent } },
-            "[Delver's Drill]": { reward: { percent } },
-            '[Injector Band]': { reward: { percent } },
-            '[Cogwork Wheel]': { reward: { percent } },
-            '[Scuttlebrace]': { reward: { percent } },
-            '[Memory Crystal]': { reward: { percent } },
-            '[Multibinder]': { reward: { percent } },
-            '[Voltvessels]': { reward: { percent } },
-            '[Wreath of Purity]': { reward: { percent } },
-            '[Longclaw]': { reward: { percent } },
-            '[Conchcutter]': { reward: { percent } },
-            "[Thief's Mark]": { reward: { percent } },
-            '[Throwing ring]': { reward: { percent } },
-            '[Magnetite Brooch]': { reward: { percent } },
-            '[Magma Bell]': { reward: { percent } },
-            '[Claw Mirror]': { reward: { percent } },
-            '[Spider Strings]': { reward: { percent } },
-            '[Rosary Cannon]': { reward: { percent } },
-            '[Wispfire Lantern]': { reward: { percent } },
-            '[Magnetite Dice]': { reward: { percent } },
-            '[Volt Filament]': { reward: { percent } },
-            '[Weighted Belt]': { reward: { percent } },
-            '[Egg of Flealia]': { reward: { percent } },
-            '[Fractured Mask]': { reward: { percent } },
-            '[Curveclaw] / [Curvesickle]': { reward: { percent } },
-            '[Quick Sling]': { reward: { percent } },
-            '[Cogfly]': { reward: { percent } },
-            '[Reserve Bind]': { reward: { percent } },
-            '[Pin Badge]': { reward: { percent } },
-            '[Sawtooth Circlet]': { reward: { percent } },
-            '[Spool Extender]': { reward: { percent } },
-            "[Ascendant's Grip]": { reward: { percent } },
-            '[Snitch Pick]': { reward: { percent } },
+            '[Shard Pendant]': { reward: { percent, tools } },
+            '[Compass]': { reward: { percent, tools } },
+            "[Druid's Eye] / [Druid's Eyes]": { reward: { percent, tools } },
+            '[Straight Pin]': { reward: { percent, tools } },
+            '[Warding Bell]': { reward: { percent, tools } },
+            '[Treefold Pin]': { reward: { percent, tools } },
+            '[Flea Brew]': { reward: { percent, tools } },
+            '[Sting Shard]': { reward: { percent, tools } },
+            '[Longpin]': { reward: { percent, tools } },
+            '[Pollip Pouch]': { reward: { percent, tools } },
+            '[Weavelight]': { reward: { percent, tools } },
+            "[Dead Bug's Purse] / [Shell Satchel]": {
+                reward: { percent, tools },
+            },
+            '[Plasmium Phial]': { reward: { percent, tools } },
+            '[Silkspeed Anklets]': { reward: { percent, tools } },
+            '[Pimpillo]': { reward: { percent, tools } },
+            '[Barbed Bracelet]': { reward: { percent, tools } },
+            '[Tacks]': { reward: { percent, tools } },
+            '[Flintslate]': { reward: { percent, tools } },
+            '[Silkshot]': { reward: { percent, tools } },
+            "[Delver's Drill]": { reward: { percent, tools } },
+            '[Injector Band]': { reward: { percent, tools } },
+            '[Cogwork Wheel]': { reward: { percent, tools } },
+            '[Scuttlebrace]': { reward: { percent, tools } },
+            '[Memory Crystal]': { reward: { percent, tools } },
+            '[Multibinder]': { reward: { percent, tools } },
+            '[Voltvessels]': { reward: { percent, tools } },
+            '[Wreath of Purity]': { reward: { percent, tools } },
+            '[Longclaw]': { reward: { percent, tools } },
+            '[Conchcutter]': { reward: { percent, tools } },
+            "[Thief's Mark]": { reward: { percent, tools } },
+            '[Throwing ring]': { reward: { percent, tools } },
+            '[Magnetite Brooch]': { reward: { percent, tools } },
+            '[Magma Bell]': { reward: { percent, tools } },
+            '[Claw Mirror]': { reward: { percent, tools } },
+            '[Spider Strings]': { reward: { percent, tools } },
+            '[Rosary Cannon]': { reward: { percent, tools } },
+            '[Wispfire Lantern]': { reward: { percent, tools } },
+            '[Magnetite Dice]': { reward: { percent, tools } },
+            '[Volt Filament]': { reward: { percent, tools } },
+            '[Weighted Belt]': { reward: { percent, tools } },
+            '[Egg of Flealia]': { reward: { percent, tools } },
+            '[Fractured Mask]': { reward: { percent, tools } },
+            '[Curveclaw] / [Curvesickle]': { reward: { percent, tools } },
+            '[Quick Sling]': { reward: { percent, tools } },
+            '[Cogfly]': { reward: { percent, tools } },
+            '[Reserve Bind]': { reward: { percent, tools } },
+            '[Pin Badge]': { reward: { percent, tools } },
+            '[Sawtooth Circlet]': { reward: { percent, tools } },
+            '[Spool Extender]': { reward: { percent, tools } },
+            "[Ascendant's Grip]": { reward: { percent, tools } },
+            '[Snitch Pick]': { reward: { percent, tools } },
         },
 
         silkSkills: {
@@ -177,7 +201,10 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
             '[Thread Storm]': {
                 reward: { percent },
                 requires: {
-                    checks: { items: { "[Drifter's Cloak]": checked } },
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { "[Drifter's Cloak]": checked },
+                    },
                 },
             },
             '[Cross Stitch]': {
@@ -278,35 +305,10 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 },
             },
             '[Sylphsong]': {
-                description:
-                    'Actually needs 32 [Crest] slots to be unlocked, but you need all the [Crests] at some point anyway.',
-                reward: {
-                    percent,
-                    memoryLocketsReq: [
-                        32 -
-                            REAPER_BASE_SLOTS -
-                            WANDERER_BASE_SLOTS -
-                            BEAST_BASE_SLOTS -
-                            WITCH_CREST_BASE_SLOTS -
-                            ARCHITECT_CREST_BASE_SLOTS,
-                    ],
-                },
+                reward: { percent, memoryLocketsReq: [32] },
                 requires: {
-                    memoryLockets:
-                        32 -
-                        REAPER_BASE_SLOTS -
-                        WANDERER_BASE_SLOTS -
-                        BEAST_BASE_SLOTS -
-                        WITCH_CREST_BASE_SLOTS -
-                        ARCHITECT_CREST_BASE_SLOTS,
+                    memoryLockets: 32,
                     checks: {
-                        crests: {
-                            '[Reaper Crest]': checked,
-                            '[Wanderer Crest]': checked,
-                            '[Beast Crest]': checked,
-                            '[Witch Crest]': checked,
-                            '[Architect Crest]': checked,
-                        },
                         eva: { 'Further evolved [Hunter Crest]': checked },
                     },
                 },
@@ -314,12 +316,45 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         crests: {
-            '[Reaper Crest]': { reward: { percent } },
-            '[Wanderer Crest]': { reward: { percent } },
-            '[Beast Crest]': { reward: { percent } },
-            '[Witch Crest]': { reward: { percent } },
-            '[Architect Crest]': { reward: { percent } },
-            '[Shaman Crest]': { reward: { percent } },
+            '[Reaper Crest]': {
+                reward: { percent, memoryLockets: REAPER_BASE_SLOTS },
+                requires: {
+                    checks: { items: { "[Drifter's Cloak]": checked } },
+                },
+            },
+            '[Wanderer Crest]': {
+                description: 'Alternatively, there is a path in [Wormways].',
+                reward: { percent, memoryLockets: WANDERER_BASE_SLOTS },
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                },
+            },
+            '[Beast Crest]': {
+                reward: { percent, memoryLockets: BEAST_BASE_SLOTS },
+                requires: {
+                    checks: {
+                        bosses: { '[Savage Beastfly]': checked },
+                        items: { "[Drifter's Cloak]": checked },
+                    },
+                },
+            },
+            '[Witch Crest]': {
+                reward: { percent, memoryLockets: WITCH_CREST_BASE_SLOTS },
+                requires: {
+                    checks: { wishes: { '[Infestation Operation]': checked } },
+                },
+            },
+            '[Architect Crest]': {
+                reward: { percent, memoryLockets: ARCHITECT_CREST_BASE_SLOTS },
+                requires: { checks: { items: { '[Architect Key]': checked } } },
+            },
+            '[Shaman Crest]': {
+                reward: { percent, memoryLockets: SHAMAN_CREST_BASE_SLOTS },
+                requires: {
+                    checks: { ancestralArts: { '[Silk Soar]': checked } },
+                    acts: 3,
+                },
+            },
         },
 
         eva: {
@@ -330,79 +365,24 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 },
             },
             '[Vesticrest] yellow slot': {
-                description:
-                    'Requires [Crest] slots. [Reaper Crest] and [Wanderer Crest] are not required, but having them minimizes the number of [Memory Locket]s required.',
-                reward: {
-                    memoryLocketsReq: [
-                        12 - REAPER_BASE_SLOTS - WANDERER_BASE_SLOTS,
-                    ],
-                },
+                reward: { memoryLocketsReq: [12] },
                 requires: {
-                    checks: {
-                        crests: {
-                            '[Reaper Crest]': checked,
-                            '[Wanderer Crest]': checked,
-                        },
-                        eva: { 'Evolved [Hunter Crest]': checked },
-                    },
-                    memoryLockets: 12 - REAPER_BASE_SLOTS - WANDERER_BASE_SLOTS,
+                    checks: { eva: { 'Evolved [Hunter Crest]': checked } },
+                    memoryLockets: 12,
                 },
             },
             '[Vesticrest] blue slot': {
-                description:
-                    'Requires [Crest] slots. [Reaper Crest], [Wanderer Crest], [Beast Crest] and [Witch Crest] are not required, but having them minimizes the number of [Memory Locket]s required.',
-                reward: {
-                    memoryLocketsReq: [
-                        20 -
-                            REAPER_BASE_SLOTS -
-                            WANDERER_BASE_SLOTS -
-                            BEAST_BASE_SLOTS -
-                            WITCH_CREST_BASE_SLOTS,
-                    ],
-                },
+                reward: { memoryLocketsReq: [20] },
                 requires: {
-                    checks: {
-                        crests: {
-                            '[Reaper Crest]': checked,
-                            '[Wanderer Crest]': checked,
-                            '[Beast Crest]': checked,
-                            '[Witch Crest]': checked,
-                        },
-                        eva: { '[Vesticrest] yellow slot': checked },
-                    },
-                    memoryLockets:
-                        20 -
-                        REAPER_BASE_SLOTS -
-                        WANDERER_BASE_SLOTS -
-                        BEAST_BASE_SLOTS -
-                        WITCH_CREST_BASE_SLOTS,
+                    checks: { eva: { '[Vesticrest] yellow slot': checked } },
+                    memoryLockets: 20,
                 },
             },
             'Further evolved [Hunter Crest]': {
-                description:
-                    'Requires [Crest] slots. [Reaper Crest], [Wanderer Crest] and [Beast Crest] are not required, but having them minimizes the number of [Memory Locket]s required.',
-                reward: {
-                    memoryLocketsReq: [
-                        27 -
-                            REAPER_BASE_SLOTS -
-                            WANDERER_BASE_SLOTS -
-                            BEAST_BASE_SLOTS,
-                    ],
-                },
+                reward: { memoryLocketsReq: [27] },
                 requires: {
-                    checks: {
-                        crests: {
-                            '[Reaper Crest]': checked,
-                            '[Wanderer Crest]': checked,
-                            '[Beast Crest]': checked,
-                        },
-                        eva: { '[Vesticrest] blue slot': checked },
-                    },
-                    memoryLockets:
-                        27 -
-                        REAPER_BASE_SLOTS -
-                        WANDERER_BASE_SLOTS -
-                        BEAST_BASE_SLOTS,
+                    checks: { eva: { '[Vesticrest] blue slot': checked } },
+                    memoryLockets: 27,
                 },
             },
         },
@@ -625,6 +605,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                             '[Hivesteel Needle](Needle#Upgrades)': checked,
                         },
                     },
+                    acts: 3,
                 },
             },
         },
@@ -752,7 +733,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                     acts: 2,
                 },
             },
-            '[Spool Fragment Grindle]': {
+            '[Grindle] for [ROSARY] 680': {
                 reward: { spoolFragments, rosariesReq: 680 },
                 requires: {
                     checks: {
@@ -766,14 +747,55 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         toolPouch: {
-            'Tool Pouch Pin Challenge': { reward: { percent } },
-            'Tool Kit Crow Feathers': { reward: { percent } },
-            'Tool Kit Forge Daughter': { reward: { percent } },
-            'Tool Pouch Nuu': { reward: { percent } },
-            "Tool Pouch Pilgrim's Rest": { reward: { percent } },
-            'Tool Pouch Mooshka': { reward: { percent } },
-            'Tool Kit Grindle': { reward: { percent } },
-            'Tool Kit Architect': { reward: { percent } },
+            "[Mort] from [Pilgrim's Rest] for [ROSARY] 220": {
+                description:
+                    'Bought from [Mort] in [Far Fields] for [ROSARY] 220 in [Acts] 1/2 or from [Grindle] in [Blasted Steps] for [ROSARY] 220 in [Act 3], also requiring [Faydown Cloak].',
+                reward: { percent, rosariesReq: 220 },
+                requires: {
+                    rosaries: 220,
+                    checks: { items: { "[Drifter's Cloak]": checked } },
+                },
+            },
+            "[Loddie]'s pin challenge": {
+                reward: { percent },
+                requires: { checks: { bosses: { '[Widow]': checked } } },
+            },
+            "[Nuu]'s wish": {
+                reward: { percent },
+                requires: {
+                    checks: { wishes: { '[Bugs of Pharloom]': checked } },
+                },
+            },
+            'From [Mooshka] in [Fleatopia]': {
+                reward: { percent },
+                requires: { fleas: 22, acts: 2 },
+            },
+            '[Forge Daughter] for [ROSARY] 180': {
+                reward: { percent, rosariesReq: 180 },
+                requires: { rosaries: 180 },
+            },
+            '[Crawbug Clearing] [Wish]': {
+                reward: { percent },
+                requires: {
+                    checks: { wishes: { '[Crawbug Clearing]': checked } },
+                },
+            },
+            '[Twelfth Architect] for [ROSARY] 450': {
+                reward: { percent, rosariesReq: 450 },
+                requires: {
+                    rosaries: 450,
+                    checks: { ancestralArts: { '[Clawline]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Grindle] for [ROSARY] 700': {
+                reward: { percent, rosariesReq: 700 },
+                requires: {
+                    rosaries: 700,
+                    checks: { items: { '[Faydown Cloak]': checked } },
+                    acts: 2,
+                },
+            },
         },
 
         items: {
@@ -785,6 +807,24 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 reward: nothing,
             },
             '[Key of Apostate]': { reward: nothing },
+            '[Sacred Cylinder]': {
+                reward: nothing,
+                requires: {
+                    checks: {
+                        bosses: { '[Trobbio]': checked },
+                        ancestralArts: { '[Cling Grip]': checked },
+                    },
+                },
+            },
+            '[Twisted Bud]': { reward: nothing, requires: { acts: 2 } },
+            '[Steel Spines]': {
+                reward: { rosariesReq: 160 },
+                requires: {
+                    rosaries: 160,
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                },
+            },
+            '[Architect Key]': { reward: nothing, requires: { tools: 25 } },
             '[MEMORY_LOCKET] [Memory Locket] for [Volatile Flintbeetles] [Wish]':
                 {
                     reward: { memoryLockets },
@@ -908,6 +948,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         everbloom: { '[Everbloom]': { reward: { percent } } },
 
         wishes: {
+            '[Rite of the Pollip]': { reward: nothing },
             '[My Missing Courier]': {
                 reward: nothing,
                 requires: { checks: { bosses: { '[Widow]': checked } } },
@@ -918,6 +959,22 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 reward: nothing,
                 requires: {
                     checks: { ancestralArts: { '[Cling Grip]': checked } },
+                },
+            },
+            '[Bugs of Pharloom]': {
+                reward: nothing,
+                requires: {
+                    checks: { items: { "[Drifter's Cloak]": checked } },
+                },
+            },
+            '[The Threadspun Town]': {
+                reward: nothing,
+                requires: { checks: { bosses: { '[Widow]': checked } } },
+            },
+            '[Crawbug Clearing]': {
+                reward: nothing,
+                requires: {
+                    checks: { wishes: { '[The Threadspun Town]': checked } },
                 },
             },
             '[The Wandering Merchant]': {
@@ -981,6 +1038,20 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                             '[The Wandering Merchant]': checked,
                             '[Strengthening Songclave]': checked,
                         },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Rite of Rebirth]': {
+                reward: nothing,
+                requires: { checks: { items: { '[Twisted Bud]': checked } } },
+            },
+            '[Infestation Operation]': {
+                reward: nothing,
+                requires: {
+                    checks: {
+                        items: { '[Steel Spines]': checked },
+                        wishes: { '[Rite of Rebirth]': checked },
                     },
                     acts: 2,
                 },

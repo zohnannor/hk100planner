@@ -1083,25 +1083,36 @@ impl Parser {
                 ),
                 ("[High Halls]", silk_spool_collected("Hang_03_top")),
                 ("[Memorium]", silk_spool_collected("Arborium_09")),
-                ("[Spool Fragment Grindle]", pd.purchased_grindle_spool_piece),
+                (
+                    "[Grindle] for [ROSARY] 680",
+                    pd.purchased_grindle_spool_piece,
+                ),
             ]);
 
             let tool_pouch = to_map(&[
-                // TODO: add tool pouch upgrades
                 (
-                    "Tool Pouch Pin Challenge",
-                    pd.pin_galleries_completed >= 2.0,
-                ),
-                ("Tool Kit Crow Feathers", quest_completed("Crow Feathers")),
-                ("Tool Kit Forge Daughter", pd.purchased_forge_tool_kit),
-                ("Tool Pouch Nuu", quest_completed("Journal")),
-                (
-                    "Tool Pouch Pilgrim's Rest",
+                    "[Mort] from [Pilgrim's Rest] for [ROSARY] 220",
                     pd.purchased_pilgrims_rest_tool_pouch,
                 ),
-                ("Tool Pouch Mooshka", pd.caravan_troupe_location > 2.0),
-                ("Tool Kit Grindle", pd.purchased_grindle_tool_kit),
-                ("Tool Kit Architect", pd.purchased_architect_tool_kit),
+                ("[Loddie]'s pin challenge", pd.pin_galleries_completed > 0.0),
+                ("[Nuu]'s wish", quest_completed("Journal")),
+                (
+                    "From [Mooshka] in [Fleatopia]",
+                    pd.caravan_troupe_location > 2.0,
+                ),
+                (
+                    "[Forge Daughter] for [ROSARY] 180",
+                    pd.purchased_forge_tool_kit,
+                ),
+                (
+                    "[Crawbug Clearing] [Wish]",
+                    quest_completed("Crow Feathers"),
+                ),
+                (
+                    "[Twelfth Architect] for [ROSARY] 450",
+                    pd.purchased_architect_tool_kit,
+                ),
+                ("[Grindle] for [ROSARY] 700", pd.purchased_grindle_tool_kit),
             ]);
 
             let items = to_map(&[
@@ -1109,6 +1120,7 @@ impl Parser {
                 ("[Faydown Cloak]", pd.has_double_jump),
                 ("[White Key]", false),
                 ("[Key of Apostate]", false),
+                ("[Sacred Cylinder]", false),
                 (
                     "[MEMORY_LOCKET] [Memory Locket] for [Volatile Flintbeetles] [Wish]",
                     false,
@@ -1190,6 +1202,7 @@ impl Parser {
                 ("[Cloaks of the Choir]", false),
                 ("[Strengthening Songclave]", false),
                 ("[The Lost Merchant]", false),
+                ("[Infestation Operation]", false),
                 ("[Fastest in Pharloom]", false),
                 ("[Dark Hearts]", false),
                 ("[The Hidden Hunter]", false),

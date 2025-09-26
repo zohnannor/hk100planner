@@ -471,21 +471,25 @@ type SilksongChecksKeys = {
         | '[Deep Docks] behind [Simple Key]'
         | '[High Halls]'
         | '[Memorium]'
-        | '[Spool Fragment Grindle]';
+        | '[Grindle] for [ROSARY] 680';
     toolPouch:
-        | 'Tool Pouch Pin Challenge'
-        | 'Tool Kit Crow Feathers'
-        | 'Tool Kit Forge Daughter'
-        | 'Tool Pouch Nuu'
-        | "Tool Pouch Pilgrim's Rest"
-        | 'Tool Pouch Mooshka'
-        | 'Tool Kit Grindle'
-        | 'Tool Kit Architect';
+        | "[Mort] from [Pilgrim's Rest] for [ROSARY] 220"
+        | "[Loddie]'s pin challenge"
+        | "[Nuu]'s wish"
+        | 'From [Mooshka] in [Fleatopia]'
+        | '[Forge Daughter] for [ROSARY] 180'
+        | '[Crawbug Clearing] [Wish]'
+        | '[Twelfth Architect] for [ROSARY] 450'
+        | '[Grindle] for [ROSARY] 700';
     items:
         | "[Drifter's Cloak]"
         | '[Faydown Cloak]'
         | '[White Key]'
         | '[Key of Apostate]'
+        | '[Sacred Cylinder]'
+        | '[Twisted Bud]'
+        | '[Steel Spines]'
+        | '[Architect Key]'
         | '[MEMORY_LOCKET] [Memory Locket] for [Volatile Flintbeetles] [Wish]'
         | '[MEMORY_LOCKET] [Memory Locket] in [The Marrow]'
         | "[MEMORY_LOCKET] [Memory Locket] in [Hunter's March]"
@@ -508,8 +512,12 @@ type SilksongChecksKeys = {
         | '[MEMORY_LOCKET] [Memory Locket] in [Bilewater] near the bench shortcut';
     everbloom: '[Everbloom]';
     wishes:
+        | '[Rite of the Pollip]'
         | '[My Missing Courier]'
         | '[Volatile Flintbeetles]'
+        | '[Bugs of Pharloom]'
+        | '[The Threadspun Town]'
+        | '[Crawbug Clearing]'
         | '[The Wandering Merchant]'
         | '[Savage Beastfly](Wishes#Grand_Hunt_Wishes)'
         | '[Fine Pins]'
@@ -518,6 +526,8 @@ type SilksongChecksKeys = {
         | '[Cloaks of the Choir]'
         | '[Strengthening Songclave]'
         | '[The Lost Merchant]'
+        | '[Rite of Rebirth]'
+        | '[Infestation Operation]'
         | '[Fastest in Pharloom]'
         | '[Dark Hearts]'
         | '[The Hidden Hunter]';
@@ -607,6 +617,8 @@ export type SilksongChecklistState = CommonChecklistState<'silksong'> & {
     spoolFragments: number;
     /** The amount of Acts started. */
     acts: number;
+    /** The amount of tools collected. */
+    tools: number;
     /** The amount of fleas found. */
     fleas: number;
     /** The amount of pail oil collected. */

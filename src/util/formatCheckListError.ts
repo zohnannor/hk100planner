@@ -109,6 +109,8 @@ const formatCheckListError = <Game extends GameKey>(
                             return `${error} [MEMORY_LOCKET] [Memory Locket](Memory Locket (Silksong))(s) collected`;
                         case 'paleOil':
                             return `[PALE_OIL] ${error}`;
+                        case 'tools':
+                            return `${error} [Tools] collected`;
                         case 'spoolFragments':
                         case 'rosariesReq':
                         case 'simpleKeysReq':
@@ -225,7 +227,6 @@ const requirementTextForSection = <Game extends GameKey>(
             case 'items':
             case 'spoolFragments':
             case 'maskShards':
-            case 'ancestralArts':
             case 'toolPouch': {
                 joined += 'acquired';
                 break;
