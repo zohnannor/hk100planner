@@ -111,6 +111,8 @@ const formatCheckListError = <Game extends GameKey>(
                             return `[PALE_OIL] ${error}`;
                         case 'tools':
                             return `${error} [Tools] collected`;
+                        case 'hearts':
+                            return `${error} [Hearts](Items (Silksong)#Deliverables) collected`;
                         case 'spoolFragments':
                         case 'rosariesReq':
                         case 'simpleKeysReq':

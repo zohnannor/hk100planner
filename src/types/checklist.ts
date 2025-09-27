@@ -329,6 +329,7 @@ type SilksongChecksKeys = {
         | '[Moss Mother]'
         | '[Bell Beast]'
         | '[Fourth Chorus]'
+        | '[Lace]'
         | '[Sister Splinter]'
         | '[Savage Beastfly]'
         | '[Widow]'
@@ -339,7 +340,12 @@ type SilksongChecksKeys = {
         | '[The Unravelled]'
         | '[First Sinner]'
         | '[Lace 2](Lace#The_Cradle)'
-        | '[Grand Mother Silk]';
+        | '[Grand Mother Silk]'
+        | '[Shrine Guardian Seth]'
+        | '[Nyleth]'
+        | '[Crust King Khann]'
+        | '[Skarrsinger Karmelita]'
+        | '[Clover Dancers]';
     melodies:
         | "[Conductor's Melody]"
         | "[Architect's Melody]"
@@ -510,8 +516,14 @@ type SilksongChecksKeys = {
         | '[MEMORY_LOCKET] [Memory Locket] in [Whispering Vaults]'
         | '[MEMORY_LOCKET] [Memory Locket] in [Bilewater] secret room'
         | '[MEMORY_LOCKET] [Memory Locket] in [Bilewater] near the bench shortcut';
-    everbloom: '[Everbloom]';
+    everbloom:
+        | '[Pollen Heart]'
+        | '[Encrusted Heart]'
+        | "[Hunter's Heart]"
+        | '[Conjoined Heart]'
+        | '[Everbloom]';
     wishes:
+        | '[Flexile Spines]'
         | '[Rite of the Pollip]'
         | '[My Missing Courier]'
         | '[Volatile Flintbeetles]'
@@ -618,7 +630,8 @@ export type SilksongChecklistState = CommonChecklistState<'silksong'> & {
     /** The amount of Acts started. */
     acts: number;
     /** The amount of tools collected. */
-    tools: number;
+    tools: number /** The amount of hearts collected. */;
+    hearts: number;
     /** The amount of fleas found. */
     fleas: number;
     /** The amount of pail oil collected. */

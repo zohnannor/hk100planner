@@ -8,6 +8,7 @@ const percent = 1 as const;
 const simpleKeys = 1 as const;
 const spoolFragments = 1 as const;
 const tools = 1 as const;
+const hearts = { hearts: 1 } as const;
 const memoryLockets = 1 as const;
 const paleOil = 1 as const;
 const simpleKeysReq = 1 as const;
@@ -29,11 +30,12 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
     memoryLockets: 0,
     paleOil: 0,
 
+    acts: 1,
     tools: 0,
     fleas: 0,
+    hearts: 0,
     maskShards: 0,
     spoolFragments: 0,
-    acts: 1,
 
     rosariesReq: 0,
     simpleKeysReq: 0,
@@ -45,6 +47,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
             '[Moss Mother]': { reward: nothing },
             '[Bell Beast]': { reward: nothing },
             '[Fourth Chorus]': { reward: nothing },
+            '[Lace]': { reward: nothing },
             '[Sister Splinter]': { reward: nothing },
             '[Savage Beastfly]': { reward: nothing },
             '[Widow]': { reward: nothing },
@@ -87,6 +90,40 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                     checks: { ancestralArts: { '[Cling Grip]': checked } },
                     acts: 2,
                 },
+            },
+            '[Shrine Guardian Seth]': {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Silk Soar]': checked } },
+                    acts: 3,
+                },
+            },
+            '[Nyleth]': {
+                reward: nothing,
+                requires: {
+                    checks: { bosses: { '[Shrine Guardian Seth]': checked } },
+                    acts: 3,
+                },
+            },
+            '[Crust King Khann]': {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Silk Soar]': checked } },
+                    acts: 3,
+                },
+            },
+            '[Skarrsinger Karmelita]': {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Silk Soar]': checked } },
+                    acts: 3,
+                },
+            },
+            '[Clover Dancers]': {
+                description:
+                    '[Green Prince] must be freed and encountered in [The Citadel].',
+                reward: { simpleKeysReq },
+                requires: { simpleKeys, acts: 3 },
             },
         },
 
@@ -799,8 +836,24 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         items: {
-            "[Drifter's Cloak]": { reward: nothing },
-            '[Faydown Cloak]': { reward: nothing },
+            "[Drifter's Cloak]": {
+                reward: nothing,
+                requires: {
+                    checks: { wishes: { '[Flexile Spines]': checked } },
+                },
+            },
+            '[Faydown Cloak]': {
+                reward: nothing,
+                requires: {
+                    checks: {
+                        ancestralArts: {
+                            '[Cling Grip]': checked,
+                            '[Clawline]': checked,
+                        },
+                    },
+                    acts: 2,
+                },
+            },
             '[White Key]': {
                 description:
                     'If [The Wandering Merchant] wish has already been granted, it can be bought from [Jubilana] in [Songclave] for [ROSARY] 220.',
@@ -945,10 +998,54 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 },
         },
 
-        everbloom: { '[Everbloom]': { reward: { percent } } },
+        everbloom: {
+            '[Pollen Heart]': {
+                reward: hearts,
+                requires: {
+                    checks: { bosses: { '[Nyleth]': checked } },
+                    acts: 3,
+                },
+            },
+            '[Encrusted Heart]': {
+                reward: hearts,
+                requires: {
+                    checks: { bosses: { '[Crust King Khann]': checked } },
+                    acts: 3,
+                },
+            },
+            "[Hunter's Heart]": {
+                reward: hearts,
+                requires: {
+                    checks: { bosses: { '[Skarrsinger Karmelita]': checked } },
+                    acts: 3,
+                },
+            },
+            '[Conjoined Heart]': {
+                reward: hearts,
+                requires: {
+                    checks: { bosses: { '[Clover Dancers]': checked } },
+                    acts: 3,
+                },
+            },
+            '[Everbloom]': { reward: { percent }, requires: { hearts: 3 } },
+        },
 
         wishes: {
-            '[Rite of the Pollip]': { reward: nothing },
+            '[Flexile Spines]': {
+                reward: nothing,
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Swift Step]': checked },
+                        bosses: { '[Lace]': checked },
+                    },
+                },
+            },
+            '[Rite of the Pollip]': {
+                reward: nothing,
+                requires: {
+                    checks: { items: { "[Drifter's Cloak]": checked } },
+                },
+            },
             '[My Missing Courier]': {
                 reward: nothing,
                 requires: { checks: { bosses: { '[Widow]': checked } } },
