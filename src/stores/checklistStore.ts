@@ -1,3 +1,4 @@
+import { Draft } from 'immer';
 import { merge as deepMerge } from 'object-deep-merge';
 import { PartialDeep } from 'type-fest';
 import { temporal } from 'zundo';
@@ -22,6 +23,7 @@ import {
     SaveFileData,
     SectionNames,
 } from '../types/checklist';
+import { ExtractNumberKeys } from '../types/util';
 import partialDeepEqual, { Comparable } from '../util/partialDeepEqual';
 import { typedEntries, typedKeys, typedValues } from '../util/typedObject';
 import INITIAL_CHECKLIST_STATE from './INITIAL_CHECKLIST_STATE';
@@ -117,8 +119,10 @@ const validateCheck = <Game extends GameKey>(
     const hkRequires =
         check.requires as PartialDeep<HollowKnightChecklistState>;
 
-    /// special case for "consumable items", we don't want to just check if the
-    /// value is greater, we wanna know that we have enough of it
+    // TODO: silksong
+
+    // special case for "consumable items", we don't want to just check if the
+    // value is greater, we wanna know that we have enough of it
     const reqs: Record<
         'paleOre' | 'geo' | 'simpleKeys',
         [number, number, number]
@@ -193,7 +197,7 @@ const validateChecks = <Game extends GameKey>(
 };
 
 const applyReward = <Game extends GameKey>(
-    state: State<Game>,
+    state: Draft<State<Game>>,
     reward: CheckRewards<Game>,
     willCheck: boolean
 ) => {
@@ -204,44 +208,37 @@ const applyReward = <Game extends GameKey>(
     }
 };
 
-const grubRewards = (state: State<'hollow-knight'>, willCheck: boolean) => {
-    const grubs = state.grubs;
+const MASK_SHARD_REWARDS = [
+    0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1,
+] as const;
+const VESSEL_FRAGMENT_REWARDS = [0, 0, 1, 0, 0, 1, 0, 0, 1] as const;
+const SILK_SPOOL_PART_REWARDS = [
+    0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+] as const;
 
-    const grubReward = willCheck
-        ? GRUB_REWARDS[grubs - 1]
-        : GRUB_REWARDS[grubs];
-
-    applyReward(state, { geo: grubReward }, willCheck);
-};
-
-const maskShardRewards = (
-    state: State<'hollow-knight'>,
+const applyPartialReward = <
+    Game extends GameKey,
+    Rewards extends readonly number[]
+>(
+    state: Draft<State<Game>>,
+    key: ExtractNumberKeys<ChecklistState<Game>>,
+    rewards: Rewards,
+    rewardKey: ExtractNumberKeys<ChecklistState<Game>>,
     willCheck: boolean
 ) => {
-    const maskShards = state.maskShards;
+    const part = (state as State<Game>)[key] as number;
 
-    const percent = willCheck
-        ? [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1][maskShards - 1]
-        : [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1][maskShards];
+    const reward = willCheck ? rewards[part - 1] : rewards[part];
 
-    applyReward(state, { percent }, willCheck);
-};
-
-const vesselFragmentRewards = (
-    state: State<'hollow-knight'>,
-    willCheck: boolean
-) => {
-    const vesselFragments = state.vesselFragments;
-
-    const percent = willCheck
-        ? [0, 0, 1, 0, 0, 1, 0, 0, 1][vesselFragments - 1]
-        : [0, 0, 1, 0, 0, 1, 0, 0, 1][vesselFragments];
-
-    applyReward(state, { percent }, willCheck);
+    applyReward(
+        state,
+        { [rewardKey]: reward } as CheckRewards<Game>,
+        willCheck
+    );
 };
 
 const handleCheck = <Game extends GameKey>(
-    state: State<Game>,
+    state: Draft<State<Game>>,
     sectionName: SectionNames<Game>,
     check: Check<Game>,
     willCheck: boolean
@@ -252,16 +249,47 @@ const handleCheck = <Game extends GameKey>(
     applyReward(state, check.reward, willCheck);
     check.checked = willCheck;
 
+    if (sectionName === 'maskShards') {
+        // TODO: fix type cast?
+        applyPartialReward(
+            state,
+            'maskShards' as ExtractNumberKeys<ChecklistState<Game>>,
+            MASK_SHARD_REWARDS,
+            'percent' as ExtractNumberKeys<ChecklistState<Game>>,
+            willCheck
+        );
+    }
+
     if (state.game === 'hollow-knight') {
         const hkState = state as State<'hollow-knight'>;
-        if (sectionName === 'grubs') {
-            grubRewards(hkState, willCheck);
+        const typedSectionName = sectionName as SectionNames<'hollow-knight'>;
+        if (typedSectionName === 'grubs') {
+            applyPartialReward(
+                hkState,
+                'grubs',
+                GRUB_REWARDS,
+                'geo',
+                willCheck
+            );
+        } else if (typedSectionName === 'vesselFragments') {
+            applyPartialReward(
+                hkState,
+                'vesselFragments',
+                VESSEL_FRAGMENT_REWARDS,
+                'percent',
+                willCheck
+            );
         }
-        if (sectionName === 'maskShards') {
-            maskShardRewards(hkState, willCheck);
-        }
-        if (sectionName === 'vesselFragments') {
-            vesselFragmentRewards(hkState, willCheck);
+    } else if (state.game === 'silksong') {
+        const typedSectionName = sectionName as SectionNames<'silksong'>;
+        if (typedSectionName === 'spoolFragments') {
+            applyPartialReward(
+                state as State<'silksong'>,
+                'spoolFragments',
+                SILK_SPOOL_PART_REWARDS,
+                'percent',
+                willCheck
+            );
         }
     }
 };
@@ -282,39 +310,6 @@ const createChecklistStore = <Game extends GameKey>(
                 immer(set => ({
                     ...initialState,
 
-                    setFromSaveFile: (savefile: SaveFile) => {
-                        const game = typedKeys(savefile)[0]!;
-                        type Save = typeof game;
-                        const save = savefile[game]! as SaveFileData<Save>;
-
-                        useChecklistStore(game).setState(state => {
-                            typedEntries(save).forEach(
-                                ([sectionName, section]) => {
-                                    Array.from(section.entries()).forEach(
-                                        ([checkName, checked]) => {
-                                            const section = state.checks[
-                                                sectionName
-                                            ] as ChecksSection<
-                                                Save,
-                                                SectionNames<Save>
-                                            >;
-                                            const check = section[checkName];
-
-                                            handleCheck<Save>(
-                                                state,
-                                                sectionName,
-                                                check,
-                                                checked
-                                            );
-                                        }
-                                    );
-                                }
-                            );
-                        });
-
-                        useUiStore.getState().setCurrentTab(game);
-                    },
-
                     reset: (sectionName?: Section) => {
                         if (sectionName) {
                             set(state => {
@@ -323,7 +318,7 @@ const createChecklistStore = <Game extends GameKey>(
                                 ] as ChecksSection<Game, Section>;
                                 typedValues(section).forEach(check =>
                                     handleCheck(
-                                        state as State<Game>,
+                                        state,
                                         sectionName,
                                         check,
                                         false
@@ -346,12 +341,7 @@ const createChecklistStore = <Game extends GameKey>(
                                     sectionName
                                 ] as ChecksSection<Game, Section>;
                                 typedValues(section).forEach(check =>
-                                    handleCheck(
-                                        state as State<Game>,
-                                        sectionName,
-                                        check,
-                                        true
-                                    )
+                                    handleCheck(state, sectionName, check, true)
                                 );
                             });
                         } else {
@@ -361,7 +351,7 @@ const createChecklistStore = <Game extends GameKey>(
                                 ).forEach(([sectionName, section]) => {
                                     typedValues(section).forEach(check =>
                                         handleCheck(
-                                            state as State<Game>,
+                                            state,
                                             sectionName,
                                             check,
                                             true
@@ -383,18 +373,76 @@ const createChecklistStore = <Game extends GameKey>(
                             ][name];
 
                             const willCheck = !check.checked;
-                            handleCheck(
-                                state as State<Game>,
-                                section,
-                                check,
-                                willCheck
-                            );
+                            handleCheck(state, section, check, willCheck);
                         });
                     },
 
                     validateCheck,
 
                     validateChecks,
+
+                    setFromSaveFile: <Game extends GameKey>(
+                        savefile: SaveFile
+                    ) => {
+                        const game = typedKeys(savefile)[0]! as Game;
+                        const save = savefile[game]! as SaveFileData<Game>;
+
+                        useChecklistStore(game).setState(state => {
+                            typedEntries(save).forEach(
+                                ([sectionName, section]) => {
+                                    Array.from(section.entries()).forEach(
+                                        ([checkName, checked]) => {
+                                            if (
+                                                !(sectionName in state.checks)
+                                            ) {
+                                                console.error(sectionName);
+                                                throw new Error(
+                                                    `Section \`${sectionName}\` not found`
+                                                );
+                                            }
+
+                                            const existingSectionName =
+                                                sectionName as SectionNames<Game>;
+
+                                            const section = (
+                                                state.checks as Checks<Game>
+                                            )[
+                                                existingSectionName
+                                            ] as ChecksSection<
+                                                Game,
+                                                SectionNames<Game>
+                                            >;
+
+                                            if (!(checkName in section)) {
+                                                console.error(checkName);
+                                                throw new Error(
+                                                    `Check \`${checkName}\` not found in section \`${existingSectionName}\``
+                                                );
+                                            }
+
+                                            const existingCheckName =
+                                                checkName as CheckNames<
+                                                    Game,
+                                                    SectionNames<Game>
+                                                >;
+
+                                            const check =
+                                                section[existingCheckName];
+
+                                            handleCheck(
+                                                state,
+                                                existingSectionName,
+                                                check,
+                                                checked
+                                            );
+                                        }
+                                    );
+                                }
+                            );
+                        });
+
+                        useUiStore.getState().setCurrentTab(game);
+                    },
                 }))
             ),
             {

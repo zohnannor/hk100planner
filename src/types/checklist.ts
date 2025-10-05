@@ -231,10 +231,10 @@ type HollowKnightChecksKeys = {
         | '[Tower of Love] #2'
         | '[Tower of Love] #3';
     items:
-        | '[SIMPLE_KEY] [Simple Key] from [Sly]'
-        | '[SIMPLE_KEY] [Simple Key] near [City Storerooms]'
-        | '[SIMPLE_KEY] [Simple Key] in the [Ancient Basin]'
-        | '[SIMPLE_KEY] [Simple Key] behind [Pale Lurker]'
+        | '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] from [Sly]'
+        | '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] near [City Storerooms]'
+        | '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] in the [Ancient Basin]'
+        | '[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] behind [Pale Lurker]'
         | '[ELEGANT_KEY] [Elegant Key]'
         | '[LOVE_KEY] [Love Key]'
         | "[SHOPKEEPER'S_KEY] [Shopkeeper's Key]"
@@ -325,7 +325,244 @@ type HollowKnightChecksKeys = {
 
 /** Silksong specific check keys */
 type SilksongChecksKeys = {
-    bosses: '[Lace]'; // TODO
+    bosses:
+        | '[Moss Mother]'
+        | '[Bell Beast]'
+        | '[Fourth Chorus]'
+        | '[Lace]'
+        | '[Sister Splinter]'
+        | '[Savage Beastfly]'
+        | '[Widow]'
+        | '[Last Judge] / [Phantom]'
+        | '[Savage Beastfly 2](Savage Beastfly#Far_Fields)'
+        | '[Cogwork Dancers]'
+        | '[Trobbio]'
+        | '[The Unravelled]'
+        | '[First Sinner]'
+        | '[Voltvyrm]'
+        | '[Father of the Flame]'
+        | '[Lace 2](Lace#The_Cradle)'
+        | '[Grand Mother Silk]'
+        | '[Pinstress]'
+        | '[Shrine Guardian Seth]'
+        | '[Nyleth]'
+        | '[Crust King Khann]'
+        | '[Skarrsinger Karmelita]'
+        | '[Clover Dancers]';
+    melodies:
+        | "[Conductor's Melody]"
+        | "[Architect's Melody]"
+        | "[Vaultkeeper's Melody]";
+    silkHearts:
+        | '[Bell Beast]'
+        | '[Lace 2](Lace#The_Cradle)'
+        | '[The Unravelled]';
+    tools:
+        | '[Straight Pin]'
+        | '[Threefold Pin]'
+        | '[Sting Shard]'
+        | '[Tacks]'
+        | '[Longpin]'
+        | '[Curveclaw] / [Curvesickle]'
+        | '[Throwing Ring]'
+        | '[Pimpillo]'
+        | '[Conchcutter]'
+        | '[Silkshot]'
+        | "[Delver's Drill]"
+        | '[Cogwork Wheel]'
+        | '[Cogfly]'
+        | '[Rosary Cannon]'
+        | '[Voltvessels]'
+        | '[Flintslate]'
+        | '[Flea Brew]'
+        | '[Plasmium Phial]'
+        | "[Druid's Eye] / [Druid's Eyes]"
+        | '[Magma Bell]'
+        | '[Warding Bell]'
+        | '[Pollip Pouch]'
+        | '[Fractured Mask]'
+        | '[Multibinder]'
+        | '[Weavelight]'
+        | '[Sawtooth Circlet]'
+        | '[Injector Band]'
+        | '[Spool Extender]'
+        | '[Reserve Bind]'
+        | '[Claw Mirror] / [Claw Mirrors]'
+        | '[Memory Crystal]'
+        | '[Snitch Pick]'
+        | '[Volt Filament]'
+        | '[Quick Sling]'
+        | '[Wreath of Purity]'
+        | '[Longclaw]'
+        | '[Wispfire Lantern]'
+        | '[Egg of Flealia]'
+        | '[Pin Badge]'
+        | '[Compass]'
+        | '[Shard Pendant]'
+        | '[Magnetite Brooch]'
+        | '[Weighted Belt]'
+        | '[Barbed Bracelet]'
+        | "[Dead Bug's Purse] / [Shell Satchel]"
+        | '[Magnetite Dice]'
+        | '[Scuttlebrace]'
+        | "[Ascendant's Grip]"
+        | '[Spider Strings]'
+        | '[Silkspeed Anklets]'
+        | "[Thief's Mark]";
+    silkSkills:
+        | '[Silkspear]'
+        | '[Thread Storm]'
+        | '[Cross Stitch]'
+        | '[Sharpdart]'
+        | '[Rune Rage]'
+        | '[Pale Nails]';
+    ancestralArts:
+        | '[Swift Step]'
+        | '[Cling Grip]'
+        | '[Needolin]'
+        | '[Clawline]'
+        | '[Silk Soar]'
+        | '[Needle Strike]'
+        | '[Sylphsong]';
+    crests:
+        | '[Reaper Crest]'
+        | '[Wanderer Crest]'
+        | '[Beast Crest]'
+        | '[Witch Crest]'
+        | '[Architect Crest]'
+        | '[Shaman Crest]';
+    eva:
+        | 'Evolved [Hunter Crest]'
+        | '[Vesticrest] yellow slot'
+        | '[Vesticrest] blue slot'
+        | 'Further evolved [Hunter Crest]';
+    maskShards:
+        | '[Pebb] from [Bone Bottom] for [ROSARY] 300'
+        | '[Wormways]'
+        | '[Deep Docks] entrance'
+        | '[Far Fields] [Seamstress]'
+        | '[Shellwood]'
+        | '[Weavenest Alta]'
+        | '[Jubilana] from [Songclave] for [ROSARY] 750'
+        | 'West [Cogwork Core]'
+        | '[Whispering Vaults]'
+        | '[Savage Beastfly] [Wish]'
+        | '[Far Fields] rising lava escape sequence'
+        | 'West [Mount Fay]'
+        | '[Slab]'
+        | '[Bilewater]'
+        | '[Wisp Thicket]'
+        | '[Blasted Steps]'
+        | '[Mount Fay] [Brightvein]'
+        | '[Fastest in Pharloom] [Wish]'
+        | '[Dark Hearts] [Wish]'
+        | '[The Hidden Hunter] [Wish]';
+    needle:
+        | '[Sharpened Needle](Needle#Upgrades)'
+        | '[Shining Needle](Needle#Upgrades)'
+        | '[Hivesteel Needle](Needle#Upgrades)'
+        | '[Palesteel Needle](Needle#Upgrades)';
+    spoolFragments:
+        | '[Bone Bottom]'
+        | '[Deep Docks] hot floor'
+        | '[Weavenest Alta]'
+        | '[Greymoor]'
+        | '[Slab]'
+        | '[Frey] from [Bellhart] for [ROSARY] 270'
+        | '[Grand Gate]'
+        | '[Underworks]'
+        | 'From [Mooshka] at [Grand Gate]'
+        | '[Whiteward]'
+        | '[Cogwork Core]'
+        | '[Underworks] near [The Cauldron]'
+        | '[Balm for the Wounded] [Wish]'
+        | '[Jubilana] from [Songclave] for [ROSARY] 500'
+        | '[Deep Docks] behind [Simple Key]'
+        | '[High Halls]'
+        | '[Memorium]'
+        | '[Grindle] for [ROSARY] 680';
+    toolPouch:
+        | "[Mort] from [Pilgrim's Rest] for [ROSARY] 220"
+        | "[Loddie]'s pin challenge"
+        | "[Nuu]'s wish"
+        | 'From [Mooshka] in [Fleatopia]'
+        | '[Forge Daughter] for [ROSARY] 180'
+        | '[Crawbug Clearing] [Wish]'
+        | '[Twelfth Architect] for [ROSARY] 450'
+        | '[Grindle] for [ROSARY] 700';
+    items:
+        | "[Drifter's Cloak]"
+        | '[Faydown Cloak]'
+        | '[White Key]'
+        | '[Key of Apostate]'
+        | '[Sacred Cylinder]'
+        | '[Twisted Bud]'
+        | '[Steel Spines]'
+        | '[Architect Key]'
+        | '[CRAFTMETAL] [Craftmetal] from [Pebb] in [Bone Bottom] for [ROSARY] 60'
+        | "[CRAFTMETAL] [Craftmetal] in [The Marrow] near [Hunter's March]"
+        | '[CRAFTMETAL] [Craftmetal] in [Deep Docks] near [Far Fields]'
+        | '[CRAFTMETAL] [Craftmetal] in [Blasted Steps] near [Last Judge]'
+        | '[CRAFTMETAL] [Craftmetal] from [Jubilana] for [ROSARY] 180'
+        | '[CRAFTMETAL] [Craftmetal] in [Wisp Thicket]'
+        | '[CRAFTMETAL] [Craftmetal] in [Underworks] south of [The Cauldron]'
+        | '[CRAFTMETAL] [Craftmetal] in [Pale Lake]'
+        | '[MEMORY_LOCKET] [Memory Locket] for [Volatile Flintbeetles] [Wish]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [The Marrow]'
+        | "[MEMORY_LOCKET] [Memory Locket] in [Hunter's March]"
+        | '[MEMORY_LOCKET] [Memory Locket] in [Deep Docks] behind [Simple Key]'
+        | '[MEMORY_LOCKET] [Memory Locket] from [Mort] in [Far Fields] for [ROSARY] 150'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Far Fields] near [Skarrsinger Karmelita]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Greymoor] near [Bellway]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Greymoor] inside [Halfway Home]'
+        | '[MEMORY_LOCKET] [Memory Locket] from [Frey] in [Bellhart] for [ROSARY] 330'
+        | "[MEMORY_LOCKET] [Memory Locket] in [Bellhart]'s ceiling"
+        | '[MEMORY_LOCKET] [Memory Locket] in [Blasted Steps]'
+        | '[MEMORY_LOCKET] [Memory Locket] in the [Sands of Karak]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Wormways]'
+        | '[MEMORY_LOCKET] [Memory Locket] in the [Underworks]'
+        | '[MEMORY_LOCKET] [Memory Locket] at [Grand Bellway]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Memorium]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [The Slab]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Whispering Vaults]'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Bilewater] secret room'
+        | '[MEMORY_LOCKET] [Memory Locket] in [Bilewater] near the bench shortcut';
+    everbloom:
+        | '[Pollen Heart]'
+        | '[Encrusted Heart]'
+        | "[Hunter's Heart]"
+        | '[Conjoined Heart]'
+        | '[Everbloom]';
+    wishes:
+        | '[Berry Picking]'
+        | '[The Lost Fleas]'
+        | '[Flexile Spines]'
+        | '[Rite of the Pollip]'
+        | '[My Missing Courier]'
+        | '[Volatile Flintbeetles]'
+        | '[Bugs of Pharloom]'
+        | '[The Threadspun Town]'
+        | '[Crawbug Clearing]'
+        | "[Alchemist's Assistant]"
+        | '[Roach Guts]'
+        | '[The Wandering Merchant]'
+        | '[Savage Beastfly](Wishes#Grand_Hunt_Wishes)'
+        | '[Fine Pins]'
+        | '[Balm for the Wounded]'
+        | '[Building Up Songclave]'
+        | '[Cloaks of the Choir]'
+        | '[Strengthening Songclave]'
+        | '[The Lost Merchant]'
+        | '[Broodfeast] / [Runtfeast]'
+        | '[Rite of Rebirth]'
+        | '[Infestation Operation]'
+        | "[Trail's End]"
+        | '[Fastest in Pharloom]'
+        | '[Dark Hearts]'
+        | '[Final Audience]'
+        | '[The Hidden Hunter]';
+    fleas: never;
+    relics: never;
 };
 
 /** Union type for all possible check keys */
@@ -369,6 +606,12 @@ type CommonChecklistState<Game extends GameKey> = {
     percent: number;
     /** The checks that make up the checklist. */
     checks: Checks<Game>;
+    /** The amount of mask shards collected. */
+    maskShards: number;
+    /** The amount of simple keys collected. */
+    simpleKeys: number;
+    /** The required amount of simple keys. */
+    simpleKeysReq: number;
 };
 
 /** Hollow Knight specific state properties. */
@@ -382,22 +625,16 @@ export type HollowKnightChecklistState =
         paleOre: number;
         /** The amount of charms collected. */
         charms: number;
-        /** The amount of grubs collected. */
+        /** The amount of grubs freed. */
         grubs: number;
-        /** The amount of mask shards collected. */
-        maskShards: number;
         /** The amount of vessel fragments collected. */
         vesselFragments: number;
-        /** The amount of simple keys collected. */
-        simpleKeys: number;
         /** The required amount of geo. */
         geoReq: number;
         /** The required amount of essence (array to track history and compute max). */
-        essenceReq: [number];
+        essenceReq: number[];
         /** The required amount of pale ore. */
         paleOreReq: number;
-        /** The required amount of simple keys. */
-        simpleKeysReq: number;
     };
 
 /** Silksong specific state properties. */
@@ -406,6 +643,28 @@ export type SilksongChecklistState = CommonChecklistState<'silksong'> & {
     rosaries: number;
     /** The required amount of rosaries. */
     rosariesReq: number;
+    /** The amount of Spool Fragments collected. */
+    spoolFragments: number;
+    /** The amount of Acts started. */
+    acts: number;
+    /** The amount of tools collected. */
+    tools: number;
+    /** The amount of hearts collected. */
+    hearts: number;
+    /** The amount of fleas found. */
+    fleas: number;
+    /** The amount of pail oil collected. */
+    paleOil: number;
+    /** The amount of craft metal collected. */
+    craftmetal: number;
+    /** The amount of memory lockets collected and used. */
+    memoryLockets: number;
+    /** The required amount of pail oil. */
+    paleOilReq: number;
+    /** The required amount of craft metal. */
+    craftmetalReq: number;
+    /** The required amount of memory lockets. */
+    memoryLocketsReq: number[];
 };
 
 /** Represents the state of the checklist, including progress and requirements. */
@@ -470,7 +729,9 @@ export type RequirementCheckErrors = {
 export type AnyObject = Record<string, unknown>;
 
 export type SaveFileData<Game extends GameKey> = {
-    [Section in SectionNames<Game>]: Map<CheckNames<Game, Section>, boolean>;
+    [Section in SectionNames<Game> | string]: Section extends SectionNames<Game>
+        ? Map<CheckNames<Game, Section>, boolean>
+        : Map<string, boolean>;
 };
 
 /** A save file serialized by webasm savefile parser. */

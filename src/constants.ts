@@ -26,13 +26,13 @@ const HOLLOW_KNIGHT_SECTION_TITLES: Record<
 > = {
     bosses: '[Bosses](Bosses (Hollow Knight))',
     optionalBosses: '[Bosses](Bosses (Hollow Knight)) (no percents)',
-    equipment: '[Equipment](Abilities)',
+    equipment: '[Equipment](Abilities (Hollow Knight))',
     spells: '[Spells]',
     nail: '[Nail]',
     dreamNail: '[Dream Nail]',
     nailArts: '[Nail Arts]',
     charms: '[Charms]',
-    maskShards: '[Mask Shards]',
+    maskShards: '[Mask Shards](Mask Shard (Hollow Knight))',
     vesselFragments: '[Vessel Fragments]',
     colosseum: '[Colosseum of Fools]',
     dreamers: '[Dreamers]',
@@ -41,14 +41,30 @@ const HOLLOW_KNIGHT_SECTION_TITLES: Record<
         '[Dream Bosses](Bosses (Hollow Knight)#Boss_Variants) (no percents)',
     godhome: '[Godhome]',
     grubs: '[Grubs](Grub#Rewards_and_locations) (no percents)',
-    items: '[Items](Items (Hollow_Knight)) (no percents)',
-    relics: '[Relics](Items (Hollow_Knight)#Tradables) (no percents)',
+    items: '[Items](Items (Hollow Knight)) (no percents)',
+    relics: '[Relics](Items (Hollow Knight)#Tradables) (no percents)',
     whisperingRoots: '[Whispering Roots](Whispering Root) (no percents)',
     // endings: '[Endings](Endings (Hollow Knight))',
 };
 
 const SILKSONG_SECTION_TITLES: Record<SectionNames<'silksong'>, string> = {
-    bosses: '[Bosses](Bosses (Silksong))',
+    bosses: '[Bosses](Bosses (Silksong)) (no percents)',
+    melodies: '[Threefold Melody](The Cradle#How_to_Access) (no percents)',
+    silkHearts: '[Silk Hearts]',
+    tools: '[Tools]',
+    silkSkills: '[Silk Skills](Crests#List_of_Skills)',
+    ancestralArts: '[Ancestral Arts]',
+    crests: '[Crests]',
+    eva: '[Eva]',
+    maskShards: '[Mask Shards](Mask Shard (Silksong))',
+    needle: '[Needle]',
+    spoolFragments: '[Spool Fragments]',
+    toolPouch: '[Tool Pouch] and [Crafting Kit]',
+    items: '[Items](Items (Silksong)) (no percents)',
+    everbloom: '[Everbloom]',
+    wishes: '[Wishes] (no percents)',
+    fleas: '[Fleas] (no percents)',
+    relics: '[Relics](Items (Silksong)#Tradables) (no percents)',
 };
 
 export const SECTION_TITLES = {
@@ -84,8 +100,20 @@ export const HOLLOW_KNIGHT_DISTRIBUTED_SECTIONS = [
 ] as const satisfies SectionNames<'hollow-knight'>[][];
 
 export const SILKSONG_DISTRIBUTED_SECTIONS = [
-    ['bosses'],
-    [],
+    ['silkHearts', 'ancestralArts', 'silkSkills', 'tools', 'items', 'relics'],
+    [
+        'needle',
+        'crests',
+        'eva',
+        'maskShards',
+        'spoolFragments',
+        'toolPouch',
+        'everbloom',
+        'bosses',
+        'melodies',
+        'fleas',
+        'wishes',
+    ],
 ] as const satisfies SectionNames<'silksong'>[][];
 
 type MissingSectionNames<Game extends GameKey> = UnionToArray<

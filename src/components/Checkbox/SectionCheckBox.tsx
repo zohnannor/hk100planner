@@ -89,11 +89,7 @@ export const SectionCheckBox = <Game extends GameKey>({
     const { description } = check;
     const error = formatCheckListError(
         checkName,
-        errors
-            ? errors![sectionName]
-                ? errors![sectionName]![checkName] // wtf typescript
-                : undefined
-            : undefined
+        errors?.[sectionName]?.[checkName]
     );
 
     let label =

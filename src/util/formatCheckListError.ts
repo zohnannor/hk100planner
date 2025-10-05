@@ -1,22 +1,21 @@
+import { PartialDeep } from 'type-fest';
+
 import { OFFICIAL_TM_GRUB_NAMES } from '../constants';
+import INITIAL_CHECKLIST_STATE from '../stores/INITIAL_CHECKLIST_STATE';
 import useUiStore from '../stores/uiStore';
 import {
+    ChecklistState,
     CheckNames,
     Checks,
     ChecksSection,
     GameKey,
-    RequirementCheckErrors,
     SectionNames,
 } from '../types/checklist';
 import { typedEntries } from './typedObject';
 
 const formatCheckListError = <Game extends GameKey>(
     checkName: CheckNames<Game, SectionNames<Game>>,
-    errors:
-        | NonNullable<
-              NonNullable<RequirementCheckErrors[Game]>[SectionNames<Game>]
-          >[CheckNames<Game, SectionNames<Game>>] // | string
-        | undefined
+    errors: PartialDeep<ChecklistState<Game>> | undefined
 ): string | undefined => {
     if (errors && typeof errors === 'object') {
         const useOfficialTMGrubNames =
@@ -31,57 +30,117 @@ const formatCheckListError = <Game extends GameKey>(
 
         const requires = typedEntries(errors)
             .map(([requirement, error]) => {
-                // TODO: types?
-                const typedRequirement = requirement as SectionNames<Game>;
-                switch (typedRequirement) {
-                    case 'geo':
-                        return `[GEO] ${error}`;
-                    case 'essence':
-                        return `[ESSENCE] ${error}`;
-                    case 'paleOre':
-                        return `[PALE_ORE] ${error}`;
-                    case 'grubs':
-                        return `${error} grubs rescued`;
-                    case 'simpleKeys':
-                        return `${error} simple key(s) collected`;
-                    case 'maskShards':
-                        return `${error} mask shard(s) collected`;
-                    case 'charms':
-                        return `${error} charms collected`;
-                    case 'vesselFragments':
-                    case 'geoReq':
-                    case 'essenceReq':
-                    case 'paleOreReq':
-                    case 'simpleKeysReq':
-                    case 'game':
-                    case 'percent':
-                        throw new Error(
-                            `Nothing should require ${typedRequirement}`
-                        );
-                    case 'checks': {
-                        return typedEntries(error as Checks<Game>)
-                            .map(([section, sectionErrors]) => {
-                                const positive = getEntriesText(
-                                    section,
-                                    sectionErrors,
-                                    true
-                                );
-                                const negative = getEntriesText(
-                                    section,
-                                    sectionErrors,
-                                    false
-                                );
+                const checks = () =>
+                    typedEntries(error as Checks<Game>)
+                        .map(([section, sectionErrors]) => {
+                            const positive = getEntriesText(
+                                section,
+                                sectionErrors,
+                                true
+                            );
+                            const negative = getEntriesText(
+                                section,
+                                sectionErrors,
+                                false
+                            );
 
-                                return positive + negative;
-                            })
-                            .join('; ');
+                            return positive + negative;
+                        })
+                        .join('; ');
+
+                if (
+                    INITIAL_CHECKLIST_STATE['hollow-knight'].hasOwnProperty(
+                        requirement
+                    )
+                ) {
+                    const typedRequirement =
+                        requirement as keyof ChecklistState<'hollow-knight'>;
+                    switch (typedRequirement) {
+                        case 'geo':
+                            return `[GEO] ${error}`;
+                        case 'essence':
+                            return `[ESSENCE] ${error}`;
+                        case 'paleOre':
+                            return `[PALE_ORE] ${error}`;
+                        case 'grubs':
+                            return `${error} [grubs] rescued`;
+                        case 'simpleKeys':
+                            return `${error} [SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key](Simple Key (Hollow Knight))(s) collected`;
+                        case 'maskShards':
+                            return `${error} [Mask Shard](Mask Shard (Hollow Knight))(s) collected`;
+                        case 'charms':
+                            return `${error} [Charms] collected`;
+                        case 'vesselFragments':
+                        case 'geoReq':
+                        case 'essenceReq':
+                        case 'paleOreReq':
+                        case 'simpleKeysReq':
+                        case 'game':
+                        case 'percent':
+                            throw new Error(
+                                `Nothing should require ${typedRequirement}`
+                            );
+                        case 'checks':
+                            return checks();
+                        default:
+                            throw new Error(
+                                `Unimplemented requirement for '${
+                                    typedRequirement satisfies never
+                                }' type`
+                            );
                     }
-                    default:
-                        throw new Error(
-                            `Unimplemented requirement for '${
-                                typedRequirement /* satisfies never */ // :(
-                            }' type`
-                        );
+                } else if (
+                    INITIAL_CHECKLIST_STATE['silksong'].hasOwnProperty(
+                        requirement
+                    )
+                ) {
+                    const typedRequirement =
+                        requirement as keyof ChecklistState<'silksong'>;
+                    switch (typedRequirement) {
+                        case 'rosaries':
+                            return `[ROSARY] ${error}`;
+                        case 'fleas':
+                            return `${error} [fleas] rescued`;
+                        case 'simpleKeys':
+                            return `${error} [SIMPLE_KEY_(SILKSONG)] [Simple Key](Simple Key (Silksong))(s) collected`;
+                        case 'maskShards':
+                            return `${error} [Mask Shard](Mask Shard (Silksong))(s) collected`;
+                        case 'memoryLockets':
+                            return `${error} [MEMORY_LOCKET] [Memory Locket](Memory Locket (Silksong))(s) collected`;
+                        case 'paleOil':
+                            return `[PALE_OIL] ${error}`;
+                        case 'craftmetal':
+                            return `[CRAFTMETAL] ${error}`;
+                        case 'tools':
+                            return `${error} [Tools] collected`;
+                        case 'hearts':
+                            return `${error} [Hearts](Items (Silksong)#Deliverables) collected`;
+                        case 'spoolFragments':
+                        case 'rosariesReq':
+                        case 'simpleKeysReq':
+                        case 'memoryLocketsReq':
+                        case 'paleOilReq':
+                        case 'craftmetalReq':
+                        case 'game':
+                        case 'percent':
+                            throw new Error(
+                                `Nothing should require ${typedRequirement}`
+                            );
+                        case 'acts':
+                            return `[Act ${error}] being started`;
+                        case 'checks':
+                            return checks();
+                        default:
+                            throw new Error(
+                                `Unimplemented requirement for '${
+                                    typedRequirement satisfies never
+                                }' type`
+                            );
+                    }
+                } else {
+                    throw new Error(
+                        `${String(requirement)} is not implemented`
+                    );
                 }
             })
             .filter(Boolean)
@@ -114,55 +173,109 @@ const getEntriesText = <Game extends GameKey>(
 const requirementTextForSection = <Game extends GameKey>(
     section: SectionNames<Game>,
     joined: string
-) => {
-    // TODO: isHollowKnightState (?)
-    switch (section) {
-        case 'bosses':
-        case 'optionalBosses':
-        case 'dreamers':
-        case 'dreamWarriors':
-        case 'dreamBosses': {
-            joined += 'defeated';
-            break;
+): string => {
+    if (
+        INITIAL_CHECKLIST_STATE['hollow-knight'].checks.hasOwnProperty(section)
+    ) {
+        const typedSection = section as SectionNames<'hollow-knight'>;
+        switch (typedSection) {
+            case 'bosses':
+            case 'optionalBosses':
+            case 'dreamers':
+            case 'dreamWarriors':
+            case 'dreamBosses': {
+                joined += 'defeated';
+                break;
+            }
+            case 'equipment':
+            case 'charms':
+            case 'items':
+            case 'vesselFragments':
+            case 'maskShards':
+            case 'relics':
+            case 'whisperingRoots': {
+                joined += 'collected';
+                break;
+            }
+            case 'spells': {
+                joined += 'learned';
+                break;
+            }
+            case 'nail':
+            case 'nailArts':
+            case 'dreamNail': {
+                joined += 'obtained';
+                break;
+            }
+            case 'grubs': {
+                joined += 'rescued';
+                break;
+            }
+            case 'colosseum':
+            case 'godhome': {
+                joined += 'completed';
+                break;
+            }
+            default:
+                throw new Error(
+                    `Unimplemented requirement for '${
+                        typedSection satisfies never
+                    }' section`
+                );
         }
-        case 'equipment':
-        case 'charms':
-        case 'items':
-        case 'vesselFragments':
-        case 'maskShards': {
-            joined += 'acquired';
-            break;
+    } else if (
+        INITIAL_CHECKLIST_STATE['silksong'].checks.hasOwnProperty(section)
+    ) {
+        const typedSection = section as SectionNames<'silksong'>;
+        switch (typedSection) {
+            case 'bosses':
+            case 'ancestralArts':
+            case 'tools':
+            case 'items':
+            case 'spoolFragments':
+            case 'maskShards':
+            case 'toolPouch': {
+                joined += 'acquired';
+                break;
+            }
+            case 'relics':
+            case 'silkHearts':
+            case 'everbloom': {
+                joined += 'collected';
+                break;
+            }
+            case 'silkSkills':
+            case 'crests': {
+                joined += 'bound';
+                break;
+            }
+            case 'needle':
+            case 'eva': {
+                joined += 'obtained';
+                break;
+            }
+            case 'fleas': {
+                joined += 'found';
+                break;
+            }
+            case 'wishes': {
+                joined += 'granted';
+                break;
+            }
+            case 'melodies': {
+                joined += 'learned';
+                break;
+            }
+            default:
+                throw new Error(
+                    `Unimplemented requirement for '${
+                        typedSection satisfies never
+                    }' section`
+                );
         }
-        case 'relics':
-        case 'whisperingRoots':
-            joined += 'collected';
-            break;
-        case 'spells': {
-            joined += 'learned';
-            break;
-        }
-        case 'nail':
-        case 'nailArts':
-        case 'dreamNail': {
-            joined += 'obtained';
-            break;
-        }
-        case 'grubs': {
-            joined += 'rescued';
-            break;
-        }
-        case 'colosseum':
-        case 'godhome': {
-            joined += 'completed';
-            break;
-        }
-        default:
-            throw new Error(
-                `Unimplemented requirement for '${
-                    section /* satisfies never */ // :(
-                }' section`
-            );
+    } else {
     }
+
     return joined;
 };
 

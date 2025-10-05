@@ -13,8 +13,8 @@ fn main() {
     };
     println!("Parsing save file `{path}`");
     let mut parser = Parser::new();
-    if parser.parse_save_file(&data).is_err() {
-        println!("Failed to parse save file");
+    if let Err(e) = parser.parse_save_file(&data) {
+        println!("Failed to parse save file: {e}");
         return;
     }
     let map = parser.get_map();

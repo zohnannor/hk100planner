@@ -108,11 +108,30 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
             ['[GEO]', geo, geoReq],
             ['[ESSENCE]', essence, Math.max(...essenceReq)],
             ['[PALE_ORE]', paleOre, paleOreReq],
-            ['[SIMPLE_KEY]', simpleKeys, simpleKeysReq],
+            ['[SIMPLE_KEY_(HOLLOW_KNIGHT)]', simpleKeys, simpleKeysReq],
         ] as const;
     } else {
-        const { rosaries, rosariesReq } = useChecklistStore(game)();
-        info = [['[ROSARIES]', rosaries, rosariesReq]] as const;
+        const {
+            rosaries,
+            rosariesReq,
+            paleOil,
+            paleOilReq,
+            simpleKeys,
+            simpleKeysReq,
+            memoryLockets,
+            memoryLocketsReq,
+            craftmetal,
+            craftmetalReq,
+            acts,
+        } = useChecklistStore(game)();
+        info = [
+            ['[ROSARY]', rosaries, rosariesReq],
+            ['[PALE_OIL]', paleOil, paleOilReq],
+            ['[SIMPLE_KEY_(SILKSONG)]', simpleKeys, simpleKeysReq],
+            ['[MEMORY_LOCKET]', memoryLockets, Math.max(...memoryLocketsReq)],
+            ['[CRAFTMETAL]', craftmetal, craftmetalReq],
+            ['[Act](Acts)', acts, acts],
+        ] as const;
     }
 
     return (
@@ -124,7 +143,7 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
                 if (sidebar) {
                     return (
                         <FText color={decide(val, req)} key={it}>
-                            {it} {val} / {req}
+                            {it} {val} {it !== '[Act](Acts)' ? `/ ${req}` : ''}
                         </FText>
                     );
                 }
@@ -138,7 +157,10 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
 
                 return (
                     <FText color={decide(val, req)} key={it}>
-                        {it} {val} collected / {req} required
+                        {it} {val}
+                        {it !== '[Act](Acts)'
+                            ? `collected / ${req} required`
+                            : ''}
                         {paren}
                     </FText>
                 );
@@ -155,7 +177,7 @@ const SectionColumns = <Game extends GameKey>({ game }: { game: Game }) => {
     useEffect(() => {
         if (game === 'silksong') {
             setTooltipText(`NOTE: THIS SECTION IS WIP
-            EXPECT MORE ITEMS TO BE ADDED, ALONGSIDE WITH SAVEFILE SUPPORT`);
+            Some requirements are not yet implemented.`);
             openTooltip();
         }
     }, [game]);

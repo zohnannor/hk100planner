@@ -94,6 +94,9 @@ impl Parser {
         let data: GameDeser =
             serde_json::from_slice(&v).map_err(|e| error(&format!("JSON parse error: {e}")))?;
 
+        let to_map =
+            |entries: &[(&str, bool)]| entries.iter().map(|&(k, v)| (k.to_owned(), v)).collect();
+
         if let GameDeser::HollowKnight(data) = data {
             let pd = &data.player_data;
 
@@ -109,10 +112,6 @@ impl Parser {
             let vessel_frag_collected = |name| scene_activated(name, "Vessel Fragment");
             let grub_freed = |name| scene_activated(name, "Grub Bottle");
             let whispering_root = |name| scene_activated(name, "Dream Plant");
-
-            let to_map = |entries: &[(&str, bool)]| {
-                entries.iter().map(|&(k, v)| (k.to_owned(), v)).collect()
-            };
 
             let bosses = to_map(&[
                 ("[Broken Vessel]", pd.killed_infected_knight),
@@ -510,17 +509,20 @@ impl Parser {
             ]);
 
             let items = to_map(&[
-                ("[SIMPLE_KEY] [Simple Key] from [Sly]", pd.sly_simple_key),
                 (
-                    "[SIMPLE_KEY] [Simple Key] near [City Storerooms]",
+                    "[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] from [Sly]",
+                    pd.sly_simple_key,
+                ),
+                (
+                    "[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] near [City Storerooms]",
                     scene_activated("Ruins1_17", "Shiny Item"),
                 ),
                 (
-                    "[SIMPLE_KEY] [Simple Key] in the [Ancient Basin]",
+                    "[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] in the [Ancient Basin]",
                     scene_activated("Abyss_20", "Shiny Item Stand"),
                 ),
                 (
-                    "[SIMPLE_KEY] [Simple Key] behind [Pale Lurker]",
+                    "[SIMPLE_KEY_(HOLLOW_KNIGHT)] [Simple Key] behind [Pale Lurker]",
                     pd.got_lurker_key,
                 ),
                 ("[ELEGANT_KEY] [Elegant Key]", pd.has_white_key),
@@ -817,7 +819,417 @@ impl Parser {
                 whispering_roots,
             });
         } else if let GameDeser::Silksong(data) = data {
-            unimplemented!("{data:#?}");
+            let pd = &data.player_data;
+
+            let scene_activated = |name, id| {
+                data.scene_data
+                    .persistent_bools
+                    .serialized_list
+                    .iter()
+                    .find(|x| x.scene_name == name && x.id == id)
+                    .is_some_and(|x| x.value)
+            };
+
+            let has_tool = |name| {
+                pd.tools
+                    .saved_data
+                    .iter()
+                    .find(|x| x.name == name)
+                    .is_some_and(|x| x.data.is_unlocked)
+            };
+
+            let quest_completed = |name| {
+                pd.quest_completion_data
+                    .saved_data
+                    .iter()
+                    .find(|x| x.name == name)
+                    .is_some_and(|x| x.data.is_completed)
+            };
+
+            let mask_shard_collected = |name| scene_activated(name, "Heart Piece");
+            let silk_spool_collected = |name| scene_activated(name, "Silk Spool");
+            let silk_heart_collected = |name| scene_activated(name, "glow_rim_Remasker");
+
+            let bosses = to_map(&[
+                ("[Moss Mother]", false),
+                ("[Bell Beast]", false),
+                ("[Fourth Chorus]", false),
+                ("[Savage Beastfly]", false),
+                ("[Widow]", false),
+                ("[Last Judge] / [Phantom]", false),
+                ("[Savage Beastfly 2](Savage Beastfly#Far_Fields)", false),
+                ("[Cogwork Dancers]", false),
+                ("[Trobbio]", false),
+                ("[The Unravelled]", false),
+                ("[Lace 2](Lace#The_Cradle)", false),
+            ]);
+
+            let silk_hearts = to_map(&[
+                (
+                    "[Bell Beast]",
+                    silk_heart_collected("Memory_Silk_Heart_BellBeast"),
+                ),
+                (
+                    "[Lace 2](Lace#The_Cradle)",
+                    silk_heart_collected("Memory_Silk_Heart_LaceTower"),
+                ),
+                (
+                    "[The Unravelled]",
+                    silk_heart_collected("Memory_Silk_Heart_WardBoss"),
+                ),
+            ]);
+
+            let silk_skills = to_map(&[
+                ("[Silkspear]", pd.has_needle_throw),
+                ("[Thread Storm]", pd.has_thread_sphere),
+                ("[Cross Stitch]", pd.has_parry),
+                ("[Sharpdart]", pd.has_silk_charge),
+                ("[Rune Rage]", pd.has_silk_bomb),
+                ("[Pale Nails]", pd.has_silk_boss_needle),
+            ]);
+
+            let tools = to_map(&[
+                ("[Straight Pin]", has_tool("Straight Pin")),
+                ("[Threefold Pin]", has_tool("Tri Pin")),
+                ("[Sting Shard]", has_tool("Sting Shard")),
+                ("[Tacks]", has_tool("Tack")),
+                ("[Longpin]", has_tool("Harpoon")),
+                (
+                    "[Curveclaw] / [Curvesickle]",
+                    has_tool("Curve Claws") | has_tool("Curve Claws Upgraded"),
+                ),
+                ("[Throwing Ring]", has_tool("Shakra Ring")),
+                ("[Pimpillo]", has_tool("Pimpilo")),
+                ("[Conchcutter]", has_tool("Conch Drill")),
+                (
+                    "[Silkshot]",
+                    has_tool("WebShot Forge")
+                        | has_tool("WebShot Weaver")
+                        | has_tool("WebShot Architect"),
+                ),
+                ("[Delver's Drill]", has_tool("Screw Attack")),
+                ("[Cogwork Wheel]", has_tool("Cogwork Saw")),
+                ("[Cogfly]", has_tool("Cogwork Flier")),
+                ("[Rosary Cannon]", has_tool("Rosary Cannon")),
+                ("[Voltvessels]", has_tool("Lightning Rod")),
+                ("[Flintslate]", has_tool("Flintstone")),
+                ("[Flea Brew]", has_tool("Flea Brew")),
+                ("[Plasmium Phial]", has_tool("Lifeblood Syringe")),
+                (
+                    "[Druid's Eye] / [Druid's Eyes]",
+                    has_tool("Mosscreep Tool 1") | has_tool("Mosscreep Tool 2"),
+                ),
+                ("[Magma Bell]", has_tool("Lava Charm")),
+                ("[Warding Bell]", has_tool("Bell Bind")),
+                ("[Pollip Pouch]", has_tool("Poison Pouch")),
+                ("[Fractured Mask]", has_tool("Fractured Mask")),
+                ("[Multibinder]", has_tool("Multibind")),
+                ("[Weavelight]", has_tool("White Ring")),
+                ("[Sawtooth Circlet]", has_tool("Brolly Spike")),
+                ("[Injector Band]", has_tool("Quickbind")),
+                ("[Spool Extender]", has_tool("Spool Extender")),
+                ("[Reserve Bind]", has_tool("Reserve Bind")),
+                (
+                    "[Claw Mirror] / [Claw Mirrors]",
+                    has_tool("Dazzle Bind") | has_tool("Dazzle Bind Upgraded"),
+                ),
+                ("[Memory Crystal]", has_tool("Revenge Crystal")),
+                ("[Snitch Pick]", has_tool("Thief Claw")),
+                ("[Volt Filament]", has_tool("Zap Imbuement")),
+                ("[Quick Sling]", has_tool("Quick Sling")),
+                ("[Wreath of Purity]", has_tool("Maggot Charm")),
+                ("[Longclaw]", has_tool("Longneedle")),
+                ("[Wispfire Lantern]", has_tool("Wisp Lantern")),
+                ("[Egg of Flealia]", has_tool("Flea Charm")),
+                ("[Pin Badge]", has_tool("Pinstress Tool")),
+                ("[Compass]", has_tool("Compass")),
+                ("[Shard Pendant]", has_tool("Bone Necklace")),
+                ("[Magnetite Brooch]", has_tool("Rosary Magnet")),
+                ("[Weighted Belt]", has_tool("Weighted Anklet")),
+                ("[Barbed Bracelet]", has_tool("Barbed Wire")),
+                (
+                    "[Dead Bug's Purse] / [Shell Satchel]",
+                    has_tool("Dead Mans Purse") | has_tool("Shell Satchel"),
+                ),
+                ("[Magnetite Dice]", has_tool("Magnetite Dice")),
+                ("[Scuttlebrace]", has_tool("Scuttlebrace")),
+                ("[Ascendant's Grip]", has_tool("Wallcling")),
+                ("[Spider Strings]", has_tool("Musician Charm")),
+                ("[Silkspeed Anklets]", has_tool("Sprintmaster")),
+                ("[Thief's Mark]", has_tool("Thief Charm")),
+            ]);
+
+            let ancestral_arts = to_map(&[
+                ("[Swift Step]", pd.has_dash),
+                ("[Cling Grip]", pd.has_walljump),
+                ("[Needolin]", pd.has_needolin),
+                ("[Clawline]", pd.has_harpoon_dash),
+                ("[Silk Soar]", pd.has_super_jump),
+                ("[Needle Strike]", pd.has_charge_slash),
+                ("[Sylphsong]", pd.has_bound_crest_upgrader),
+            ]);
+
+            let crests = to_map(&[
+                ("[Reaper Crest]", pd.completed_memory_reaper),
+                ("[Wanderer Crest]", pd.completed_memory_wanderer),
+                ("[Beast Crest]", pd.completed_memory_beast),
+                // completedMemory_witch does NOT give you %, only the crest,
+                // which is Cursed, and you get Witch crest and % from the quest
+                ("[Witch Crest]", quest_completed("Doctor Curse Cure")),
+                ("[Architect Crest]", pd.completed_memory_toolmaster),
+                ("[Shaman Crest]", pd.completed_memory_shaman),
+            ]);
+
+            let eva = to_map(&[
+                ("Evolved [Hunter Crest]", false),
+                ("[Vesticrest] yellow slot", false),
+                ("[Vesticrest] blue slot", false),
+                ("Further evolved [Hunter Crest]", false),
+            ]);
+
+            let mask_shards = to_map(&[
+                (
+                    "[Pebb] from [Bone Bottom] for [ROSARY] 300",
+                    pd.purchased_bonebottom_heart_piece,
+                ),
+                ("[Wormways]", mask_shard_collected("Crawl_02")),
+                ("[Deep Docks] entrance", mask_shard_collected("Dock_08")),
+                (
+                    "[Far Fields] [Seamstress]",
+                    mask_shard_collected("Bone_East_20"),
+                ),
+                ("[Shellwood]", mask_shard_collected("Shellwood_14")),
+                ("[Weavenest Alta]", mask_shard_collected("Weave_05b")),
+                (
+                    "[Jubilana] from [Songclave] for [ROSARY] 750",
+                    pd.merchant_enclave_shell_fragment,
+                ),
+                ("West [Cogwork Core]", mask_shard_collected("Song_09")),
+                ("[Whispering Vaults]", mask_shard_collected("Library_05")),
+                ("[Savage Beastfly] [Wish]", quest_completed("Beastfly Hunt")),
+                (
+                    "[Far Fields] rising lava escape sequence",
+                    scene_activated("Bone_East_LavaChallenge", "Heart Piece (1)"),
+                ),
+                ("West [Mount Fay]", mask_shard_collected("Peak_04c")),
+                ("[Slab]", mask_shard_collected("Slab_17")),
+                ("[Bilewater]", mask_shard_collected("Shadow_13")),
+                ("[Wisp Thicket]", mask_shard_collected("Wisp_07")),
+                ("[Blasted Steps]", mask_shard_collected("Coral_19b")),
+                ("[Mount Fay] [Brightvein]", mask_shard_collected("Peak_06")),
+                (
+                    "[Fastest in Pharloom] [Wish]",
+                    quest_completed("Sprintmaster Race"),
+                ),
+                (
+                    "[Dark Hearts] [Wish]",
+                    quest_completed("Destroy Thread Cores"),
+                ),
+                ("[The Hidden Hunter] [Wish]", quest_completed("Ant Trapper")),
+            ]);
+
+            let needle = to_map(&[
+                (
+                    "[Sharpened Needle](Needle#Upgrades)",
+                    pd.nail_upgrades > 0.0,
+                ),
+                ("[Shining Needle](Needle#Upgrades)", pd.nail_upgrades > 1.0),
+                (
+                    "[Hivesteel Needle](Needle#Upgrades)",
+                    pd.nail_upgrades > 2.0,
+                ),
+                (
+                    "[Palesteel Needle](Needle#Upgrades)",
+                    pd.nail_upgrades > 3.0,
+                ),
+            ]);
+
+            let spool_fragments = to_map(&[
+                ("[Bone Bottom]", silk_spool_collected("Bone_11b")),
+                (
+                    "[Deep Docks] hot floor",
+                    silk_spool_collected("Bone_East_13"),
+                ),
+                ("[Weavenest Alta]", silk_spool_collected("Weave_11")),
+                ("[Greymoor]", silk_spool_collected("Greymoor_02")),
+                ("[Slab]", silk_spool_collected("Peak_01")),
+                (
+                    "[Frey] from [Bellhart] for [ROSARY] 270",
+                    pd.purchased_belltown_spool_segment,
+                ),
+                ("[Grand Gate]", silk_spool_collected("Song_19_entrance")),
+                ("[Underworks]", silk_spool_collected("Under_10")),
+                (
+                    "From [Mooshka] at [Grand Gate]",
+                    pd.caravan_troupe_location > 1.0,
+                ),
+                ("[Whiteward]", silk_spool_collected("Ward_01")),
+                ("[Cogwork Core]", silk_spool_collected("Cog_07")),
+                (
+                    "[Underworks] near [The Cauldron]",
+                    silk_spool_collected("Library_11b"),
+                ),
+                (
+                    "[Balm for the Wounded] [Wish]",
+                    quest_completed("Save Sherma"),
+                ),
+                (
+                    "[Jubilana] from [Songclave] for [ROSARY] 500",
+                    pd.merchant_enclave_spool_piece,
+                ),
+                (
+                    "[Deep Docks] behind [Simple Key]",
+                    silk_spool_collected("Dock_03c"),
+                ),
+                ("[High Halls]", silk_spool_collected("Hang_03_top")),
+                ("[Memorium]", silk_spool_collected("Arborium_09")),
+                (
+                    "[Grindle] for [ROSARY] 680",
+                    pd.purchased_grindle_spool_piece,
+                ),
+            ]);
+
+            let tool_pouch = to_map(&[
+                (
+                    "[Mort] from [Pilgrim's Rest] for [ROSARY] 220",
+                    pd.purchased_pilgrims_rest_tool_pouch,
+                ),
+                ("[Loddie]'s pin challenge", pd.pin_galleries_completed > 0.0),
+                ("[Nuu]'s wish", quest_completed("Journal")),
+                (
+                    "From [Mooshka] in [Fleatopia]",
+                    pd.caravan_troupe_location > 2.0,
+                ),
+                (
+                    "[Forge Daughter] for [ROSARY] 180",
+                    pd.purchased_forge_tool_kit,
+                ),
+                (
+                    "[Crawbug Clearing] [Wish]",
+                    quest_completed("Crow Feathers"),
+                ),
+                (
+                    "[Twelfth Architect] for [ROSARY] 450",
+                    pd.purchased_architect_tool_kit,
+                ),
+                ("[Grindle] for [ROSARY] 700", pd.purchased_grindle_tool_kit),
+            ]);
+
+            let items = to_map(&[
+                ("[Drifter's Cloak]", pd.has_brolly),
+                ("[Faydown Cloak]", pd.has_double_jump),
+                ("[White Key]", false),
+                ("[Key of Apostate]", false),
+                ("[Sacred Cylinder]", false),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] for [Volatile Flintbeetles] [Wish]",
+                    false,
+                ),
+                ("[MEMORY_LOCKET] [Memory Locket] in [The Marrow]", false),
+                ("[MEMORY_LOCKET] [Memory Locket] in [Hunter's March]", false),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Deep Docks] behind [Simple Key]",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] from [Mort] in [Far Fields] for [ROSARY] 150",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Far Fields] near [Skarrsinger Karmelita]",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Greymoor] near [Bellway]",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Greymoor] inside [Halfway Home]",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] from [Frey] in [Bellhart] for [ROSARY] 330",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Bellhart]'s ceiling",
+                    false,
+                ),
+                ("[MEMORY_LOCKET] [Memory Locket] in [Blasted Steps]", false),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in the [Sands of Karak]",
+                    false,
+                ),
+                ("[MEMORY_LOCKET] [Memory Locket] in [Wormways]", false),
+                ("[MEMORY_LOCKET] [Memory Locket] in the [Underworks]", false),
+                ("[MEMORY_LOCKET] [Memory Locket] at [Grand Bellway]", false),
+                ("[MEMORY_LOCKET] [Memory Locket] in [Memorium]", false),
+                ("[MEMORY_LOCKET] [Memory Locket] in [The Slab]", false),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Whispering Vaults]",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Bilewater] secret room",
+                    false,
+                ),
+                (
+                    "[MEMORY_LOCKET] [Memory Locket] in [Bilewater] near the bench shortcut",
+                    false,
+                ),
+            ]);
+
+            #[expect(clippy::float_cmp)]
+            let everbloom = to_map(&[(
+                "[Everbloom]",
+                pd.completed_red_memory
+                    && pd
+                        .collectables
+                        .saved_data
+                        .iter()
+                        .find(|x| x.name == "White Flower")
+                        .is_some_and(|x| x.data.amount == 1.0),
+            )]);
+
+            let wishes = to_map(&[
+                ("[My Missing Courier]", false),
+                ("[Volatile Flintbeetles]", false),
+                ("[The Wandering Merchant]", false),
+                ("[Savage Beastfly](Wishes#Grand_Hunt_Wishes)", false),
+                ("[Fine Pins]", false),
+                ("[Balm for the Wounded]", false),
+                ("[Building Up Songclave]", false),
+                ("[Cloaks of the Choir]", false),
+                ("[Strengthening Songclave]", false),
+                ("[The Lost Merchant]", false),
+                ("[Infestation Operation]", false),
+                ("[Fastest in Pharloom]", false),
+                ("[Dark Hearts]", false),
+                ("[The Hidden Hunter]", false),
+            ]);
+
+            let relics = to_map(&[]);
+
+            let fleas = to_map(&[]);
+
+            self.map = GameSer::Silksong(SilksongChecks {
+                bosses,
+                silk_hearts,
+                tools,
+                silk_skills,
+                ancestral_arts,
+                crests,
+                eva,
+                mask_shards,
+                needle,
+                spool_fragments,
+                tool_pouch,
+                items,
+                everbloom,
+                wishes,
+                relics,
+                fleas,
+            });
         }
 
         Ok(())
@@ -841,30 +1253,18 @@ impl Parser {
 
 type Number = f64;
 
-#[allow(clippy::large_enum_variant)]
-#[derive(Deserialize, Debug)]
-#[serde(untagged)]
-enum GameDeser {
-    HollowKnight(SaveFile),
-    Silksong(SaveFile),
-}
+////////////////////////////////////////////////////////////////////////////////
+// Serialization////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
-#[allow(clippy::large_enum_variant)]
-#[derive(Serialize, Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum GameSer {
     HollowKnight(HollowKnightChecks),
     Silksong(SilksongChecks),
 }
 
-#[derive(Serialize, Debug, Default, Clone)]
-#[serde(rename_all = "camelCase")]
-pub struct SilksongChecks {
-    bosses: HashMap<String, bool>,
-    things: HashMap<String, bool>,
-}
-
-#[derive(Serialize, Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct HollowKnightChecks {
     bosses: HashMap<String, bool>,
@@ -888,17 +1288,50 @@ pub struct HollowKnightChecks {
     whispering_roots: HashMap<String, bool>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Default, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct SaveFile {
-    player_data: Box<PlayedData>,
+pub struct SilksongChecks {
+    bosses: HashMap<String, bool>,
+    silk_hearts: HashMap<String, bool>,
+    tools: HashMap<String, bool>,
+    silk_skills: HashMap<String, bool>,
+    ancestral_arts: HashMap<String, bool>,
+    crests: HashMap<String, bool>,
+    eva: HashMap<String, bool>,
+    mask_shards: HashMap<String, bool>,
+    needle: HashMap<String, bool>,
+    spool_fragments: HashMap<String, bool>,
+    tool_pouch: HashMap<String, bool>,
+    items: HashMap<String, bool>,
+    everbloom: HashMap<String, bool>,
+    wishes: HashMap<String, bool>,
+    relics: HashMap<String, bool>,
+    fleas: HashMap<String, bool>,
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Deserialization /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+#[allow(clippy::large_enum_variant)]
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+enum GameDeser {
+    HollowKnight(SaveFile<HollowKnightPlayerData, HollowKnightSceneData>),
+    Silksong(SaveFile<SilksongPlayerData, SilksongSceneData>),
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SaveFile<GameData, SceneData> {
+    player_data: Box<GameData>,
     scene_data: SceneData,
 }
 
-#[allow(clippy::struct_excessive_bools)]
-#[derive(Deserialize, Debug)]
+#[expect(clippy::struct_excessive_bools)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct PlayedData {
+pub struct HollowKnightPlayerData {
     fireball_level: Number,
     quake_level: Number,
     scream_level: Number,
@@ -1091,16 +1524,128 @@ pub struct BossDoorStateTier {
     completed: bool,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct SceneData {
-    persistent_bool_items: Vec<SceneObjectBool>,
+pub struct HollowKnightSceneData {
+    persistent_bool_items: Vec<HollowKnightSceneObjectBool>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct SceneObjectBool {
+pub struct SilksongSceneData {
+    persistent_bools: PersistentBools,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PersistentBools {
+    serialized_list: Vec<SilksongSceneObjectBool>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+struct SilksongSceneObjectBool {
+    #[serde(rename = "ID")]
+    id: String,
+    scene_name: String,
+    value: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct HollowKnightSceneObjectBool {
     id: String,
     scene_name: String,
     activated: bool,
+}
+
+#[expect(clippy::struct_excessive_bools)]
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SilksongPlayerData {
+    has_brolly: bool,
+    has_double_jump: bool,
+    has_needle_throw: bool,
+    has_thread_sphere: bool,
+    has_dash: bool,
+    has_walljump: bool,
+    has_needolin: bool,
+    has_charge_slash: bool,
+    has_silk_boss_needle: bool,
+    has_parry: bool,
+    has_harpoon_dash: bool,
+    has_silk_charge: bool,
+    has_silk_bomb: bool,
+    has_super_jump: bool,
+    #[serde(rename = "HasBoundCrestUpgrader")]
+    has_bound_crest_upgrader: bool,
+    nail_upgrades: Number,
+    #[serde(rename = "PurchasedBonebottomHeartPiece")]
+    purchased_bonebottom_heart_piece: bool,
+    #[serde(rename = "MerchantEnclaveShellFragment")]
+    merchant_enclave_shell_fragment: bool,
+    #[serde(rename = "MerchantEnclaveSpoolPiece")]
+    merchant_enclave_spool_piece: bool,
+    #[serde(rename = "PurchasedBelltownSpoolSegment")]
+    purchased_belltown_spool_segment: bool,
+    purchased_grindle_spool_piece: bool,
+    pin_galleries_completed: Number,
+    #[serde(rename = "PurchasedForgeToolKit")]
+    purchased_forge_tool_kit: bool,
+    #[serde(rename = "PurchasedPilgrimsRestToolPouch")]
+    purchased_pilgrims_rest_tool_pouch: bool,
+    purchased_grindle_tool_kit: bool,
+    #[serde(rename = "PurchasedArchitectToolKit")]
+    purchased_architect_tool_kit: bool,
+    #[serde(rename = "Tools")]
+    tools: SavedData<ToolsData>,
+    #[serde(rename = "QuestCompletionData")]
+    quest_completion_data: SavedData<QuestsData>,
+    #[serde(rename = "completedMemory_reaper")]
+    completed_memory_reaper: bool,
+    #[serde(rename = "completedMemory_beast")]
+    completed_memory_beast: bool,
+    #[serde(rename = "completedMemory_wanderer")]
+    completed_memory_wanderer: bool,
+    #[serde(rename = "completedMemory_toolmaster")]
+    completed_memory_toolmaster: bool,
+    #[serde(rename = "completedMemory_shaman")]
+    completed_memory_shaman: bool,
+    #[serde(rename = "CaravanTroupeLocation")]
+    caravan_troupe_location: Number,
+    #[serde(rename = "CompletedRedMemory")]
+    completed_red_memory: bool,
+    #[serde(rename = "Collectables")]
+    collectables: SavedData<CollectablesData>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SavedData<Data> {
+    saved_data: Vec<SavedDataData<Data>>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+pub struct SavedDataData<Data> {
+    data: Data,
+    name: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+pub struct ToolsData {
+    is_unlocked: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+pub struct QuestsData {
+    is_completed: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
+pub struct CollectablesData {
+    amount: Number,
 }
