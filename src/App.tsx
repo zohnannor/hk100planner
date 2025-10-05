@@ -120,6 +120,8 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
             simpleKeysReq,
             memoryLockets,
             memoryLocketsReq,
+            craftmetal,
+            craftmetalReq,
             acts,
         } = useChecklistStore(game)();
         info = [
@@ -127,6 +129,7 @@ const Info = ({ game, sidebar }: { game: GameKey; sidebar?: boolean }) => {
             ['[PALE_OIL]', paleOil, paleOilReq],
             ['[SIMPLE_KEY_(SILKSONG)]', simpleKeys, simpleKeysReq],
             ['[MEMORY_LOCKET]', memoryLockets, Math.max(...memoryLocketsReq)],
+            ['[CRAFTMETAL]', craftmetal, craftmetalReq],
             ['[Act](Acts)', acts, acts],
         ] as const;
     }

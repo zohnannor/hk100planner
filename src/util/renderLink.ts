@@ -1,6 +1,7 @@
 import {
     ARCANE_EGG,
     CHARM_NOTCH,
+    CRAFTMETAL,
     ELEGANT_KEY,
     ESSENCE,
     GEO,
@@ -39,6 +40,7 @@ const ICONS: Record<string, string> = {
     MEMORY_LOCKET,
     PALE_OIL,
     'SIMPLE_KEY_(SILKSONG)': SIMPLE_KEY_SS,
+    CRAFTMETAL,
 };
 
 type ParsedItemType = 'link' | 'text' | 'icon' | 'monospace';

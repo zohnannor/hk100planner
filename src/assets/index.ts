@@ -2,6 +2,7 @@ export { default as ARCANE_EGG } from './arcaneegg.png';
 export { default as POINTER } from './button-pointer.png';
 export { default as CHARM_NOTCH } from './charmnotch.png';
 export { CheckIcon } from './checkmark';
+export { default as CRAFTMETAL } from './craftmetal.png';
 export { default as BOTTOM } from './dialog-fleur-bottom.png';
 export { default as TOP } from './dialog-fleur-top.png';
 export { default as ELEGANT_KEY } from './elegantkey.png';

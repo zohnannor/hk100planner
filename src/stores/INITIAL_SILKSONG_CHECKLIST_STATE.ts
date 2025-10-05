@@ -11,8 +11,10 @@ const tools = 1 as const;
 const hearts = { hearts: 1 } as const;
 const memoryLockets = 1 as const;
 const paleOil = 1 as const;
+const craftmetal = 1 as const;
 const simpleKeysReq = 1 as const;
 const paleOilReq = 1 as const;
+const craftmetalReq = 1 as const;
 
 const REAPER_BASE_SLOTS = 4;
 const WANDERER_BASE_SLOTS = 4;
@@ -29,6 +31,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
     simpleKeys: 0,
     memoryLockets: 0,
     paleOil: 0,
+    craftmetal: 0,
 
     acts: 1,
     tools: 0,
@@ -41,6 +44,7 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
     simpleKeysReq: 0,
     memoryLocketsReq: [0],
     paleOilReq: 0,
+    craftmetalReq: 0,
 
     checks: {
         bosses: {
@@ -71,6 +75,21 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                     acts: 2,
                 },
             },
+            '[Voltvyrm]': {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                },
+            },
+            '[Father of the Flame]': {
+                reward: nothing,
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                },
+            },
             '[Lace 2](Lace#The_Cradle)': {
                 reward: nothing,
                 requires: {
@@ -89,6 +108,13 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 requires: {
                     checks: { ancestralArts: { '[Cling Grip]': checked } },
                     acts: 2,
+                },
+            },
+            '[Pinstress]': {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                    acts: 3,
                 },
             },
             '[Shrine Guardian Seth]': {
@@ -175,59 +201,361 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         tools: {
-            '[Shard Pendant]': { reward: { percent, tools } },
-            '[Compass]': { reward: { percent, tools } },
-            "[Druid's Eye] / [Druid's Eyes]": { reward: { percent, tools } },
             '[Straight Pin]': { reward: { percent, tools } },
-            '[Warding Bell]': { reward: { percent, tools } },
-            '[Treefold Pin]': { reward: { percent, tools } },
-            '[Flea Brew]': { reward: { percent, tools } },
-            '[Sting Shard]': { reward: { percent, tools } },
-            '[Longpin]': { reward: { percent, tools } },
-            '[Pollip Pouch]': { reward: { percent, tools } },
-            '[Weavelight]': { reward: { percent, tools } },
-            "[Dead Bug's Purse] / [Shell Satchel]": {
+            '[Threefold Pin]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { items: { "[Drifter's Cloak]": checked } },
+                },
+            },
+            '[Sting Shard]': {
+                reward: { percent, tools, rosariesReq: 140, craftmetalReq },
+                requires: { rosaries: 140, craftmetal },
+            },
+            '[Tacks]': {
+                reward: { percent, tools },
+                requires: { checks: { wishes: { '[Roach Guts]': checked } } },
+            },
+            '[Longpin]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { items: { "[Drifter's Cloak]": checked } },
+                },
+            },
+            '[Curveclaw] / [Curvesickle]': {
+                description:
+                    'In [Act 2], can be obtained for free after either defeating [Cogwork Dancers], ringing the bell in [Songclave] or acquiring [Clawline].',
+                reward: { percent, tools, rosariesReq: 140 },
+                requires: { rosaries: 140 },
+            },
+            '[Throwing Ring]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { wishes: { "[Trail's End]": checked } },
+                    acts: 2,
+                },
+            },
+            '[Pimpillo]': {
+                reward: { percent, tools, craftmetalReq },
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                    craftmetal,
+                },
+            },
+            '[Conchcutter]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                },
+            },
+            '[Silkshot]': {
+                description:
+                    'Alternatively, buy for [ROSARY] 130 and a [CRAFTMETAL] from [Twelfth Architect] or for [ROSARY] 240 and a [CRAFTMETAL] from [Forge Daughter], but easiest way is to get it for free in [Mount Fay]. Requires [Ruined Tool] found in [Weavenest Murglin] in [Bilewater].',
+                reward: { percent, tools, craftmetalReq },
+                requires: {
+                    craftmetal,
+                    checks: { items: { '[Faydown Cloak]': checked } },
+                    acts: 2,
+                },
+            },
+            "[Delver's Drill]": {
+                reward: { percent, tools },
+                requires: { acts: 2 },
+            },
+            '[Cogwork Wheel]': {
+                description:
+                    'Purchased from [Twelfth Architect] for [ROSARY] 360.',
+                reward: { percent, tools, craftmetalReq, rosariesReq: 360 },
+                requires: {
+                    craftmetal,
+                    rosaries: 360,
+                    checks: { ancestralArts: { '[Clawline]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Cogfly]': {
+                description: 'Crafted in a room in [High Halls].',
+                reward: { percent, tools, craftmetalReq },
+                requires: {
+                    craftmetal,
+                    checks: { ancestralArts: { '[Clawline]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Rosary Cannon]': {
+                reward: { percent, tools, simpleKeysReq },
+                requires: {
+                    simpleKeys,
+                    checks: { ancestralArts: { '[Clawline]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Voltvessels]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { items: { '[Faydown Cloak]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Flintslate]': {
+                reward: { percent, tools, simpleKeysReq },
+                requires: { simpleKeys },
+            },
+            '[Flea Brew]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { wishes: { '[The Lost Fleas]': checked } },
+                },
+            },
+            '[Plasmium Phial]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { wishes: { "[Alchemist's Assistant]": checked } },
+                },
+            },
+            "[Druid's Eye] / [Druid's Eyes]": {
+                reward: { percent, tools },
+                requires: {
+                    checks: { wishes: { '[Berry Picking]': checked } },
+                },
+            },
+            '[Magma Bell]': {
+                reward: { percent, tools, craftmetalReq, rosariesReq: 110 },
+                requires: {
+                    craftmetal,
+                    rosaries: 110,
+                    checks: { bosses: { '[Bell Beast]': checked } },
+                },
+            },
+            '[Warding Bell]': {
+                reward: { percent, tools },
+                requires: { checks: { bosses: { '[Bell Beast]': checked } } },
+            },
+            '[Pollip Pouch]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { wishes: { '[Rite of the Pollip]': checked } },
+                },
+            },
+            '[Fractured Mask]': {
+                description:
+                    'In [Act 2], can be obtained for free after either defeating [Cogwork Dancers], ringing the bell in [Songclave] or acquiring [Clawline].',
+                reward: { percent, tools, rosariesReq: 260 },
+                requires: { rosaries: 260 },
+            },
+            '[Multibinder]': {
+                description:
+                    'Bought from [Frey] in [Bellhart] for [ROSARY] 880.',
+                reward: { percent, tools, rosariesReq: 880 },
+                requires: {
+                    rosaries: 880,
+                    checks: { wishes: { '[My Missing Courier]': checked } },
+                },
+            },
+            '[Weavelight]': {
+                description: 'Reward for defeating a pair of [Moss Mothers].',
+                reward: { percent, tools },
+                requires: {
+                    checks: { ancestralArts: { '[Needolin]': checked } },
+                },
+            },
+            '[Sawtooth Circlet]': {
+                description:
+                    'Purchased from [Twelfth Architect] for [ROSARY] 230.',
+                reward: { percent, tools, craftmetalReq, rosariesReq: 230 },
+                requires: {
+                    craftmetal,
+                    rosaries: 230,
+                    checks: { ancestralArts: { '[Clawline]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Injector Band]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { items: { '[White Key]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Spool Extender]': {
+                reward: { percent, tools, rosariesReq: 720 },
+                requires: {
+                    rosaries: 720,
+                    checks: { wishes: { '[The Wandering Merchant]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Reserve Bind]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { wishes: { '[Final Audience]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Claw Mirror] / [Claw Mirrors]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { bosses: { '[Trobbio]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Memory Crystal]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { ancestralArts: { '[Clawline]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Snitch Pick]': {
+                reward: { percent, tools, rosariesReq: 740 },
+                requires: {
+                    rosaries: 740,
+                    checks: { items: { '[Faydown Cloak]': checked } },
+                },
+            },
+            '[Volt Filament]': {
+                reward: { percent, tools },
+                requires: { checks: { bosses: { '[Voltvyrm]': checked } } },
+            },
+            '[Quick Sling]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { items: { '[Faydown Cloak]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Wreath of Purity]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Longclaw]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                        wishes: { '[Broodfeast] / [Runtfeast]': checked },
+                    },
+                    acts: 2,
+                },
+            },
+            '[Wispfire Lantern]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: {
+                        bosses: { '[Father of the Flame]': checked },
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                },
+            },
+            '[Egg of Flealia]': {
+                reward: { percent, tools },
+                requires: { fleas: 30 },
+            },
+            '[Pin Badge]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: { bosses: { '[Pinstress]': checked } },
+                    acts: 3,
+                },
+            },
+            '[Compass]': {
+                reward: { percent, tools, rosariesReq: 70 },
+                requires: { rosaries: 70 },
+            },
+            '[Shard Pendant]': {
+                reward: { percent, tools },
+                requires: { checks: { bosses: { '[Bell Beast]': checked } } },
+            },
+            '[Magnetite Brooch]': {
+                description:
+                    'Bought from [Pebb] in [Bone Bottom] for [ROSARY] 120 in [Acts] 1/2 or from [Grindle] in [Blasted Steps] for [ROSARY] 220 in [Act 3], also requiring [Faydown Cloak].',
+                reward: { percent, tools, rosariesReq: 120 },
+                requires: { rosaries: 120 },
+            },
+            '[Weighted Belt]': {
+                description:
+                    'Bought from [Mort] in [Far Fields] for [ROSARY] 160 in [Acts] 1/2.',
                 reward: { percent, tools },
             },
-            '[Plasmium Phial]': { reward: { percent, tools } },
-            '[Silkspeed Anklets]': { reward: { percent, tools } },
-            '[Pimpillo]': { reward: { percent, tools } },
-            '[Barbed Bracelet]': { reward: { percent, tools } },
-            '[Tacks]': { reward: { percent, tools } },
-            '[Flintslate]': { reward: { percent, tools } },
-            '[Silkshot]': { reward: { percent, tools } },
-            "[Delver's Drill]": { reward: { percent, tools } },
-            '[Injector Band]': { reward: { percent, tools } },
-            '[Cogwork Wheel]': { reward: { percent, tools } },
-            '[Scuttlebrace]': { reward: { percent, tools } },
-            '[Memory Crystal]': { reward: { percent, tools } },
-            '[Multibinder]': { reward: { percent, tools } },
-            '[Voltvessels]': { reward: { percent, tools } },
-            '[Wreath of Purity]': { reward: { percent, tools } },
-            '[Longclaw]': { reward: { percent, tools } },
-            '[Conchcutter]': { reward: { percent, tools } },
-            "[Thief's Mark]": { reward: { percent, tools } },
-            '[Throwing ring]': { reward: { percent, tools } },
-            '[Magnetite Brooch]': { reward: { percent, tools } },
-            '[Magma Bell]': { reward: { percent, tools } },
-            '[Claw Mirror]': { reward: { percent, tools } },
-            '[Spider Strings]': { reward: { percent, tools } },
-            '[Rosary Cannon]': { reward: { percent, tools } },
-            '[Wispfire Lantern]': { reward: { percent, tools } },
-            '[Magnetite Dice]': { reward: { percent, tools } },
-            '[Volt Filament]': { reward: { percent, tools } },
-            '[Weighted Belt]': { reward: { percent, tools } },
-            '[Egg of Flealia]': { reward: { percent, tools } },
-            '[Fractured Mask]': { reward: { percent, tools } },
-            '[Curveclaw] / [Curvesickle]': { reward: { percent, tools } },
-            '[Quick Sling]': { reward: { percent, tools } },
-            '[Cogfly]': { reward: { percent, tools } },
-            '[Reserve Bind]': { reward: { percent, tools } },
-            '[Pin Badge]': { reward: { percent, tools } },
-            '[Sawtooth Circlet]': { reward: { percent, tools } },
-            '[Spool Extender]': { reward: { percent, tools } },
-            "[Ascendant's Grip]": { reward: { percent, tools } },
-            '[Snitch Pick]': { reward: { percent, tools } },
+            '[Barbed Bracelet]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { "[Drifter's Cloak]": checked },
+                    },
+                },
+            },
+            "[Dead Bug's Purse] / [Shell Satchel]": {
+                description:
+                    'Found in [Wormways] from [Shellwood] or behind a door requiring a [Simple Key].',
+                reward: { percent, tools },
+            },
+            '[Magnetite Dice]': {
+                description:
+                    "In [Act 1], given by [Lumble the Lucky] after beating his game 10 times. In [Act 2], found beside [Lumble the Lucky]'s corpse. In [Act 3], purchased from [Grindle] for [ROSARY] 300.",
+                reward: { percent, tools },
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                    },
+                },
+            },
+            '[Scuttlebrace]': {
+                description:
+                    'Purchased from [Twelfth Architect] for [ROSARY] 140.',
+                reward: { percent, tools, craftmetalReq, rosariesReq: 140 },
+                requires: {
+                    craftmetal,
+                    rosaries: 140,
+                    checks: { ancestralArts: { '[Clawline]': checked } },
+                    acts: 2,
+                },
+            },
+            "[Ascendant's Grip]": {
+                description:
+                    'Bought from [Jubilana] in [Songclave] for [ROSARY] 350.',
+                reward: { percent, tools, rosariesReq: 350 },
+                requires: {
+                    rosaries: 350,
+                    checks: { wishes: { '[The Lost Merchant]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Spider Strings]': {
+                description:
+                    'Bought from [Jubilana] in [Songclave] for [ROSARY] 320.',
+                reward: { percent, tools, rosariesReq: 320 },
+                requires: {
+                    rosaries: 320,
+                    checks: { wishes: { '[The Lost Merchant]': checked } },
+                    acts: 2,
+                },
+            },
+            '[Silkspeed Anklets]': {
+                reward: { percent, tools },
+                requires: {
+                    checks: {
+                        bosses: { '[Lace]': checked },
+                        ancestralArts: { '[Swift Step]': checked },
+                    },
+                },
+            },
+            "[Thief's Mark]": {
+                reward: { percent, tools, rosariesReq: 350 },
+                requires: {
+                    rosaries: 350,
+                    checks: { items: { '[Faydown Cloak]': checked } },
+                },
+            },
         },
 
         silkSkills: {
@@ -878,6 +1206,53 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 },
             },
             '[Architect Key]': { reward: nothing, requires: { tools: 25 } },
+            '[CRAFTMETAL] [Craftmetal] from [Pebb] in [Bone Bottom] for [ROSARY] 60':
+                {
+                    reward: { craftmetal, rosariesReq: 60 },
+                    requires: {
+                        rosaries: 60,
+                        checks: { bosses: { '[Moss Mother]': checked } },
+                    },
+                },
+            "[CRAFTMETAL] [Craftmetal] in [The Marrow] near [Hunter's March]": {
+                reward: { craftmetal },
+            },
+            '[CRAFTMETAL] [Craftmetal] in [Deep Docks] near [Far Fields]': {
+                reward: { craftmetal },
+            },
+            '[CRAFTMETAL] [Craftmetal] in [Blasted Steps] near [Last Judge]': {
+                reward: { craftmetal },
+            },
+            '[CRAFTMETAL] [Craftmetal] from [Jubilana] for [ROSARY] 180': {
+                reward: { craftmetal, rosariesReq: 180 },
+                requires: {
+                    rosaries: 180,
+                    checks: { wishes: { '[The Lost Merchant]': checked } },
+                    acts: 2,
+                },
+            },
+            '[CRAFTMETAL] [Craftmetal] in [Wisp Thicket]': {
+                reward: { craftmetal },
+                requires: {
+                    checks: { items: { '[Faydown Cloak]': checked } },
+                    acts: 2,
+                },
+            },
+            '[CRAFTMETAL] [Craftmetal] in [Underworks] south of [The Cauldron]':
+                {
+                    reward: { craftmetal },
+                    requires: {
+                        checks: { ancestralArts: { '[Cling Grip]': checked } },
+                        acts: 2,
+                    },
+                },
+            '[CRAFTMETAL] [Craftmetal] in [Pale Lake]': {
+                reward: { craftmetal },
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                    acts: 2,
+                },
+            },
             '[MEMORY_LOCKET] [Memory Locket] for [Volatile Flintbeetles] [Wish]':
                 {
                     reward: { memoryLockets },
@@ -1031,6 +1406,8 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
         },
 
         wishes: {
+            '[Berry Picking]': { reward: nothing },
+            '[The Lost Fleas]': { reward: nothing, requires: { fleas: 5 } },
             '[Flexile Spines]': {
                 reward: nothing,
                 requires: {
@@ -1072,6 +1449,18 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                 reward: nothing,
                 requires: {
                     checks: { wishes: { '[The Threadspun Town]': checked } },
+                },
+            },
+            "[Alchemist's Assistant]": {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                },
+            },
+            '[Roach Guts]': {
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
                 },
             },
             '[The Wandering Merchant]': {
@@ -1139,6 +1528,15 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                     acts: 2,
                 },
             },
+            '[Broodfeast] / [Runtfeast]': {
+                reward: nothing,
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                },
+            },
             '[Rite of Rebirth]': {
                 reward: nothing,
                 requires: { checks: { items: { '[Twisted Bud]': checked } } },
@@ -1153,11 +1551,31 @@ const INITIAL_SILKSONG_CHECKLIST_STATE: SilksongChecklistState = {
                     acts: 2,
                 },
             },
+            "[Trail's End]": {
+                description:
+                    'Requires 2 parts of the [Threefold Melody] and all maps from [Shakra].',
+                reward: nothing,
+                requires: {
+                    checks: {
+                        ancestralArts: { '[Cling Grip]': checked },
+                        items: { '[Faydown Cloak]': checked },
+                    },
+                    acts: 2,
+                },
+            },
             '[Fastest in Pharloom]': {
                 reward: nothing,
                 requires: {
                     checks: { ancestralArts: { '[Silk Soar]': checked } },
                     acts: 3,
+                },
+            },
+            '[Final Audience]': {
+                description: 'Collect all 3 [Cogheart] pieces.',
+                reward: nothing,
+                requires: {
+                    checks: { ancestralArts: { '[Cling Grip]': checked } },
+                    acts: 2,
                 },
             },
             '[Dark Hearts]': { reward: nothing, requires: { acts: 3 } },

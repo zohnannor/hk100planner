@@ -339,8 +339,11 @@ type SilksongChecksKeys = {
         | '[Trobbio]'
         | '[The Unravelled]'
         | '[First Sinner]'
+        | '[Voltvyrm]'
+        | '[Father of the Flame]'
         | '[Lace 2](Lace#The_Cradle)'
         | '[Grand Mother Silk]'
+        | '[Pinstress]'
         | '[Shrine Guardian Seth]'
         | '[Nyleth]'
         | '[Crust King Khann]'
@@ -355,57 +358,57 @@ type SilksongChecksKeys = {
         | '[Lace 2](Lace#The_Cradle)'
         | '[The Unravelled]';
     tools:
-        | '[Shard Pendant]'
-        | '[Compass]'
-        | "[Druid's Eye] / [Druid's Eyes]"
         | '[Straight Pin]'
-        | '[Warding Bell]'
-        | '[Treefold Pin]'
-        | '[Flea Brew]'
+        | '[Threefold Pin]'
         | '[Sting Shard]'
-        | '[Longpin]'
-        | '[Pollip Pouch]'
-        | '[Weavelight]'
-        | "[Dead Bug's Purse] / [Shell Satchel]"
-        | '[Plasmium Phial]'
-        | '[Silkspeed Anklets]'
-        | '[Pimpillo]'
-        | '[Barbed Bracelet]'
         | '[Tacks]'
-        | '[Flintslate]'
+        | '[Longpin]'
+        | '[Curveclaw] / [Curvesickle]'
+        | '[Throwing Ring]'
+        | '[Pimpillo]'
+        | '[Conchcutter]'
         | '[Silkshot]'
         | "[Delver's Drill]"
-        | '[Injector Band]'
         | '[Cogwork Wheel]'
-        | '[Scuttlebrace]'
-        | '[Memory Crystal]'
-        | '[Multibinder]'
+        | '[Cogfly]'
+        | '[Rosary Cannon]'
         | '[Voltvessels]'
+        | '[Flintslate]'
+        | '[Flea Brew]'
+        | '[Plasmium Phial]'
+        | "[Druid's Eye] / [Druid's Eyes]"
+        | '[Magma Bell]'
+        | '[Warding Bell]'
+        | '[Pollip Pouch]'
+        | '[Fractured Mask]'
+        | '[Multibinder]'
+        | '[Weavelight]'
+        | '[Sawtooth Circlet]'
+        | '[Injector Band]'
+        | '[Spool Extender]'
+        | '[Reserve Bind]'
+        | '[Claw Mirror] / [Claw Mirrors]'
+        | '[Memory Crystal]'
+        | '[Snitch Pick]'
+        | '[Volt Filament]'
+        | '[Quick Sling]'
         | '[Wreath of Purity]'
         | '[Longclaw]'
-        | '[Conchcutter]'
-        | "[Thief's Mark]"
-        | '[Throwing ring]'
-        | '[Magnetite Brooch]'
-        | '[Magma Bell]'
-        | '[Claw Mirror]'
-        | '[Spider Strings]'
-        | '[Rosary Cannon]'
         | '[Wispfire Lantern]'
-        | '[Magnetite Dice]'
-        | '[Volt Filament]'
-        | '[Weighted Belt]'
         | '[Egg of Flealia]'
-        | '[Fractured Mask]'
-        | '[Curveclaw] / [Curvesickle]'
-        | '[Quick Sling]'
-        | '[Cogfly]'
-        | '[Reserve Bind]'
         | '[Pin Badge]'
-        | '[Sawtooth Circlet]'
-        | '[Spool Extender]'
+        | '[Compass]'
+        | '[Shard Pendant]'
+        | '[Magnetite Brooch]'
+        | '[Weighted Belt]'
+        | '[Barbed Bracelet]'
+        | "[Dead Bug's Purse] / [Shell Satchel]"
+        | '[Magnetite Dice]'
+        | '[Scuttlebrace]'
         | "[Ascendant's Grip]"
-        | '[Snitch Pick]';
+        | '[Spider Strings]'
+        | '[Silkspeed Anklets]'
+        | "[Thief's Mark]";
     silkSkills:
         | '[Silkspear]'
         | '[Thread Storm]'
@@ -496,6 +499,14 @@ type SilksongChecksKeys = {
         | '[Twisted Bud]'
         | '[Steel Spines]'
         | '[Architect Key]'
+        | '[CRAFTMETAL] [Craftmetal] from [Pebb] in [Bone Bottom] for [ROSARY] 60'
+        | "[CRAFTMETAL] [Craftmetal] in [The Marrow] near [Hunter's March]"
+        | '[CRAFTMETAL] [Craftmetal] in [Deep Docks] near [Far Fields]'
+        | '[CRAFTMETAL] [Craftmetal] in [Blasted Steps] near [Last Judge]'
+        | '[CRAFTMETAL] [Craftmetal] from [Jubilana] for [ROSARY] 180'
+        | '[CRAFTMETAL] [Craftmetal] in [Wisp Thicket]'
+        | '[CRAFTMETAL] [Craftmetal] in [Underworks] south of [The Cauldron]'
+        | '[CRAFTMETAL] [Craftmetal] in [Pale Lake]'
         | '[MEMORY_LOCKET] [Memory Locket] for [Volatile Flintbeetles] [Wish]'
         | '[MEMORY_LOCKET] [Memory Locket] in [The Marrow]'
         | "[MEMORY_LOCKET] [Memory Locket] in [Hunter's March]"
@@ -523,6 +534,8 @@ type SilksongChecksKeys = {
         | '[Conjoined Heart]'
         | '[Everbloom]';
     wishes:
+        | '[Berry Picking]'
+        | '[The Lost Fleas]'
         | '[Flexile Spines]'
         | '[Rite of the Pollip]'
         | '[My Missing Courier]'
@@ -530,6 +543,8 @@ type SilksongChecksKeys = {
         | '[Bugs of Pharloom]'
         | '[The Threadspun Town]'
         | '[Crawbug Clearing]'
+        | "[Alchemist's Assistant]"
+        | '[Roach Guts]'
         | '[The Wandering Merchant]'
         | '[Savage Beastfly](Wishes#Grand_Hunt_Wishes)'
         | '[Fine Pins]'
@@ -538,10 +553,13 @@ type SilksongChecksKeys = {
         | '[Cloaks of the Choir]'
         | '[Strengthening Songclave]'
         | '[The Lost Merchant]'
+        | '[Broodfeast] / [Runtfeast]'
         | '[Rite of Rebirth]'
         | '[Infestation Operation]'
+        | "[Trail's End]"
         | '[Fastest in Pharloom]'
         | '[Dark Hearts]'
+        | '[Final Audience]'
         | '[The Hidden Hunter]';
     fleas: never;
     relics: never;
@@ -630,18 +648,23 @@ export type SilksongChecklistState = CommonChecklistState<'silksong'> & {
     /** The amount of Acts started. */
     acts: number;
     /** The amount of tools collected. */
-    tools: number /** The amount of hearts collected. */;
+    tools: number;
+    /** The amount of hearts collected. */
     hearts: number;
     /** The amount of fleas found. */
     fleas: number;
     /** The amount of pail oil collected. */
     paleOil: number;
+    /** The amount of craft metal collected. */
+    craftmetal: number;
     /** The amount of memory lockets collected and used. */
     memoryLockets: number;
-    /** The required amount of memory lockets. */
-    memoryLocketsReq: number[];
     /** The required amount of pail oil. */
     paleOilReq: number;
+    /** The required amount of craft metal. */
+    craftmetalReq: number;
+    /** The required amount of memory lockets. */
+    memoryLocketsReq: number[];
 };
 
 /** Represents the state of the checklist, including progress and requirements. */

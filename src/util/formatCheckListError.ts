@@ -109,6 +109,8 @@ const formatCheckListError = <Game extends GameKey>(
                             return `${error} [MEMORY_LOCKET] [Memory Locket](Memory Locket (Silksong))(s) collected`;
                         case 'paleOil':
                             return `[PALE_OIL] ${error}`;
+                        case 'craftmetal':
+                            return `[CRAFTMETAL] ${error}`;
                         case 'tools':
                             return `${error} [Tools] collected`;
                         case 'hearts':
@@ -118,6 +120,7 @@ const formatCheckListError = <Game extends GameKey>(
                         case 'simpleKeysReq':
                         case 'memoryLocketsReq':
                         case 'paleOilReq':
+                        case 'craftmetalReq':
                         case 'game':
                         case 'percent':
                             throw new Error(
@@ -135,7 +138,9 @@ const formatCheckListError = <Game extends GameKey>(
                             );
                     }
                 } else {
-                    throw new Error('Unreachable code');
+                    throw new Error(
+                        `${String(requirement)} is not implemented`
+                    );
                 }
             })
             .filter(Boolean)
